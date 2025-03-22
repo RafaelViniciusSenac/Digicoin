@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrinho</title>
+    <link rel="stylesheet" href="{% static 'css/UserCss/historicoCompra.css' %}">
+
+</head>
+<body>
+    <div class="container">
+        <div class="titulo">
+            <div class="icone">
+                <img src="{%static 'img/historico.png'%}" alt="Carrinho">
+                <h2>Histórico de compras</h2> 
+            </div>
+            </div>
+        <table>
+          <thead>
+            <tr>
+              <th><img src="{%static 'img/produto.png'%}" alt="produtos"> Produto </th>
+              <th width="80px">Qtd</th>
+              <th width="100px">Data <img onclick="ordenarItens(this,'data')" class="sort-asc" src="{%static 'img/sort.png'%}" alt="sort"></th>
+              <th width="150px">Valor</th>
+            </tr>
+          </thead>
+          <tbody id="cart-items">
+          </tbody>
+        </table>
+      </div>
+      <script src="{% static 'js/UserJs/historicoCompra.js' %}"></script>
+
+</body>
+</html>
+
+{% endblock  %}
