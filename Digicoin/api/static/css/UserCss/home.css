@@ -118,7 +118,6 @@ body{
     height: 70px;
     padding: 2px;
     border-radius: 20px;
-    
 
 }
 
@@ -159,9 +158,9 @@ body{
 }
 
 .parteDeBaixo{
+    
     display: flex;
     justify-content: center;
-    
     gap: 50px;
 
     

@@ -1,0 +1,26 @@
+{% load static %}
+{% csrf_token %}
+
+
+
+<div class="primeiro" >
+    <li>
+        <div class="circulo">1º</div>
+        <div><img src="{% static 'img/icone.png' %}" alt=""></div>
+        <div><p>{{primeiro_usuario.username}}</p></div>
+    </li>
+</div>
+
+{% for user in usuarios %}
+    
+        <div class="outrosColocados" >
+            <li>
+                <div class="circulo">{{ forloop.counter|add:"1"}}º</div>                   
+                <div><img src="{% static 'img/icone.png' %}" alt=""></div>
+                <div><p>{{user.username}}</p></div>
+            </li>
+        </div>  
+
+{% endfor %}
+   
+

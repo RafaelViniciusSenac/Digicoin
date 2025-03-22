@@ -25,15 +25,17 @@
         <div class="rankingList" id="rankingList">
             <h2>Ranking</h2>
         <div class="line"></div>
-        <ul class="numero1" id="numero1">
-            <div class="primeiro" >
 
-                <li>
-                    
+        <ul class="numero1" id="numero1">
+            
+            {% include 'components/user/rankingUser.html' with usuarios=usuarios primeiro_usuario=primeiro_usuario %}
+        </div>
+        {% comment %} <ul class="numero1" id="numero1">
+            <div class="primeiro" >
+                <li> 
                     <div class="circulo">1º</div>
                     <div><img src="{% static 'img/icone.png' %}" alt=""></div>
                     <div><p>Fulano1</p></div>
-
                 </li>
             </div>
             <div class="outrosColocados" >
@@ -65,7 +67,8 @@
                 </li>
             </div>
         </div>
-        
+        {% endcomment %}
+
         <div class="listaDesafios">
             <h2 class= "textDecoratinDesafios"><img src="" alt=""> <img src="{% static 'img/iconeDesafios.png' %}" alt="">Desafios</h2>
             <div class="line"></div>
