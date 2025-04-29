@@ -1,38 +1,70 @@
-async function Cadastrar (evento) {
+async function Cadastrar(evento) {
     evento.preventDefault();
-    
-    const nomeDesafio = document.getElementById("nomeDesafio").value
-    const valorDesafio = document.getElementById("valorDesafio").value 
-    const descricao = document.getElementById("descricao").value 
-    const inicioDesafio = document.getElementById('inicioDesafio').value
-    const fimDesafio = document.getElementById('fimDesafio').value
 
-    const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value
+    const formulario = evento.target;
+    const id = formulario.querySelector("#id").value;
+    const nomeDesafio = formulario.querySelector("#nomeDesafio").value;
+    const valorDesafio = formulario.querySelector("#valorDesafio").value;
+    const descricao = formulario.querySelector("#descricao").value;
+    const inicioDesafio = formulario.querySelector('#inicioDesafio').value;
+    const fimDesafio = formulario.querySelector('#fimDesafio').value;
+    const campanha = formulario.querySelector("#campanha").value;
 
-    
+    const csrf = formulario.querySelector('[name=csrfmiddlewaretoken]').value;
+
     try {
+        if (inicioDesafio <= fimDesafio) {
+            const dados = {
+                nome: nomeDesafio,
+                valor: valorDesafio,
+                dataInicio: inicioDesafio,
+                descricao: descricao,
+                dataFim: fimDesafio,
+                idCampanha: campanha
+            };
 
-        const response = await apiRequest("/api/desafio/", "POST", 
-        {nome:nomeDesafio, 
-        valor:valorDesafio, 
-        dataInicio:inicioDesafio, 
-        descricao:descricao,
-        dataFim:fimDesafio,
-        }, {'X-CSRFToken':csrf});
+            const headers = { 'X-CSRFToken': csrf };
 
-       
-
-        if(response != null)
-        {
-            console.log(response);
-        }
-        else{
-            console.log("erro ao cadastrar" + response);
+            if (id) {
+                const response = await apiRequest(`/api/desafio/${id}`, "PUT", dados, headers);
+                console.log(response || "Erro ao editar", response);
+            } else {
+                const response = await apiRequest("/api/desafio/", "POST", dados, headers);
+                console.log(response || "Erro ao cadastrar", response);
+            }
+        } else {
+            alert("A Data de início não pode ser maior que a Data de fim do Desafio");
         }
     } catch (error) {
-        console.log("Deu erro" + error);
+        console.error("Erro:", error);
     }
-    
 }
 
-document.getElementById("formCadastrarUsuario").addEventListener("submit", Cadastrar);
+document.addEventListener("DOMContentLoaded", () => {
+    
+    document.querySelectorAll(".formDesafio").forEach(form => {
+        form.addEventListener("submit", Cadastrar);
+    });
+
+    const popUpAdicionarDesafio = document.getElementById('popUpAdicionarDesafio');
+    const addDesafio = document.getElementById('addDesafio');
+
+    addDesafio.addEventListener('click', () => {
+        popUpAdicionarDesafio.showModal();
+    });
+
+    document.querySelectorAll(".iconeX").forEach(icone => {
+        icone.addEventListener('click', () => {
+            const dialog = icone.closest("dialog");
+            if (dialog) dialog.close();
+        });
+    });
+
+    document.querySelectorAll(".botaoEditar").forEach(botao => {
+        botao.addEventListener("click", () => {
+            const id = botao.getAttribute("data-id");
+            const dialog = document.getElementById(`popUpEditarDesafio-${id}`);
+            if (dialog) dialog.showModal();
+        });
+    });
+});
