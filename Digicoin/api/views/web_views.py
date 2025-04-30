@@ -27,7 +27,15 @@ def home(request):
 
 
 def historicoCompra(request):
-    return render(request, 'UserHtml/historicoCompra.html')
+    eventos = Campanha.objects.filter(is_active=True)
+
+    compra = Compra.objects.filter(idUsuario = request.user.id).order_by('-dataCompra')
+    compra_paginator = Paginator(compra, 5)
+    compra_page = request.GET.get('compra_page')
+    compras = compra_paginator.get_page(compra_page)
+        
+    return render(request, 'UserHtml/historicoCompra.html', {'compra': compras, 'eventos': eventos})
+
 def primeiroAcesso(request):
     return render(request, 'primeiroAcesso.html')
 
