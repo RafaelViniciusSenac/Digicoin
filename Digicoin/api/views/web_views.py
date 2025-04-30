@@ -1,13 +1,14 @@
 from django.shortcuts import render, redirect
 from api.models import *
 from django.core.paginator import Paginator
+from django.contrib.auth.decorators import login_required
 
 def login(request):
     return render(request, 'index.html')
 
 
 
-
+@login_required
 def home(request):
    
     users = CustomUser.objects.all().order_by("-saldo")[:4]
@@ -20,8 +21,14 @@ def home(request):
     context = {
         'usuarios': users,  
         'primeiro_usuario': users[0] if users else None,  
-        'desafios': desafios,  
+        'desafios': desafios,
+        'primeiroAcesso' : request.user.primeiroAcesso,
+        'userId': request.user.id
+        
     }
+
+    
+
 
     return render(request, 'UserHtml/home.html', context)
 

@@ -6,7 +6,10 @@
 <link rel="stylesheet" href="{% static 'css/UserCss/home.css' %}">
 
 {% include "components/user/menuUser.html" %}
-    
+
+<input type="hidden" id='primeiroAcesso' value='{{primeiroAcesso}}'>
+<input type="hidden" id='userId' value='{{userId}}'>
+
 <div class="botaoCampanha" id="botaoCampanha">
     <a href="{% url 'desafiosCampanha' %}" class="desafiosCampanha" id="desafiosCampanha"><img src="{% static 'img/iconeAlvo.png' %}" alt="">
             Desafios da Campanha </a>
@@ -30,6 +33,34 @@
             {% include "components/user/listarDesafios.html" %}
         </div>
     </div>
+
+    <div id="userId"></div>
+
 </div>
+
+
+
+<dialog class="popUpPrimeiroAcesso" id="popUpPrimeiroAcesso">
+
+    <form id="formPrimeiroAcesso">
+        {% csrf_token %}
+        
+        <div>
+            <label>Nova senha</label>
+            <input type="password" id="senha">
+        </div>
+
+        <div>
+            <label>Confirmar senha</label>
+            <input type="password" id="confirmarSenha">
+        </div>
+
+        <button type="submit">Concluir</button>
+
+    </form>
+
+</dialog>
+
+<script src="{% static 'js/home.js' %}"> </script>
 </html>
 {% endblock %}
