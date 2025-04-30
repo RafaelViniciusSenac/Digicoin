@@ -12,27 +12,76 @@
 </head>
 <body>
   {% include "components/user/menuUser.html" %}
-    <div class="container">
-        <div class="titulo">
-            <div class="icone">
-                <img src="{%static 'img/historico.png'%}" alt="Carrinho">
-                <h2>Histórico de compras</h2> 
+  <div class="principal">
+        
+    <main class="menucentro">
+        <div class="estoque-container">
+            <div class='barra-pesquisa'>
+            <div class="search-container">
+                <img src="{% static 'img/iconeLupa.png' %}" alt="/Lupa">
+                <input type="text" placeholder="Pesquisar Histórico">
             </div>
+        </div>
+            <div class="cabecalho">
+                <h2><span class="traco"></span>Histórico de Compras</h2>
             </div>
-        <table>
-          <thead>
-            <tr>
-              <th><img src="{%static 'img/produto.png'%}" alt="produtos"> Produto </th>
-              <th width="80px">Qtd</th>
-              <th width="100px">Data <img onclick="ordenarItens(this,'data')" class="sort-asc" src="{%static 'img/sort.png'%}" alt="sort"></th>
-              <th width="150px">Valor</th>
-            </tr>
-          </thead>
-          <tbody id="cart-items">
-          </tbody>
-        </table>
-      </div>
-      <script src="{% static 'js/UserJs/historicoCompra.js' %}"></script>
+            <div class="tabela">
+                <div class="tabela-head">
+                    <div class="tabela-rowheader">
+                        <div class="tabela-cell produto">Itens</div>
+                        <div class="tabela-cell qtd">Qtd</div>
+                        <div class="tabela-cell data">Data <img class="sort-icon" src="{% static 'img/imgRanking/sort.png' %}" alt="Sort"></div>
+                        <div class="tabela-cell valor">Valor <img class="sort-icon" src="{% static 'img/imgRanking/sort.png' %}" alt="Sort"></div>
+                        <div class="tabela-cell entrega">Entrega</div>
+                        <div class="tabela-cell pedido">Status</div>
+                    </div>
+                </div>
+                <div class="tabela-body">
+                    {% csrf_token %}
+                    {% for item in compra %}
+                    <div class="tabela-row">
+                        <div class="tabela-cell nome">
+                            Itens Comprados <button class="mostrarItens" onclick="mostrarItens({{item.id}})"><img src="{% static 'img/iconeMostrar.png' %}" alt="mostrar"></button>
+                            <div class="itens" id="itens-{{item.id}}">
+                                {% for itens in item.itens %}
+                                <div class="item">
+                                    <div class="nomeItem">
+                                        <img src="{% static 'img/produto.png' %}" alt="produto">
+                                        <p>{{itens.produto}}</p>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="tabela-cell quantidade">{{item.quantidade}}</div>
+                        <div class="tabela-cell quantidade">{{item.valor}}</div>
+                        <div class="tabela-cell quantidade">{{item.entrega}}</div>
+                        <div class="tabela-cell quantidade">{{item.status}}</div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="pagination">
+                {% if estoque.has_previous %}
+                <div class="paginas">
+                    <div>
+                        <a class="anterior" href="?estoque_page={{ estoque.previous_page_number }}"><i class="fa fa-arrow-left" aria-hidden="true"></i> Anterior</a>
+                    </div>
+                {% endif %}
+            
+                {% if estoque.has_next %}
+                    <div>
+                        <a class="proxima" href="?estoque_page={{ estoque.next_page_number }}">Próxima <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                    </div>
+                {% endif %}
+                    
+                    <span>Página {{ estoque.number }} de {{ estoque.paginator.num_pages }}</span>
+                </div>                
+            </div>
+    </main>
+  </div>
+  <script src="{% static 'js/UserJs/historicoCompra.js' %}"></script>
 
 </body>
 </html>
