@@ -8,8 +8,32 @@
 
 <div class="principal">
     <div class="detalhe">
-        <h1 class="Titulo">
-            <p class="underline">Ped</p> <p> idos</p></h1>
+        <div class="cabecalho">
+            <h1 class="Titulo">
+                <p class="underline">Ped</p> <p> idos</p>
+            </h1>
+
+
+            <div class="butoes">
+                <div class="button">
+                    <a href="/listaDePedidos">
+                        <button class="buttonPedidos">Visualizar Pedidos</button>
+                    </a>
+                </div>
+                
+                <div class="button">
+                    <a href="/listaDePedidos?status=1">
+                        <button class="buttonPedidos1">Visualizar Pedidos Concluidos</button>
+                    </a>
+                </div>
+                
+                <div class="button">
+                    <a href="/listaDePedidos?status=2">
+                        <button class="buttonPedidos2">Visualizar Pedidos Pendentes</button>
+                    </a>
+                </div>
+            </div>
+        </div>
 
         <div class="Produto">
            
@@ -24,8 +48,6 @@
             </div>
 
             {% endfor %}
-            
-            
         </div>
 
 
@@ -44,11 +66,9 @@
             
             <span>Página {{ pedidos.number }} de {{ pedidos.paginator.num_pages }}</span>
         </div>
-
-    </div>  
-
     </div>  
 </div>
+
 
 
 
