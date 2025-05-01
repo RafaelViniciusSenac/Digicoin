@@ -135,3 +135,31 @@ a{
     gap: 10px;
     align-items: center;
 }
+
+.pagination{
+    margin-bottom: 40px;
+    display: flex;
+}
+.pagination a {
+    font-size: 24px;
+    text-decoration: none;
+    
+}
+
+.pagination div{
+    margin-top: 20px;
+    display: flex;
+}
+
+.pagination img{
+    transform: rotate(180deg);
+    width: 32px;
+    height: 32px;
+}
+
+.pagination span{
+    margin-top: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+    font-size: 20px;
+}
