@@ -12,77 +12,69 @@
 </head>
 <body>
   {% include "components/user/menuUser.html" %}
-  <div class="principal">
-        
-    <main class="menucentro">
-        <div class="estoque-container">
-            <div class='barra-pesquisa'>
-            <div class="search-container">
-                <img src="{% static 'img/iconeLupa.png' %}" alt="/Lupa">
-                <input type="text" placeholder="Pesquisar Histórico">
+
+  <div class="compra-container">
+    <div class='barra-pesquisa'>
+        <div class="search-container">
+            <img src="{% static 'img/iconeLupa.png' %}" alt="/Lupa">
+            <input type="text" placeholder="Pesquisar Histórico">
+        </div>
+    </div>
+    <div class="cabecalho">
+        <h2><span class="traco"></span>Histórico de Compras</h2>
+    </div>
+    <div class="tabela">
+        <div class="tabela-head">
+            <div class="tabela-rowheader">
+                <div class="tabela-cell itens">Itens</div>
+                <div class="tabela-cell quantidadeItens">Qtd</div>
+                <div class="tabela-cell dataCompra">Data <img class="sort-icon" src="{% static 'img/imgRanking/sort.png' %}" alt="Sort"></div>
+                <div class="tabela-cell total">Valor <img class="sort-icon" src="{% static 'img/imgRanking/sort.png' %}" alt="Sort"></div>
+                <div class="tabela-cell entrega">Entrega</div>
+                <div class="tabela-cell pedido">Status</div>
             </div>
         </div>
-            <div class="cabecalho">
-                <h2><span class="traco"></span>Histórico de Compras</h2>
-            </div>
-            <div class="tabela">
-                <div class="tabela-head">
-                    <div class="tabela-rowheader">
-                        <div class="tabela-cell produto">Itens</div>
-                        <div class="tabela-cell qtd">Qtd</div>
-                        <div class="tabela-cell data">Data <img class="sort-icon" src="{% static 'img/imgRanking/sort.png' %}" alt="Sort"></div>
-                        <div class="tabela-cell valor">Valor <img class="sort-icon" src="{% static 'img/imgRanking/sort.png' %}" alt="Sort"></div>
-                        <div class="tabela-cell entrega">Entrega</div>
-                        <div class="tabela-cell pedido">Status</div>
-                    </div>
-                </div>
-                <div class="tabela-body">
-                    {% csrf_token %}
-                    {% for item in compra %}
-                    <div class="tabela-row">
-                        <div class="tabela-cell nome">
-                            Itens Comprados <button class="mostrarItens" onclick="mostrarItens({{item.id}})"><img src="{% static 'img/iconeMostrar.png' %}" alt="mostrar"></button>
-                            <div class="itens" id="itens-{{item.id}}">
-                                {% for itens in item.itens %}
-                                <div class="item">
-                                    <div class="nomeItem">
-                                        <img src="{% static 'img/produto.png' %}" alt="produto">
-                                        <p>{{itens.produto}}</p>
-                                    </div>
-                                </div>
-                                {% endfor %}
-                            </div>
+        <div class="tabela-body">
+            {% csrf_token %}
+            {% for compra in compra %}
+            <div class="tabela-row">
+                <div class="tabela-cell itens">
+                    {% for item in compra.itens %}
+                    <div class="item">
+                        <div class="nomeItem">
+                            <p>{{item.idProduto.nome}} - {{item.qtdProduto}}</p>
                         </div>
-                        <div class="tabela-cell quantidade">{{item.quantidade}}</div>
-                        <div class="tabela-cell quantidade">{{item.valor}}</div>
-                        <div class="tabela-cell quantidade">{{item.entrega}}</div>
-                        <div class="tabela-cell quantidade">{{item.status}}</div>
                     </div>
                     {% endfor %}
                 </div>
+                <div class="tabela-cell quantidadeItens">{{compra.quantidadeItens}}</div>
+                <div class="tabela-cell dataCompra">{{compra.dataCompra|date:"d/m/Y"}}</div>
+                <div class="tabela-cell total">{{compra.total}}</div>
+                <div class="tabela-cell entrega">{{compra.entrega}}</div>
+                <div class="tabela-cell pedido">{{compra.pedido}}</div>
             </div>
+            {% endfor %}
+        </div>
+    </div>
 
-            <div class="pagination">
-                {% if estoque.has_previous %}
-                <div class="paginas">
-                    <div>
-                        <a class="anterior" href="?estoque_page={{ estoque.previous_page_number }}"><i class="fa fa-arrow-left" aria-hidden="true"></i> Anterior</a>
-                    </div>
-                {% endif %}
+    <div class="pagination">
+        {% if compra.has_previous %}
+        <div class="paginas">
+            <div>
+                <a class="anterior" href="?compra_page={{ compra.previous_page_number }}"><i class="fa fa-arrow-left" aria-hidden="true"></i> Anterior</a>
+            </div>
+        {% endif %}
+    
+        {% if compra.has_next %}
+            <div>
+                <a class="proxima" href="?compra_page={{ compra.next_page_number }}">Próxima <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+            </div>
+        {% endif %}
             
-                {% if estoque.has_next %}
-                    <div>
-                        <a class="proxima" href="?estoque_page={{ estoque.next_page_number }}">Próxima <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
-                    </div>
-                {% endif %}
-                    
-                    <span>Página {{ estoque.number }} de {{ estoque.paginator.num_pages }}</span>
-                </div>                
-            </div>
-    </main>
-  </div>
-  <script src="{% static 'js/UserJs/historicoCompra.js' %}"></script>
-
+            <span>Página {{ compra.number }} de {{ compra.paginator.num_pages }}</span>
+        </div>                
+    </div>
+</div> 
 </body>
 </html>
 

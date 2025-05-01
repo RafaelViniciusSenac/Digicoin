@@ -29,12 +29,29 @@ def home(request):
 def historicoCompra(request):
     eventos = Campanha.objects.filter(is_active=True)
 
-    compra = Compra.objects.filter(idUsuario = request.user.id).order_by('-dataCompra')
+    compra = Compra.objects.filter(idUsuario=request.user.id).order_by('-dataCompra')
+    itensCompra = ItensCompra.objects.filter(idCompra__in=compra.values_list('id', flat=True))
+    
+    # Criar um dicionário para armazenar os itens de cada compra
+    compra_itens = {}
+    for item in itensCompra:
+        if item.idCompra_id not in compra_itens:
+            compra_itens[item.idCompra_id] = {'itens': [], 'quantidadeItens': 0}
+        compra_itens[item.idCompra_id]['itens'].append(item)
+        compra_itens[item.idCompra_id]['quantidadeItens'] += item.qtdProduto  # Usando 'qtdProduto' do modelo ItensCompra
+
+    # Paginação
     compra_paginator = Paginator(compra, 5)
     compra_page = request.GET.get('compra_page')
     compras = compra_paginator.get_page(compra_page)
-        
+
+    # Adicionar os itens e a quantidade total a cada compra
+    for c in compras:
+        c.itens = compra_itens.get(c.id, {}).get('itens', [])
+        c.quantidadeItens = compra_itens.get(c.id, {}).get('quantidadeItens', 0)
+
     return render(request, 'UserHtml/historicoCompra.html', {'compra': compras, 'eventos': eventos})
+
 
 def primeiroAcesso(request):
     return render(request, 'primeiroAcesso.html')
