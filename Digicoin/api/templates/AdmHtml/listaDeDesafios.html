@@ -26,9 +26,9 @@
                         Adicionar desafio
                     </button>
                     
-                    <dialog id="popupAdicionarDesafio" class="popupAdicionarDesafio">
+                    {% comment %} <dialog id="popupAdicionarDesafio" class="popupAdicionarDesafio">
                         {% include "AdmHtml/cadastrarDesafio.html" %}
-                    </dialog>
+                    </dialog> {% endcomment %}
             </div>
 
         </div>
@@ -67,13 +67,12 @@
                         </div>
                     </div>
                 
-                    <form method="POST" id="formCadastrarUsuario">
+                    <form method="POST" id="formCadastrarDesafio">
                 
                         {% csrf_token %}
-                
                         <div class="form">
                             <div class="cima">
-                
+                                <input type="hidden" id="id" value="{{desafio.id}}">
                                 <div class='inputsNome'>
                                     <div class="nomeDesafioDiv" >
                                         <label for="">Nome do desafio</label>
@@ -93,7 +92,7 @@
                             <div class="baixo">
                                 <div class="statusDesafioDiv">
                                     <label for="">Status do desafio</label>
-                                    <select name="campanha" id=" campanha ">  
+                                    <select name="campanha" id="campanha">  
                                         {% if desafio.idCampanha == None %}                 
                                         <option value=""> 
                                             Sem Campanha
@@ -110,16 +109,14 @@
                                         {% endfor %}   
                                     </select>
                                 </div>
-                                <div >        
-                                    <div class="dataDesafioDiv">
-                                        <div class="dataDesafioInterno">
-                                            <label class="dataDesafio" for="">Inicio</label>
-                                            <input type="date"  id="inicioDesafio"  >
-                                        </div>
-                                        <div class="dataDesafioInterno">
-                                            <label class="dataDesafio"  for="">Fim</label>
-                                            <input type="date" id="fimDesafio" >
-                                        </div>
+                                <div class="dataDesafioDiv">
+                                    <div class="dataDesafioInterno">
+                                        <label class="dataDesafio" for="">Início</label>
+                                        <input type="date" id="inicioDesafio" value="{{ desafio.dataInicio|date:'Y-m-d' }}">
+                                    </div>
+                                    <div class="dataDesafioInterno">
+                                        <label class="dataDesafio" for="">Fim</label>
+                                        <input type="date" id="fimDesafio" value="{{ desafio.dataFim|date:'Y-m-d' }}">
                                     </div>
                                 </div>
                             </div>
