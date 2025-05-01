@@ -1,7 +1,4 @@
-body{
-    margin: 0;
-   
-}
+
 
 .group{
     display: none;
@@ -28,7 +25,7 @@ body{
 .navbar a{
     text-decoration: none;
     color: black;
-    font-size: 20px;
+    font-size: 18px;
 }
 
 .navbar a:hover{
@@ -49,6 +46,7 @@ body{
 }
 
 .menu{
+   
     box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
     display: flex;
     height: 100px;
@@ -62,7 +60,7 @@ body{
 .navbar{
     display: flex;
     align-items: center;
-    gap: 10vw;
+    gap: 100px;
 
 }
 
@@ -71,6 +69,67 @@ body{
     align-items: center;
     gap: 10px;
 }
+
+.imgFlecha:hover{
+    cursor: pointer;
+}
+
+.imgFlechaCima{
+    display: none;
+}
+
+.imgFlechaCima:hover{
+    cursor: pointer;
+}
+
+.flechaDropdownContainer {
+    position: relative;
+    display: flex;
+    align-items: center; /* mantém só o necessário para as flechas e o menu */
+}
+
+
+.dropdownMenu {
+    position: absolute;
+    top: 100%; /* colado logo abaixo da flecha */
+    left: 0; /* alinha com a flecha */
+    background-color: white;
+    border: 2px solid rgba(44, 0, 106, 1);
+    border-radius: 5px;
+    display: none;
+    flex-direction: column;
+    z-index: 1000;
+    width: 200px;
+
+}
+
+.dropdownMenu button{
+    display: flex;
+    background-color: white;
+    height: 50px;
+    align-items: center;
+    gap: 5px;
+    padding: 10px;
+}
+
+.dropdownMenu button:hover{
+    background-color: rgb(236, 234, 234);
+    transition: 0.5s ease-in-out;
+    cursor: pointer;
+}
+
+.visualizarPerfil, .historicoCompra{
+    border: none;
+    border-bottom: 2px solid rgba(44, 0, 106, 1);
+}
+
+.sair{
+    border: none;
+}
+
+.imgSino{
+    margin-right: 10px;
+} 
 
 
 

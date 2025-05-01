@@ -12,6 +12,7 @@ class CustomUser(AbstractUser):
     pontuacao = models.IntegerField(default=0)
     primeiroAcesso = models.BooleanField(default=True)
 
+
     def save(self, *args, **kwargs):
         # Ao salvar, detecta mudança de saldo
         if self.pk:
@@ -42,6 +43,7 @@ class HistoricoSaldo(models.Model):
     def __str__(self):
         sinal = '+' if self.is_positivo() else ''
         return f"{self.usuario.username}: {sinal}{self.diferenca} em {self.data_alteracao.strftime('%Y-%m-%d %H:%M')}"
+
 
 class Campanha(models.Model):
     nome = models.CharField(max_length=30, null=False, blank=False)
@@ -95,6 +97,7 @@ class Compra(models.Model):
     pedido = models.CharField(max_length=10, choices=pedido_choices, default='Pendente')
     complemento = models.CharField(max_length=100, default=False)
     idUsuario = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False, blank=False)
+    dataCompra = models.DateTimeField(auto_now_add=True)
 
 class ItensCompra(models.Model):
     qtdProduto = models.IntegerField(null=False, blank=False)

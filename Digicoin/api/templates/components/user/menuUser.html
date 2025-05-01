@@ -28,13 +28,61 @@
                 <p id='nomeUsuario'>Fulano</p>
                 <p class="digicoin">DG$ <spam class="valor" id='saldo'>9999</spam> </p>
             </div>
-            <img src="{% static 'img/sino.png'%}" alt="" class="imgSino">
-            <img src="{% static 'img/flecha.png'%}" alt="" class="imgFlecha">
+
+            <div class="flechaDropdownContainer">
+                <img src="{% static 'img/sino.png'%}" alt="" class="imgSino">
+                <img src="{% static 'img/flecha.png'%}" alt="" class="imgFlecha" id='imgFlecha'>
+                <img src="{% static 'img/flechaCima.png'%}" alt="" class="imgFlechaCima" id='imgFlechaCima'>
+
+                <div class="dropdownMenu" id="dropdownMenu">
+                    <button id="visualizarPerfil" class="visualizarPerfil">
+                        <img src="{% static 'img/visualizarPerfil.png' %}" alt="">
+                        <p>Visualizar perfil</p>
+                    </button>
+                    
+                    <button id="historicoCompra" class="historicoCompra">
+                        <img src="{% static 'img/historicoCompra.png' %}" alt="">
+                        <p>Histórico de compras</p>
+                    </button>
+                
+                    <button id="sair" class="sair">
+                        <img src="{% static 'img/sair.png' %}" alt="">
+                        <p>Sair</p>
+                    </button>
+                </div>
+            </div>
 
         </div>
 
+        
 
 
 </div>
+
+<dialog class="perfilUsuario" id="perfilUsuario">
+    <div class="container">
+        <div class="perfil">
+            <i class="fa-solid fa-user-circle" style="font-size: 50px; color: #5a2d82;"></i>
+            <h2>Fulano Silva</h2>
+        </div>
+        <div class="cartoes">
+            <div class="cartao">
+                <h3><i class="fa-solid fa-wallet" style="color: #00e5ff;"></i> Carteira</h3>
+                <p class="saldo">DG$ <span>9999</span></p>
+            </div>
+            <div class="cartao">
+                <h3><i class="fa-solid fa-money-bill" style="color: #00e5ff;"></i> Pagamento</h3>
+                <div class="lista-pagamentos">
+                    <p><i class="fa-solid fa-dollar-sign" ></i> Missão concluída! +<span id="dgs" >DG$</span><span id="valor" >1500</span></p>
+                    <p><i class="fa-solid fa-dollar-sign" ></i> Missão concluída! +<span id="dgs" >DG$</span><span id="valor" >1500</span></p>
+                    <p><i class="fa-solid fa-dollar-sign" ></i> Missão concluída! +<span id="dgs" >DG$</span><span id="valor" >1500</span></p>
+                    <p><i class="fa-solid fa-dollar-sign" ></i> Missão concluída! +<span id="dgs" >DG$</span><span id="valor" >1500</span></p>
+                    <p><i class="fa-solid fa-dollar-sign" ></i> Missão concluída! +<span id="dgs" >DG$</span><span id="valor" >1500</span></p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</dialog>
 
 <script src="{% static 'js/UserJs/menuUser.js' %}"></script>

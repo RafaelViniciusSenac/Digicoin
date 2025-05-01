@@ -2,7 +2,6 @@
 {% load static%}
 {% block content%}
 
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -10,16 +9,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Estoque</title>
     <link rel="stylesheet" href="{% static 'css/AdmCss/listaEstoque.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 </head>
 <body>
-
-
     
     {% include '../components/adm/popUpAdicionarProduto.html'%}
     <div>
         {% include 'components/adm/menuAdm.html'%}
     </div>
-
 
     <div class="principal">
         
@@ -39,7 +37,7 @@
                     <div class="tabela-head">
                         <div class="tabela-rowheader">
                             <div class="tabela-cell nome">Nome <img class="sort-icon" src="{% static 'img/imgRanking/sort.png' %}" alt="Sort"></div>
-                            <div class="tabela-cell quanti  dade">Qtd</div>
+                            <div class="tabela-cell quantidade">Qtd</div>
                             <div class="tabela-cell acoes"></div>
                         </div>
                     </div>
@@ -61,24 +59,35 @@
                         {% endfor %}
                     </div>
                 </div>
+
+                <div class="pagination">
+                    {% if estoque.has_previous %}
+                    <div class="paginas">
+                        <div>
+                            <a class="anterior" href="?estoque_page={{ estoque.previous_page_number }}"><i class="fa fa-arrow-left" aria-hidden="true"></i> Anterior</a>
+                        </div>
+                    {% endif %}
                 
+                    {% if estoque.has_next %}
+                        <div>
+                            <a class="proxima" href="?estoque_page={{ estoque.next_page_number }}">Próxima <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                        </div>
+                    {% endif %}
+                        
+                        <span>Página {{ estoque.number }} de {{ estoque.paginator.num_pages }}</span>
+                    </div>                
                 </div>
-                
-            </div>
         </main>
     </div>
-
 
     <script>
         const buttonOpen = document.querySelector(".buttonOpen");
         console.log(buttonOpen)
-
 
     </script>
     <script src="{% static 'js/AdmJS/listaEstoque.js' %}"></script>
     
 </body>
 </html>
-
 
 {%endblock%}

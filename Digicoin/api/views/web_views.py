@@ -59,7 +59,12 @@ def listaEstoque(request):
     eventos = Campanha.objects.filter(is_active=True)
              
 
-    estoque = Produto.objects.filter(is_active=True)
+    
+
+    estoque_list = Produto.objects.filter(is_active=True)
+    estoque_paginator = Paginator(estoque_list, 5) 
+    estoque_page = request.GET.get('estoque_page') 
+    estoque = estoque_paginator.get_page(estoque_page)  
 
     
     return render(request, 'AdmHtml/listaEstoque.html', {'estoque': estoque, 'eventos': eventos})

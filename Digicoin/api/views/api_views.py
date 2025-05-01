@@ -2,7 +2,7 @@ from rest_framework import viewsets, status
 from api.models import *
 from api.serializers import *
 from rest_framework.views import APIView
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.hashers import make_password
@@ -97,6 +97,11 @@ class Login(APIView):
         else:
             return Response({"mensagem": "Usuario nao encontrado!", "status": status.HTTP_401_UNAUTHORIZED})
         
+class Logout(APIView):
+    def post(self, request):
+        logout(request)
+        return Response({"status": status.HTTP_200_OK, "mensagem": "Logout realizado com sucesso"})
+
 class GetDadosUsuarioLogado(APIView):
     def get(self, request):
         usuarioId = request.session.get('_auth_user_id')
