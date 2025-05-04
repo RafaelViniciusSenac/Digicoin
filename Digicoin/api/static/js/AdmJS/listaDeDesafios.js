@@ -75,3 +75,34 @@ const forms = document.querySelectorAll('form[id^="formCadastrarDesafio"]');
 forms.forEach(form => {
     form.addEventListener('submit', EditarDesafio);
 });
+
+ 
+document.querySelectorAll('.btn-desativar-desafio').forEach(botao => {
+    botao.addEventListener('click', async () => {
+        const desafioId = botao.getAttribute('data-id');
+        const nome = document.getElementById("nomeDesafio").innerText;
+        const valor = parseInt(document.getElementById('valor').innerText);
+        const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        console.log(nome);
+        console.log(valor);
+        try {
+            const response = await apiRequest(`/api/desafio/${desafioId}/`, "PUT", {
+                nome: nome,
+                valor: valor,
+                is_active: false
+            }, {
+                'X-CSRFToken': csrf
+            });
+
+            if (response) {
+                alert('Desafio desativado com sucesso!');
+                location.reload();
+            } else {
+                alert('Erro ao desativar o desafio.');
+            }
+        } catch (err) {
+            console.error("Erro ao desativar desafio:", err);
+            alert("Erro na requisição.");
+        }
+    });
+});

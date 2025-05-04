@@ -46,14 +46,15 @@
 
             <div class="desafioLeft">
                 <img src="{% static 'img/alvoCampanha.png' %}" alt="">
-                <p class='nomeDesafio'>{{ desafio.nome }}</p>
+                <p id="nomeDesafio" class='nomeDesafio'>{{ desafio.nome }}</p>
             </div>
 
             <div class="desafioRight">
-                <p class="dg">DG$ <span class="valor">{{desafio.valor}}</span></p>
+                <p class="dg">DG$ <span id="valor" class="valor">{{desafio.valor}}</span></p>
                 <div class="botoesEditar">
                     <img class="botaoEditar" data-id="{{desafio.id}}" src="{% static 'img/edit.png' %}" alt="">
-                    <img src="{% static 'img/lixeira.png' %}" alt="">
+                    <img src="{% static 'img/lixeira.png' %}" alt="Desativar" class="btn-desativar-desafio" data-id="{{ desafio.id }}">
+
                 </div>
             </div>
 
