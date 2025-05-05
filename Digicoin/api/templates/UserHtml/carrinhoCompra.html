@@ -13,31 +13,33 @@
 <body>
   <!-- importar componenents menuUser.html -->
     {% include "components/user/menuUser.html" %}
-    <div class="container">
-      <div class="titulo">
-          <div class="icone">
-            <img src="{%static 'img/carrinho.png'%}" alt="Carrinho">
-          </div>
-          Carrinho de Compras 
-          <!-- <input type="text" id="campoBusca" data-valor="nome,valor" placeholder="Buscar..."> -->
-      </div>
-      <table>
-          <thead>
-            <tr>
-              <th><img src="{%static 'img/produto.png'%}" alt="produtos"> Produto <img id="btOrdenar" data-valor="nome" class="sort-asc" src="{%static 'img/sort.png'%}" alt="sort"></th>
-              <th width="100px">Valor <img id="btOrdenar" data-valor="valor" class="sort-asc" src="{%static 'img/sort.png'%}" alt="sort"></th>
-              <th width="80px">Ações</th>
-            </tr>
-          </thead>
-          <tbody id="itensGrid">
+    <div class="containerPai">
+      <div class="container">
+        <div class="titulo">
+            <div class="icone">
+              <img src="{%static 'img/carrinho.png'%}" alt="Carrinho">
+            </div>
+            Carrinho de Compras 
+            <!-- <input type="text" id="campoBusca" data-valor="nome,valor" placeholder="Buscar..."> -->
+        </div>
+        {% csrf_token %}
+        <table>
+            <thead>
+              <tr>
+                <th><img src="{%static 'img/produto.png'%}" alt="produtos"> Produto <img id="btOrdenar" data-valor="nomeProduto" class="sort-asc" src="{%static 'img/sort.png'%}" alt="sort"></th>
+                <th width="100px">Valor <img id="btOrdenar" data-valor="valorProduto" class="sort-asc" src="{%static 'img/sort.png'%}" alt="sort"></th>
+                <th width="80px">Ações</th>
+              </tr>
+            </thead>
+            <tbody id="itensGrid">
 
-          </tbody>
-      </table>
-      <div id="paginacao"></div>
-    </div>
-    <div class="total">
-        <h4>Total de Digicoins: <span id="valorTotal">0</span></h4>
-        <button id="botaoFinalizarPedido" class="checkout-button">Finalizar Pedido</button>
+            </tbody>
+        </table>
+        <div class="total">
+            <h4>Total de Digicoins: <span id="valorTotal">0</span></h4>
+            <button id="botaoFinalizarPedido" class="checkout-button">Finalizar Pedido</button>
+        </div>
+      </div>
     </div>
       <script>
         const imgRemoverSrc = "{% static 'img/remover.png' %}";

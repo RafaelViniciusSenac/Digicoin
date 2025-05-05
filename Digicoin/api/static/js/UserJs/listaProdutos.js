@@ -9,6 +9,39 @@ document.addEventListener("DOMContentLoaded", function () {
             const refresh = flipCard.querySelector(".frente .refresh");
             const refresh2 = flipCard.querySelector(".tras .refresh");
             const fecharBtns = dialog.querySelectorAll(".fechar");
+            const adiquirirBtn = dialog.querySelector(".Adquirir");
+
+            adiquirirBtn.addEventListener("click", () => {
+                const idProduto = adiquirirBtn.dataset.valor;
+                const tipo = document.querySelector(`input[name="tipoProduto[${idProduto}]"]`).value;
+                console.log(tipo);
+                let fisicoPrduto = false
+                if (tipo == "Físico") {
+                    fisicoPrduto = true
+                }
+                
+                // Adiciona o produto ao localStorage
+                const produto = {
+                    id: parseInt(idProduto),
+                    idProduto: parseInt(idProduto),
+                    nomeProduto: document.querySelector(`input[name="nomeProduto[${idProduto}]"]`).value,
+                    valorProduto: parseInt(document.querySelector(`input[name="valorProduto[${idProduto}]"]`).value),
+                    qtdProduto: 1,
+                    fisicoProduto: fisicoPrduto
+                };
+                
+                let listaProdutos = JSON.parse(localStorage.getItem('listaProdutos')) || { listaGrid: [] };
+
+                // Verifica se o produto já existe na lista
+                let produtoExistente = listaProdutos.listaGrid.find(item => item.idProduto === produto.idProduto);
+
+                if (!produtoExistente) {
+                    listaProdutos.listaGrid.push(produto);
+                    localStorage.setItem('listaProdutos', JSON.stringify(listaProdutos));
+                }
+
+                dialog.close();
+            });
 
             dialog.showModal();
 

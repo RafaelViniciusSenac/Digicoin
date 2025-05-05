@@ -28,13 +28,41 @@
                 <p id='nomeUsuario'>Fulano</p>
                 <p class="digicoin">DG$ <spam class="valor" id='saldo'>9999</spam> </p>
             </div>
-            <img src="{% static 'img/sino.png'%}" alt="" class="imgSino">
-            <img src="{% static 'img/flecha.png'%}" alt="" class="imgFlecha">
+
+            <div class="flechaDropdownContainer">
+                <img src="{% static 'img/sino.png'%}" alt="" class="imgSino">
+                <img src="{% static 'img/flecha.png'%}" alt="" class="imgFlecha" id='imgFlecha'>
+                <img src="{% static 'img/flechaCima.png'%}" alt="" class="imgFlechaCima" id='imgFlechaCima'>
+
+                <div class="dropdownMenu" id="dropdownMenu">
+                    <button id="visualizarPerfil" class="visualizarPerfil">
+                        <img src="{% static 'img/visualizarPerfil.png' %}" alt="">
+                        <p>Visualizar perfil</p>
+                    </button>
+                    
+                    <button id="historicoCompra" class="historicoCompra">
+                        <img src="{% static 'img/historicoCompra.png' %}" alt="">
+                        <p>Histórico de compras</p>
+                    </button>
+                
+                    <button id="sair" class="sair">
+                        <img src="{% static 'img/sair.png' %}" alt="">
+                        <p>Sair</p>
+                    </button>
+                </div>
+            </div>
 
         </div>
 
+        
 
 
 </div>
+
+<dialog class="perfilUsuario" id="perfilUsuario">
+   
+    {% include 'UserHtml/perfilUsuario.html' %}
+
+</dialog>
 
 <script src="{% static 'js/UserJs/menuUser.js' %}"></script>

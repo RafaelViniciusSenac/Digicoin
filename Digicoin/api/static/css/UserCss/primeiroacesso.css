@@ -1,4 +1,5 @@
 body{
+    
     display: flex;
     justify-content: center;
     align-items: center;
@@ -20,8 +21,8 @@ body{
 }
 
 .botaoClose{
-    display: flex;
-    width: 100%;
+   
+    width: 20%;
     margin-left: 25px;
     margin-top: 25px;
   
@@ -46,6 +47,7 @@ body{
     border-radius: 20px;
     background-color: #D34AF4;
     border: none;
+    font-size: larger;
     
 }
 
@@ -57,10 +59,16 @@ body{
 
 
 .logoDigix{
+    width: 80%;
         margin-top: 40px;
+        margin-left: 40px;
         margin-bottom: 25px;
     }
 
+    .inputs .inputTelaBranca:read-write
+{
+    padding-left: 20px;
+}
 
 @media (max-width: 430px) {
         .telaBranca{
@@ -75,7 +83,7 @@ body{
     box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
     
 
-}}
+}
 .inputTelaBranca{
     border: 2px solid;
     width: 250px;
@@ -109,4 +117,12 @@ body{
     
     
     margin-bottom: 5px;
+}
+}
+
+.cabecario{
+   
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
 }

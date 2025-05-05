@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.utils import timezone
 
 # Create your models here.
 
@@ -9,6 +10,40 @@ class CustomUser(AbstractUser):
     imgPerfil = models.ImageField(upload_to='usuarios/', null=True, blank=True)
     saldo = models.IntegerField(default=0)
     pontuacao = models.IntegerField(default=0)
+    primeiroAcesso = models.BooleanField(default=True)
+
+
+    def save(self, *args, **kwargs):
+        # Ao salvar, detecta mudança de saldo
+        if self.pk:
+            original = CustomUser.objects.get(pk=self.pk)
+            if original.saldo != self.saldo:
+                HistoricoSaldo.objects.create(
+                    usuario=self,
+                    saldo_anterior=original.saldo,
+                    saldo_novo=self.saldo,
+                    diferenca=self.saldo - original.saldo,
+                    data_alteracao=timezone.now()
+                )
+        super().save(*args, **kwargs)
+
+class HistoricoSaldo(models.Model):
+    usuario = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='historico_saldo')
+    saldo_anterior = models.IntegerField()
+    saldo_novo = models.IntegerField()
+    diferenca = models.IntegerField()
+    data_alteracao = models.DateTimeField()
+
+    class Meta:
+        ordering = ['-data_alteracao']
+
+    def is_positivo(self):
+        return self.diferenca >= 0
+
+    def __str__(self):
+        sinal = '+' if self.is_positivo() else ''
+        return f"{self.usuario.username}: {sinal}{self.diferenca} em {self.data_alteracao.strftime('%Y-%m-%d %H:%M')}"
+
 
 class Campanha(models.Model):
     nome = models.CharField(max_length=30, null=False, blank=False)
@@ -62,6 +97,7 @@ class Compra(models.Model):
     pedido = models.CharField(max_length=10, choices=pedido_choices, default='Pendente')
     complemento = models.CharField(max_length=100, default=False)
     idUsuario = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False, blank=False)
+    dataCompra = models.DateTimeField(auto_now_add=True)
 
 class ItensCompra(models.Model):
     qtdProduto = models.IntegerField(null=False, blank=False)

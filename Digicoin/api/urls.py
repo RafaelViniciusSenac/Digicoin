@@ -15,8 +15,11 @@ urlpatterns = [
     path('api/user/', User.as_view(), name='usuarios'),
     path('api/user/<int:id>', User.as_view(), name="usuarioDetalhe"),
     path('api/login/', Login.as_view(), name='loginAPI'),
+    path('api/logout/', Logout.as_view(), name='logout'),
     path('api/cadastrarCompra/', CadastrarCompraView.as_view(), name='CadastrrarCompra'),
     path('api/GetDadosUsuarioLogado', GetDadosUsuarioLogado.as_view(), name='GetDadosUsuarioLogado'),
+    path('api/user/historico-saldo/', HistoricoSaldoUsuarioView.as_view(), name='historico-saldo-usuario'),
+    path('api/user/<int:id>/historico-saldo/', HistoricoSaldoPorIdView.as_view(), name='historico-saldo-por-id'),
     path('', login, name="login"),
     path('home/', home, name="home"),
     path('primeiroAcesso', primeiroAcesso, name="primeiroAcesso"),
@@ -35,7 +38,8 @@ urlpatterns = [
     path('cadastrarUsuario/', cadastrarUsuario, name='cadastrarUsuario'),
     path('editarUsuario/<int:id>/', editarUsuario, name='editarUsuario'),
     path('adicionarMoedas/', adicionarMoedas, name='adicionarMoedas'),
-    path('listaDeDesafios/', listaDeDesafios, name='listaDeDesafios')
+    path('listaDeDesafios/', listaDeDesafios, name='listaDeDesafios'),
+    path('teste/', teste, name='teste'),
     
 
 ]

@@ -14,9 +14,6 @@
     --cinzaDatas: #d9d9d9;
 }
 
-td {
-    margin-bottom: 20px;
-}
 
 textarea:focus,
 input:focus,
@@ -111,7 +108,7 @@ select:focus {
 
 .tabela_campanha {
     width: 100%;
-    border-collapse: collapse;
+    
 }
 
 .tabela_campanha_conteudo {
@@ -177,4 +174,23 @@ select:focus {
 
 .campanhas_pre {
     margin-bottom: 50px;
+}
+
+button img {
+    width: 25px;
+    height: auto;
+}
+
+.tabela_campanha {
+    height: 500px; 
+}
+
+.cabecalho-campanha{
+    display: flex;
+    justify-content: space-between;
+}
+
+tr{
+    display: flex;
+    margin-bottom: 30px;
 }

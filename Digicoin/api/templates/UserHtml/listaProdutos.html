@@ -1,13 +1,11 @@
-{% extends 'base.html'%}
-{% load static%}
+{% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
     rel="stylesheet">
-<link rel="stylesheet" href="{% static 'css/UserCss/listaProdutos.css'%}">
-
+<link rel="stylesheet" href="{% static 'css/UserCss/listaProdutos.css' %}">
 
 <body>
     {% include "components/user/menuUser.html" %}
@@ -22,19 +20,19 @@
                 </div>
                 <div class="search">
                     <i id="lupa" class="fa fa-search" aria-hidden="true"></i>
-                    <input id="barraBusca" class="searchBar" type="search">
+                    <input id="barraBusca" class="searchBar" type="search" placeholder="Buscar Produto">
                 </div>
             </div>
             <div class="imagensDigix">
                 {% for produto in produtos %}
                 <div class='imgD' data-nome="{{ produto.nome|lower }}">
-                    <button id='imgbotao' data-valor="{{produto.id}}"><img class='imagensP' src="{{ produto.img1.url }}" alt= "{{produto.nome}}"></button>
+                    <button id='imgbotao' data-valor="{{produto.id}}"><img class='imagensP' src="{{ produto.img1.url }}" alt="{{produto.nome}}"></button>
                 </div>
-                {% endfor%}
+                {% endfor %}
             </div>
         </div>
 
-        {% for produto in produtos %}   
+        {% for produto in produtos %}
         <dialog id="modal-{{produto.id}}">
             <div class="container">
                 <div id="flip-{{produto.id}}" class="flip">
@@ -76,7 +74,5 @@
         {% endfor %}
     </div>
     <script src="{% static 'js/UserJs/listaProdutos.js' %}"></script>
-
 </body>
-
 {% endblock %}

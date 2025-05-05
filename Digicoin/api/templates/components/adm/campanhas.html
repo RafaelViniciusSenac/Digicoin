@@ -22,43 +22,43 @@
             </div>
         </div>
         <div class="campanha">
-            <table class="tabela_campanha">
-            
-                <tr>
-                    <th class="tabela_campanha_cabecalho">
-                        <div class="tabela_campanha_cabecalho_nome">
-                            <h2>Nome</h2>
-                            <img src="{% static 'img/sort.png' %}" alt="Nome" style="width: 24px; height: 24px;" />
-                        </div>
-                        <div class="tabela_campanha_cabecalho_termino">
-                            <h2>Término</h2>
-                        </div>
-                    </th>
-                </tr>
-                {% for campanha in campanhas %}
-                <tr>
-                    <td class="tabela_campanha_conteudo">
-                        <div class="tabela_campanha_conteudo_dado1">
-                            <div class="circle" style="background-color: {% if campanha.is_active %}#00cc00{% else %}#ff0000{% endif %};"></div>
-
-                            <h2>{{campanha.nome}}</h2>
-                        </div>
-                        <div class="tabela_campanha_conteudo_dado2">
-                            <h2>{{ campanha.dataFim}}</h2>
-                            <button onclick="EditarCampanhas({{campanha.id}})">
-
-                                <img src="{% static 'img/edit.png' %}" alt="botao editar" />
-                            </button>
-                            <button onclick="inativarCampanhas({{campanha.id}})">
-
-                                <img src="{% static 'img/iconeDeletar.png' %}" alt="deletar">
-                            </button>
-                        </div>
-                    </td>
-                    
-                </tr>
-                {% endfor %}
+            <div class="cabecalho-campanha">
+                <div class="tabela_campanha_cabecalho_nome">
+                    <h2>Nome</h2>
+                    <img src="{% static 'img/sort.png' %}" alt="Nome" style="width: 24px; height: 24px;" />
+                </div>
+                <div class="tabela_campanha_cabecalho_termino">
+                    <h2>Término</h2>
+                </div>
+            </div>
+            <table id="corpo-tabela-predefinida" class="tabela_campanha">
+                <tbody id="corpo-tabela">
+                    {% for campanha in campanhas %}
+                    <tr>
+                        <td class="tabela_campanha_conteudo">
+                            <div class="tabela_campanha_conteudo_dado1">
+                                <div class="circle" style="background-color: {% if campanha.is_active %}#00cc00{% else %}#ff0000{% endif %};"></div>
+                                <h2>{{campanha.nome}}</h2>
+                            </div>
+                            <div class="tabela_campanha_conteudo_dado2">
+                                <h2>{{ campanha.dataFim }}</h2>
+                                <button onclick="EditarCampanhas({{campanha.id}})">
+                                    <img src="{% static 'img/edit.png' %}" alt="botao editar" />
+                                </button>
+                                <button onclick="inativarCampanhas({{campanha.id}})">
+                                    <img src="{% static 'img/iconeDeletar.png' %}" alt="deletar">
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
             </table>
+            <div id="paginacao">
+                <button onclick="mudarPagina('predefinida', -1)">Anterior</button>
+                <span id="pagina-atual-predefinida">1</span>
+                <button onclick="mudarPagina('predefinida', 1)">Próxima</button>
+            </div>
         </div>
     </div>
     <div class="campanhas_criada">
@@ -69,45 +69,89 @@
             </div>
         </div>
         <div class="campanha">
-            <table class="tabela_campanha">
-                <tr>
-                    <th class="tabela_campanha_cabecalho">
-                        <div class="tabela_campanha_cabecalho_nome">
-                            <h2>Nome</h2>
-                            <img src="{% static 'img/sort.png' %}" alt="Nome" style="width: 24px; height: 24px;" />
-                        </div>
-                        <div class="tabela_campanha_cabecalho_termino">
-                            <h2>Término</h2>
-                        </div>
-                    </th>
-                </tr>
-                {% for campanha in campanhas %}
-                <tr>
-                    <td class="tabela_campanha_conteudo">
-                        <div class="tabela_campanha_conteudo_dado1">
-                            <div class="circle" style="background-color: {% if campanha.is_active %}#00cc00{% else %}#ff0000{% endif %};"></div>
-
-                            <h2>{{campanha.nome}}</h2>
-                        </div>
-                        <div class="tabela_campanha_conteudo_dado2">
-                            <h2>{{ campanha.dataFim}}</h2>
-                            <button onclick="EditarCampanhas({{campanha.id}})">
-
-                                <img src="{% static 'img/edit.png' %}" alt="botao editar" />
-                            </button>
-                            <button onclick="inativarCampanhas({{campanha.id}})">
-
-                                <img src="{% static 'img/iconeDeletar.png' %}" alt="deletar">
-                            </button>
-                        </div>
-                    </td>
-                    
-                </tr>
-                {% endfor %}
+            <div class="cabecalho-campanha">
+                <div class="tabela_campanha_cabecalho_nome">
+                    <h2>Nome</h2>
+                    <img src="{% static 'img/sort.png' %}" alt="Nome" style="width: 24px; height: 24px;" />
+                </div>
+                <div class="tabela_campanha_cabecalho_termino">
+                    <h2>Término</h2>
+                </div>
+            </div>
+            <table id="corpo-tabela-criada" class="tabela_campanha">
+                
+                <tbody id="corpo-tabela">
+                    {% for campanha in campanhas %}
+                    <tr>
+                        <td class="tabela_campanha_conteudo">
+                            <div class="tabela_campanha_conteudo_dado1">
+                                <div class="circle" style="background-color: {% if campanha.is_active %}#00cc00{% else %}#ff0000{% endif %};"></div>
+                                <h2>{{campanha.nome}}</h2>
+                            </div>
+                            <div class="tabela_campanha_conteudo_dado2">
+                                <h2>{{ campanha.dataFim }}</h2>
+                                <button onclick="EditarCampanhas({{campanha.id}})">
+                                    <img src="{% static 'img/edit.png' %}" alt="botao editar" />
+                                </button>
+                                <button onclick="inativarCampanhas({{campanha.id}})">
+                                    <img src="{% static 'img/iconeDeletar.png' %}" alt="deletar">
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
             </table>
+            <div id="paginacao">
+                <button onclick="mudarPagina('criada', -1)">Anterior</button>
+                <span id="pagina-atual-criada">1</span>
+                <button onclick="mudarPagina('criada', 1)">Próxima</button>
+            </div>
         </div>
     </div>
 </div>
 <script src="{% static 'js/AdmJS/criarCampanha.js' %}"></script>
+<script>
+    const porPagina = 4;
+    const paginas = {
+        predefinida: 1,
+        criada: 1
+    };
+
+    function mostrarPagina(tipo) {
+        const linhas = document.querySelectorAll(`#corpo-tabela-${tipo} tr`);
+        const totalPaginas = Math.ceil(linhas.length / porPagina);
+        const pagina = paginas[tipo];
+
+        const inicio = (pagina - 1) * porPagina;
+        const fim = Math.min(inicio + porPagina, linhas.length);
+
+        linhas.forEach((linha, i) => {
+            linha.style.display = (i >= inicio && i < fim) ? '' : 'none';
+        });
+
+        const pagAtual = document.getElementById(`pagina-atual-${tipo}`);
+        if (pagAtual) {
+            pagAtual.textContent = pagina;
+        }
+    }
+
+    function mudarPagina(tipo, delta) {
+        const linhas = document.querySelectorAll(`#corpo-tabela-${tipo} tr`);
+        const totalPaginas = Math.ceil(linhas.length / porPagina);
+        const novaPagina = paginas[tipo] + delta;
+
+        if (novaPagina >= 1 && novaPagina <= totalPaginas) {
+            paginas[tipo] = novaPagina;
+            mostrarPagina(tipo);
+        }
+    }
+
+    // Inicializa as duas tabelas
+    document.addEventListener('DOMContentLoaded', () => {
+        mostrarPagina('predefinida');
+        mostrarPagina('criada');
+    });
+</script>
 
 {% endblock content %}

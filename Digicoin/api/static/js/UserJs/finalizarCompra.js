@@ -3,7 +3,6 @@ import Popup from '../popup.js';
 function desativarEnderecoForm(acao) {
     const enderecoForm = document.getElementById('endereco');
     if (acao) {
-        console.log('desativar');
         const camposForms = enderecoForm.querySelectorAll('input, select');
         [].forEach.call(camposForms, function (el) {
             el.setAttribute('disabled', 'disabled');
@@ -11,7 +10,7 @@ function desativarEnderecoForm(acao) {
         enderecoForm.classList.remove('form-endereco-ativo');
         enderecoForm.classList.add('form-endereco-desativado');
     } else {
-        console.log('ativar');
+
         // ativa inputs e selects
         const camposForms = enderecoForm.querySelectorAll('input, select');
         [].forEach.call(camposForms, function (el) {
@@ -22,8 +21,7 @@ function desativarEnderecoForm(acao) {
     }
 }
 
-function enviarDadosParaApi(form = null) {
-    // Código para enviar os dados para a API
+async function enviarDadosParaApi(form = null) {
     let dadosCompra = {};
     let itensCompra = [];
 
@@ -32,15 +30,19 @@ function enviarDadosParaApi(form = null) {
         DadosFormulario.forEach((value, key) => {
             dadosCompra[key] = value;
         });
+    }else{
+        console.log('Produto virtual');
+        dadosCompra['entrega'] = 'Retirar';
     }
     dadosCompra['idUsuario'] = 1;
 
     const storedData = JSON.parse(localStorage.getItem('listaProdutos')) || {};
     const grid = storedData.listaGrid || [];
+    const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value
     let totalProduto = 0;
 
     grid.forEach(item => {
-        totalProduto += parseFloat(item.valorProduto) * parseInt(item.qtdProduto);
+        totalProduto += parseInt(item.valorProduto) * parseInt(item.qtdProduto);
         itensCompra.push({
             qtdProduto: item.qtdProduto || 1,
             idProduto: item.idProduto
@@ -54,9 +56,31 @@ function enviarDadosParaApi(form = null) {
     };
 
     // Enviar dados para a API
-    apiRequest('/api/cadastrarCompra/', 'POST', dadosParaApi).then(response => {
-        console.log(response);
-    });
+    try {
+        const response = await apiRequest('/api/cadastrarCompra/', 'POST', dadosParaApi, {'X-CSRFToken':csrf});
+        console.log(response.status);
+        if (response.status == 201) {
+            localStorage.removeItem('listaProdutos');
+            // limpa o grid
+            const grid = document.getElementById('itensGrid');
+            grid.innerHTML = '';
+
+            // remove o popup
+            const popup = new Popup();
+            popup.hidePopup();
+
+            // limpa o total
+            const total = document.getElementById('valorTotal');
+            total.innerHTML = '0';
+    
+            // redireciona para a home
+            //window.location.href = '/home/';
+        } else {
+            console.log('erro ao cadastrar');
+        }
+    } catch (error) {
+        console.log('Deu erro' + error);
+    }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -65,6 +89,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function abrirPopup() {
         const titulo = 'Finalizar Pedido';
         const body = `<form class="form" id="formTipoEntraga"> 
+        
         <label class="input-label">Selecione o tipo de entrega</label>
         <div class="form-group">
             <div class="input-container">
@@ -214,10 +239,11 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById('botaoFinalizarPedido').addEventListener('click', () => {
         const storedData = JSON.parse(localStorage.getItem('listaProdutos')) || {};
         const grid = storedData.listaGrid || [];
-        console.log(grid);
+       
         let temProdutosFisicos = false;
         grid.forEach((item) => {
-            if (item.fisicoPrduto) {
+        
+            if (item.fisicoProduto) {
                 temProdutosFisicos = true;
             }
         });

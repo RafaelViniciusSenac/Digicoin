@@ -174,15 +174,20 @@ addMoedas.addEventListener('click', () => {
 
         try {
             for (const usuario of usuariosSelecionados) {
-                const novoSaldo = operacao === 'adicionar' 
-                    ? usuario.saldo + valor 
-                    : Math.max(0, usuario.saldo - valor);
+                // const novoSaldo = operacao === 'adicionar' 
+                //     ? usuario.saldo + valor 
+                //     : Math.max(0, usuario.saldo - valor);
                 
                 const response = await apiRequest(`/api/user/${usuario.id}`, "PUT", {
+
                     saldo: novoSaldo
                 }
                 ,{
                     'X-CSRFToken': csrf
+
+                    saldo: valor,
+                    operacao: operacao
+
                 });
                 
                 if (response.status !== 200) {

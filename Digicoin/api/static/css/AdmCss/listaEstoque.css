@@ -1,25 +1,30 @@
+:root {
+    --laranja: #FC671D;
+    --magenta: #D34AF4;
+    --cinza: #faf6f7;
+    --cinza-escuro: #888;
+    --ciano: #0BC0D3;
+    --base: #2c006a;
+    --branco: #fff;
+    --preto: #000;
+    --sombra-base: rgba(44, 0, 106, 0.4);
+    --sombra-preta: rgba(0, 0, 0, 0.4);
+}
+
 .menucentro{
     display: flex;
     justify-content: center;
 }
 
 .principal{
-    margin-left: 351px;
+    margin-left: 300px;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
 }
 
 .imagemsort{
     height: 15px;
 }
-
-/* header {
-    width: 100%;
-    height: 100px;
-    background-color: #fff;
-    
-    display: flex;
-    justify-content: flex-end;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-} */
 
 .perfil {
     display: flex;
@@ -38,30 +43,26 @@
 
 }
 .estoque-container {
-    background: white;
-    padding: 20px;
-    margin-top: 20px;
+    padding: 10px;
+    margin-top: 40px; 
     border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     width: 60%;
 }
 
 .cabecalho {
     display: flex;
+    align-items: center;
     justify-content: space-between;
-    margin-bottom: 20px;
-    padding-top: 40px;
+    padding-top: 10px;
+    font-size: 1.5em;
 }
 
 .imagemestoque{
     display: flex;
     height: 30px;
     width: 30px;
-    padding-right: 10px;
-
-    
+    padding-right: 10px;    
 }
-
 
 .pesquisa {
     padding: 8px;
@@ -82,18 +83,25 @@
     width: 25px;
 }
 
-
-
 .btn-adicionar {
-    background-color: #d133ff;
-    height: 40px;
+    background-color: rgb(211, 74, 244);
     color: white;
+    height: 50px;
     border: none;
-    padding: 10px;
-    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 17px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
     cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
 }
 
+.btn-adicionar:hover {
+    background-color: var(--laranja);
+}
 
 .iconesort{
     display: flex;
@@ -102,8 +110,6 @@
     text-align: left;
     border-bottom: 1px solid #ddd; 
 }
-
-
 
 .editar, .deletar {
     border: none;
@@ -115,57 +121,29 @@
     text-align: end;
 }
 
-
-
-
 .traco{
     border-bottom: solid 3px #FC671D;
 }
 
 .search-container {
+    border: 2px solid #ccc;
+    border-radius: 25px;
+    padding: 5px 15px;
     display: flex;
-    justify-content: end;
     align-items: center;
-    border: 1px solid #ccc;
-    border-radius: 20px;
-    padding: 5px 10px;
-    width: 200px;
+    gap: 8px;
 }
 
 .search-container input {
     border: none;
     outline: none;
-    flex: 1;
-    padding: 5px;
+    font-size: 14px;
 }
 
 .search-container img {
-    width: 16px;
-    height: 16px;
+    width: 30px;
+    height: 30px;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 .tabela {
     display: flex;
@@ -175,39 +153,45 @@
     margin: auto;
     border-radius: 10px;
     overflow: hidden;
-    font-family: Arial, sans-serif;
 }
 
 .tabela-head {
     background: white;
     font-weight: bold;
     padding: 10px;
-    /* border-bottom: 2px solid #ddd; */
 }
 
-.tabela-row {
+.tabela-rowheader {
     display: flex;
     align-items: center;
-    background: white;
-    padding: 10px;
-    margin-right: 30px;
-    margin-left: 30px;
+    padding: 10px 15px;
     border-radius: 10px;
-    margin-bottom: 10px;
-    box-shadow: 10px 4px 8px rgba(0, 0, 0, 0.4);
+    background-color: #fff;
 }
 
-.tabela-row.header {
-    font-weight: bold;
-    background: white;
-    box-shadow: none;
-    text-align: left;
+.tabela-row {    
+    display: flex;
+    text-align: center;
+    padding: 10px 15px 10px 15px;
+    margin-bottom: 20px;
+    margin-right: 5px;
+    border-radius: 10px;
+    border-left: 6px solid #00BCD4;
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.tabela-row .quantidade {
+    display: flex;
+    align-items: center;
 }
 
 .tabela-cell {
+    display: flex;
+    text-align: center;
     flex: 1;
     padding: 5px;
-    text-align: left;
+    font-size: 20px;
 }
 
 .nome {
@@ -243,3 +227,38 @@ button {
     width: 20px;
     height: 20px;
 }
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.pagination a {
+    padding: 8px 15px;
+    text-decoration: none;
+    color: white;
+    cursor: pointer;
+    background-color: var(--magenta);
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    font-size: 18px;
+}
+
+.pagination .anterior:hover, .proxima:hover {
+    background-color: var(--laranja);
+}
+
+.pagination span {
+    font-size: 18px;    
+    font-weight: bold;
+}
+
+.paginas{
+    display: flex;
+    gap: 10px;
+}
+

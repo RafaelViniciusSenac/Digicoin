@@ -40,3 +40,4 @@ function buscarEndereco(cepField, ruaField, bairroField, cidadeField, estadoFiel
             .catch(error => console.error('Erro ao buscar o CEP:', error));
     }
 }
+
