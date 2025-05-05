@@ -183,7 +183,7 @@ addMoedas.addEventListener('click', () => {
                     saldo: novoSaldo
                 }
                 ,{
-                    'X-CSRFToken': csrf
+                    'X-CSRFToken': csrf,
 
                     saldo: valor,
                     operacao: operacao
