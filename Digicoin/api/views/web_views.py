@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from api.models import *
 from django.core.paginator import Paginator
+from ..serializers import UsuarioComHistoricoSerializer
 
 def login(request):
     return render(request, 'index.html')
@@ -32,7 +33,16 @@ def primeiroAcesso(request):
     return render(request, 'primeiroAcesso.html')
 
 def perfilUsuario(request):
-    return render(request, 'UserHtml/perfilUsuario.html')
+    usuarioLogado = request.user
+    serializer = UsuarioComHistoricoSerializer(usuarioLogado)
+    dados_usuario = serializer.data
+
+    context = {
+        'historico': dados_usuario["ultimas_alteracoes"],  
+        'saldoAtual': dados_usuario["ultimas_alteracoes"][0]
+    }
+
+    return render(request, 'UserHtml/perfilUsuario.html', context)
 
 def listaProdutos(request):
     # produtos = [ 
