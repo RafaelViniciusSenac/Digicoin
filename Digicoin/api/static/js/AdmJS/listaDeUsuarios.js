@@ -117,6 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const ra = this.querySelector('.ra').value;
             const saldo = this.querySelector('.saldo').value;
             const status = this.querySelector('input[name="is_active"]').value;
+            const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value;
             
             const response = await apiRequest(`/api/user/${userId}`, "PUT", {
                 username: email,
@@ -124,6 +125,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 first_name: nome,
                 saldo: saldo,
                 is_active: status
+            },
+            {
+                'X-CSRFToken': csrf
             });
             
             if (response.status == 200) {
@@ -162,6 +166,7 @@ addMoedas.addEventListener('click', () => {
     // Função para enviar as moedas
     const enviarMoedas = async (operacao) => {
         const valor = parseInt(inputQuantidade.value);
+        const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value;
         if (isNaN(valor)) {
             alert('Digite um valor válido!');
             return;
@@ -174,8 +179,15 @@ addMoedas.addEventListener('click', () => {
                 //     : Math.max(0, usuario.saldo - valor);
                 
                 const response = await apiRequest(`/api/user/${usuario.id}`, "PUT", {
+
+                    saldo: novoSaldo
+                }
+                ,{
+                    'X-CSRFToken': csrf
+
                     saldo: valor,
                     operacao: operacao
+
                 });
                 
                 if (response.status !== 200) {
