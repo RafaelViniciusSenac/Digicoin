@@ -176,9 +176,14 @@
     margin-bottom: 20px;
     margin-right: 5px;
     border-radius: 10px;
-    border-left: 6px solid #00BCD4; /* Azul claro na lateral */
+    border-left: 6px solid #00BCD4;
     background-color: #fff;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.tabela-row .quantidade {
+    display: flex;
+    align-items: center;
 }
 
 .tabela-cell {

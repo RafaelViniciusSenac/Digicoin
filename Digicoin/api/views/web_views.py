@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from api.models import *
 from django.core.paginator import Paginator
+from ..serializers import UsuarioComHistoricoSerializer
 
 def login(request):
     return render(request, 'index.html')
@@ -57,7 +58,16 @@ def primeiroAcesso(request):
     return render(request, 'primeiroAcesso.html')
 
 def perfilUsuario(request):
-    return render(request, 'UserHtml/perfilUsuario.html')
+    usuarioLogado = request.user
+    serializer = UsuarioComHistoricoSerializer(usuarioLogado)
+    dados_usuario = serializer.data
+
+    context = {
+        'historico': dados_usuario["ultimas_alteracoes"],  
+        'saldoAtual': dados_usuario["ultimas_alteracoes"][0]
+    }
+
+    return render(request, 'UserHtml/perfilUsuario.html', context)
 
 def listaProdutos(request):
     # produtos = [ 
@@ -78,7 +88,9 @@ def cadastrarDesafio(request):
     return render(request, 'AdmHtml/cadastrarDesafio.html', {'campanhas': campanhas})
 
 def ranking(request):
-    return render(request, 'UserHtml/ranking.html')
+    top_usuarios = CustomUser.objects.order_by('-saldo')[:7]
+    return render(request, 'UserHtml/ranking.html', {'top_usuarios': top_usuarios})
+
 
 def listaEstoque(request):
     eventos = Campanha.objects.filter(is_active=True)
@@ -122,7 +134,24 @@ def desafiosCampanha(request):
 
 
 def listaDePedidos(request):
-    return render(request, 'AdmHtml/listaDePedidos.html')
+    status_pedido = request.GET.get('status', None)  
+    print(status_pedido)
+
+    pedidos = 0 
+
+    if status_pedido == '1':
+        pedidos = ItensCompra.objects.select_related('idProduto', 'idCompra').filter(idCompra__pedido="concluido")
+    elif status_pedido == '2':
+        pedidos = ItensCompra.objects.select_related('idProduto', 'idCompra').filter(idCompra__pedido="pendente")
+    else:
+        pedidos = ItensCompra.objects.select_related('idProduto', 'idCompra').all() 
+
+    pedido_paginator = Paginator(pedidos, 5) 
+    pedido_page = request.GET.get('pedido_page')
+    pedidos = pedido_paginator.get_page(pedido_page)
+
+    return render(request, 'AdmHtml/listaDePedidos.html', {'pedidos': pedidos})
+
 
 def carrinho(request):
     return render(request, 'UserHtml/carrinhoCompra.html')
