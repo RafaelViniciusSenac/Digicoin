@@ -97,7 +97,24 @@ def desafiosCampanha(request):
 
 
 def listaDePedidos(request):
-    return render(request, 'AdmHtml/listaDePedidos.html')
+    status_pedido = request.GET.get('status', None)  
+    print(status_pedido)
+
+    pedidos = 0 
+
+    if status_pedido == '1':
+        pedidos = ItensCompra.objects.select_related('idProduto', 'idCompra').filter(idCompra__pedido="concluido")
+    elif status_pedido == '2':
+        pedidos = ItensCompra.objects.select_related('idProduto', 'idCompra').filter(idCompra__pedido="pendente")
+    else:
+        pedidos = ItensCompra.objects.select_related('idProduto', 'idCompra').all() 
+
+    pedido_paginator = Paginator(pedidos, 5) 
+    pedido_page = request.GET.get('pedido_page')
+    pedidos = pedido_paginator.get_page(pedido_page)
+
+    return render(request, 'AdmHtml/listaDePedidos.html', {'pedidos': pedidos})
+
 
 def carrinho(request):
     return render(request, 'UserHtml/carrinhoCompra.html')
