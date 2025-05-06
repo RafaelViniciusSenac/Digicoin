@@ -225,6 +225,52 @@ body{
     font-size: large;
 }    
 
+.popUpPrimeiroAcesso{
+    border-radius: 10px;
+    padding: 70px;
+    background-color: #FDFDFD;
+    
+}
+
+.labelPopUpPrimeiroAcesso{
+    display: flex;
+    justify-content: center;
+}
+    
+/* .formPrimeiroAcesso{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+} */
+.senhaPrimeiroAcesso{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    margin-bottom: 20px;
+}
+.senhaPrimeiroAcesso label{
+   
+}
+    
+.confirmarSenhaPrimeiroAcesso{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    margin-bottom: 20px;
+}
+.confirmarSenhaPrimeiroAcesso label{
+   
+
+}
+
+.logoPrimeiroAcesso img{
+
+    width: 180px;
+    height: 100px;
+    margin-top: -30px;
+    margin-bottom: 20px;
+}
+
 @media (min-width: 0px) and (max-width: 430px) {
 
     .botaoCampanha{
