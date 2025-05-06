@@ -2,9 +2,10 @@
     {% extends "base.html" %}
     {% load static %}
     {% block content %}
+   
     <link rel="stylesheet" href="{% static 'css/AdmCss/cadastrarDesafio.css'%}">
 
-    
+
     <div class='body'>
     <div class="header">
         <img src="{% static 'img/logoAdmin.png' %}" alt="LogoAdmin">
@@ -14,59 +15,60 @@
         </div>
     </div>
 
-    <form method="POST" id="formCadastrarUsuario">
-
+    <form method="POST"  id="formDesafio" class="formDesafio">
         {% csrf_token %}
 
         <div class="form">
             <div class="cima">
-
                 <div class='inputsNome'>
-                    <div class="nomeDesafioDiv" >
+                    <div class="nomeDesafioDiv">
                         <label for="">Nome do desafio</label>
-                        <input type="text" id="nomeDesafio" class="nomeDesafio" placeholder="nome do desafio" >
+                        <input type="text" id="nomeDesafio-form" class="nomeDesafio" placeholder="nome do desafio" >
                     </div>
                     <div class="nomeDesafioDiv">
                         <label for="">Valor do desafio</label>
-                        <input type="number" id="valorDesafio" class="valorDesafio" placeholder="valor do desafio">
+                        <input type="number" id="valorDesafio-form" class="valorDesafio" placeholder="valor do desafio" >
                     </div>
                 </div>
-
+    
                 <div class="descricaoDesafioDiv">
                     <label for="">Descrição</label>
-                    <textarea id="descricao" class="descricao" placeholder="Digite a descrição do desafio"></textarea>
-                </div>       
+                    <textarea id="descricao-form" class="descricao" placeholder="Digite a descrição do desafio"></textarea>
+                </div>
             </div>
+    
             <div class="baixo">
                 <div class="statusDesafioDiv">
                     <label for="">Status do desafio</label>
-                    <select name="campanha" id=" campanha ">                   
-                        <option value="">Sem campanha</option>
-                        {% for campanha in campanhas %}                    
-                            <option value="{{campanha.id}}">{{campanha.nome}}</option>
-                               
-                        {% endfor %}   
+                    <select name="campanha" id="campanha-form">
+                        {% if desafio.idCampanha == None %}
+                        <option value="">Sem Campanha</option>
+                        {% else %}
+                        <option value="{{ desafio.idCampanha }}">{{ desafio.idCampanha }}</option>
+                        {% endif %}
+    
+                        {% for campanha in campanhas %}
+                        <option value="{{ campanha.id }}">{{ campanha.nome }}</option>
+                        {% endfor %}
                     </select>
                 </div>
-                <div >        
-                    <div class="dataDesafioDiv">
-                        <div class="dataDesafioInterno">
-                            <label class="dataDesafio" for="">Inicio</label>
-                            <input type="date"  id="inicioDesafio">
-                        </div>
-                        <div class="dataDesafioInterno">
-                            <label class="dataDesafio"  for="">Fim</label>
-                            <input type="date" id="fimDesafio">
-                        </div>
+    
+                <div class="dataDesafioDiv">
+                    <div class="dataDesafioInterno">
+                        <label class="dataDesafio" for="">Início</label>
+                        <input type="date" id="inicioDesafio-form">
+                    </div>
+                    <div class="dataDesafioInterno">
+                        <label class="dataDesafio" for="">Fim</label>
+                        <input type="date" id="fimDesafio-form">
                     </div>
                 </div>
             </div>
         </div>
         <button type="submit" class="cadastrarDesafio">Concluído</button>
-   
     </form>
+    
  
 </div>
-
 <script src="{% static 'js/AdmJS/cadastrarDesafio.js' %}"> </script>
 {% endblock content %}
