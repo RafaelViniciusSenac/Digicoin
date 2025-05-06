@@ -8,7 +8,7 @@
     <div class="campo_pesquisar">
         <div class="pesquisar">
             <img class="lupa" src="{% static 'img/pesquisa.png' %}" alt="" />
-            <input class="pesquisar_campanha" type="text" placeholder="Pesquisar Campanha" />
+            <input class="pesquisar_campanha" id="barraBusca" type="search" placeholder="Pesquisar Campanha" />
         </div>
     </div>
     <div class="campanhas_pre">
@@ -35,7 +35,7 @@
                 <tbody id="corpo-tabela">
                     {% for campanha in campanhas %}
                     <tr>
-                        <td class="tabela_campanha_conteudo">
+                        <td class="tabela_campanha_conteudo" data-nome="{{ campanha.nome|lower }}">
                             <div class="tabela_campanha_conteudo_dado1">
                                 <div class="circle" style="background-color: {% if campanha.is_active %}#00cc00{% else %}#ff0000{% endif %};"></div>
                                 <h2>{{campanha.nome}}</h2>
@@ -83,7 +83,7 @@
                 <tbody id="corpo-tabela">
                     {% for campanha in campanhas %}
                     <tr>
-                        <td class="tabela_campanha_conteudo">
+                        <td class="tabela_campanha_conteudo" data-nome="{{ campanha.nome|lower }}">
                             <div class="tabela_campanha_conteudo_dado1">
                                 <div class="circle" style="background-color: {% if campanha.is_active %}#00cc00{% else %}#ff0000{% endif %};"></div>
                                 <h2>{{campanha.nome}}</h2>
