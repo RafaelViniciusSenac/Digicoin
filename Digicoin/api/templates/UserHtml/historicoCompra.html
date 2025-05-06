@@ -26,7 +26,7 @@
     <div class="tabela">
         <div class="tabela-head">
             <div class="tabela-rowheader">
-                <div class="tabela-cell itens">Itens</div>
+                <div class="tabela-cell itens">Itens <br><span class="historicoCompraTituloColIdNome">Id - Nome</span></div>
                 <div class="tabela-cell quantidadeItens">Qtd</div>
                 <div class="tabela-cell dataCompra">Data <img class="sort-icon" src="{% static 'img/imgRanking/sort.png' %}" alt="Sort"></div>
                 <div class="tabela-cell total">Valor <img class="sort-icon" src="{% static 'img/imgRanking/sort.png' %}" alt="Sort"></div>
@@ -39,13 +39,18 @@
             {% for compra in compra %}
             <div class="tabela-row">
                 <div class="tabela-cell itens">
-                    {% for item in compra.itens %}
-                    <div class="item">
-                        <div class="nomeItem">
-                            <p>{{item.idProduto.nome}} - {{item.qtdProduto}}</p>
+                    <div class="historicoCompraLocalItens">
+                        <div class="historicoCompraIconeItens">
+                            <img class="historicoCompraIconeProduto" src="{% static 'img/produto.png' %}" alt="/produto">
+                        </div>
+                        <div class="historicoCompraItens">
+                            {% for item in compra.itens %}
+                            <div class="item">
+                                {{item.id}} - {{item.idProduto.nome}}
+                            </div>
+                            {% endfor %}
                         </div>
                     </div>
-                    {% endfor %}
                 </div>
                 <div class="tabela-cell quantidadeItens">{{compra.quantidadeItens}}</div>
                 <div class="tabela-cell dataCompra">{{compra.dataCompra|date:"d/m/Y"}}</div>
