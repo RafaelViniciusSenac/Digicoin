@@ -6,23 +6,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carrinho</title>
+    <title>Histórico de Compra</title>
     <link rel="stylesheet" href="{% static 'css/UserCss/historicoCompra.css' %}">
 
 </head>
 <body>
   {% include "components/user/menuUser.html" %}
 
-  <div class="compra-container">
+  <div class="historicoCompraContainer">
     <div class='barra-pesquisa'>
         <div class="search-container">
             <img src="{% static 'img/iconeLupa.png' %}" alt="/Lupa">
             <input type="text" placeholder="Pesquisar Histórico">
         </div>
     </div>
-    <div class="cabecalho">
-        <h2><span class="traco"></span>Histórico de Compras</h2>
+
+    <div class="historicoCompraCabecalho">
+        <div class="historicoCompraCabecalhoIcone">
+            <img src="{% static 'img/historico.png' %}" alt="icone historico">
+            <div class="historicoCompraCabecalhoUnderline"></div>
+        </div>
+        <h2>Histórico de Compras</h2>
     </div>
+        
     <div class="tabela">
         <div class="tabela-head">
             <div class="tabela-rowheader">

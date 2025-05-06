@@ -38,21 +38,39 @@
   justify-content: end;
 
 }
-.compra-container {
+.historicoCompraContainer {
   padding: 5px; 
   border-radius: 10px;
-  width: 90%;
+  max-width: 900px;
 }
 
-.cabecalho {
+
+.historicoCompraCabecalho {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   margin-left: 20px;
-  padding-top: 5px;
   font-size: 1.5em;
+  padding-top: 5px;
+}
+  
+.historicoCompraCabecalhoIcone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+  
+.historicoCompraCabecalhoIcone img {
+  display: block;
+  width: 40px;
 }
 
+.historicoCompraCabecalhoUnderline {
+  width: 100%;
+  height: 2px;
+  background-color: red;
+  margin-top: 1px;
+}
+  
 .imagemestoque{
   display: flex;
   height: 30px;
@@ -103,7 +121,6 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-width: 900px;
   margin: auto;
   border-radius: 10px;
   overflow: hidden;
@@ -163,16 +180,15 @@
   align-items: center;
 }
 
-.historicoCompraIconeProduto {
-  width: 20px;
-  margin-right: 10px;
-}
-
 .historicoCompraIconeItens {
   flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.historicoCompraIconeItens img {
+  width: 20px;
+  margin-right: 10px;
 }
 
 .historicoCompraItens {
