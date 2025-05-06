@@ -53,17 +53,13 @@ def perfilUsuario(request):
     return render(request, 'UserHtml/perfilUsuario.html', context)
 
 def listaProdutos(request):
-    # produtos = [ 
-    # {
-    #     'id': 1,
-    #     'nome': "Produto 1 ",
-    #     'qtd': 2,
-    #     'valor': "200",
-    #     'descricao': "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    # },
-    # ]
-    produtos = Produto.objects.filter(is_active=True)
-    return render(request, 'UserHtml/listaProdutos.html', {"produtos": produtos})
+
+    listaProtudos_list = Produto.objects.filter(is_active=True)
+    listaProdutos_paginator = Paginator(listaProtudos_list, 8) 
+    listaProdutos_page = request.GET.get('listaProduto_page') 
+    listaProduto = listaProdutos_paginator.get_page(listaProdutos_page)
+    
+    return render(request, 'UserHtml/listaProdutos.html', {"produtos": listaProduto})
 
 def cadastrarDesafio(request):
     campanhas = Campanha.objects.filter(is_active=True)
