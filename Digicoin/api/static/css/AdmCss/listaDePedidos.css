@@ -10,30 +10,23 @@
 
 .detalhe{
     margin-left: 350px;
-    
     width: 60%;
 }
 
 .Conteiner{
     margin-left: 350px;
-
     color: black;
     font-size: 35px;
     display: flex;
     align-items: center;
     flex-direction: column;
-
-
 }
+
+
 .Titulo{
     display: flex;
     font-weight: bold;
     font-size: 25px;
-
-    margin-top: 100px;
-
-
-    
 }
 
 .underline{
@@ -88,4 +81,85 @@
     height: 34px;
 }
 
+button{
+    display: flex;
+    border: none;
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 10px;
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
 
+
+
+a{
+    text-decoration: none;
+}
+
+.buttonPedidos {
+    background-color: #00C4CC;
+    color: white;
+}
+
+.buttonPedidos1 {
+    background-color: #DA3ADC;
+    color: white;
+}
+
+.buttonPedidos2 {
+    background-color: #fc671d;
+    color: white;
+}
+
+.buttonPedidos:hover{
+    background-color: #037b80;
+    transition: 0.5s ease-in-out;
+} 
+
+.cabecalho{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 100px;
+}
+
+.butoes{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+}
+
+.pagination{
+    margin-bottom: 40px;
+    display: flex;
+}
+.pagination a {
+    font-size: 24px;
+    text-decoration: none;
+    
+}
+
+.pagination div{
+    margin-top: 20px;
+    display: flex;
+}
+
+.pagination img{
+    transform: rotate(180deg);
+    width: 32px;
+    height: 32px;
+}
+
+.pagination span{
+    margin-top: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+    font-size: 20px;
+}
