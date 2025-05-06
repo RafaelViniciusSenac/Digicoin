@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const data = await response.json();
         if (response.status == 200) {
             alert(data.mensagem);
-            window.location.href = '/home' // ou redirecionar
+            window.location.href = '/' // ou redirecionar
         } else {
             alert(data.erro || "Erro ao atualizar a senha.");
         }

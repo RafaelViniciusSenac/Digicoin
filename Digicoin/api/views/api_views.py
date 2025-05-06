@@ -99,7 +99,7 @@ class PrimeiroAcessoSenhaView(APIView):
         usuario.password = make_password(senha)
         usuario.primeiroAcesso = False
         usuario.save()
-
+        logout(request)
         return Response({"mensagem": "Senha atualizada com sucesso."}, status=status.HTTP_200_OK)
 
 
