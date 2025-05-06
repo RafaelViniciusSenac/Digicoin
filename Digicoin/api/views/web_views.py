@@ -8,11 +8,16 @@ def login(request):
 
 
 
-
 def home(request):
-   
-    users = CustomUser.objects.all().order_by("-saldo")[:4]
+
+    userId = request.session.get('_auth_user_id')
+
     
+    user = CustomUser.objects.filter(id=userId).first()
+    primeiroAcesso = user.primeiroAcesso
+    
+    users = CustomUser.objects.all().order_by("-saldo")[:4]
+        
     desafio_list = Desafio.objects.filter(idCampanha__isnull=True)
     desafio_paginator = Paginator(desafio_list, 5) 
     desafio_page = request.GET.get('desafio_page') 
@@ -21,10 +26,13 @@ def home(request):
     context = {
         'usuarios': users,  
         'primeiro_usuario': users[0] if users else None,  
-        'desafios': desafios,  
+        'desafios': desafios,
+        'primeiroAcesso' : primeiroAcesso,
+        'userId': userId    
     }
 
     return render(request, 'UserHtml/home.html', context)
+   
 
 
 def historicoCompra(request):
