@@ -9,6 +9,9 @@ def login(request):
 
 
 def home(request):
+   
+    users = CustomUser.objects.all().order_by("-saldo")[:5]
+    
 
     userId = request.session.get('_auth_user_id')
 
@@ -22,9 +25,10 @@ def home(request):
     desafio_paginator = Paginator(desafio_list, 5) 
     desafio_page = request.GET.get('desafio_page') 
     desafios = desafio_paginator.get_page(desafio_page)  
+    
 
     context = {
-        'usuarios': users,  
+        'usuarios': users[1:],  
         'primeiro_usuario': users[0] if users else None,  
         'desafios': desafios,
         'primeiroAcesso' : primeiroAcesso,
