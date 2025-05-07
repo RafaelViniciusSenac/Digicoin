@@ -7,11 +7,11 @@
     rel="stylesheet">
 <link rel="stylesheet" href="{% static 'css/UserCss/listaProdutos.css' %}">
 
-<body>
+<body class="body">
     {% include "components/user/menuUser.html" %}
 
     <div id="menuColaborador"></div>
-    <div class="container">
+    <div class="containerProduto">
         <div class="produtos">
             <div class="produtosDigix">
                 <div class="ProdBarra">
@@ -34,7 +34,7 @@
 
         {% for produto in produtos %}
         <dialog id="modal-{{produto.id}}">
-            <div class="container">
+            <div class="containerDialog">
                 <div id="flip-{{produto.id}}" class="flip">
                     <div class="frente">
                         <div class="topo">
@@ -72,7 +72,26 @@
             </div>
         </dialog>
         {% endfor %}
+        <div class="pagination" id="paginacao">
+            {% if produtos.has_previous %}
+            <div class="paginas">
+                <div>
+                    <a class="anterior" href="?listaProduto_page={{ produtos.previous_page_number }}"><i class="fa fa-arrow-left" aria-hidden="true"></i> Anterior</a>
+                </div>
+            {% endif %}
+        
+            {% if produtos.has_next %}
+                <div>
+                    <a class="proxima" href="?listaProduto_page={{ produtos.next_page_number }}">Próxima <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                </div>
+            {% endif %}
+                
+                <span>Página {{ produtos.number }} de {{ produtos.paginator.num_pages }}</span>
+            </div>                
+        </div>
     </div>
+
+
     <script src="{% static 'js/UserJs/listaProdutos.js' %}"></script>
 </body>
 {% endblock %}
