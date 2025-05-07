@@ -12,14 +12,13 @@
 }
 
 
-.principal{
-  margin-left: 10px;
-  font-family: Arial, sans-serif;
-  font-size: 16px;
+.historicoCompraSortDesc {
+  transform: none;
+  cursor: pointer;
 }
-
-.imagemsort{
-  height: 15px;
+.historicoCompraSortAsc {
+  transform: scale(1, -1);
+  cursor: pointer;
 }
 
 .perfil {
@@ -33,16 +32,27 @@
   margin-right: 15px;
 }
 
-.barra-pesquisa{
+.historicoCompraBarraPesquisa{
   display: flex;
   justify-content: end;
 
 }
+
+.historicoCompraTela {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Adiciona centralização horizontal */
+}
+
 .historicoCompraContainer {
   padding: 5px; 
   border-radius: 10px;
   max-width: 900px;
+  width: 100%; /* Garante que o container ocupe toda a largura disponível */
+  box-sizing: border-box; /* Inclui padding e border no cálculo da largura */
 }
+
 
 
 .historicoCompraCabecalho {
@@ -93,11 +103,8 @@
   border-bottom: 1px solid #ddd; 
 }
 
-.traco{
-  border-bottom: solid 3px #FC671D;
-}
 
-.search-container {
+.historicoCompraBarraPesquisaBuscaContainer {
   border: 2px solid #ccc;
   border-radius: 25px;
   padding: 5px 15px;
@@ -106,33 +113,63 @@
   gap: 8px;
 }
 
-.search-container input {
-  border: none;
+.historicoCompraBarraPesquisaBuscaContainer input {
+  border: 1px solid #ccc;
+  border-radius: 10px;
   outline: none;
   font-size: 14px;
+  height: 25px;
+  background-color: transparent;
 }
 
-.search-container img {
+.historicoCompraBarraPesquisaBuscaContainer select {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  outline: none;
+  font-size: 14px;
+  height: 25px;
+  background-color: transparent;
+}
+
+
+.historicoCompraBarraPesquisaBuscaContainer img {
   width: 30px;
   height: 30px;
 }
 
-.tabela {
+.historicoCompraBarraPesquisaBuscaContainer button {
+  border: none;
+  background-color: var(--magenta);
+  color: var(--branco);
+  padding: 8px 15px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+  
+.historicoCompraBarraPesquisaBuscaContainer button:hover {
+  background-color: var(--laranja);
+}
+  
+
+.historicoCompraTabela {
   display: flex;
   flex-direction: column;
   width: 100%;
   margin: auto;
   border-radius: 10px;
   overflow: hidden;
+  padding-left: 30px;
+  box-sizing: border-box; 
 }
 
-.tabela-head {
+.historicoCompraTabelaHead {
   /* background: white; */
   font-weight: bold;
   padding: 5px;
 }
 
-.tabela-rowheader {
+.historicoCompraTabelaRowheader {
   display: flex;
   align-items: center;
   padding: 5px 5px;
@@ -141,7 +178,7 @@
 }
 
 /* alinhar na centro na vertical */
-.tabela-row {    
+.historicoCompraTabelaRow {    
   display: flex;
   align-items: center;
   text-align: center;
@@ -154,20 +191,15 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
 }
 
-.tabela-cell {
+.historicoCompraTabelaCell {
   text-align: center;
   flex: 1;
   padding: 5px;
   font-size: 20px;
 }
 
-.tabela-cell.itens {
+.historicoCompraTabelaCell.itens {
   min-width: 300px;
-}
-
-.nome {
-  display: flex;
-  align-items: center;
 }
 
 .historicoCompraTituloColIdNome {
@@ -250,3 +282,48 @@ button {
   gap: 10px;
 }
 
+
+/* Media Queries para Responsividade */
+@media (max-width: 768px) {
+   .historicoCompraContainer {
+   padding: 10px;
+   }
+  
+   .historicoCompraCabecalho {
+   flex-direction: column;
+   align-items: flex-start;
+   margin-left: 0;
+   font-size: 1.2em;
+   }
+  
+   .historicoCompraTabelaRowheader, .historicoCompraTabelaRow {
+   flex-direction: column;
+   align-items: flex-start;
+   text-align: left;
+   }
+  
+   .historicoCompraTabelaCell {
+   font-size: 16px;
+   padding: 10px 0;
+   }
+  
+   .historicoCompraTabelaCell.itens {
+   min-width: 100%;
+   }
+  
+   .historicoCompraBarraPesquisaBuscaContainer {
+   flex-direction: column;
+   gap: 10px;
+   }
+  
+   .historicoCompraBarraPesquisaBuscaContainer input, 
+   .historicoCompraBarraPesquisaBuscaContainer select, 
+   .historicoCompraBarraPesquisaBuscaContainer button {
+   width: 100%;
+   }
+  
+   .pagination a, .pagination span {
+   font-size: 16px;
+   }
+  }
+  

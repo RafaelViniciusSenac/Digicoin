@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from api.models import *
 from django.core.paginator import Paginator
 from ..serializers import UsuarioComHistoricoSerializer
+from django.db.models import Q
 
 def login(request):
     return render(request, 'index.html')
@@ -37,8 +38,24 @@ def home(request):
 
 def historicoCompra(request):
     eventos = Campanha.objects.filter(is_active=True)
-
+    
+    tipo_pesquisa = request.GET.get('tipoPesquisa')
+    nome_query = request.GET.get('nome')
+    data_query = request.GET.get('data')
+    entrega_query = request.GET.get('entrega')
+    status_query = request.GET.get('status')
     compra = Compra.objects.filter(idUsuario=request.user.id).order_by('-dataCompra')
+    
+    if tipo_pesquisa == 'nome' and nome_query:
+        compra_ids = ItensCompra.objects.filter(idProduto__nome__icontains=nome_query).values_list('idCompra_id', flat=True)
+        compra = compra.filter(id__in=compra_ids)
+    elif tipo_pesquisa == 'data' and data_query:
+        compra = compra.filter(dataCompra__date=data_query)
+    elif tipo_pesquisa == 'entrega' and entrega_query:
+        compra = compra.filter(entrega=entrega_query)
+    elif tipo_pesquisa == 'status' and status_query:
+        compra = compra.filter(pedido=status_query)
+        
     itensCompra = ItensCompra.objects.filter(idCompra__in=compra.values_list('id', flat=True))
     
     # Criar um dicionário para armazenar os itens de cada compra
@@ -60,7 +77,6 @@ def historicoCompra(request):
         c.quantidadeItens = compra_itens.get(c.id, {}).get('quantidadeItens', 0)
 
     return render(request, 'UserHtml/historicoCompra.html', {'compra': compras, 'eventos': eventos})
-
 
 def primeiroAcesso(request):
     return render(request, 'primeiroAcesso.html')
