@@ -3,6 +3,7 @@
 {% block content %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,33 +11,37 @@
     <link rel="stylesheet" href="{% static 'css/UserCss/desafiosCampanha.css' %}">
     <link rel="stylesheet" href="../../components/menu/menu_colaborador/menu_colaborador.css">
 </head>
-<body>
+<div class = "body-desafiosCampanha">
+    {% comment %} body inicio {% endcomment %}
     {% include 'components/user/menuUser.html' %}
-    
+
     <div id="central" class="central">
 
         <div class="listaDesafios">
 
 
             {% comment %} botao de voltar {% endcomment %}
-            <button class="voltar"><img src="{% static 'img/flechaEsquerda.png' %}" alt=""> <h2>voltar</h2></button>
+            <button class="voltar"><img src="{% static 'img/flechaEsquerda.png' %}" alt="">
+                <h2>voltar</h2>
+            </button>
             {% comment %} fim do botao de voltar {% endcomment %}
 
 
 
-            <div class="" >
-                <h2 class="textDecoratinDesafios"><img src="{% static 'img/Vector.png' %}" alt="" class="vector">Desafios de campanha</h2>
+            <div class="">
+                <h2 class="textDecoratinDesafios"><img src="{% static 'img/Vector.png' %}" alt=""
+                        class="vector">Desafios de campanha</h2>
             </div>
             <div class="line"></div>
 
             <div class="cabecalhoMissoes">
                 <div class="centralizar">
-                    <h3>Nome</h3> 
+                    <h3>Nome</h3>
                     <img src="{% static 'img/sort.png' %}" alt="" class="sort">
                 </div>
-                <h3 class ="cabecalhoMissoesRecompensa">Recompensa $</h3>
+                <h3 class="cabecalhoMissoesRecompensa">Recompensa $</h3>
             </div>
-            
+
 
 
 
@@ -49,10 +54,10 @@
                             <img src="{% static '/img/alvoCampanha.png' %}" class="alvo">
                             <li>{{i.nome}}</li>
                         </div>
-                        <span class="laranja" >DG$<span class="azul">{{i.valor}}</span></span>
+                        <span class="laranja">DG$<span class="azul">{{i.valor}}</span></span>
                     </div>
                     {% endfor %}
-                    
+
                 </ul>
             </div>
             {% comment %} fim da lista de desafios {% endcomment %}
@@ -61,7 +66,9 @@
 
         </div>
     </div>
-</body>
+    {% comment %} body fim {% endcomment %}
+</div>
+
 </html>
 
 {% endblock %}
