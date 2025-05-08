@@ -243,7 +243,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         let valorCampanhaId = document.getElementById('valorEditar').value;
-
+        let valorbutaoCamp = document.getElementById('buttonCriarCampanha').value;
+        
         let formCampanhaTerceiro = document.getElementById('CriacaoDeCampanhaForm');
 
         let response
@@ -274,7 +275,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
             modalTerceiro.close();
             formCampanhaTerceiro.reset();
+        
             
+        }
+
+        if (valorbutaoCamp){
+            window.location.reload()   
         }
     }
 
