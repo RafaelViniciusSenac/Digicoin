@@ -7,7 +7,7 @@
     rel="stylesheet">
 <link rel="stylesheet" href="{% static 'css/UserCss/listaProdutos.css' %}">
 
-<body>
+<body class="body">
     {% include "components/user/menuUser.html" %}
 
     <div id="menuColaborador"></div>
@@ -72,7 +72,7 @@
             </div>
         </dialog>
         {% endfor %}
-        <div class="pagination">
+        <div class="pagination" id="paginacao">
             {% if produtos.has_previous %}
             <div class="paginas">
                 <div>
