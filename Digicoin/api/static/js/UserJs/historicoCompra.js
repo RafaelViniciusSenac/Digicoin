@@ -1,3 +1,21 @@
+document.addEventListener('DOMContentLoaded', function() {
+    const sortIcons = document.querySelectorAll('.historicoCompraIconeSort');
+
+    sortIcons.forEach(icon => {
+        icon.addEventListener('click', function() {
+            const isAsc = icon.classList.contains('historicoCompraSortAsc');
+            if (isAsc) {
+                icon.classList.remove('historicoCompraSortAsc');
+                icon.classList.add('historicoCompraSortDesc');
+            } else {
+                icon.classList.remove('historicoCompraSortDesc');
+                icon.classList.add('historicoCompraSortAsc');
+            }
+        });
+    });
+});
+
+
 function mostrarCampoPesquisa() {
     var tipoPesquisa = document.getElementById("tipoPesquisa").value;
     var campoNome = document.getElementById("campoNome");

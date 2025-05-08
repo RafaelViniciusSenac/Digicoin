@@ -33,8 +33,6 @@ def home(request):
     }
 
     return render(request, 'UserHtml/home.html', context)
-   
-
 
 def historicoCompra(request):
     eventos = Campanha.objects.filter(is_active=True)
@@ -44,7 +42,10 @@ def historicoCompra(request):
     data_query = request.GET.get('data')
     entrega_query = request.GET.get('entrega')
     status_query = request.GET.get('status')
-    compra = Compra.objects.filter(idUsuario=request.user.id).order_by('-dataCompra')
+    sort_by = request.GET.get('sort_by', 'dataCompra')
+    order = request.GET.get('order', 'desc')
+    
+    compra = Compra.objects.filter(idUsuario=request.user.id)
     
     if tipo_pesquisa == 'nome' and nome_query:
         compra_ids = ItensCompra.objects.filter(idProduto__nome__icontains=nome_query).values_list('idCompra_id', flat=True)
@@ -55,6 +56,11 @@ def historicoCompra(request):
         compra = compra.filter(entrega=entrega_query)
     elif tipo_pesquisa == 'status' and status_query:
         compra = compra.filter(pedido=status_query)
+    
+    if order == 'asc':
+        compra = compra.order_by(sort_by)
+    else:
+        compra = compra.order_by(f'-{sort_by}')
         
     itensCompra = ItensCompra.objects.filter(idCompra__in=compra.values_list('id', flat=True))
     

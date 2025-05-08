@@ -21,21 +21,11 @@
   cursor: pointer;
 }
 
-.perfil {
-  display: flex;
-  align-items: center;
-  font-weight: bold;
-  padding-right: 75px;
-}
-
-.icone-perfil {
-  margin-right: 15px;
-}
-
 .historicoCompraBarraPesquisa{
   display: flex;
-  justify-content: end;
-
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
 }
 
 .historicoCompraTela {
@@ -53,23 +43,26 @@
   box-sizing: border-box; /* Inclui padding e border no cálculo da largura */
 }
 
-
-
 .historicoCompraCabecalho {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.historicoCompraTitulo {
   display: flex;
   align-items: center;
   margin-left: 20px;
-  font-size: 1.5em;
+  font-size: 1.3em;
   padding-top: 5px;
 }
   
-.historicoCompraCabecalhoIcone {
+.historicoCompraTituloIcone {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
   
-.historicoCompraCabecalhoIcone img {
+.historicoCompraTituloIcone img {
   display: block;
   width: 40px;
 }
@@ -81,29 +74,6 @@
   margin-top: 1px;
 }
   
-.imagemestoque{
-  display: flex;
-  height: 30px;
-  width: 30px;
-  padding-right: 10px;    
-}
-
-.pesquisa {
-  padding: 8px;
-  width: 25%;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-.iconesort{
-  display: flex;
-  align-items: center;
-  padding: 10px;
-  text-align: left;
-  border-bottom: 1px solid #ddd; 
-}
-
-
 .historicoCompraBarraPesquisaBuscaContainer {
   border: 2px solid #ccc;
   border-radius: 25px;
@@ -230,23 +200,12 @@
   flex-direction: column;
 }  
 
-.sort-icon {
-  width: 12px;
+.historicoCompraIconeSort {
+  width: 15px;
   margin-left: 5px;
   cursor: pointer;
 }
 
-.acoes {
-  display: flex;
-  justify-content: flex-end;
-}
-
-button {
-  border: none;
-  background: none;
-  cursor: pointer;
-  padding: 5px;
-}
 
 .pagination {
   display: flex;
@@ -284,46 +243,47 @@ button {
 
 
 /* Media Queries para Responsividade */
-@media (max-width: 768px) {
-   .historicoCompraContainer {
-   padding: 10px;
-   }
-  
-   .historicoCompraCabecalho {
-   flex-direction: column;
-   align-items: flex-start;
-   margin-left: 0;
-   font-size: 1.2em;
-   }
-  
-   .historicoCompraTabelaRowheader, .historicoCompraTabelaRow {
-   flex-direction: column;
-   align-items: flex-start;
-   text-align: left;
-   }
-  
-   .historicoCompraTabelaCell {
-   font-size: 16px;
-   padding: 10px 0;
-   }
-  
-   .historicoCompraTabelaCell.itens {
-   min-width: 100%;
-   }
-  
-   .historicoCompraBarraPesquisaBuscaContainer {
-   flex-direction: column;
-   gap: 10px;
-   }
-  
-   .historicoCompraBarraPesquisaBuscaContainer input, 
-   .historicoCompraBarraPesquisaBuscaContainer select, 
-   .historicoCompraBarraPesquisaBuscaContainer button {
-   width: 100%;
-   }
-  
-   .pagination a, .pagination span {
-   font-size: 16px;
-   }
+@media (max-width: 800px) {
+  .historicoCompraTabela {
+    padding-top: 20px;
   }
+
+  .historicoCompraTabelaHead {
+    display: none;
+  }
+  
+  .historicoCompraContainer {
+    min-width: 300px;
+  }
+
+  .historicoCompraTabelaRowheader,
+  .historicoCompraTabelaRow,
+  .historicoCompraTabelaCell {
+    display: block;
+  }
+
+  .historicoCompraTabelaRow {
+    margin-bottom: 1em;
+  }
+
+  .historicoCompraTabelaCell {
+    border: none;
+    position: relative;
+    padding-left: 30%;
+    text-align: left;
+  }
+
+  .historicoCompraTabelaCell:before {
+    content: attr(data-label);
+    position: absolute;
+    top: 50%;
+    left: 6px;
+    width: 30%;
+    padding-right: 5px;
+    white-space: nowrap;
+    transform: translateY(-50%);
+    font-weight: bold;
+  }
+}
+
   
