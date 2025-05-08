@@ -145,16 +145,6 @@ def campanhas(request):
 
     return render(request, 'components/adm/campanhas.html', {'campanhas': campanhas})
 
-# def campanhas(request):
-#     termo = request.GET.get('termo', '').strip().lower()
-
-#     if termo:
-#         campanhas = Campanha.objects.filter(nome__icontains=termo)
-#     else:
-#         campanhas = Campanha.objects.all()
-
-#     return render(request, 'components/adm/campanhas.html', {'campanhas': campanhas, 'termo': termo})
-
 def teste(request):
     return render(request, 'UserHtml/teste.html')
 
