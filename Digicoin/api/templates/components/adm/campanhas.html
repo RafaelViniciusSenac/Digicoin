@@ -17,11 +17,11 @@
     <div class="campanhas_pre">
         <div class="cabecalho">
             <div class="cabecalho_titulo">
-                <h1>Campanhas Pré-definida</h1>
+                <h1>Campanhas Criadas</h1>
                 <div class="linha"></div>
             </div>
             <div class="cabecalho_btnexportar">
-                <button type="button" class="buttonCriarCampanha"><img src="{% static 'img/criar_campanha.png' %}" alt="Exportar" />Criar Campanha</button>
+                <button type="button" class="buttonCriarCampanha" value=5 id="buttonCriarCampanha"><img src="{% static 'img/criar_campanha.png' %}" alt="Exportar" />Criar Campanha</button>
             </div>
         </div>
         <div class="campanha">
@@ -66,55 +66,7 @@
             </div>
         </div>
     </div>
-    <div class="campanhas_criada">
-        <div class="cabecalho">
-            <div class="cabecalho_titulo">
-                <h1>Campanhas Criadas</h1>
-                <div class="linha"></div>
-            </div>
-        </div>
-        <div class="campanha">
-            <div class="cabecalho-campanha">
-                <div class="tabela_campanha_cabecalho_nome">
-                    <h2>Nome</h2>
-                    <img src="{% static 'img/sort.png' %}" alt="Nome" style="width: 24px; height: 24px;" />
-                </div>
-                <div class="tabela_campanha_cabecalho_termino">
-                    <h2>Término</h2>
-                </div>
-            </div>
-            <table id="corpo-tabela-criada" class="tabela_campanha">
-                
-                <tbody id="corpo-tabela">
     
-                    {% for campanha in campanhas %}
-                    <tr>
-                        <td class="tabela_campanha_conteudo" data-nome="{{ campanha.nome|lower }}">
-                            <div class="tabela_campanha_conteudo_dado1">
-                                <div class="circle" style="background-color: {% if campanha.is_active %}#00cc00{% else %}#ff0000{% endif %};"></div>
-                                <h2>{{campanha.nome}}</h2>
-                            </div>
-                            <div class="tabela_campanha_conteudo_dado2">
-                                <h2>{{ campanha.dataFim }}</h2>
-                                <button onclick="EditarCampanhas({{campanha.id}})">
-                                    <img src="{% static 'img/edit.png' %}" alt="botao editar" />
-                                </button>
-                                <button onclick="inativarCampanhas({{campanha.id}})">
-                                    <img src="{% static 'img/iconeDeletar.png' %}" alt="deletar">
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            <div id="paginacao">
-                <button onclick="mudarPagina('criada', -1)">Anterior</button>
-                <span id="pagina-atual-criada">1</span>
-                <button onclick="mudarPagina('criada', 1)">Próxima</button>
-            </div>
-        </div>
-    </div>
 </div>
 <script src="{% static 'js/AdmJS/criarCampanha.js' %}"></script>
 <script>
@@ -182,14 +134,7 @@
         mostrarPagina('predefinida');
         mostrarPagina('criada');
 
-        // Adiciona o evento de digitação para filtro instantâneo
-        document.getElementById('campo-busca-predefinida').addEventListener('keyup', () => {
-            buscarTabela('predefinida');
-        });
-
-        document.getElementById('campo-busca-criada').addEventListener('keyup', () => {
-            buscarTabela('criada');
-        });
+        
     });
 </script>
 
