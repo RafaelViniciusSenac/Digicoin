@@ -11,7 +11,7 @@
     --sombra-preta: rgba(0, 0, 0, 0.4);
 }
 
-.body {
+.body-listadeProdutos {
     font-family: "Arial", "Open Sans";
     display: flex;
     flex-direction: column;
@@ -19,7 +19,7 @@
     background-color: white;
 }
 
-.containerProduto {
+.containerProduto-listaProdutos {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -28,16 +28,16 @@
     margin-top: 30px;
 }
 
-.containerDialog {
+.containerDialog-listaProdutos {
     width: 500px;
     height: 500px;
 }
 
-.ProdBarra h1 {
+.ProdBarra-listaProdutos h1 {
     margin: 0px;
 }
 
-.ProdBarra {
+.ProdBarra-listaProdutos {
     display: block;
     justify-content: center;
     align-items: center;
@@ -45,7 +45,7 @@
     margin: 0 0 20px 0;
 }
 
-.search {
+.search-listaProdutos {
     display: flex;
     align-items: center;
     background-color: var(--branco);
@@ -55,7 +55,7 @@
     height: 50px;
 }
 
-.searchBar {
+.searchBar-listaProdutos {
     border-radius: 30px;
     width: 300px;
     border: none;
@@ -63,23 +63,23 @@
     font-size: 25px;
 }
 
-#lupa {
+#lupa-listaProdutos {
     width: 40px;
     padding-left: 10px;
     font-size: 25px;
     color: var(--laranja);
 }
 
-.searchBar:focus {
+.searchBar-listaProdutos:focus {
     outline: none;
 }
 
-.produtos {
+.produtos-listaProdutos {
     margin: 0 auto;
     padding-top: 40px;    
 }
 
-.produtosDigix {
+.produtosDigix-listaProdutos {
     display: flex;
     justify-content: space-between;
     padding: 0;
@@ -87,11 +87,11 @@
     width: 100%;
 }
 
-.produtosDigix h1 {
+.produtosDigix-listaProdutos h1 {
     margin: 0px;
 }
 
-.barra {
+.barra-listaProdutos {
     width: 40px;
     height: 0;
     top: 273px;
@@ -99,8 +99,7 @@
     border: 2px var(--laranja) solid;
 }
 
-.imagensDigix,
-.imagensCampanha {
+.imagensDigix-listaProdutos {
     display: grid;
     grid-template-columns: repeat(4, 200px);
     grid-template-rows: repeat(2, 200px);
@@ -109,7 +108,7 @@
     margin-top: 40px;
 }
 
-.imgD {
+.imgD-listaProdutos {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -122,16 +121,16 @@
     transition: 0.2s;
 }
 
-.imgD button {
+.imgD-listaProdutos button {
     border: none;
     background: var(--branco);
 }
 
-.imgD:hover {
+.imgD-listaProdutos:hover {
     scale: 1.2;
 }
 
-.produtos .imagensP {
+.produtos-listaProdutos .imagensP-listaProdutos {
     display: block;
     width: 190px;
     height: 190px;
@@ -139,7 +138,7 @@
 }
 
 
-dialog {
+.dialog-listaProdutos {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -150,28 +149,28 @@ dialog {
     background: transparent;
 }
 
-dialog::backdrop {
+.dialog-listaProdutos::backdrop {
     background-color: rgba(0, 0, 0, 0.4);
 }
 
-.frente {
+.frente-listaProdutos {
     text-align: center;
     box-shadow: 5px 5px 15px 2px rgba(0, 0, 0, 0.6);
     border-radius: 20px;
 }
 
-.frente .NProduto {
+.frente-listaProdutos .NProduto-listaProdutos {
     font-size: 25px;
     font-weight: bold;
     color: var(--preto);
 }
 
-.frente .imagemCard {
+.frente-listaProdutos .imagemCard-listaProdutos {
     display: flex;
     justify-content: center;
 }
 
-.frente .ImProduto {
+.frente-listaProdutos .ImProduto-listaProdutos {
     width: 230px;
     height: 230px;
     object-fit: contain;
@@ -179,7 +178,7 @@ dialog::backdrop {
     margin: 0 0 20px 0;
 }
 
-.frente .preco {
+.frente-listaProdutos .preco-listaProdutos {
     display: flex;
     justify-content: center;
     font-size: 30px;
@@ -187,37 +186,37 @@ dialog::backdrop {
     margin: 5px 0 10px;
 }
 
-.frente .preco p {
+.frente-listaProdutos .preco-listaProdutos p {
     margin: 0px;
     color: var(--laranja);
     font-weight: bold;
 }
 
-.frente .preco span {
+.frente-listaProdutos .preco-listaProdutos span {
     margin: 0px;
     color: var(--ciano);
     font-weight: bold;  
 }
 
-.frente .topo {
+.frente-listaProdutos .topo-listaProdutos {
     display: flex;
     justify-content: space-between;
     padding: 15px;
 }
 
-.topo .X {
+.topo-listaProdutos .X-listaProdutos {
     border: none;
     background: var(--branco);
     font-size: 30px;
     cursor: pointer;
 }
 
-.topo .X img {
+.topo-listaProdutos .X-listaProdutos img {
     width: 25px;
     height: auto;
 }
 
-.Adquirir {
+.Adquirir-listaProdutos {
     background-color: var(--magenta);
     color: #fff;
     font-size: 25px;
@@ -230,28 +229,27 @@ dialog::backdrop {
     text-transform: uppercase;
 }
 
-.Adquirir:hover {
+.Adquirir-listaProdutos:hover {
     background-color: rgb(201, 1, 201);
 }
 
-.btn-refresh {
+.btn-refresh-listaProdutos {
     display: flex;
     flex-direction: column;
 }
 
-#refresh {
+.refresh-listaProdutos {
     margin: 10px;
     cursor: pointer;
     font-size: 40px;
 }
 
-#refresh2 {
+.tras-listaProdutos .refresh-listaProdutos {
     margin-top: 150px;
-    cursor: pointer;
-    font-size: 40px;
 }
 
-.tras {
+
+.tras-listaProdutos {
     text-align: center;
     width: 200px;
     height: 200px;
@@ -261,7 +259,7 @@ dialog::backdrop {
     transform: rotateY(180deg);
 }
 
-.tras .topo {
+.tras-listaProdutos .topo-listaProdutos {
     font-size: 25px;
     font-weight: bold;
     display: flex;
@@ -270,23 +268,23 @@ dialog::backdrop {
     font-size: 35px;
 }
 
-.tras .NProduto {
+.tras-listaProdutos .NProduto-listaProdutos {
     font-size: 25px;
     font-weight: bold;
     color: var(--preto);
 }
 
-.tras .quantidade {
+.tras-listaProdutos .quantidade-listaProdutos {
     display: flex;
     padding-left: 30px;
 }
 
-.tras .quantidade span {
+.tras-listaProdutos .quantidade-listaProdutos span {
     margin: 0px;
     padding: 25px 0px 0px 10px;
 }   
 
-.tras .descricao {
+.tras-listaProdutos .descricao-listaProdutos {
     display: flex;
     align-items: center;
     padding: 0px 0px 0px 30px;
@@ -295,19 +293,19 @@ dialog::backdrop {
     height: auto;
 }
 
-.descricao span {
+.descricao-listaProdutos span {
     display: block;
     white-space: normal; 
     word-break: break-word;
     overflow-wrap: break-word; 
 }
 
-.tras .quantidade p {
+.tras-listaProdutos .quantidade-listaProdutos p {
     font-weight: bold;
     color: var(--laranja);
 }
 
-.tras .descricao p {
+.tras-listaProdutos .descricao-listaProdutos p {
     font-weight: bold;
     color: var(--laranja);
     gap: 5px;
@@ -361,11 +359,11 @@ dialog::backdrop {
 .virado {
     transform: rotateY(180deg);
 }
-.virado2{
+.virado2 {
     transform: rotateY(180deg);
 }
 
-.flip {
+.flip-listaProdutos {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -374,7 +372,7 @@ dialog::backdrop {
     border: none;
 }
 
-.frente, .tras {
+.frente-listaProdutos, .tras-listaProdutos {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -386,7 +384,7 @@ dialog::backdrop {
 
 
 
-.pagination {
+.pagination-listaProdutos {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -395,7 +393,7 @@ dialog::backdrop {
     margin-top: 20px;
 }
 
-.pagination a {
+.pagination-listaProdutos a {
     padding: 8px 15px;
     text-decoration: none;
     color: white;
@@ -406,16 +404,16 @@ dialog::backdrop {
     font-size: 18px;
 }
 
-.pagination .anterior:hover, .proxim    a:hover {
+.pagination-listaProdutos .anterior-listaProdutos:hover, .proxim-listaProdutos a:hover {
     background-color: var(--laranja);
 }
 
-.pagination span {
+.pagination-listaProdutos span {
     font-size: 18px;    
     font-weight: bold;
 }
 
-.paginas{
+.paginas-listaProdutos {
     display: flex;
     gap: 10px;
 }

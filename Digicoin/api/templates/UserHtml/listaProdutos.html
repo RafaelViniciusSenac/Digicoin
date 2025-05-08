@@ -3,86 +3,86 @@
 
 {% block content %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
-    rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{% static 'css/UserCss/listaProdutos.css' %}">
 
-<body class="body">
+<body class="body-listadeProdutos">
     {% include "components/user/menuUser.html" %}
 
     <div id="menuColaborador"></div>
-    <div class="containerProduto">
-        <div class="produtos">
-            <div class="produtosDigix">
-                <div class="ProdBarra">
+    <div class="containerProduto-listaProdutos">
+        <div class="produtos-listaProdutos">
+            <div class="produtosDigix-listaProdutos">
+                <div class="ProdBarra-listaProdutos">
                     <h1>Produtos Digix</h1>
-                    <div class="barra"></div>
+                    <div class="barra-listaProdutos"></div>
                 </div>
-                <div class="search">
-                    <i id="lupa" class="fa fa-search" aria-hidden="true"></i>
-                    <input id="barraBusca" class="searchBar" type="search" placeholder="Buscar Produto">
+                <div class="search-listaProdutos">
+                    <i id="lupa-listaProdutos" class="fa fa-search" aria-hidden="true"></i>
+                    <input id="barraBusca-listaProdutos" class="searchBar-listaProdutos" type="search" placeholder="Buscar Produto">
                 </div>
             </div>
-            <div class="imagensDigix">
+            <div class="imagensDigix-listaProdutos">
                 {% for produto in produtos %}
-                <div class='imgD' data-nome="{{ produto.nome|lower }}">
-                    <button id='imgbotao' data-valor="{{produto.id}}"><img class='imagensP' src="{{ produto.img1.url }}" alt="{{produto.nome}}"></button>
+                <div class='imgD-listaProdutos' data-nome="{{ produto.nome|lower }}">
+                    <button id='imgbotao' data-valor="{{produto.id}}"><img class='imagensP-listaProdutos' src="{{ produto.img1.url }}" alt="{{produto.nome}}"></button>
                 </div>
                 {% endfor %}
             </div>
         </div>
 
         {% for produto in produtos %}
-        <dialog id="modal-{{produto.id}}">
-            <div class="containerDialog">
-                <div id="flip-{{produto.id}}" class="flip">
-                    <div class="frente">
-                        <div class="topo">
-                            <div class="NProduto">{{produto.nome}}</div>
-                            <button id="fechar" class="fechar X">X</button>
+        <dialog id="modal-{{produto.id}}" class="dialog-listaProdutos">
+            <div class="containerDialog-listaProdutos">
+                <div id="flip-{{produto.id}}" class="flip-listaProdutos">
+                    <div class="frente-listaProdutos">
+                        <div class="topo-listaProdutos">
+                            <div class="NProduto-listaProdutos">{{produto.nome}}</div>
+                            <button class="fechar-listaProdutos X-listaProdutos">X</button>
                         </div>
-                        <div class="imagemCard">
-                            <img class="ImProduto" src="{{ produto.img1.url }}" alt="{{produto.nome}}">
+                        <div class="imagemCard-listaProdutos">
+                            <img class="ImProduto-listaProdutos" src="{{ produto.img1.url }}" alt="{{produto.nome}}">
                         </div>
-                        <div class="preco">
+                        <div class="preco-listaProdutos">
                             <p>DG$</p>
                             <span>{{produto.valor}}</span>
                         </div>
-                        <div class="btn-refresh">
-                            <button class="Adquirir">adquirir</button>
+                        <div class="btn-refresh-listaProdutos">
+                            <button class="Adquirir-listaProdutos" data-valor="{{produto.id}}">adquirir</button>
                         </div>
-                        <i id="refresh" class="fa fa-refresh refresh" aria-hidden="true"></i>
+                        <i class="fa fa-refresh refresh-listaProdutos" aria-hidden="true"></i>
                     </div>
-                    <div class="tras">
-                        <div class="topo">
-                            <div class="NProduto">{{produto.nome}}</div>
-                            <button id="fechar" class="fechar X">X</button>
+                    <div class="tras-listaProdutos">
+                        <div class="topo-listaProdutos">
+                            <div class="NProduto-listaProdutos">{{produto.nome}}</div>
+                            <button class="fechar-listaProdutos X-listaProdutos">X</button>
                         </div>
-                        <div class="quantidade">
+                        <div class="quantidade-listaProdutos">
                             <p>Quantidade: </p>
                             <span>{{produto.quantidade}}</span>
                         </div>
-                        <div class="descricao">
+                        <div class="descricao-listaProdutos">
                             <p>Sobre: </p>
                             <span>{{produto.descricao}}</span>
                         </div>
-                        <i id="refresh" class="fa fa-refresh refresh" aria-hidden="true"></i>
+                        <i class="fa fa-refresh refresh-listaProdutos" aria-hidden="true"></i>
                     </div>
                 </div>
             </div>
         </dialog>
         {% endfor %}
-        <div class="pagination" id="paginacao">
+
+        <div class="pagination-listaProdutos" id="paginacao-listaProdutos">
             {% if produtos.has_previous %}
-            <div class="paginas">
+            <div class="paginas-listaProdutos">
                 <div>
-                    <a class="anterior" href="?listaProduto_page={{ produtos.previous_page_number }}"><i class="fa fa-arrow-left" aria-hidden="true"></i> Anterior</a>
+                    <a class="anterior-listaProdutos" href="?listaProduto_page={{ produtos.previous_page_number }}"><i class="fa fa-arrow-left" aria-hidden="true"></i> Anterior</a>
                 </div>
             {% endif %}
         
             {% if produtos.has_next %}
                 <div>
-                    <a class="proxima" href="?listaProduto_page={{ produtos.next_page_number }}">Próxima <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                    <a class="proxima-listaProdutos" href="?listaProduto_page={{ produtos.next_page_number }}">Próxima <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                 </div>
             {% endif %}
                 
