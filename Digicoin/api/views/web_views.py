@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from api.models import *
 from django.core.paginator import Paginator
 from ..serializers import UsuarioComHistoricoSerializer
+from django.db.models import Q
 
 def login(request):
     return render(request, 'index.html')
@@ -34,11 +35,57 @@ def home(request):
     }
 
     return render(request, 'UserHtml/home.html', context)
-   
-
 
 def historicoCompra(request):
-    return render(request, 'UserHtml/historicoCompra.html')
+    eventos = Campanha.objects.filter(is_active=True)
+    
+    tipo_pesquisa = request.GET.get('tipoPesquisa')
+    nome_query = request.GET.get('nome')
+    data_query = request.GET.get('data')
+    entrega_query = request.GET.get('entrega')
+    status_query = request.GET.get('status')
+    sort_by = request.GET.get('sort_by', 'dataCompra')
+    order = request.GET.get('order', 'desc')
+    
+    compra = Compra.objects.filter(idUsuario=request.user.id)
+    
+    if tipo_pesquisa == 'nome' and nome_query:
+        compra_ids = ItensCompra.objects.filter(idProduto__nome__icontains=nome_query).values_list('idCompra_id', flat=True)
+        compra = compra.filter(id__in=compra_ids)
+    elif tipo_pesquisa == 'data' and data_query:
+        compra = compra.filter(dataCompra__date=data_query)
+    elif tipo_pesquisa == 'entrega' and entrega_query:
+        compra = compra.filter(entrega=entrega_query)
+    elif tipo_pesquisa == 'status' and status_query:
+        compra = compra.filter(pedido=status_query)
+    
+    if order == 'asc':
+        compra = compra.order_by(sort_by)
+    else:
+        compra = compra.order_by(f'-{sort_by}')
+        
+    itensCompra = ItensCompra.objects.filter(idCompra__in=compra.values_list('id', flat=True))
+    
+    # Criar um dicionário para armazenar os itens de cada compra
+    compra_itens = {}
+    for item in itensCompra:
+        if item.idCompra_id not in compra_itens:
+            compra_itens[item.idCompra_id] = {'itens': [], 'quantidadeItens': 0}
+        compra_itens[item.idCompra_id]['itens'].append(item)
+        compra_itens[item.idCompra_id]['quantidadeItens'] += item.qtdProduto  # Usando 'qtdProduto' do modelo ItensCompra
+
+    # Paginação
+    compra_paginator = Paginator(compra, 5)
+    compra_page = request.GET.get('compra_page')
+    compras = compra_paginator.get_page(compra_page)
+
+    # Adicionar os itens e a quantidade total a cada compra
+    for c in compras:
+        c.itens = compra_itens.get(c.id, {}).get('itens', [])
+        c.quantidadeItens = compra_itens.get(c.id, {}).get('quantidadeItens', 0)
+
+    return render(request, 'UserHtml/historicoCompra.html', {'compra': compras, 'eventos': eventos})
+
 def primeiroAcesso(request):
     return render(request, 'primeiroAcesso.html')
 
