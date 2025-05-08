@@ -44,30 +44,32 @@ class User(APIView):
 
     def put(self, request, id):
         usuario = get_object_or_404(CustomUser, pk=id)
-        operacao = request.data.get('operacao')
-
         data = request.data.copy()
-
+        operacao = data.get("operacao")
+        print("agy")
+        print(operacao)
         if operacao in ['adicionar', 'remover']:
             try:
                 saldo = int(data.get("saldo", 0))
             except (TypeError, ValueError):
                 return Response({"erro": "Saldo inválido."}, status=status.HTTP_400_BAD_REQUEST)
 
-            # Remove campos que serão modificados manualmente
-            data.pop('saldo', None)
-            data.pop('pontuacao', None)
-
             if operacao == 'adicionar':
+                print("Antes:", usuario.pontuacao)
+                print("Saldo:", saldo)
                 usuario.pontuacao += saldo
                 usuario.saldo += saldo
+                print("Depois:", usuario.pontuacao)
+
             elif operacao == 'remover':
                 if usuario.saldo < saldo:
                     return Response({"erro": "Saldo insuficiente."}, status=status.HTTP_400_BAD_REQUEST)
+                usuario.pontuacao -= saldo
                 usuario.saldo -= saldo
 
             usuario.save()
-
+            return Response({"status": status.HTTP_200_OK})
+        
         serializer = UserSerializer(usuario, data=data, partial=True)
 
         if serializer.is_valid():
