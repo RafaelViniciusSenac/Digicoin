@@ -70,16 +70,47 @@ async function inativarCampanhas(elemento) {
 }
 
 
-document.getElementById('barraBusca').addEventListener('keyup', function () {
-    const termo = this.value.toLowerCase();
-    const produtos = document.querySelectorAll('.tabela_campanha_conteudo');
+// document.getElementById('barraBusca').addEventListener('keyup', function () {
+//     const termo = this.value.toLowerCase();
+//     const produtos = document.querySelectorAll('.tabela_campanha_conteudo');
 
-    produtos.forEach(function (produto) {
-        const nome = produto.getAttribute('data-nome');
+//     produtos.forEach(function (produto) {
+//         const nome = produto.getAttribute('data-nome');
+//         if (nome.includes(termo)) {
+//             produto.style.display = '';
+//         } else {
+//             produto.style.display = 'none';
+//         }
+//     });
+// });
+
+
+document.getElementById('barraBusca').addEventListener('input', function () {
+    let termo = document.getElementById('barraBusca').value.toLowerCase();
+
+    const linhas = document.querySelectorAll('.tabela_campanha_conteudo');
+
+    linhas.forEach(linha => {
+        const nome = linha.dataset.nome.toLowerCase();
+        
+
         if (nome.includes(termo)) {
-            produto.style.display = '';
+            this.parentElement
+            
+            linha.style.display = ''; // mostra
+            
+
         } else {
-            produto.style.display = 'none';
+            console.log("esconder")
+            linha.style.display = 'none'; // esconde
         }
     });
+
+    paginas['predefinida'] = 1;
+    
+
+    // Reaplica a paginação automaticamente
+    mostrarPagina('predefinida'); // ou 'criadas' se for outra tabela
 });
+
+
