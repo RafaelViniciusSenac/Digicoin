@@ -48,10 +48,9 @@ class HistoricoSaldo(models.Model):
 class Campanha(models.Model):
     nome = models.CharField(max_length=30, null=False, blank=False)
     is_active = models.BooleanField(default=True)
-    dataInicio = models.DateField(default=False)
-    dataFim = models.DateField(default=False)
-    descricao = models.TextField(default=False)
-    predefinida = models.BooleanField(default=False)
+    dataInicio = models.DateField(null=True, blank=True)
+    dataFim = models.DateField(null=True, blank=True)
+    descricao = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return self.nome
