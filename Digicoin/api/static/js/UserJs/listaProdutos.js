@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
     const produtos = document.getElementsByClassName("imgD-listaProdutos");
+    const quantidadeMoedas = document.getElementById("quantidadeMoedas").value;
 
     for (let i = 0; i < produtos.length; i++) {
         produtos[i].children[0].addEventListener("click", function () {
@@ -10,7 +11,14 @@ document.addEventListener("DOMContentLoaded", function () {
             const refresh2 = flipCard.querySelector(".tras-listaProdutos .refresh-listaProdutos");
             const fecharBtns = dialog.querySelectorAll(".fechar-listaProdutos");
             const adiquirirBtn = dialog.querySelector(".Adquirir-listaProdutos");
+            const msgSaldoInsuficiente = dialog.querySelector(".msgSaldoInsuficiente-listaProdutos");
 
+            //se quantidadeMoedas for menor que o valor do produto, desabilitar o botao de adiquirir
+            if (quantidadeMoedas < produtos[i].children[0].dataset.valor) {
+                adiquirirBtn.disabled = true;
+                adiquirirBtn.style.opacity = 0.5;
+                msgSaldoInsuficiente.style.display = "block";
+            }
             adiquirirBtn.addEventListener("click", () => {
                 const idProduto = adiquirirBtn.dataset.valor;
                 const tipo = document.querySelector(`input[name="tipoProduto[${idProduto}]"]`)?.value || "";
@@ -34,8 +42,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     listaProdutos.listaGrid.push(produto);
                     localStorage.setItem('listaProdutos', JSON.stringify(listaProdutos));
                 }
-
                 dialog.close();
+                //redirecionar para o carrinho
+                window.location.href = "carrinho";
             });
 
             dialog.showModal();

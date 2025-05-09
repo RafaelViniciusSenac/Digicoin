@@ -220,8 +220,8 @@
     background-color: var(--magenta);
     color: #fff;
     font-size: 25px;
-    padding: 10px 0;
-    margin: 11px auto;
+    padding: 6px 0;
+    margin: 7px auto;
     border: none;
     border-radius: 25px;
     width: 70%;
@@ -231,6 +231,13 @@
 
 .Adquirir-listaProdutos:hover {
     background-color: rgb(201, 1, 201);
+}
+
+.msgSaldoInsuficiente-listaProdutos {
+    color: red;
+    font-size: 15px;
+    font-weight: bold;
+    display: none;
 }
 
 .btn-refresh-listaProdutos {
