@@ -1,54 +1,53 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carrinho</title>
-    <link rel="stylesheet" href="{% static 'css/UserCss/carrinhoCompra.css' %}">
 
-</head>
-<body>
+<link rel="stylesheet" href="{% static 'css/UserCss/carrinhoCompra.css' %}">
+
+
+<div class="body-carrinhoCompras">
+
   <!-- importar componenents menuUser.html -->
-    {% include "components/user/menuUser.html" %}
-    <div class="containerPai">
-      <div class="container">
-        <div class="titulo">
-            <div class="icone">
-              <img src="{%static 'img/carrinho.png'%}" alt="Carrinho">
-            </div>
-            Carrinho de Compras 
-            <!-- <input type="text" id="campoBusca" data-valor="nome,valor" placeholder="Buscar..."> -->
+  {% include "components/user/menuUser.html" %}
+  <div class="containerPrincipal-carrinhoCompras">
+    <div class="containerSecundaria-carrinhoCompras">
+      <div class="titulo-carrinhoCompras">
+        <div class="icone-carrinhoCompras">
+          <img src="{%static 'img/carrinho.png'%}" alt="Carrinho">
         </div>
-        {% csrf_token %}
-        <table>
-            <thead>
-              <tr>
-                <th><img src="{%static 'img/produto.png'%}" alt="produtos"> Produto <img id="btOrdenar" data-valor="nomeProduto" class="sort-asc" src="{%static 'img/sort.png'%}" alt="sort"></th>
-                <th width="100px">Valor <img id="btOrdenar" data-valor="valorProduto" class="sort-asc" src="{%static 'img/sort.png'%}" alt="sort"></th>
-                <th width="80px">Ações</th>
-              </tr>
-            </thead>
-            <tbody id="itensGrid">
+        Carrinho de Compras
+        <!-- <input type="text" id="campoBusca" data-valor="nome,valor" placeholder="Buscar..."> -->
+      </div>
+      {% csrf_token %}
+      <table>
+        <thead>
+          <tr>
+            <th><img src="{%static 'img/produto.png'%}" alt="produtos"> Produto <img id="btOrdenar"
+              data-valor="nomeProduto" class="sort-asc" src="{%static 'img/sort.png'%}" alt="sort"></th>
+            <th width="100px">Valor <img id="btOrdenar" data-valor="valorProduto" class="sort-asc"
+                src="{%static 'img/sort.png'%}" alt="sort"></th>
+            <th width="80px">Ações</th>
+          </tr>
+        </thead>
+        <tbody id="itensGrid">
 
-            </tbody>
-        </table>
-        <div class="total">
-            <h4>Total de Digicoins: <span id="valorTotal">0</span></h4>
-            <button id="botaoFinalizarPedido" class="checkout-button">Finalizar Pedido</button>
-        </div>
+        </tbody>
+      </table>
+      <div class="valorTotal-carrinhoCompras">
+        <h4>Total de Digicoins: <span id="valorTotal">0</span></h4>
+        <button id="botaoFinalizarPedido" class="checkoutButton-carrinhoCompras">Finalizar Pedido</button>
       </div>
     </div>
-      <script>
-        const imgRemoverSrc = "{% static 'img/remover.png' %}";
-        const imgFecharPopupSrc = "{% static 'img/bt_closed.png' %}";
-        const cssPopup = "{% static 'css/UserCss/popUp.css' %}";
-      </script>
-      <script type="module" src="{% static 'js/UserJs/carrinhoCompra.js' %}"></script>
-      <script type="module" src="{% static 'js/UserJs/finalizarCompra.js' %}"></script>
-</body>
+  </div>
+  <script>
+    const imgRemoverSrc = "{% static 'img/remover.png' %}";
+    const imgFecharPopupSrc = "{% static 'img/bt_closed.png' %}";
+    const cssPopup = "{% static 'css/UserCss/popUp.css' %}";
+  </script>
+  <script type="module" src="{% static 'js/UserJs/carrinhoCompra.js' %}"></script>
+  <script type="module" src="{% static 'js/UserJs/finalizarCompra.js' %}"></script>
+</div>
+
 </html>
 
-{% endblock  %}
+{% endblock %}
