@@ -119,7 +119,6 @@ def ranking(request):
     top_usuarios = CustomUser.objects.order_by('-saldo')[:7]
     return render(request, 'UserHtml/ranking.html', {'top_usuarios': top_usuarios})
 
-
 def listaEstoque(request):
     eventos = Campanha.objects.filter(is_active=True)
              
