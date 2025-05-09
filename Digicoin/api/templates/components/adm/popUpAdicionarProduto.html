@@ -21,7 +21,7 @@
             </div>
         </header>
         <div class="ModalContainer">
-            <form id="produtoForm" autocomplete="off">
+            <form id="produtoForm">
             <div class="ladoEsquerdo">
                 <div class="FormProduto">
                     <label for="Produto">Nome do Produto:</label>
@@ -75,7 +75,7 @@
 
                         <div class="produtoDivFormBotao">
                             <!-- Botão Concluir redireciona para o segundo pop up -->
-                            <button type="button" class="buttonConcluir">Concluido</button>
+                            <button id="btnConcluir" type="button" class="buttonConcluir">Concluido</button>
                         </div>
                     </footer>
                 </div>
@@ -128,7 +128,7 @@
         
                     </div>
                     <div class="rodaPeBotao">
-                        <input type="hidden" value="" id="valorEditar">
+                        <input type="hidden" value="" id="valorEditar" class="valorEditar2">
                         <button type="submit" class="buttonrodaPe">
                             Concluido
                         </button>

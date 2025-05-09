@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Função para validar o checkbox de Campanha
     function checkCampanhaRequired() {
         if (!campanhaCheckbox.checked) {
-            ShowError(campanhaCheckbox, "*");
+            // ShowError(campanhaCheckbox, "*");
             return false;
         } else {
             ShowSucesso(campanhaCheckbox);
@@ -105,27 +105,60 @@ document.addEventListener("DOMContentLoaded", function () {
         checkFisicoVirtualRequired();
     });
 
+    function temImagemOuImagemExistente() {
+        const imgPopUp = document.getElementById('imagem');
+        const uploadBox = document.querySelector(".UploadBox");
+    
+        // Checa se há imagem já carregada no uploadBox OU nova no input file
+        if (uploadBox.classList.contains("has-image") || (imgPopUp.files && imgPopUp.files.length > 0)) {
+            return true;
+        } else {
+            alert("preencha o campo de imagens")
+            return false;
+        }
+    }
+    
+    
+
 
     // Eventos para abrir e fechar popups
+    let controle = true
+    const btnConcluir = document.getElementById("btnConcluir");
+    if (controle) {
+        // Se controle == true → queremos tipo 'button'
+        btnConcluir.setAttribute("type", "button");
+    } else {
+        // Se controle == false → queremos tipo 'submit'
+        btnConcluir.setAttribute("type", "submit");
+    }
     
     buttonClose.addEventListener("click", () => modalPrimeiro.close());
+
     buttonConcluir.addEventListener("click", () => {
-        if (checkRequired([produto, quantidade, preco]) && checkCampanhaRequired() && checkFisicoVirtualRequired()) {
-
-
-
+        if (checkRequired([produto, quantidade, preco]) && checkCampanhaRequired() && checkFisicoVirtualRequired() && temImagemOuImagemExistente()) {
+            btnConcluir.setAttribute("type", "button");
+            controle = true
             modalSegundo.showModal();
+            buttonClose2.addEventListener("click", () => modalSegundo.close());
+            buttonLinkCampanha.addEventListener("click", () => modalTerceiro.showModal());
+            buttonClose3.addEventListener("click", () => modalTerceiro.close());
+            
+            document.getElementById("produtoForm2").addEventListener("submit", handleSubmit);
+
+        }else if (checkRequired([produto, quantidade, preco]) && checkFisicoVirtualRequired() && temImagemOuImagemExistente()){
+            btnConcluir.setAttribute("type", "submit");
+            controle = false
+            
+            document.getElementById("produtoForm").addEventListener("submit", handleSubmit);
+        
         }
     });
 
-
-    buttonClose2.addEventListener("click", () => modalSegundo.close());
-    buttonLinkCampanha.addEventListener("click", () => modalTerceiro.showModal());
-    buttonClose3.addEventListener("click", () => modalTerceiro.close());
-
+    
 
     async function handleSubmit(event) {
         event.preventDefault();
+        
     
         let nome = document.getElementById('Produto').value;
         let quantidade = document.getElementById('Quantidade').value;
@@ -140,14 +173,25 @@ document.addEventListener("DOMContentLoaded", function () {
         let imagemFile = imagemInput.files[0];
     
         let idCampanha = null;
-        let checkboxes = document.getElementsByClassName('listaCampanha');
+        console.log(idCampanha)
+        console.log(controle, "valor que passo")
+        if (controle){
+            let checkboxes = document.getElementsByClassName('listaCampanha');
+        
+            for (let i = 0; i < checkboxes.length; i++) {
+                if (checkboxes[i].checked) {
+                    idCampanha = checkboxes[i].value;
+                    break;
+                }
     
-        for (let i = 0; i < checkboxes.length; i++) {
-            if (checkboxes[i].checked) {
-                idCampanha = checkboxes[i].value;
-                break;
             }
+        }else{
+            
+            idCampanha = 1
+            
         }
+
+
     
         let fisico = document.getElementById("Fisico");
         let virtual = document.getElementById("Virtual");
@@ -160,6 +204,8 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
             tipo = null;
         }
+
+
     
         const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value;
     
@@ -180,9 +226,10 @@ document.addEventListener("DOMContentLoaded", function () {
         if (imagemFile) {
             formData.append("img1", imagemFile);
         }
-    
+        
+        
         let editarValor = document.getElementById("valorEditar").value;
-    
+        
         let response;
     
         if (editarValor) {
@@ -211,9 +258,12 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     
 
+    if(!controle){
 
+        console.log("achou a campanha 1");
+        
+    }
     
-    document.getElementById("produtoForm2").addEventListener("submit", handleSubmit);
 
     async function EventoCampanhas(event) {
         event.preventDefault();
@@ -243,7 +293,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         let valorCampanhaId = document.getElementById('valorEditar').value;
-        let valorbutaoCamp = document.getElementById('buttonCriarCampanha').value;
+
         
         let formCampanhaTerceiro = document.getElementById('CriacaoDeCampanhaForm');
 
@@ -278,9 +328,12 @@ document.addEventListener("DOMContentLoaded", function () {
         
             
         }
-
-        if (valorbutaoCamp){
-            window.location.reload()   
+        let botaoElement = document.getElementById('buttonCriarCampanha');
+        if (botaoElement) {
+            let valorbutaoCamp = botaoElement.value;
+            if (valorbutaoCamp) {
+                window.location.reload();
+            }
         }
     }
 
