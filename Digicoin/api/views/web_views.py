@@ -186,13 +186,13 @@ def carrinho(request):
 
 
 def relatorio(request):
-    return render(request, 'components/adm/relatorio.html')
+    return render(request, 'AdmHtml/relatorio.html')
 
 def campanhas(request):
 
     campanhas = Campanha.objects.all()
 
-    return render(request, 'components/adm/campanhas.html', {'campanhas': campanhas})
+    return render(request, 'AdmHtml/campanhas.html', {'campanhas': campanhas})
 
 def teste(request):
     return render(request, 'UserHtml/teste.html')
