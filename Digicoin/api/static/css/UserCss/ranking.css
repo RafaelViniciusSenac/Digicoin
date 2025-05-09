@@ -22,30 +22,31 @@ body{
     flex-direction: column;
   }
 
-.container{
+.container-ranking{
   display: flex;
   flex-direction: column;
-  width: 50%;
+  width: 40%;
   justify-content: center;
   gap: 30px;
   margin: 5rem auto;
 }
   
-.title{
+.title-ranking{
   display: flex;
   flex-direction: column;
 }
 
-.title__ranking{
+.title-ranking__ranking{
   color: var(--preto);
   font-family: K2D;
   font-size: 30px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+  text-align: start;
 }
 
-.title__line{
+.title-ranking__line{
   background-color: var(--laranja);
   width: 40px;
   height: 2px;
