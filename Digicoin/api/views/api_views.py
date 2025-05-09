@@ -44,30 +44,32 @@ class User(APIView):
 
     def put(self, request, id):
         usuario = get_object_or_404(CustomUser, pk=id)
-        operacao = request.data.get('operacao')
-
         data = request.data.copy()
-
+        operacao = data.get("operacao")
+        print("agy")
+        print(operacao)
         if operacao in ['adicionar', 'remover']:
             try:
                 saldo = int(data.get("saldo", 0))
             except (TypeError, ValueError):
                 return Response({"erro": "Saldo inválido."}, status=status.HTTP_400_BAD_REQUEST)
 
-            # Remove campos que serão modificados manualmente
-            data.pop('saldo', None)
-            data.pop('pontuacao', None)
-
             if operacao == 'adicionar':
+                print("Antes:", usuario.pontuacao)
+                print("Saldo:", saldo)
                 usuario.pontuacao += saldo
                 usuario.saldo += saldo
+                print("Depois:", usuario.pontuacao)
+
             elif operacao == 'remover':
                 if usuario.saldo < saldo:
                     return Response({"erro": "Saldo insuficiente."}, status=status.HTTP_400_BAD_REQUEST)
+                usuario.pontuacao -= saldo
                 usuario.saldo -= saldo
 
             usuario.save()
-
+            return Response({"status": status.HTTP_200_OK})
+        
         serializer = UserSerializer(usuario, data=data, partial=True)
 
         if serializer.is_valid():
@@ -83,7 +85,26 @@ class User(APIView):
             return Response({"status": status.HTTP_200_OK})
         else:
             return Response({"status": status.HTTP_404_NOT_FOUND})
-        
+    
+class PrimeiroAcessoSenhaView(APIView):
+    def post(self, request, id):
+        senha = request.data.get('senha')
+        confirmar_senha = request.data.get('confirmarSenha')
+
+        if not senha or not confirmar_senha:
+            return Response({"erro": "Ambas as senhas são obrigatórias."}, status=status.HTTP_400_BAD_REQUEST)
+
+        if senha != confirmar_senha:
+            return Response({"erro": "As senhas não coincidem."}, status=status.HTTP_400_BAD_REQUEST)
+
+        usuario = get_object_or_404(CustomUser, pk=id)
+        usuario.password = make_password(senha)
+        usuario.primeiroAcesso = False
+        usuario.save()
+        logout(request)
+        return Response({"mensagem": "Senha atualizada com sucesso."}, status=status.HTTP_200_OK)
+
+
 class Login(APIView):
     def post(self, request):
         nome = request.data.get('nome')
@@ -172,3 +193,5 @@ class HistoricoSaldoPorIdView(APIView):
         usuario = get_object_or_404(CustomUser, pk=id)
         serializer = UsuarioComHistoricoSerializer(usuario)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+

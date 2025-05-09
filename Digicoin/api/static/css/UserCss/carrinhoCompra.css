@@ -19,7 +19,7 @@
     --sombra-preta:rgba(0, 0, 0, 0.4);
   }
   
-  body{
+  .body-carrinhoCompras{
       font-family: Arial, Helvetica, sans-serif;
       background-color: var(--branco);
       margin: 0;
@@ -28,29 +28,29 @@
       font-size: 18px;
       align-items: center;
   }
-  .containerPai{
+  .containerPrincipal-carrinhoCompras{
       display: flex;
       justify-content: center;
       width: 100%;
   }
-  .container{
+  .containerSecundaria-carrinhoCompras{
       margin-top: 100px;
       margin-left: 20px;
       margin-right: 20px;
       width: 800px;
   }
-  .titulo{
+  .titulo-carrinhoCompras{
       display: flex;
       flex-direction: row;
       font-weight: bold;
   }
   
-  .icone{
+  .icone-carrinhoCompras{
       width: 18px;
       height: 18px;
       border-bottom: 2px solid var(--laranja);
   }
-  .icone img{
+  .icone-carrinhoCompras img{
       width: 100%;
   }
   .sort-desc {
@@ -117,14 +117,14 @@
   .cor-moeda{
     color: var(--laranja);
   }
-  .cor-valor{
+  .cor-valorTotal{
     color: var(--ciano);
   }
-  .total {
+  .valorTotal-carrinhoCompras {
     text-align: center;
     margin: 20px 0;
   }
-  .checkout-button {
+  .checkoutButton-carrinhoCompras {
     border: 1px solid var(--magenta);
     background-color: var(--magenta);
     color: var(--branco);
@@ -134,12 +134,12 @@
     cursor: pointer;
   }
   
-  .checkout-button:hover {
+  .checkoutButton-carrinhoCompras:hover {
     background-color: var(--branco);
     color: var(--preto);
   }
     
-  .checkout-button:disabled {
+  .checkoutButton-carrinhoCompras:disabled {
     border: 1px solid var(--preto);
     background-color: var(--cinza);
     color: var(--cinza-escuro);

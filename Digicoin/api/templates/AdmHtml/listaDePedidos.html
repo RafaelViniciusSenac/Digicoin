@@ -8,67 +8,68 @@
 
 <div class="principal">
     <div class="detalhe">
-        <h1 class="Titulo">
-            <p class="underline">Ped</p>idos Pendentes
-        </h1>
+        <div class="cabecalho">
+            <h1 class="Titulo">
+                <p class="underline">Ped</p> <p> idos</p>
+            </h1>
 
-        <div class="Produto">
-           
-            <div class="linha">
-                <div class="nome">
-                    <img class="iconedigix" src="{% static 'img/digixlogo.png'%}" alt="icone">
-                    <p>Mouse-Pad Digix</p>
-                </div>
-                    <img class="caminhao" src="{% static 'img/truck.png'%}" alt="icone">
-            </div>
-            <div class="linha">
-                <div class="nome">
-                    <img class="iconedigix" src="{% static 'img/digixlogo.png'%}" alt="icone">
-                    <p>Fones de Ouvido</p>
-                </div>
-                    <img class="caminhao" src="{% static 'img/truck.png'%}" alt="icone">
-            </div>
-            <div class="linha">
-                <div class="nome">
-                    <img class="caixabox" src="{% static 'img/box-time.png'%}" alt="icone">
-                    <p>Água com gás</p>
-                </div>
-                    <img class="caminhao" src="{% static 'img/truck.png'%}" alt="icone">
-            </div>
-            
 
+            <div class="butoes">
+                <div class="button">
+                    <a href="/listaDePedidos">
+                        <button class="buttonPedidos">Visualizar Pedidos</button>
+                    </a>
+                </div>
+                
+                <div class="button">
+                    <a href="/listaDePedidos?status=1">
+                        <button class="buttonPedidos1">Visualizar Pedidos Concluidos</button>
+                    </a>
+                </div>
+                
+                <div class="button">
+                    <a href="/listaDePedidos?status=2">
+                        <button class="buttonPedidos2">Visualizar Pedidos Pendentes</button>
+                    </a>
+                </div>
+            </div>
         </div>
-    </div>  
-    <div class="detalhe">
-        <h1 class="Titulo">
-            <p class="underline">Ped</p>idos Pendentes
-        </h1>
 
         <div class="Produto">
            
+            {% for pedido in pedidos %}
+
             <div class="linha">
                 <div class="nome">
-                    <img class="caixabox" src="{% static 'img/box-time.png'%}" alt="icone">
-                    <p>Mouse Gamer</p>
+                    <img class="iconedigix" src="{% static 'img/digixlogo.png'%}" alt="icone">
+                    <p> {{pedido.idProduto.nome}}  </p>
+                    <!-- {{ pedido.idCompra.pedido }} - {{pedido.id}} -->
                 </div>
-            </div>
-            <div class="linha">
-                <div class="nome">
-                    <img class="caixabox" src="{% static 'img/box-time.png'%}" alt="icone">
-                    <p>Headset Telecon</p>
-                </div>
-            </div>
-            <div class="linha">
-                <div class="nome">
-                    <img class="caixabox" src="{% static 'img/box-time.png'%}" alt="icone">
-                    <p>Copo Stanley</p>
-                </div>
-                    
+                    <img class="caminhao" src="{% static 'img/truck.png'%}" alt="icone">
             </div>
 
+            {% endfor %}
+        </div>
+
+
+        <div class="pagination">
+            {% if pedidos.has_previous %}
+                <div>
+                    <a style="font-size: 20px; margin-right: 10px;" href="?pedido_page={{ pedidos.previous_page_number }}">Anterior</a>
+                </div>
+            {% endif %}
+        
+            {% if pedidos.has_next %}
+                <div>
+                    <a style="font-size: 20px; " href="?pedido_page={{ pedidos.next_page_number }}">Próxima</a>
+                </div>
+            {% endif %}
+            
+            <span>Página {{ pedidos.number }} de {{ pedidos.paginator.num_pages }}</span>
         </div>
     </div>  
 </div>
+
 
 
 

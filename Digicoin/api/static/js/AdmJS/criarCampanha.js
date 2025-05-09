@@ -68,3 +68,35 @@ async function inativarCampanhas(elemento) {
 
 
 }
+
+
+
+document.getElementById('barraBusca').addEventListener('input', function () {
+    let termo = document.getElementById('barraBusca').value.toLowerCase();
+
+    const linhas = document.querySelectorAll('.tabela_campanha_conteudo');
+
+    linhas.forEach(linha => {
+        const nome = linha.dataset.nome.toLowerCase();
+        
+
+        if (nome.includes(termo)) {
+            this.parentElement
+            
+            linha.style.display = ''; // mostra
+            
+
+        } else {
+            console.log("esconder")
+            linha.style.display = 'none'; // esconde
+        }
+    });
+
+    paginas['predefinida'] = 1;
+    
+
+    // Reaplica a paginação automaticamente
+    mostrarPagina('predefinida'); // ou 'criadas' se for outra tabela
+});
+
+
