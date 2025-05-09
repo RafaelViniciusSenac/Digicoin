@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", function(){
     const perfilUsuario = document.getElementById('perfilUsuario')
 
     document.getElementById("visualizarPerfil").addEventListener("click", () => {
-        perfilUsuario.show();
+        perfilUsuario.showModal();
     })
 
 

@@ -127,7 +127,6 @@ def ranking(request):
     top_usuarios = CustomUser.objects.order_by('-saldo')[:7]
     return render(request, 'UserHtml/ranking.html', {'top_usuarios': top_usuarios})
 
-
 def listaEstoque(request):
     eventos = Campanha.objects.filter(is_active=True)
              
@@ -194,13 +193,13 @@ def carrinho(request):
 
 
 def relatorio(request):
-    return render(request, 'components/adm/relatorio.html')
+    return render(request, 'AdmHtml/relatorio.html')
 
 def campanhas(request):
 
     campanhas = Campanha.objects.all()
 
-    return render(request, 'components/adm/campanhas.html', {'campanhas': campanhas})
+    return render(request, 'AdmHtml/campanhas.html', {'campanhas': campanhas})
 
 def teste(request):
     return render(request, 'UserHtml/teste.html')
