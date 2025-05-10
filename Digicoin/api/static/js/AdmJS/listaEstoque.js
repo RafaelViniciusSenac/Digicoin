@@ -182,7 +182,7 @@ async function Editar(idProduto) {
     document.getElementById('Produto').value = dados.nome;
     document.getElementById('Quantidade').value = aplicarMascaraMilhar(dados.quantidade.toString());
     document.getElementById('Preco').value = aplicarMascaraMilhar(dados.valor.toString());
-    if (dados.idCampanha != 1){
+    if (dados.idCampanha != null) {
         document.getElementById('Campanha').checked = true;
 
     }else{
@@ -205,7 +205,7 @@ async function Editar(idProduto) {
     window.campanhasSelecionadas = [dados.idCampanha];
     document.getElementById('popupEditarProduto').showModal();
 
-    document.querySelector(".valorEditar").value = idProduto;
+    document.getElementById("valorEditar2").value = idProduto;
 }
 
 // Aplica ao digitar no campo

@@ -107,19 +107,45 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function temImagemOuImagemExistente() {
         const imgPopUp = document.getElementById('imagem');
-        const uploadBox = document.querySelector(".UploadBox");
     
-        // Checa se há imagem já carregada no uploadBox OU nova no input file
-        if (uploadBox.classList.contains("has-image") || (imgPopUp.files && imgPopUp.files.length > 0)) {
+        if (imgPopUp.files && imgPopUp.files.length > 0) {
             return true;
         } else {
-            alert("preencha o campo de imagens")
+            alert("Preencha o campo de imagens");
             return false;
         }
     }
+    // function temImagemOuImagemExistente() {
+    //     const uploadBox = document.querySelector(".UploadBox");
+    //     const imgPopUp = document.getElementById('imagem');
+    
+    //     if (uploadBox.classList.contains("has-image") || (imgPopUp.files && imgPopUp.files.length > 0)) {
+    //         return true;
+    //     } else {
+    //         alert("Preencha o campo de imagens");
+    //         return false;
+    //     }
+    // }
     
     
+    
+    function checkComparacao(params) {
+        let parametrosComparacao = false
+        const checkboxes = document.getElementsByClassName('listaCampanha');
+        
+        for (let i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i].checked) {
+                console.log(checkboxes[i].value);
+                parametrosComparacao = true;
+            }else{
+                alert("selecione uma campanha")
+                parametrosComparacao = false;
+            }
+        }
+        return parametrosComparacao
+    }
 
+        
 
     // Eventos para abrir e fechar popups
     let controle = true
@@ -131,19 +157,25 @@ document.addEventListener("DOMContentLoaded", function () {
         // Se controle == false → queremos tipo 'submit'
         btnConcluir.setAttribute("type", "submit");
     }
+
+
     
     buttonClose.addEventListener("click", () => modalPrimeiro.close());
 
     buttonConcluir.addEventListener("click", () => {
-        if (checkRequired([produto, quantidade, preco]) && checkCampanhaRequired() && checkFisicoVirtualRequired() && temImagemOuImagemExistente()) {
-            btnConcluir.setAttribute("type", "button");
+        const camposOk = checkRequired([produto, quantidade, preco]) &&
+                         checkFisicoVirtualRequired() &&
+                         temImagemOuImagemExistente();
+        if (camposOk) {;
             controle = true
+            btnConcluir.setAttribute("type", "button");
             modalSegundo.showModal();
             buttonClose2.addEventListener("click", () => modalSegundo.close());
             buttonLinkCampanha.addEventListener("click", () => modalTerceiro.showModal());
             buttonClose3.addEventListener("click", () => modalTerceiro.close());
+
+
             
-            document.getElementById("produtoForm2").addEventListener("submit", handleSubmit);
 
         }else if (checkRequired([produto, quantidade, preco]) && checkFisicoVirtualRequired() && temImagemOuImagemExistente()){
             btnConcluir.setAttribute("type", "submit");
@@ -151,8 +183,21 @@ document.addEventListener("DOMContentLoaded", function () {
             
             document.getElementById("produtoForm").addEventListener("submit", handleSubmit);
         
+        }else{
+            alert("fudeu")
         }
     });
+    
+
+    if (modalSegundo.open) {
+        if (checkComparacao()) {
+            btnConcluir.setAttribute("type", "submit");
+            document.getElementById("produtoForm2").addEventListener("submit", handleSubmit);
+        } else {
+            alert("Preencha o campo das campanhas");
+        }
+    }
+
 
     
 
@@ -173,8 +218,22 @@ document.addEventListener("DOMContentLoaded", function () {
         let imagemFile = imagemInput.files[0];
     
         let idCampanha = null;
-        console.log(idCampanha)
-        console.log(controle, "valor que passo")
+        let editarValor = null
+        editarValor = document.getElementById("valorEditar").value;
+        console.log("veridicado 1: ", editarValor)    
+        
+        let editarValor2 = null
+        editarValor2 = document.getElementById("valorEditar2").value;
+        console.log("veridicado 2: ", editarValor2)
+    
+
+        if (editarValor != null){
+            idCampanha = editarValor
+        }else if (editarValor2 != null){
+            idCampanha = editarValor2
+        }
+
+    
         if (controle){
             let checkboxes = document.getElementsByClassName('listaCampanha');
         
@@ -185,10 +244,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
     
             }
-        }else{
-            
-            idCampanha = 1
-            
         }
 
 
@@ -208,8 +263,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     
         const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value;
-    
-        const chaveEstrangeira = await apiRequest(`/api/campanha/${idCampanha}/`, 'GET', null, { 'X-CSRFToken': csrf });
+        
+
     
         // Criação do formData para envio com imagem
         const formData = new FormData();
@@ -217,22 +272,32 @@ document.addEventListener("DOMContentLoaded", function () {
         formData.append("valor", preco);
         formData.append("quantidade", quantidade);
         formData.append("tipo", tipo);
-        formData.append("idCampanha", chaveEstrangeira.id);
-        formData.append("dataInicio", chaveEstrangeira.dataInicio);
-        formData.append("dataFim", chaveEstrangeira.dataFim);
-        formData.append("descricao", chaveEstrangeira.descricao);
-        formData.append("is_active", chaveEstrangeira.is_active);
+        formData.append("idCampanha", idCampanha);
+        formData.append("is_active", true);
     
         if (imagemFile) {
             formData.append("img1", imagemFile);
         }
         
         
-        let editarValor = document.getElementById("valorEditar").value;
         
         let response;
     
-        if (editarValor) {
+        if (editarValor2) {
+            // Atualização via PUT — mas precisa ver se seu back aceita multipart no PUT
+            response = await fetch(`/api/produto/${editarValor2}/`, {
+                method: 'PUT',
+                headers: {
+                    'X-CSRFToken': csrf
+                    // sem Content-Type
+                },
+                body: formData
+            });
+            
+            editarValor2 = null
+
+        } else if (editarValor) {
+            
             // Atualização via PUT — mas precisa ver se seu back aceita multipart no PUT
             response = await fetch(`/api/produto/${editarValor}/`, {
                 method: 'PUT',
@@ -242,7 +307,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 },
                 body: formData
             });
-        } else {
+            editarValor = null
+        
+        
+        
+        }else {
             // Cadastro via POST com FormData e imagem
             response = await fetch('/api/produto/', {
                 method: 'POST',
@@ -254,15 +323,11 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         }
     
-        window.location.reload()
+        // window.location.reload()
     }
     
 
-    if(!controle){
-
-        console.log("achou a campanha 1");
-        
-    }
+   
     
 
     async function EventoCampanhas(event) {
@@ -301,7 +366,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (valorCampanhaId) {
 
             response = await apiRequest(`/api/campanha/${valorCampanhaId}/`, 'PUT', evento, { 'X-CSRFToken': csrf });
-            window.location.reload();
+            // window.location.reload();
 
 
 
@@ -332,7 +397,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (botaoElement) {
             let valorbutaoCamp = botaoElement.value;
             if (valorbutaoCamp) {
-                window.location.reload();
+                // window.location.reload();
             }
         }
     }
