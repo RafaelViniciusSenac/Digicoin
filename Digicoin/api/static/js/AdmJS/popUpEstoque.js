@@ -55,16 +55,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Função de validação dos campos obrigatórios
     function checkRequired(inputs) {
-        return inputs.every(input => {
-            if (input.value.trim() === "") {
-                ShowError(input, "Campo obrigatório");
-                return false;
-            } else {
-                ShowSucesso(input);
-                return true;
-            }
-        });
-    }
+    let isValid = true;
+
+    inputs.forEach(input => {
+        if (input.value.trim() === "") {
+            ShowError(input, "Campo obrigatório");
+            isValid = false;
+        } else {
+            ShowSucesso(input);
+        }
+    });
+
+    return isValid;
+}
+
 
     // Função para validar o checkbox de Campanha
     function checkCampanhaRequired() {
@@ -83,13 +87,27 @@ document.addEventListener("DOMContentLoaded", function () {
         const fisicoCheckbox = document.getElementById('Fisico');
         const virtualCheckbox = document.getElementById('Virtual');
 
+        const erroFisico = document.getElementById('erroFisico');
+        const erroVirtual = document.getElementById('erroVirtual');
+
         if (!fisicoCheckbox.checked && !virtualCheckbox.checked) {
+            
+            erroFisico.classList.add('error');
+
+            erroVirtual.classList.add('error');
+
             return false;
         } else {
-            ShowSucesso(fisicoCheckbox);
+            
+            erroFisico.classList.remove('error');
+
+            
+            erroVirtual.classList.remove('error');
+
             return true;
         }
     }
+
 
     document.getElementById('Fisico').addEventListener('change', function () {
         if (this.checked) {
@@ -106,44 +124,33 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     function temImagemOuImagemExistente() {
+        const uploadBox = document.querySelector(".UploadBox");
         const imgPopUp = document.getElementById('imagem');
+        
     
-        if (imgPopUp.files && imgPopUp.files.length > 0) {
+        if (uploadBox.classList.contains("has-image") || (imgPopUp.files && imgPopUp.files.length > 0)) {
+            uploadBox.classList.remove("erro-upload");
             return true;
         } else {
-            alert("Preencha o campo de imagens");
+            uploadBox.classList.add("erro-upload");
+
             return false;
-        }
+        }  
     }
-    // function temImagemOuImagemExistente() {
-    //     const uploadBox = document.querySelector(".UploadBox");
-    //     const imgPopUp = document.getElementById('imagem');
-    
-    //     if (uploadBox.classList.contains("has-image") || (imgPopUp.files && imgPopUp.files.length > 0)) {
-    //         return true;
-    //     } else {
-    //         alert("Preencha o campo de imagens");
-    //         return false;
-    //     }
-    // }
     
     
-    
-    function checkComparacao(params) {
-        let parametrosComparacao = false
+    function checkComparacao() {
         const checkboxes = document.getElementsByClassName('listaCampanha');
-        
+
         for (let i = 0; i < checkboxes.length; i++) {
             if (checkboxes[i].checked) {
-                console.log(checkboxes[i].value);
-                parametrosComparacao = true;
-            }else{
-                alert("selecione uma campanha")
-                parametrosComparacao = false;
+                return true;  // achou pelo menos um marcado
             }
         }
-        return parametrosComparacao
+
+        return false;  // nenhum marcado
     }
+
 
         
 
@@ -151,9 +158,11 @@ document.addEventListener("DOMContentLoaded", function () {
     let controle = true
     const btnConcluir = document.getElementById("btnConcluir");
     if (controle) {
+        
         // Se controle == true → queremos tipo 'button'
         btnConcluir.setAttribute("type", "button");
     } else {
+        
         // Se controle == false → queremos tipo 'submit'
         btnConcluir.setAttribute("type", "submit");
     }
@@ -161,45 +170,61 @@ document.addEventListener("DOMContentLoaded", function () {
 
     
     buttonClose.addEventListener("click", () => modalPrimeiro.close());
+    // Configura apenas uma vez, no carregamento
+    document.getElementById("produtoForm2").addEventListener("submit", (e) => {
+        if (!checkComparacao()) {
+            e.preventDefault(); // bloqueia en vio se não tiver checkbox marcado
+        } else {
+            handleSubmit(e);
+        }
+    });
 
+
+
+    // Quando clicar no botão concluir
     buttonConcluir.addEventListener("click", () => {
-        const camposOk = checkRequired([produto, quantidade, preco]) &&
-                         checkFisicoVirtualRequired() &&
-                         temImagemOuImagemExistente();
-        if (camposOk) {;
+    
+        const camposObrigatoriosOk = checkRequired([produto, quantidade, preco]);
+        const tipoOk = checkFisicoVirtualRequired();
+        const imagemOk = temImagemOuImagemExistente();  // Chama só 1 vez
+        const campanhaOk = checkCampanhaRequired();
+
+        const camposComCampanha = camposObrigatoriosOk && tipoOk && imagemOk && campanhaOk;
+        const camposSemCampanha = camposObrigatoriosOk && tipoOk && imagemOk;
+
+        console.log(checkRequired([produto, quantidade, preco]))
+        console.log(checkFisicoVirtualRequired())
+        console.log(imagemOk)
+        console.log(checkCampanhaRequired())
+
+        console.log("oq eu errei 1",camposComCampanha)
+        console.log("oq eu errei 3",camposSemCampanha)
+        if (camposComCampanha) {
+            
+            console.log("oq eu errei 2",camposComCampanha)
+            // Caso 1 → controle true → abre modal
+            
             controle = true
-            btnConcluir.setAttribute("type", "button");
+            btnConcluir.setAttribute("type", "button");  // apenas abre modal
             modalSegundo.showModal();
+
+                // Configura botões do modal (fechar e links)
             buttonClose2.addEventListener("click", () => modalSegundo.close());
             buttonLinkCampanha.addEventListener("click", () => modalTerceiro.showModal());
             buttonClose3.addEventListener("click", () => modalTerceiro.close());
-
-
             
-
-        }else if (checkRequired([produto, quantidade, preco]) && checkFisicoVirtualRequired() && temImagemOuImagemExistente()){
-            btnConcluir.setAttribute("type", "submit");
+        } else if (camposSemCampanha) {
+            
             controle = false
-            
-            document.getElementById("produtoForm").addEventListener("submit", handleSubmit);
-        
-        }else{
-            alert("fudeu")
-        }
-    });
-    
-
-    if (modalSegundo.open) {
-        if (checkComparacao()) {
             btnConcluir.setAttribute("type", "submit");
-            document.getElementById("produtoForm2").addEventListener("submit", handleSubmit);
-        } else {
-            alert("Preencha o campo das campanhas");
-        }
-    }
+            document.getElementById("produtoForm").addEventListener("submit", handleSubmit);
+        } 
+    });
 
 
     
+
+
 
     async function handleSubmit(event) {
         event.preventDefault();
@@ -323,10 +348,10 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         }
     
-        // window.location.reload()
+        window.location.reload()
     }
-    
 
+        
    
     
 
@@ -366,7 +391,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (valorCampanhaId) {
 
             response = await apiRequest(`/api/campanha/${valorCampanhaId}/`, 'PUT', evento, { 'X-CSRFToken': csrf });
-            // window.location.reload();
+            window.location.reload();
 
 
 
@@ -397,15 +422,12 @@ document.addEventListener("DOMContentLoaded", function () {
         if (botaoElement) {
             let valorbutaoCamp = botaoElement.value;
             if (valorbutaoCamp) {
-                // window.location.reload();
+                window.location.reload();
             }
         }
     }
 
     document.getElementById("CriacaoDeCampanhaForm").addEventListener("submit", EventoCampanhas);
-
-
-
 
 
 

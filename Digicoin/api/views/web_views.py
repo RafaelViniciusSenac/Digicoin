@@ -120,7 +120,7 @@ def ranking(request):
     return render(request, 'UserHtml/ranking.html', {'top_usuarios': top_usuarios})
 
 def listaEstoque(request):
-    eventos = Campanha.objects.filter(is_active=True).exclude(id=1)
+    eventos = Campanha.objects.filter(is_active=True)
 
 
     estoque_list = Produto.objects.filter(is_active=True)
@@ -190,7 +190,7 @@ def relatorio(request):
 
 def campanhas(request):
 
-    campanhas = Campanha.objects.all().exclude(id=1)
+    campanhas = Campanha.objects.all()
 
     return render(request, 'AdmHtml/campanhas.html', {'campanhas': campanhas})
 

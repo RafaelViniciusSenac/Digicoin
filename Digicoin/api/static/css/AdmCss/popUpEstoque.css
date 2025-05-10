@@ -113,7 +113,8 @@ input[type="checkbox"] {
 }
 
 
-/* imagem mudando dentro da caixa */.UploadBox {
+/* imagem mudando dentro da caixa */
+.UploadBox {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -131,7 +132,9 @@ input[type="checkbox"] {
     position: relative;
 }
 
-
+.UploadBox.erro-upload small {
+    color: red;
+}
 
 .UploadBox .default-content {
     display: flex;
@@ -169,6 +172,9 @@ input[type="checkbox"] {
 
 .UploadBox:hover {
     background-color: #ececec;
+}
+.UploadBox.erro-upload {
+    border: 2px dashed red;
 }
 
 input[type="file"] {

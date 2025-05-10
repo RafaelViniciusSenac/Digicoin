@@ -83,20 +83,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // Valida ao clicar em Concluir
-    document.querySelector('.buttonConcluir').addEventListener('click', () => {
-        const produto = document.getElementById('Produto');
-        const quantidade = document.getElementById('Quantidade');
-        const preco = document.getElementById('Preco');
-
-        const camposValidos = checkRequired([produto, quantidade, preco]) &&
-            checkCampanhaRequired() &&
-            checkFisicoVirtualRequired();
-
-        if (camposValidos) {
-            preencherPopupConcluir(window.campanhasSelecionadas);
-            document.getElementById('popupConcluir').showModal();
-        }
-    });
+    
 
     // Fecha todos os modais e limpa
     document.querySelector('.buttonClose').addEventListener('click', () => {
@@ -201,6 +188,15 @@ async function Editar(idProduto) {
         document.getElementById('Virtual').checked = true;
     }
 
+    // Desmarca todas as campanhas primeiro
+    document.querySelectorAll('.listaCampanha').forEach(cb => cb.checked = false);
+
+    // Marca a campanha correspondente ao ID do banco
+    if (dados.idCampanha != null) {
+        const checkbox = document.querySelector(`.listaCampanha[value="${dados.idCampanha}"]`);
+        if (checkbox) checkbox.checked = true;
+    }
+    
 
     window.campanhasSelecionadas = [dados.idCampanha];
     document.getElementById('popupEditarProduto').showModal();
