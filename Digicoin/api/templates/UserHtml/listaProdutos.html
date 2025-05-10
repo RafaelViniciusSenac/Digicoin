@@ -3,14 +3,13 @@
 
 {% block content %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
-    rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{% static 'css/UserCss/listaProdutos.css' %}">
 
-<div class="body-listaProdutos">
+<body class="body-listadeProdutos">
     {% include "components/user/menuUser.html" %}
 
-    <div id="menuColaborador-listaProdutos"></div>
+    <div id="menuColaborador"></div>
     <div class="containerProduto-listaProdutos">
         <div class="produtos-listaProdutos">
             <div class="produtosDigix-listaProdutos">
@@ -19,8 +18,8 @@
                     <div class="barra-listaProdutos"></div>
                 </div>
                 <div class="search-listaProdutos">
-                    <i id="lupa" class="fa fa-search" aria-hidden="true"></i>
-                    <input id="barraBusca" class="searchBar-listaProdutos" type="search" placeholder="Buscar Produto">
+                    <i id="lupa-listaProdutos" class="fa fa-search" aria-hidden="true"></i>
+                    <input id="barraBusca-listaProdutos" class="searchBar-listaProdutos" type="search" placeholder="Buscar Produto">
                 </div>
             </div>
             <div class="imagensDigix-listaProdutos">
@@ -33,13 +32,13 @@
         </div>
 
         {% for produto in produtos %}
-        <dialog id="modal-{{produto.id}}">
+        <dialog id="modal-{{produto.id}}" class="dialog-listaProdutos">
             <div class="containerDialog-listaProdutos">
                 <div id="flip-{{produto.id}}" class="flip-listaProdutos">
                     <div class="frente-listaProdutos">
                         <div class="topo-listaProdutos">
                             <div class="NProduto-listaProdutos">{{produto.nome}}</div>
-                            <button id="fechar" class="fechar X">X</button>
+                            <button class="fechar-listaProdutos X-listaProdutos">X</button>
                         </div>
                         <div class="imagemCard-listaProdutos">
                             <img class="ImProduto-listaProdutos" src="{{ produto.img1.url }}" alt="{{produto.nome}}">
@@ -49,14 +48,14 @@
                             <span>{{produto.valor}}</span>
                         </div>
                         <div class="btn-refresh-listaProdutos">
-                            <button class="Adquirir-listaProdutos">adquirir</button>
+                            <button class="Adquirir-listaProdutos" data-valor="{{produto.id}}">adquirir</button>
                         </div>
-                        <i id="refresh" class="fa fa-refresh refresh" aria-hidden="true"></i>
+                        <i class="fa fa-refresh refresh-listaProdutos" aria-hidden="true"></i>
                     </div>
                     <div class="tras-listaProdutos">
                         <div class="topo-listaProdutos">
                             <div class="NProduto-listaProdutos">{{produto.nome}}</div>
-                            <button id="fechar" class="fechar X">X</button>
+                            <button class="fechar-listaProdutos X-listaProdutos">X</button>
                         </div>
                         <div class="quantidade-listaProdutos">
                             <p>Quantidade: </p>
@@ -66,13 +65,14 @@
                             <p>Sobre: </p>
                             <span>{{produto.descricao}}</span>
                         </div>
-                        <i id="refresh" class="fa fa-refresh refresh" aria-hidden="true"></i>
+                        <i class="fa fa-refresh refresh-listaProdutos" aria-hidden="true"></i>
                     </div>
                 </div>
             </div>
         </dialog>
         {% endfor %}
-        <div class="pagination-listaProdutos" id="paginacao">
+
+        <div class="pagination-listaProdutos" id="paginacao-listaProdutos">
             {% if produtos.has_previous %}
             <div class="paginas-listaProdutos">
                 <div>
