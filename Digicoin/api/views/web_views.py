@@ -153,7 +153,10 @@ def listaDeUsuarios(request):
 
 def desafiosCampanha(request):
 
-    desafios = Desafio.objects.filter(idCampanha=True)
+    desafio = Desafio.objects.filter(idCampanha=True)
+    desafio_paginator = Paginator(desafio, 5)
+    desafio_page = request.GET.get('desafio_page')
+    desafios = desafio_paginator.get_page(desafio_page)
 
     return render(request, 'UserHtml/desafiosCampanha.html', {'desafios': desafios})
 
