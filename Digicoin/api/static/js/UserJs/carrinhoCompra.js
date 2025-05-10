@@ -18,8 +18,6 @@ class Grid {
       });
     });
     this.preencherGrid();
-    this.adicionarBusca();
-    this.adicionarPaginacao();
   }
 
   preencherGrid() {
@@ -37,42 +35,6 @@ class Grid {
     }     
     if (this.config.atualizarTotal) { // Se existir a função de atualizar total
       this.config.atualizarTotal(this.listaGrid, this); // Chama a função
-    }
-  }
-
-  adicionarPaginacao() {
-    const paginacaoContainer = document.getElementById(this.idPaginacao); // Seleciona o container de paginação
-    if (!paginacaoContainer) return; // Se o container de paginação não existir, retorna
-    paginacaoContainer.innerHTML = ""; // Limpa a paginação existente
-    const totalPaginas = Math.ceil(this.listaGrid.length / this.itemsPerPage); // Calcula o total de paginas
-    let qtdBotoes = this.maxPageButtons; // Quantidade de botões de paginação
-    if (this.currentPage > 1 && this.currentPage < totalPaginas) {
-        qtdBotoes -= 2; // Ajusta qtdBotoes para -2 se for mostrar o (primeira pagina) e (ultima pagina)
-    } else if (this.currentPage === totalPaginas || this.currentPage === 1) {
-        qtdBotoes -= 1;
-    }
-    let startPage = Math.max(1, this.currentPage - Math.floor(qtdBotoes / 2)); // Calcula o inicio da páginação
-    let endPage = Math.min(totalPaginas, startPage + qtdBotoes - 1); // Calcula o fim da páginação
-    if (endPage - startPage + 1 < qtdBotoes) {// Ajusta startPage e endPage para garantir que sempre mostre qtdBotoes
-        startPage = Math.max(1, endPage - qtdBotoes + 1); // Se for menor que qtdBotoes, calcula o inicio da páginação
-    }
-    const criarBotao = (texto, pagina) => {// Função para criar botões de paginação
-        const botao = document.createElement("button");
-        botao.textContent = texto;
-        botao.className = (pagina === this.currentPage) ? "active" : ""; // Se for a pagina atual, adiciona a classe 'active'
-        botao.addEventListener("click", () => { // Adiciona evento de clique
-            this.currentPage = pagina;
-            this.preencherGrid();
-            this.adicionarPaginacao();
-        });
-        paginacaoContainer.appendChild(botao);
-    };
-    if(startPage != endPage){ // Só exibir se houver mais de uma página
-      if (this.currentPage > 1) criarBotao("<<", 1);// Botão Primeira Página
-      for (let i = startPage; i <= endPage; i++) {
-          criarBotao(i, i); // Cria os botões das outras paginas
-      }
-      if (this.currentPage < totalPaginas) criarBotao(">>", totalPaginas);// Botão Última Página
     }
   }
 
@@ -111,55 +73,27 @@ class Grid {
       this.listaGrid.splice(index, 1); // Remove o item
       this.listaGridOriginal = this.listaGridOriginal.filter(item => item.id !== parseInt(valorId)); // Remove o item da lista original
       this.preencherGrid();
-      this.adicionarPaginacao();
     }
-  }
-
-  atualizarQtdItensGrid(valorId, novaQuantidade) {
-    const index = this.listaGrid.findIndex(item => item.id === parseInt(valorId)); // Encontra o index do item
-    if (index !== -1) {
-      this.listaGrid[index].qtd = novaQuantidade; // Atualiza a quantidade
-      const originalIndex = this.listaGridOriginal.findIndex(item => item.id === parseInt(valorId)); // Encontra o index da lista original
-      if (originalIndex !== -1) {
-        this.listaGridOriginal[originalIndex].qtd = novaQuantidade; // Atualiza a quantidade na lista original
-      }
-      this.preencherGrid();
-    }
-  }
-
-  adicionarBusca() {
-    const campoBusca = document.querySelector(this.config.idInputBusca); // Seleciona o campo de busca
-    if (campoBusca) {
-      campoBusca.addEventListener('input', () => { // Adiciona evento de input
-        const colunas = campoBusca.getAttribute('data-valor').split(','); // Obtem as colunas de busca
-        this.buscarItens(campoBusca.value, colunas); // Chama a função de busca
-      });
-    }
-  }
-
-  buscarItens(valorBusca, colunas) {
-    if (valorBusca.trim() === "") {
-      this.listaGrid = [...this.listaGridOriginal]; // Se o valor de busca for vazio, retorna a lista original
-    } else {
-      this.listaGrid = this.listaGridOriginal.filter(item => { // Filtra a lista de acordo com o valor de busca
-        return colunas.some(coluna => {
-          // Verifica se a coluna existe no item antes de tentar acessar seu valor
-          if (item.hasOwnProperty(coluna)) { // Verifica se a coluna existe no item
-            return item[coluna].toString().toLowerCase().includes(valorBusca.toLowerCase()); // Verifica se o valor da coluna contém o valor de busca
-          }
-          return false;
-        });
-      });
-    }
-    this.currentPage = 1; // Resetar para a primeira página após a busca
-    this.preencherGrid();
-    this.adicionarPaginacao();
   }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  // limpa a lista de produtos
+  localStorage.removeItem('listaProdutos');
   const storedData = JSON.parse(localStorage.getItem('listaProdutos')) || {};
   const grid = storedData.listaGrid || [];
+  //adiciona um produto exemplo a lista de produtos
+  grid.push({
+    id: 1 + grid.length,
+    idProduto: 1 + grid.length,
+    nomeProduto: "Produto 1",
+    valorProduto: 10,
+    qtd: 1,
+    fisicoProduto: true
+  });
+  localStorage.setItem('listaProdutos', JSON.stringify({ listaGrid: grid }));
+
+
 
   const config = {
     idGrid: "itensGrid",
@@ -176,6 +110,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="itemGridCell" data-label="Ações"><button class="botao-remover" data-id="${item.idProduto}"><img src="${imgRemoverSrc}"></button></div>
         </div>
       `;
+      console.log(gridRow);
       return gridRow;
     },
     addEventosGrid: (listaGrid, grid) => {
