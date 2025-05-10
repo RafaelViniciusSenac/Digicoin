@@ -233,7 +233,7 @@
     background-color: rgb(201, 1, 201);
 }
 
-.msgSaldoInsuficiente-listaProdutos {
+.msgErrorAddProduto-listaProdutos {
     color: red;
     font-size: 15px;
     font-weight: bold;
