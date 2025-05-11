@@ -55,28 +55,28 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Função de validação dos campos obrigatórios
     function checkRequired(inputs) {
-    let isValid = true;
+        let isValid = true;
 
-    inputs.forEach(input => {
-        if (input.value.trim() === "") {
-            ShowError(input, "Campo obrigatório");
-            isValid = false;
-        } else {
-            ShowSucesso(input);
-        }
-    });
+        inputs.forEach(input => {
+            if (input.value.trim() === "") {
+                ShowError(input, "Campo obrigatório");
+                isValid = false;
+            } else {
+                ShowSucesso(input);
+            }
+        });
 
-    return isValid;
-}
+        return isValid;
+    }
 
 
     // Função para validar o checkbox de Campanha
     function checkCampanhaRequired() {
         if (!campanhaCheckbox.checked) {
-            // ShowError(campanhaCheckbox, "*");
+            
             return false;
         } else {
-            ShowSucesso(campanhaCheckbox);
+            
             return true;
         }
     }
