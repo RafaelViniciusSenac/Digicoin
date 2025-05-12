@@ -11,13 +11,14 @@
     --sombra-preta: rgba(0, 0, 0, 0.4);
 }
 
-.body-listadeProdutos {
+.body-listaProdutos {
     font-family: "Arial", "Open Sans";
     display: flex;
     flex-direction: column;
     justify-content: center;
     background-color: white;
 }
+
 
 .containerProduto-listaProdutos {
     display: flex;
@@ -99,7 +100,8 @@
     border: 2px var(--laranja) solid;
 }
 
-.imagensDigix-listaProdutos {
+.imagensDigix-listaProdutos,
+.imagensCampanha {
     display: grid;
     grid-template-columns: repeat(4, 200px);
     grid-template-rows: repeat(2, 200px);
@@ -107,6 +109,7 @@
     margin-bottom: 50px;
     margin-top: 40px;
 }
+
 
 .imgD-listaProdutos {
     display: flex;
@@ -136,6 +139,7 @@
     height: 190px;
     object-fit: contain;
 }
+
 
 
 .dialog-listaProdutos {
@@ -211,17 +215,19 @@
     cursor: pointer;
 }
 
+
 .topo-listaProdutos .X-listaProdutos img {
     width: 25px;
     height: auto;
 }
 
+
 .Adquirir-listaProdutos {
     background-color: var(--magenta);
     color: #fff;
     font-size: 25px;
-    padding: 10px 0;
-    margin: 11px auto;
+    padding: 6px 0;
+    margin: 7px auto;
     border: none;
     border-radius: 25px;
     width: 70%;
@@ -231,6 +237,13 @@
 
 .Adquirir-listaProdutos:hover {
     background-color: rgb(201, 1, 201);
+}
+
+.msgErrorAddProduto-listaProdutos {
+    color: red;
+    font-size: 15px;
+    font-weight: bold;
+    display: none;
 }
 
 .btn-refresh-listaProdutos {
@@ -248,7 +261,6 @@
     margin-top: 150px;
 }
 
-
 .tras-listaProdutos {
     text-align: center;
     width: 200px;
@@ -258,6 +270,7 @@
     font-size: 25px;
     transform: rotateY(180deg);
 }
+
 
 .tras-listaProdutos .topo-listaProdutos {
     font-size: 25px;
@@ -320,12 +333,12 @@
         align-items: center;
     }
 
-    .produtos {
+    .produtos-listaProdutos {
         margin: 0 auto;
         padding-left: 70px;
     }
 
-    .produtosDigix {
+    .produtosDigix-listaProdutos {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -407,6 +420,7 @@
 .pagination-listaProdutos .anterior-listaProdutos:hover, .proxim-listaProdutos a:hover {
     background-color: var(--laranja);
 }
+
 
 .pagination-listaProdutos span {
     font-size: 18px;    
