@@ -154,9 +154,7 @@ def ranking(request):
 
 def listaEstoque(request):
     eventos = Campanha.objects.filter(is_active=True)
-             
 
-    
 
     estoque_list = Produto.objects.filter(is_active=True)
     estoque_paginator = Paginator(estoque_list, 5) 

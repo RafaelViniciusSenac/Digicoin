@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function checkCampanhaRequired() {
         const checkbox = document.getElementById('Campanha');
         if (!checkbox.checked) {
-            ShowError(checkbox, "*");
+            // ShowError(checkbox, "*");
             return false;
         } else {
             ShowSucesso(checkbox);
@@ -83,20 +83,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // Valida ao clicar em Concluir
-    document.querySelector('.buttonConcluir').addEventListener('click', () => {
-        const produto = document.getElementById('Produto');
-        const quantidade = document.getElementById('Quantidade');
-        const preco = document.getElementById('Preco');
-
-        const camposValidos = checkRequired([produto, quantidade, preco]) &&
-            checkCampanhaRequired() &&
-            checkFisicoVirtualRequired();
-
-        if (camposValidos) {
-            preencherPopupConcluir(window.campanhasSelecionadas);
-            document.getElementById('popupConcluir').showModal();
-        }
-    });
+    
 
     // Fecha todos os modais e limpa
     document.querySelector('.buttonClose').addEventListener('click', () => {
@@ -178,11 +165,16 @@ async function Editar(idProduto) {
 
     const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value;
     const dados = await apiRequest(`/api/produto/${idProduto}/`, 'GET', null, { 'X-CSRFToken': csrf });
-
+    
     document.getElementById('Produto').value = dados.nome;
     document.getElementById('Quantidade').value = aplicarMascaraMilhar(dados.quantidade.toString());
     document.getElementById('Preco').value = aplicarMascaraMilhar(dados.valor.toString());
-    document.getElementById('Campanha').checked = true;
+    if (dados.idCampanha != null) {
+        document.getElementById('Campanha').checked = true;
+
+    }else{
+        document.getElementById('Campanha').checked = false;
+    }
     
     uploadBox.classList.add("has-image");
     uploadBox.style.backgroundImage = `url(${dados.img1})`;
@@ -196,10 +188,20 @@ async function Editar(idProduto) {
         document.getElementById('Virtual').checked = true;
     }
 
+    // Desmarca todas as campanhas primeiro
+    document.querySelectorAll('.listaCampanha').forEach(cb => cb.checked = false);
+
+    // Marca a campanha correspondente ao ID do banco
+    if (dados.idCampanha != null) {
+        const checkbox = document.querySelector(`.listaCampanha[value="${dados.idCampanha}"]`);
+        if (checkbox) checkbox.checked = true;
+    }
+    
+
     window.campanhasSelecionadas = [dados.idCampanha];
     document.getElementById('popupEditarProduto').showModal();
 
-    document.getElementById("valorEditar").value = idProduto;
+    document.getElementById("valorEditar2").value = idProduto;
 }
 
 // Aplica ao digitar no campo
