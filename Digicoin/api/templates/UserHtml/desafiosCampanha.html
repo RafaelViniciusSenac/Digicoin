@@ -1,80 +1,67 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
     <link rel="stylesheet" href="{% static 'css/UserCss/desafiosCampanha.css' %}">
     <link rel="stylesheet" href="../../components/menu/menu_colaborador/menu_colaborador.css">
-</head>
-<body>
+<div class = "body-desafiosCampanha">
+    {% comment %} body inicio {% endcomment %}
     {% include 'components/user/menuUser.html' %}
-    
+
     <div id="central" class="central">
 
         <div class="listaDesafios">
 
 
             {% comment %} botao de voltar {% endcomment %}
-            <button class="voltar"><img src="{% static 'img/flechaEsquerda.png' %}" alt=""> <h2>voltar</h2></button>
+            <button class="voltar"><img src="{% static 'img/flechaEsquerda.png' %}" alt="">
+                <h2>voltar</h2>
+            </button>
             {% comment %} fim do botao de voltar {% endcomment %}
 
 
 
-            <div class="" >
-                <h2 class="textDecoratinDesafios"><img src="{% static 'img/Vector.png' %}" alt="" class="vector">Desafios de campanha</h2>
+            <div class="titulo-desafiosCampanha">
+                <img src="{% static 'img/Vector.png' %}" alt="" class="vector">
+                <div class="textDecoratinDesafios">Desafios de campanha</div>
+                
             </div>
             <div class="line"></div>
 
             <div class="cabecalhoMissoes">
                 <div class="centralizar">
-                    <h3>Nome</h3> 
+                    <h3>Nome</h3>
                     <img src="{% static 'img/sort.png' %}" alt="" class="sort">
                 </div>
-                <h3 class ="cabecalhoMissoesRecompensa">Recompensa $</h3>
+                <h3 class="cabecalhoMissoesRecompensa">Recompensa $</h3>
             </div>
-            
+
 
 
 
             {% comment %} lista de desafios {% endcomment %}
             <div class="listaDesafios" id="listaDesafios">
-                <ul class="desafios">
+                <div class="desafios">
                     {% for i in desafios%}
                     <div class="desafiosFlex" id="desafiosFlex">
                         <div class="alvoCampanha">
                             <img src="{% static '/img/alvoCampanha.png' %}" class="alvo">
-                            <li>{{i.nome}}</li>
+                            <div class="texto-card">{{i.nome}}</div>
                         </div>
-                        <span class="laranja" >DG$<span class="azul">{{i.valor}}</span></span>
+                        <span class="laranja">DG$<span class="azul">{{i.valor}}</span></span>
                     </div>
                     {% endfor %}
-                    
-                </ul>
+
+                </div>
             </div>
             {% comment %} fim da lista de desafios {% endcomment %}
-            <div class="pagination">
-                {% if desafios.has_previous %}
-                    <a href="?desafio_page={{ desafios.previous_page_number }}">Anterior</a>
-                {% endif %}
-            
-                <span>Página {{ desafios.number }} de {{ desafios.paginator.num_pages }}</span>
-            
-                {% if desafios.has_next %}
-                    <a href="?desafio_page={{ desafios.next_page_number }}">Próxima</a>
-                {% endif %}
-            </div>
-            
-
 
 
 
         </div>
     </div>
-</body>
-</html>
+    {% comment %} body fim {% endcomment %}
+</div>
+
+
 
 {% endblock %}
