@@ -11,6 +11,7 @@ class Grid {
     this.botoesOrdenar = document.querySelectorAll(config.idSortBotao);
     this.idPaginacao = config.idPaginacao;
     this.idInputBusca = config.idInputBusca;
+    console.log(this.botoesOrdenar);
     this.botoesOrdenar.forEach((botao) => {
       const coluna = botao.getAttribute('data-valor');
       botao.addEventListener("click", () => {
@@ -94,7 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
     grid.push({
     id: 1 + grid.length,
     idProduto: 1 + grid.length,
-    nomeProduto: "Produto 2",
+    nomeProduto: "Esse é mue primeiro Produto 2",
     valorProduto: 20,
     qtd: 1,
     fisicoProduto: true
@@ -105,7 +106,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const config = {
     idGrid: "itensGrid",
-    idSortBotao: "#btOrdenar",
+    idSortBotao: "btOrdenar",
     itensPorPagina: 15,
     formatarGrid: (item) => {
       let valor = parseFloat(item.valorProduto);
@@ -113,9 +114,9 @@ document.addEventListener("DOMContentLoaded", () => {
       let totalProduto = qtd * valor;
       let gridRow = `
         <div class="itemGridRow">
-          <div class="itemGridCell" data-label="Produto">${item.nomeProduto}</div>
-          <div class="itemGridCell" data-label="Valor"><span class="cor-moeda">D$</span> <span class="cor-valor">${totalProduto}</span></div>
-          <div class="itemGridCell" data-label="Ações"><button class="botao-remover" data-id="${item.idProduto}"><img src="${imgRemoverSrc}"></button></div>
+          <div class="itemGridCell col-produto" data-label="Produto">${item.nomeProduto}</div>
+          <div class="itemGridCell col-valor" data-label="Valor"><span class="cor-moeda">D$</span> <span class="cor-valor">${totalProduto}</span></div>
+          <div class="itemGridCell col-acoes" data-label="Ações"><button class="botao-remover" data-id="${item.idProduto}"><img src="${imgRemoverSrc}"></button></div>
         </div>
       `;
       console.log(gridRow);

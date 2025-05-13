@@ -40,6 +40,22 @@
   font-weight: bold;
 }
 
+.sortDesc-carrinhoCompras {
+  transform: none;
+  cursor: pointer;
+}
+
+.sortAsc-carrinhoCompras {
+  transform: scale(1, -1);
+  cursor: pointer;
+}
+
+.iconeSort-carrinhoCompras {
+  width: 15px;
+  margin-left: 5px;
+  cursor: pointer;
+}
+
 .icone-carrinhoCompras {
   width: 18px;
   height: 18px;
@@ -55,7 +71,6 @@
  display: flex;
  font-weight: bold;
  padding: 10px;
- background-color: var(--cinza);
  border-radius: 10px;
 }
 
@@ -63,7 +78,18 @@
 .itensGrid {
   display: flex;
   flex-direction: column;
-  margin-top: 30px;
+  margin-top: 5px;
+}
+
+.itemGridCell.col-produto {
+  min-width: 500px;
+}
+
+.itemGridCell img {
+  width: 18px;
+  margin-right: 5px;
+  vertical-align: middle;
+  margin-bottom: 1px;
 }
 
 .itemGridRow {
@@ -111,7 +137,7 @@
   color: var(--laranja);
 }
 
-.cor-valorTotal {
+.cor-valor {
   color: var(--ciano);
 }
 
