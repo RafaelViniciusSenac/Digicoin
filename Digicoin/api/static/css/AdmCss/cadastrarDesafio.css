@@ -16,43 +16,43 @@
   }
 
 
-.body{
+.body-cadastrarDesafio{
     background: var(--roxo);
     margin: 0px 100px;
     
 }
 
-form{
+.formDesafio-cadastrarDesafio{
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
-.form{
+.form-cadastrarDesafio{
     display: flex;
     gap: 5px;
     justify-content: center;
     flex-direction: column  ;
 }
 
-.cima{
+.cima-cadastrarDesafio{
     display: flex;
     gap: 60px;
     align-items: center;
 }
 
-.baixo{ 
+.baixo-cadastrarDesafio{ 
     margin-bottom: 20px;
 }
 
-.inputsNome{
+.inputsNome-cadastrarDesafio{
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
-.header{
+.header-cadastrarDesafio{
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -62,25 +62,25 @@ form{
       margin-bottom: 100px;
   }
 
-.botao{
+.botao-cadastrarDesafio{
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.iconeX{
+.iconeX-cadastrarDesafio{
     
     width: 32px;
     height: 32px;
 }
 
-.iconeX:hover{
+.iconeX-cadastrarDesafio:hover{
     cursor: pointer;
 }
 
 
 
-.cadastrarDesafio{
+.button-cadastrarDesafio{
     
     font-size: 22px;
     border-radius: 20px;
@@ -95,13 +95,13 @@ form{
 }
 
 
-.nomeDesafioDiv{
+.nomeDesafioDiv-cadastrarDesafio{
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
-.nomeDesafioDiv input{
+.nomeDesafioDiv-cadastrarDesafio input{
 
     border-radius: 4px;
     border: none;
@@ -114,7 +114,7 @@ form{
 
 }
 
-.descricao{
+.descricao-cadastrarDesafio{
     width: 558px;
     height: 200px;
     border-radius: 4px;
@@ -135,20 +135,20 @@ label{
     margin-bottom: 15px;
 }
 
-.descricao:read-write{
+.descricao-cadastrarDesafio:read-write{
     color: var(--base);
     padding-left: 20px;
     padding-top: 10px;
 }
 
-.nomeDesafioDiv input:read-write
+.nomeDesafioDiv-cadastrarDesafio input:read-write
 {
 
     color: var(--base);
     padding-left: 20px;
 
 }
-.statusDesafioDiv {
+.statusDesafioDiv-cadastrarDesafio {
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -156,7 +156,7 @@ label{
     margin-bottom: 25px;
 }
 
-.statusDesafioDiv select{
+.statusDesafioDiv-cadastrarDesafio select{
     border-radius: 4px;
     border: none;
     width: 350px;
@@ -167,21 +167,21 @@ label{
 }
 
 
-.dataDesafioDiv{
+.dataDesafioDiv-cadastrarDesafio{
     display: flex;
     gap: 25px;
     
 }
 
 
-.dataDesafioInterno{
+.dataDesafioInterno-cadastrarDesafio{
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 10px;
 }
 
-.dataDesafioInterno input{
+.dataDesafioInterno-cadastrarDesafio input{
     height: 35px;
     width: 95px;
     border-radius: 4px;
@@ -190,7 +190,7 @@ label{
    
 }
 
-.descricaoDesafioDiv
+.descricaoDesafioDiv-cadastrarDesafio
 {
     display: flex;
     flex-direction: column;

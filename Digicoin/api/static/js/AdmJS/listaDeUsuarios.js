@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Selecionar todos os usuários ativos
     const selecionarTodos = document.getElementById('selecionarTodos');
     selecionarTodos.addEventListener('change', (e) => {
-        const checkboxes = document.querySelectorAll('.linhaUsuario:not(.desativado) .checkbox');
+        const checkboxes = document.querySelectorAll('.linhaUsuario-listaDeUsuarios:not(.desativado) .checkbox');
         checkboxes.forEach(checkbox => {
             checkbox.checked = e.target.checked;
             checkbox.disabled = false; // Garante que estejam habilitados
@@ -39,9 +39,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Atualizar o checkbox "Selecionar todos" quando checkboxes individuais forem alterados
-    document.querySelectorAll('.linhaUsuario:not(.desativado) .checkbox').forEach(checkbox => {
+    document.querySelectorAll('.linhaUsuario-listaDeUsuarios:not(.desativado) .checkbox').forEach(checkbox => {
         checkbox.addEventListener('change', () => {
-            const allChecked = [...document.querySelectorAll('.linhaUsuario:not(.desativado) .checkbox')]
+            const allChecked = [...document.querySelectorAll('.linhaUsuario-listaDeUsuarios:not(.desativado) .checkbox')]
                 .every(checkbox => checkbox.checked);
             selecionarTodos.checked = allChecked;
         });
@@ -215,12 +215,12 @@ addMoedas.addEventListener('click', () => {
 
 // Atualize a função para obter dados completos
 function getUsuariosSelecionados() {
-    const linhas = document.querySelectorAll('.linhaUsuario');
+    const linhas = document.querySelectorAll('.linhaUsuario-listaDeUsuarios');
     const usuarios = [];
 
     linhas.forEach(linha => {
         const checkbox = linha.querySelector('.checkbox');
-        const inputId = linha.querySelector('.idUser');
+        const inputId = linha.querySelector('.idUser-listaDeUsuarios');
         const saldoElement = linha.querySelector('span:not(.nome):not(.status)');
 
         if (checkbox && checkbox.checked && inputId && saldoElement) {

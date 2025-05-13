@@ -3,6 +3,7 @@ from api.models import *
 from django.core.paginator import Paginator
 from ..serializers import UsuarioComHistoricoSerializer
 from django.db.models import Q
+from django.contrib.auth.decorators import login_required
 
 def login(request):
     return render(request, 'index.html')
@@ -123,9 +124,33 @@ def cadastrarDesafio(request):
      
     return render(request, 'AdmHtml/cadastrarDesafio.html', {'campanhas': campanhas})
 
+@login_required
 def ranking(request):
     top_usuarios = CustomUser.objects.order_by('-saldo')[:7]
-    return render(request, 'UserHtml/ranking.html', {'top_usuarios': top_usuarios})
+    
+    usuario_logado = request.user
+    
+    usuario_em_top7 = any(usuario.id == usuario_logado.id for usuario in top_usuarios)
+    
+    todos_usuarios = CustomUser.objects.order_by('-saldo')
+    posicao_usuario = 0
+    for idx, usuario in enumerate(todos_usuarios, start=1):
+        if usuario.id == usuario_logado.id:
+            posicao_usuario = idx
+            break
+    
+    context = {
+        'top_usuarios': top_usuarios,
+        'usuario_logado': {
+            'id': usuario_logado.id,
+            'first_name': usuario_logado.first_name,
+            'saldo': usuario_logado.saldo,
+            'posicao': posicao_usuario
+        },
+        'mostrar_usuario_logado': not usuario_em_top7 and posicao_usuario > 0
+    }
+    
+    return render(request, 'UserHtml/ranking.html', context)
 
 def listaEstoque(request):
     eventos = Campanha.objects.filter(is_active=True)
