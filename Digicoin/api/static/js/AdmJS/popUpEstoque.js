@@ -126,13 +126,17 @@ document.addEventListener("DOMContentLoaded", function () {
     function temImagemOuImagemExistente() {
         const uploadBox = document.querySelector(".UploadBox");
         const imgPopUp = document.getElementById('imagem');
+         const uploadIcon = document.querySelector(".upload-icon")
+
         
     
         if (uploadBox.classList.contains("has-image") || (imgPopUp.files && imgPopUp.files.length > 0)) {
             uploadBox.classList.remove("erro-upload");
+            uploadIcon.classList.remove("erro-icon"); 
             return true;
         } else {
             uploadBox.classList.add("erro-upload");
+            uploadIcon.classList.add("erro-icon"); 
 
             return false;
         }  

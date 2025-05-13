@@ -143,9 +143,18 @@ input[type="checkbox"] {
     position: relative;
 }
 
-.UploadBox.erro-upload small {
+.UploadBox.erro-upload small{
     color: red;
 }
+
+
+.upload-icon.erro-icon  {
+  
+
+  /* Filtro aproximado para vermelho */
+   filter: brightness(0) saturate(100%) invert(12%) sepia(96%) saturate(7486%) hue-rotate(1deg) brightness(100%) contrast(104%);
+}
+
 
 .UploadBox .default-content {
     display: flex;
