@@ -80,29 +80,27 @@ class Grid {
 
 document.addEventListener("DOMContentLoaded", () => {
   // limpa a lista de produtos
-  localStorage.removeItem('listaProdutos');
+  // localStorage.removeItem('listaProdutos');
   const storedData = JSON.parse(localStorage.getItem('listaProdutos')) || {};
   const grid = storedData.listaGrid || [];
   //adiciona um produto exemplo a lista de produtos
-  grid.push({
-    id: 1 + grid.length,
-    idProduto: 1 + grid.length,
-    nomeProduto: "Produto 1",
-    valorProduto: 10,
-    qtd: 1,
-    fisicoProduto: true
-  });
-    grid.push({
-    id: 1 + grid.length,
-    idProduto: 1 + grid.length,
-    nomeProduto: "Esse é mue primeiro Produto 2",
-    valorProduto: 20,
-    qtd: 1,
-    fisicoProduto: true
-  });
+  // grid.push({
+  //   id: 1 + grid.length,
+  //   idProduto: 1 + grid.length,
+  //   nomeProduto: "Produto 1",
+  //   valorProduto: 10,
+  //   qtd: 1,
+  //   fisicoProduto: true
+  // });
+  //   grid.push({
+  //   id: 1 + grid.length,
+  //   idProduto: 1 + grid.length,
+  //   nomeProduto: "Esse é mue primeiro Produto 2",
+  //   valorProduto: 20,
+  //   qtd: 1,
+  //   fisicoProduto: true
+  // });
   localStorage.setItem('listaProdutos', JSON.stringify({ listaGrid: grid }));
-
-
 
   const config = {
     idGrid: "itensGrid",
@@ -119,7 +117,6 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="itemGridCell col-acoes" data-label="Ações"><button class="botao-remover" data-id="${item.idProduto}"><img src="${imgRemoverSrc}"></button></div>
         </div>
       `;
-      console.log(gridRow);
       return gridRow;
     },
     addEventosGrid: (listaGrid, grid) => {
