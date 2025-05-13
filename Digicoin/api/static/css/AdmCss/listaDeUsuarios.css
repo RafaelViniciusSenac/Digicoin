@@ -8,13 +8,13 @@
     
 }
 
-.divPesquisa {
+.divPesquisa-listaDeUsuarios {
     display: flex;
     justify-content: flex-end;
     margin-bottom: 20px;
 }
 
-.barraPesquisa {
+.barraPesquisa-listaDeUsuarios {
     border: 2px solid #ccc;
     border-radius: 20px;
     padding: 5px 15px;
@@ -23,38 +23,38 @@
     gap: 8px;
 }
 
-.barraPesquisa input {
+.barraPesquisa-listaDeUsuarios input {
     border: none;
     outline: none;
     font-size: 14px;
 }
 
-.barraPesquisa img{
+.barraPesquisa-listaDeUsuarios img{
     width: 30px;
     height: 30px;
 }
 
-.primeiraLinha {
+.primeiraLinha-listaDeUsuarios {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 25px;
 }
 
-.primeiraLinha h1 span {
+.primeiraLinha-listaDeUsuarios h1 span {
     border-bottom: 3px solid #FC671D;
     padding-bottom: 2px;
 }
 
-.botoesUsuario{
+.botoesUsuario-listaDeUsuarios{
     display: flex;
 }
 
-.botoesUsuario a{
+.botoesUsuario-listaDeUsuarios a{
     text-decoration: none;
 }
 
-.botoesUsuario button {
+.botoesUsuario-listaDeUsuarios button {
     
     border: none;
     padding: 10px 20px;
@@ -68,26 +68,26 @@
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-.addMoedas {
+.addMoedas-listaDeUsuarios {
     background-color: #00C4CC;
     color: white;
 }
 
-.addMoedas:hover{
+.addMoedas-listaDeUsuarios:hover{
     background-color: #037b80;
     transition: 0.5s ease-in-out;
 }
 
-.addUsuarios {
+.addUsuarios-listaDeUsuarios {
     background-color: #DA3ADC;
     color: white;
 }
-.addUsuarios:hover{
+.addUsuarios-listaDeUsuarios:hover{
     background-color: #b42fb6;
     transition: 0.5s ease-in-out;
 }
 
-.head {
+.head-listaDeUsuarios {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -95,7 +95,7 @@
     font-size: 22px;
 }
 
-.selecionar-todos {
+.selecionar-todos-listaDeUsuarios {
     padding: 10px 10px;
     background: var(--branco);
     border-radius: 8px;
@@ -104,7 +104,7 @@
     border-left: 5px solid var(--ciano);
 }
 
-.selecionar-todos label {
+.selecionar-todos-listaDeUsuarios label {
     display: flex;
     align-items: center;
     gap: 12px;
@@ -115,7 +115,7 @@
 }
 
 /* Custom checkbox */
-.selecionar-todos input[type="checkbox"] {
+.selecionar-todos-listaDeUsuarios input[type="checkbox"] {
     appearance: none;
     width: 20px;
     height: 20px;
@@ -125,12 +125,12 @@
     position: relative;
 }
 
-.selecionar-todos input[type="checkbox"]:checked {
+.selecionar-todos-listaDeUsuarios input[type="checkbox"]:checked {
     background-color: var(--ciano);
     border-color: var(--ciano);
 }
 
-.selecionar-todos input[type="checkbox"]:checked::after {
+.selecionar-todos-listaDeUsuarios input[type="checkbox"]:checked::after {
     content: '';
     position: absolute;
     left: 50%;
@@ -143,7 +143,7 @@
     transform: translate(-50%, -60%) rotate(-45deg);
 }
 
-.selecionar-todos input[type="checkbox"]:hover {
+.selecionar-todos-listaDeUsuarios input[type="checkbox"]:hover {
     border-color: var(--ciano);
 }
 
@@ -153,7 +153,7 @@
     gap: 12px;
 }
 
-.linhaUsuario {
+.linhaUsuario-listaDeUsuarios {
     display: flex;
     align-items: center;
     background-color: white;
@@ -162,49 +162,50 @@
     padding: 10px;
     box-shadow: 2px 2px 6px rgba(0,0,0,0.05);
     justify-content: space-between;
+    margin-bottom: 10px;
 }
 
-.linhaUsuario input[type="checkbox"] {
+.linhaUsuario-listaDeUsuarios input[type="checkbox"] {
     margin-right: 10px;
 }
 
-.infoUser {
+.infoUser-listaDeUsuarios {
     display: flex;
     align-items: center;
     gap: 15px;
     flex-grow: 1;
 }
 
-.infoUser img{
+.infoUser-listaDeUsuarios img{
     width: 30px;
     height: 30px;
 }
 
-.infoUser .nome {
+.infoUser-listaDeUsuarios .nome-listaDeUsuarios {
     font-size: 16px;
     font-weight: bold;
 }
 
-.infoUser .status {
+.infoUser-listaDeUsuarios .status-listaDeUsuarios {
     margin-left: auto;
     color: #888;
     font-size: 14px;
 }
 
-.iconeEditar {
+.iconeEditar-listaDeUsuarios {
     cursor: pointer;
 }
 
-.status{
+.status-listaDeUsuarios{
     margin-right: 150px;
     
 }
 
-.desativado {
+.desativado-listaDeUsuarios {
     opacity: 0.4;
 }
 
-.idUser{
+.idUser-listaDeUsuarios{
     display: none;
 }
 
@@ -431,37 +432,37 @@
 }
 
 @media (max-width: 768px) {
-    .primeiraLinha {
+    .primeiraLinha-listaDeUsuarios {
         flex-direction: column;
         align-items: flex-start;
         gap: 15px;
     }
 
-    .botoesUsuario {
+    .botoesUsuario-listaDeUsuarios {
         flex-direction: column;
         width: 100%;
         gap: 10px;
     }
 
-    .botoesUsuario button {
+    .botoesUsuario-listaDeUsuarios button {
         margin-left: 0;
         width: 100%;
         justify-content: center;
     }
 
-    .linhaUsuario {
+    .linhaUsuario-listaDeUsuarios {
         flex-direction: column;
         align-items: flex-start;
         gap: 10px;
         padding: 15px;
     }
 
-    .infoUser {
+    .infoUser-listaDeUsuarios {
         width: 100%;
         flex-wrap: wrap;
     }
 
-    .infoUser .status {
+    .infoUser-listaDeUsuarios .status-listaDeUsuarios {
         margin-right: 0;
         margin-left: 0;
         width: 100%;
@@ -481,7 +482,7 @@
         height: 24px;
     }
 
-    .linhaUsuario {
+    .linhaUsuario-listaDeUsuarios {
         flex-direction: row;
         align-items: flex-start;
         gap: 8px;
@@ -489,32 +490,32 @@
         position: relative;
     }
 
-    .linhaUsuario .checkbox {
+    .linhaUsuario-listaDeUsuarios .checkbox {
         margin-top: 8px;
     }
 
-    .infoUser {
+    .infoUser-listaDeUsuarios {
         flex-direction: column;
         gap: 4px;
         align-items: flex-start;
     }
 
-    .infoUser img {
+    .infoUser-listaDeUsuarios img {
         display: none; /* Remove ícone em mobile */
     }
 
-    .infoUser .nome {
+    .infoUser-listaDeUsuarios .nome-listaDeUsuarios {
         font-size: 14px;
         order: 1;
     }
 
-    .infoUser span:not(.nome) {
+    .infoUser-listaDeUsuarios span:not(.nome-listaDeUsuarios) {
         font-size: 13px;
         order: 2;
         color: var(--cinza-escuro);
     }
 
-    .status {
+    .status-listaDeUsuarios {
         order: 3 !important;
         margin: 4px 0 0 0 !important;
         font-size: 12px !important;
@@ -523,7 +524,7 @@
         border-radius: 4px;
     }
 
-    .iconeEditar {
+    .iconeEditar-listaDeUsuarios {
         position: absolute;
         right: 12px;
         top: 50%;
@@ -579,24 +580,24 @@
 
 @media (max-width: 480px) {
     
-    .barraPesquisa {
+    .barraPesquisa-listaDeUsuarios {
         width: 100%;
     }
 
-    .selecionar-todos {
+    .selecionar-todos-listaDeUsuarios {
         padding: 10px;
         font-size: 14px;
     }
 
-    .head h3 {
+    .head-listaDeUsuarios h3 {
         font-size: 16px;
     }
 
-    .infoUser .nome {
+    .infoUser-listaDeUsuarios .nome-listaDeUsuarios {
         font-size: 14px;
     }
 
-    .infoUser span {
+    .infoUser-listaDeUsuarios span {
         font-size: 13px;
     }
 
@@ -619,24 +620,24 @@
         height: 18px;
     }
 
-    .linhaUsuario {
+    .linhaUsuario-listaDeUsuarios {
         padding: 10px;
     }
 
-    .infoUser .nome {
+    .infoUser-listaDeUsuarios .nome-listaDeUsuarios {
         max-width: 200px;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
     }
 
-    .iconeEditar {
+    .iconeEditar-listaDeUsuarios {
         right: 8px;
         width: 22px;
         height: 22px;
     }
 
-    .linhaUsuario input[type="checkbox"] {
+    .linhaUsuario-listaDeUsuarios input[type="checkbox"] {
         margin-right: 6px;
         transform: scale(0.9);
     }

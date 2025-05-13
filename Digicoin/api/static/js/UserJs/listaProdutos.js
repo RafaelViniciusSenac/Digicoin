@@ -1,5 +1,11 @@
 document.addEventListener("DOMContentLoaded", function () {
     const produtos = document.getElementsByClassName("imgD-listaProdutos");
+    const listaProdutos = JSON.parse(localStorage.getItem('listaProdutos')) || { listaGrid: [] };
+    let quantidadeMoedasCarrinho = 0;
+    listaProdutos.listaGrid.forEach(item => {
+        quantidadeMoedasCarrinho += item.valorProduto;
+    })
+    const quantidadeMoedas = document.getElementById("quantidadeMoedas").value - quantidadeMoedasCarrinho;
 
     for (let i = 0; i < produtos.length; i++) {
         produtos[i].children[0].addEventListener("click", function () {
@@ -10,32 +16,49 @@ document.addEventListener("DOMContentLoaded", function () {
             const refresh2 = flipCard.querySelector(".tras-listaProdutos .refresh-listaProdutos");
             const fecharBtns = dialog.querySelectorAll(".fechar-listaProdutos");
             const adiquirirBtn = dialog.querySelector(".Adquirir-listaProdutos");
+            const msgErrorAddProduto = dialog.querySelector(".msgErrorAddProduto-listaProdutos");
+            const valorProduto = parseInt(document.querySelector(`input[name="valorProduto[${idProduto}]"]`)?.value || 0)
+            let produtoExistente = listaProdutos.listaGrid.find(item => item.idProduto === parseInt(idProduto));
+            let msgError = "Saldo insuficiente.";
+            if(produtoExistente) {
+                msgError = "Produto já existente no carrinho.";
+            }
 
+            if (quantidadeMoedas < valorProduto || produtoExistente) {
+                adiquirirBtn.disabled = true;
+                adiquirirBtn.style.opacity = 0.5;
+                msgErrorAddProduto.style.display = "block";
+                msgErrorAddProduto.innerHTML = msgError;
+            }else {
+                adiquirirBtn.disabled = false;
+                adiquirirBtn.style.opacity = 1;
+                msgErrorAddProduto.style.display = "none";
+            }
             adiquirirBtn.addEventListener("click", () => {
-                const idProduto = adiquirirBtn.dataset.valor;
-                const tipo = document.querySelector(`input[name="tipoProduto[${idProduto}]"]`)?.value || "";
-                console.log(tipo);
+                if (quantidadeMoedas < valorProduto) {
+                    return;
+                }
+                const idProdutoAdd = adiquirirBtn.dataset.valor;
+                const tipo = document.querySelector(`input[name="tipoProduto[${idProdutoAdd}]"]`)?.value || "";
                 let fisicoPrduto = (tipo === "Físico");
 
                 const produto = {
-                    id: parseInt(idProduto),
-                    idProduto: parseInt(idProduto),
-                    nomeProduto: document.querySelector(`input[name="nomeProduto[${idProduto}]"]`)?.value || "",
-                    valorProduto: parseInt(document.querySelector(`input[name="valorProduto[${idProduto}]"]`)?.value || 0),
+                    id: parseInt(idProdutoAdd),
+                    idProduto: parseInt(idProdutoAdd),
+                    nomeProduto: document.querySelector(`input[name="nomeProduto[${idProdutoAdd}]"]`)?.value || "",
+                    valorProduto: valorProduto,
                     qtdProduto: 1,
                     fisicoProduto: fisicoPrduto
                 };
 
-                let listaProdutos = JSON.parse(localStorage.getItem('listaProdutos')) || { listaGrid: [] };
-
-                let produtoExistente = listaProdutos.listaGrid.find(item => item.idProduto === produto.idProduto);
-
                 if (!produtoExistente) {
+                    //soma a quantidade de moedas de toda a listaProdutos do localstorage
                     listaProdutos.listaGrid.push(produto);
                     localStorage.setItem('listaProdutos', JSON.stringify(listaProdutos));
                 }
-
                 dialog.close();
+                //redirecionar para o carrinho
+                window.location.href = "carrinho";
             });
 
             dialog.showModal();
