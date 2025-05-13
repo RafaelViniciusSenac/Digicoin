@@ -15,6 +15,13 @@
         Carrinho de Compras
       </div>
       {% csrf_token %}
+      
+      <div class="itemGridHeader">
+        <div class="itemGridCell">Produto</div>
+        <div class="itemGridCell">Valor</div>
+        <div class="itemGridCell">Ações</div>
+      </div>
+
       <div class="itensGrid" id="itensGrid">
         <!-- Os itens serão inseridos aqui pelo JavaScript -->
       </div>

@@ -91,6 +91,14 @@ document.addEventListener("DOMContentLoaded", () => {
     qtd: 1,
     fisicoProduto: true
   });
+    grid.push({
+    id: 1 + grid.length,
+    idProduto: 1 + grid.length,
+    nomeProduto: "Produto 2",
+    valorProduto: 20,
+    qtd: 1,
+    fisicoProduto: true
+  });
   localStorage.setItem('listaProdutos', JSON.stringify({ listaGrid: grid }));
 
 
