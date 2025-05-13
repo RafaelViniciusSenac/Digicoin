@@ -6,39 +6,39 @@
     <link rel="stylesheet" href="{% static 'css/AdmCss/cadastrarDesafio.css'%}">
 
 
-    <div class='body'>
-    <div class="header">
+    <div class='body-cadastrarDesafio'>
+    <div class="header-cadastrarDesafio">
         <img src="{% static 'img/logoAdmin.png' %}" alt="LogoAdmin">
-        <div class="botao">
+        <div class="botao-cadastrarDesafio">
             
-            <img class="iconeX" id='iconeX' src="{% static 'img/iconeX.png' %}" alt="">
+            <img class="iconeX-cadastrarDesafio" id='iconeX' src="{% static 'img/iconeX.png' %}" alt="">
         </div>
     </div>
 
-    <form method="POST"  id="formDesafio" class="formDesafio">
+    <form method="POST"  id="formDesafio" class="formDesafio-cadastrarDesafio">
         {% csrf_token %}
 
-        <div class="form">
-            <div class="cima">
-                <div class='inputsNome'>
-                    <div class="nomeDesafioDiv">
+        <div class="form-cadastrarDesafio">
+            <div class="cima-cadastrarDesafio">
+                <div class='inputsNome-cadastrarDesafio'>
+                    <div class="nomeDesafioDiv-cadastrarDesafio">
                         <label for="">Nome do desafio</label>
-                        <input type="text" id="nomeDesafio-form" class="nomeDesafio" placeholder="nome do desafio" >
+                        <input type="text" id="nomeDesafio-form" class="nomeDesafio-cadastrarDesafio" placeholder="nome do desafio" >
                     </div>
-                    <div class="nomeDesafioDiv">
+                    <div class="nomeDesafioDiv-cadastrarDesafio">
                         <label for="">Valor do desafio</label>
-                        <input type="number" id="valorDesafio-form" class="valorDesafio" placeholder="valor do desafio" >
+                        <input type="number" id="valorDesafio-form" class="valorDesafio-cadastrarDesafio" placeholder="valor do desafio" >
                     </div>
                 </div>
     
-                <div class="descricaoDesafioDiv">
+                <div class="descricaoDesafioDiv-cadastrarDesafio">
                     <label for="">Descrição</label>
-                    <textarea id="descricao-form" class="descricao" placeholder="Digite a descrição do desafio"></textarea>
+                    <textarea id="descricao-form" class="descricao-cadastrarDesafio" placeholder="Digite a descrição do desafio"></textarea>
                 </div>
             </div>
     
-            <div class="baixo">
-                <div class="statusDesafioDiv">
+            <div class="baixo-cadastrarDesafio">
+                <div class="statusDesafioDiv-cadastrarDesafio">
                     <label for="">Status do desafio</label>
                     <select name="campanha" id="campanha-form">
                         {% if desafio.idCampanha == None %}
@@ -53,19 +53,19 @@
                     </select>
                 </div>
     
-                <div class="dataDesafioDiv">
-                    <div class="dataDesafioInterno">
-                        <label class="dataDesafio" for="">Início</label>
+                <div class="dataDesafioDiv-cadastrarDesafio">
+                    <div class="dataDesafioInterno-cadastrarDesafio">
+                        <label class="dataDesafio-cadastrarDesafio" for="">Início</label>
                         <input type="date" id="inicioDesafio-form">
                     </div>
-                    <div class="dataDesafioInterno">
-                        <label class="dataDesafio" for="">Fim</label>
+                    <div class="dataDesafioInterno-cadastrarDesafio">
+                        <label class="dataDesafio-cadastrarDesafio" for="">Fim</label>
                         <input type="date" id="fimDesafio-form">
                     </div>
                 </div>
             </div>
         </div>
-        <button type="submit" class="cadastrarDesafio">Concluído</button>
+        <button type="submit" class="button-cadastrarDesafio">Concluído</button>
     </form>
     
  

@@ -5,25 +5,25 @@
 
 
 <link rel="stylesheet" href="{% static 'css/AdmCss/relatorio.css' %}">
-<div class="container">
-    <div class="cabecalho">
-        <div class="cabecalho_titulo">
+<div class="container-relatorio">
+    <div class="cabecalho-relatorio">
+        <div class="cabecalho_titulo-relatorio">
             <h1>Relatórios</h1>
-            <div class="linha"></div>
+            <div class="linha-relatorio"></div>
         </div>
-        <div class="cabecalho_btnexportar">           
+        <div class="cabecalho_btnexportar-relatorio">           
             <button><img src="{% static 'img/export.png' %}" alt="Exportar">Exportar</button>
         </div>
     </div>
-    <div class="relatorio">
-        <table class="tabela_relatorio">
+    <div class="relatorio-relatorio">
+        <table class="tabela_relatorio-relatorio">
             <tr>
-                <td class="tabela_relatorio_conteudo">
-                    <div class="tabela_relatorio_conteudo_checkbox">
+                <td class="tabela_relatorio_conteudo-relatorio">
+                    <div class="tabela_relatorio_conteudo_checkbox-relatorio">
                         <input type="checkbox" id="checkbox" name="checkbox" />
                         <label for="checkbox"></label>
                     </div>
-                    <div class="tabela_relatorio_conteudo_dado">
+                    <div class="tabela_relatorio_conteudo_dado-relatorio">
                         <img src="{% static 'img/relatorio.png' %}" alt="Relatório">
                         <h2>Vendas</h2>
                     </div>
@@ -32,5 +32,6 @@
         </table>
     </div>
 </div>
+
 
 {% endblock content %}

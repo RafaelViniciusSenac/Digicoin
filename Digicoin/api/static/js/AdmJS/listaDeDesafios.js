@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     })
 
     
-    const botoesEditar = document.querySelectorAll(".botaoEditar");
+    const botoesEditar = document.querySelectorAll(".botaoEditar-listaDeDesafios");
 
     botoesEditar.forEach(botao => {
         botao.addEventListener("click", () => {
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
-    const iconesFechar = document.querySelectorAll(".iconeX");
+    const iconesFechar = document.querySelectorAll(".iconeX-cadastrarDesafio");
     iconesFechar.forEach(icone => {
         icone.addEventListener("click", () => {
             const dialog = icone.closest("dialog");
