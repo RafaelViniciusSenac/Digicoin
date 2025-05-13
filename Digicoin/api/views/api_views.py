@@ -11,16 +11,24 @@ from django.contrib.auth.hashers import make_password
 
 
 class User(APIView):
-
+    
     def get(self, request, id=None):
         if id:
             usuario = get_object_or_404(CustomUser, pk=id)
             serializer = UserSerializer(usuario)
-            return Response(serializer.data, status= status.HTTP_200_OK)
+            return Response(serializer.data, status=status.HTTP_200_OK)
 
-        usuario = CustomUser.objects.all()
+        nome = request.query_params.get("nome")
+        
+        if nome:
+            usuario = CustomUser.objects.filter(first_name__icontains=nome)[:5]
+        else:
+            usuario = CustomUser.objects.all()[:5]
+
         serializer = UserSerializer(usuario, many=True)
-        return Response(serializer.data, status= status.HTTP_200_OK)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
 
     def post(self, request):
         nome = request.data.get('nome')
@@ -46,8 +54,8 @@ class User(APIView):
         usuario = get_object_or_404(CustomUser, pk=id)
         data = request.data.copy()
         operacao = data.get("operacao")
-        print("agy")
-        print(operacao)
+       
+        
         if operacao in ['adicionar', 'remover']:
             try:
                 saldo = int(data.get("saldo", 0))
@@ -55,11 +63,8 @@ class User(APIView):
                 return Response({"erro": "Saldo inválido."}, status=status.HTTP_400_BAD_REQUEST)
 
             if operacao == 'adicionar':
-                print("Antes:", usuario.pontuacao)
-                print("Saldo:", saldo)
                 usuario.pontuacao += saldo
                 usuario.saldo += saldo
-                print("Depois:", usuario.pontuacao)
 
             elif operacao == 'remover':
                 if usuario.saldo < saldo:

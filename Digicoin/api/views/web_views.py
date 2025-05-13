@@ -143,15 +143,19 @@ def listaDeDesafios(request):
 
     return render(request, 'AdmHtml/listaDeDesafios.html', {'desafios': desafios, 'campanhas': campanhas})
 
+
 def listaDeUsuarios(request):
-    
-    user = CustomUser.objects.all().order_by("first_name")
+    nome = request.GET.get('nome', '') 
+    user = CustomUser.objects.filter(first_name__icontains=nome).order_by("first_name")
     user_paginator = Paginator(user, 5)
     user_page = request.GET.get('user_page')
     usuarios = user_paginator.get_page(user_page)
-    
 
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        return render(request, 'AdmHtml/fragments/usuarios.html', {'usuarios': usuarios})
+    
     return render(request, 'AdmHtml/listaDeUsuarios.html', {'usuarios': usuarios})
+
 
 def desafiosCampanha(request):
 

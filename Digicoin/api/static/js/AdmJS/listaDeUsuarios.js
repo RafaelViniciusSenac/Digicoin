@@ -91,10 +91,10 @@ document.addEventListener('DOMContentLoaded', () => {
             
             if (botao.classList.contains('desativar')) {
                 statusInput.value = 'false';
-                alert('Usuário desativado com sucesso!');
+                // alert('Usuário desativado com sucesso!');
             } else if (botao.classList.contains('ativar')) {
                 statusInput.value = 'true';
-                alert('Usuário ativado com sucesso!');
+                // alert('Usuário ativado com sucesso!');
             }
             
             // Opcional: feedback visual
@@ -230,11 +230,63 @@ function getUsuariosSelecionados() {
                 saldo: saldo
             });
         }
+        
     });
+    if (usuarios.length === 0) {
+        alert('Nenhum usuário selecionado.');
+        popupAdicionarMoedas.close();
+    }
 
     return usuarios;
 }
     
-   
-
 });
+
+
+function renderizarUsuarios(usuarios, container) {
+    usuarios.slice(0, 5).forEach(usuario => {
+        const div = document.createElement('div');
+        div.className = 'linhaUsuario';
+        div.innerHTML = `
+            <input type="checkbox" class="checkbox">
+            <div class="infoUser">
+                <img src="/static/img/userBlack.png" alt="">
+                <input type="text" class="idUser" value="${usuario.id}">
+                <span class="nome">${usuario.first_name}</span>
+                <span>D$ ${usuario.saldo}</span>
+                <span class="status"></span>
+            </div>
+            <img class="iconeEditar" id="editar" data-id="${usuario.id}" src="/static/img/edit.png" alt="">
+        `;
+        container.appendChild(div);
+    });
+}
+async function buscarUsuario() {
+    const nome = document.getElementById('barraBusca-listaProdutos').value;
+
+    try {
+        const response = await apiRequest(`/api/user/?nome=${encodeURIComponent(nome)}`);
+        console.log(response);
+        
+        if (!response) {
+            console.log('Resposta inválida');
+            return;
+        }
+
+        const container = document.getElementById('listaUsuarios');
+        container.innerHTML = '';
+        renderizarUsuarios(response, container);
+
+    } catch (error) {
+        console.log('Erro ao buscar usuários:', error);
+    }
+}
+
+
+
+
+
+
+document.getElementById('barraBusca-listaProdutos').addEventListener('input', buscarUsuario);
+
+
