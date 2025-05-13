@@ -12,7 +12,7 @@ dialog {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    padding: 10px;
+    padding: 5px;
     margin-top: -20px;
 }
 
@@ -28,7 +28,7 @@ dialog {
 .headerCentral .buttonClose, .headerCentral .buttonClose2, .headerCentral .buttonClose3 {
     background-color: transparent;
     border: none;
-    margin-top: 18px;
+    margin-top: 16px;
     font-size: 16px;
     color: #FFFFFF;
     cursor: pointer;
@@ -38,6 +38,7 @@ dialog {
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
+    height: 25px;
 
 }
 
@@ -47,27 +48,35 @@ dialog {
     flex-direction: column;
     padding: 5px;
     margin-top: 5px;
-
     box-sizing: border-box;
 }
 
 .FormProduto > label, .FormQuantidade > label, .FormPreco > label, .FormImagem > label, .cadastroEventoTema > label, .cadastroEventoDescricao > label, .campanhaData > label {
-    margin-bottom: 10px; 
-    font-size: 15px;
+    margin-bottom: 8px; 
+    font-size: 16px;
 }
 
 .FormProduto, .FormQuantidade, .FormPreco, .cadastroEventoTema, .cadastroEventoDescricao {
     display: flex;
     flex-direction: column;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     width: 100%;
     box-sizing: border-box;
     position: relative;
     
 }
 
+.FormCheckbox{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    box-sizing: border-box;
+    
+}
+
 .FormTipo{
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 .FormProduto > input:hover, .FormQuantidade > input:hover, .FormPreco > input:hover, .cadastroEventoTema > input:hover, .cadastroEventoDescricao > input:hover {
@@ -82,9 +91,6 @@ input[type="checkbox"] {
 }
 
 
-#Virtual{
-    margin-left: 25px;
-}
 
 .produtoFormBotao {
     width: 100%;
@@ -246,7 +252,6 @@ input[type="file"] {
     padding-left: 5px;
     padding-right: 5px;
     width: 210px;
-
 } 
 
 .CriarNovaCampanha{
@@ -263,7 +268,6 @@ input[type="file"] {
 .input-container {
     display: flex;
     align-items: center;
-
     background:  #FFFFFF;
 }
 
@@ -309,7 +313,7 @@ footer, .rodaPeModal {
   
 .FormPreco input {
     padding-left: 35px; 
-    height: 40px;
+    height: 25px;
     line-height: 40px;
     top: 10px;
     box-sizing: border-box;
@@ -319,7 +323,7 @@ footer, .rodaPeModal {
 .FormPreco::before {
     content: "D$";
     position: absolute;
-    top: 62%;
+    top: 56%;
     left: 10px;
     transform: translateY(-50%);
     color: #979797;
@@ -401,6 +405,11 @@ footer, .rodaPeModal {
         overflow-x: hidden;
     
     }
+
+    .FormPreco::before {
+        top: 54%;
+        
+    }
    
 }
 
@@ -471,7 +480,6 @@ footer, .rodaPeModal {
         box-sizing: border-box;
         max-width: 100%;
         height: 30px;  
-        
         
     
     }
@@ -652,12 +660,13 @@ footer, .rodaPeModal {
     }
 
     .produtoDivFormBotao{
-        margin-right: -20px;
+        margin-right: 9px;
+        margin-top: -13px;
     }
     .FormPreco::before {
-        top: 62%;
+        top: 57%;
         
-      }
+    }
 
 } 
 
@@ -731,7 +740,7 @@ footer, .rodaPeModal {
 
     }
     .FormProduto input, .FormQuantidade input, .FormPreco input, .cadastroEventoTema input, .cadastroEventoDescricao textarea{
-        position: relative;
+        
         width: 100%;
         max-width: 100%;
         box-sizing: border-box;
@@ -919,7 +928,7 @@ footer, .rodaPeModal {
         margin-bottom: 8px;
     }
     .FormPreco::before {
-        top: 60%;
+        top: 58%;
         
       }
 
@@ -1172,9 +1181,11 @@ footer, .rodaPeModal {
         margin-right: -20px;
     }
     .FormPreco::before {
-        top: 62%;
+        top: 60%;
         
-      }
+    }
+
+    
 
 }
 
