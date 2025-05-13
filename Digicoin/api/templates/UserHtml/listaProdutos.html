@@ -26,6 +26,7 @@
                 {% for produto in produtos %}
                 <input type="hidden" name="nomeProduto[{{produto.id}}]" value="{{produto.nome}}">
                 <input type="hidden" name="valorProduto[{{produto.id}}]" value="{{produto.valor}}">
+                <input type="hidden" name="tipoProduto[{{produto.id}}]" value="{{produto.tipo}}">
                 <div class='imgD-listaProdutos' data-nome="{{ produto.nome|lower }}">
                     <button id='imgbotao' data-valor="{{produto.id}}"><img class='imagensP-listaProdutos' src="{{ produto.img1.url }}" alt="{{produto.nome}}"></button>
                 </div>

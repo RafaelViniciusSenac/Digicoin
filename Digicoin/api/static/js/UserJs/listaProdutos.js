@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
                 const idProdutoAdd = adiquirirBtn.dataset.valor;
                 const tipo = document.querySelector(`input[name="tipoProduto[${idProdutoAdd}]"]`)?.value || "";
-                let fisicoPrduto = (tipo === "Físico");
+                let fisicoPrduto = (tipo == "Físico");
 
                 const produto = {
                     id: parseInt(idProdutoAdd),
