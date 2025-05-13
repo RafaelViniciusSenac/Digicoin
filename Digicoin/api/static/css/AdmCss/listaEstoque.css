@@ -1,4 +1,4 @@
-:root {
+ :root {
     --laranja: #FC671D;
     --magenta: #D34AF4;
     --cinza: #faf6f7;
@@ -11,12 +11,12 @@
     --sombra-preta: rgba(0, 0, 0, 0.4);
 }
 
-.menucentro{
+.menucentro-listaEstoque{
     display: flex;
     justify-content: center;
 }
 
-.principal{
+.principal-listaEstoque{
     margin-left: 300px;
     font-family: Arial, sans-serif;
     font-size: 16px;
@@ -37,19 +37,19 @@
     margin-right: 15px;
 }
 
-.barra-pesquisa{
+.barra-pesquisa-listaEstoque{
     display: flex;
     justify-content: end;
 
 }
-.estoque-container {
+.estoque-container-listaEstoque {
     padding: 10px;
     margin-top: 40px; 
     border-radius: 10px;
     width: 60%;
 }
 
-.cabecalho {
+.cabecalho-listaEstoque {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -83,7 +83,7 @@
     width: 25px;
 }
 
-.btn-adicionar {
+.btn-adicionar-listaEstoque {
     background-color: rgb(211, 74, 244);
     color: white;
     height: 50px;
@@ -99,7 +99,7 @@
     transition: background-color 0.3s ease;
 }
 
-.btn-adicionar:hover {
+.btn-adicionar-listaEstoque:hover {
     background-color: var(--laranja);
 }
 
@@ -111,21 +111,21 @@
     border-bottom: 1px solid #ddd; 
 }
 
-.editar, .deletar {
+.editar-listaEstoque, .deletar-listaEstoque {
     border: none;
     background: none;
     cursor: pointer;
 }
 
-.tabela-cell-quantidade{
+.tabela-cell-listaEstoque .quantidade{
     text-align: end;
 }
 
-.traco{
+.traco-listaEstoque{
     border-bottom: solid 3px #FC671D;
 }
 
-.search-container {
+.search-container-listaEstoque {
     border: 2px solid #ccc;
     border-radius: 25px;
     padding: 5px 15px;
@@ -134,18 +134,18 @@
     gap: 8px;
 }
 
-.search-container input {
+.search-container-listaEstoque input {
     border: none;
     outline: none;
     font-size: 14px;
 }
 
-.search-container img {
+.search-container-listaEstoque img {
     width: 30px;
     height: 30px;
 }
 
-.tabela {
+.tabela-listaEstoque {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -155,13 +155,13 @@
     overflow: hidden;
 }
 
-.tabela-head {
+.tabela-head-listaEstoque {
     background: white;
     font-weight: bold;
     padding: 10px;
 }
 
-.tabela-rowheader {
+.tabela-rowheader-listaEstoque {
     display: flex;
     align-items: center;
     padding: 10px 15px;
@@ -169,7 +169,7 @@
     background-color: #fff;
 }
 
-.tabela-row {    
+.tabela-row-listaEstoque {    
     display: flex;
     text-align: center;
     padding: 10px 15px 10px 15px;
@@ -181,12 +181,12 @@
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
 }
 
-.tabela-row .quantidade {
+.tabela-row-listaEstoque .quantidade {
     display: flex;
     align-items: center;
 }
 
-.tabela-cell {
+.tabela-cell-listaEstoque {
     display: flex;
     text-align: center;
     flex: 1;
@@ -223,7 +223,7 @@ button {
     padding: 5px;
 }
 
-.editar img, .deletar img {
+.editar-listaEstoque img, .deletar-listaEstoque img {
     width: 20px;
     height: 20px;
 }

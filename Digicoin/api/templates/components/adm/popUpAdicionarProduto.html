@@ -21,7 +21,7 @@
             </div>
         </header>
         <div class="ModalContainer">
-            <form id="produtoForm" autocomplete="off">
+            <form id="produtoForm">
             <div class="ladoEsquerdo">
                 <div class="FormProduto">
                     <label for="Produto">Nome do Produto:</label>
@@ -47,13 +47,25 @@
                 <div class="FormTipo">
                     <div><label>Tipo:</label></div>
                     <div class="FormCheckbox">
-                        <input type="checkbox" id="Campanha">
-                        <label for="Campanha">Campanha</label>
-                        <small class="alerta">*</small> 
-                        <input type="checkbox" id="Fisico">
-                        <label for="Fisico">Físico</label>
-                        <input type="checkbox" id="Virtual">
-                        <label for="Virtual">Virtual</label>
+
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="Campanha">
+                            <label for="Campanha">Campanha</label>
+                            <small class="alerta">*</small> 
+                        </div>
+
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="Fisico">
+                            <label for="Fisico">Físico</label>
+                            <small class="alerta" id="erroFisico">*</small>
+                        </div>
+
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="Virtual">
+                            <label for="Virtual">Virtual</label>
+                            <small class="alerta" id="erroVirtual">*</small>
+                        </div> 
+                        
                     </div>
                 </div>
             </div>
@@ -71,11 +83,14 @@
                         </div>
                     </label>
                     <input type="file" id="imagem" accept="image/jpeg, image/png, image/webp">
+                    
+                    
+                    
                     <footer class="produtoFormBotao">
 
                         <div class="produtoDivFormBotao">
                             <!-- Botão Concluir redireciona para o segundo pop up -->
-                            <button type="button" class="buttonConcluir">Concluido</button>
+                            <button id="btnConcluir" type="button" class="buttonConcluir">Concluido</button>
                         </div>
                     </footer>
                 </div>
@@ -129,6 +144,7 @@
                     </div>
                     <div class="rodaPeBotao">
                         <input type="hidden" value="" id="valorEditar">
+                        <input type="hidden" value="" id="valorEditar2">
                         <button type="submit" class="buttonrodaPe">
                             Concluido
                         </button>

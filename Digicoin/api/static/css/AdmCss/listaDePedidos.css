@@ -1,19 +1,17 @@
-.principal{
+.principal-listaDePedidos {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     margin-bottom: 100px;
-   
-    
 }
 
-.detalhe{
+.detalhe-listaDePedidos {
     margin-left: 350px;
     width: 60%;
 }
 
-.Conteiner{
+.Conteiner-listaDePedidos {
     margin-left: 350px;
     color: black;
     font-size: 35px;
@@ -22,33 +20,31 @@
     flex-direction: column;
 }
 
-
-.Titulo{
+.Titulo-listaDePedidos {
     display: flex;
     font-weight: bold;
     font-size: 25px;
 }
 
-.underline{
+.underline-listaDePedidos {
     border-bottom: 5px solid orange;
 }
 
-.Produto{
+.Produto-listaDePedidos {
     display: flex;
     flex-direction: column;
     gap: 20px;
     margin-top: 20px;
-
 }
 
-.iconedigix{
+.iconedigix-listaDePedidos {
     display: flex;
     align-items: center;
     width: 60px;
     height: 34px;
 }
 
-.linha{
+.linha-listaDePedidos {
     display: flex;
     justify-content: space-between;
     border: none;
@@ -56,32 +52,31 @@
     padding: 10px;
     align-items: center;
     height: 50px;
-    box-shadow: rgba(44, 0, 106, 0.3) 0px 10px 10px, rgba(44,0, 106, 0.22) 0px 10px 10px;
+    box-shadow: rgba(44, 0, 106, 0.3) 0px 10px 10px, rgba(44, 0, 106, 0.22) 0px 10px 10px;
 }
 
-.nome{
+.nome-listaDePedidos {
     display: flex;
     align-items: center;
-
     font-size: 24px;
 }
 
-.nome img{
+.nome-listaDePedidos img {
     margin-right: 15px;
 }
 
-.caminhao{
+.caminhao-listaDePedidos {
     width: 34px;
     height: 34px;
     margin-right: 15px;
 }
 
-.caixabox{
+.caixabox-listaDePedidos {
     width: 34px;
     height: 34px;
 }
 
-button{
+button {
     display: flex;
     border: none;
     padding: 10px 20px;
@@ -92,36 +87,34 @@ button{
     align-items: center;
     gap: 10px;
     cursor: pointer;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-
-
-a{
+a {
     text-decoration: none;
 }
 
-.buttonPedidos {
+.buttonPedidos-listaDePedidos {
     background-color: #00C4CC;
     color: white;
 }
 
-.buttonPedidos1 {
+.buttonPedidos1-listaDePedidos {
     background-color: #DA3ADC;
     color: white;
 }
 
-.buttonPedidos2 {
+.buttonPedidos2-listaDePedidos {
     background-color: #fc671d;
     color: white;
 }
 
-.buttonPedidos:hover{
+.buttonPedidos-listaDePedidos:hover {
     background-color: #037b80;
     transition: 0.5s ease-in-out;
-} 
+}
 
-.cabecalho{
+.cabecalho-listaDePedidos {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -129,35 +122,35 @@ a{
     margin-top: 100px;
 }
 
-.butoes{
+.butoes-listaDePedidos {
     display: flex;
     flex-direction: row;
     gap: 10px;
     align-items: center;
 }
 
-.pagination{
+.pagination-listaDePedidos {
     margin-bottom: 40px;
     display: flex;
 }
-.pagination a {
+
+.pagination-listaDePedidos a {
     font-size: 24px;
     text-decoration: none;
-    
 }
 
-.pagination div{
+.pagination-listaDePedidos div {
     margin-top: 20px;
     display: flex;
 }
 
-.pagination img{
+.pagination-listaDePedidos img {
     transform: rotate(180deg);
     width: 32px;
     height: 32px;
 }
 
-.pagination span{
+.pagination-listaDePedidos span {
     margin-top: 20px;
     margin-left: 10px;
     margin-right: 10px;

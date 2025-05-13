@@ -6,48 +6,43 @@
 
 {% include 'components/adm/menuAdm.html' %}
 
-<div class="principal">
-    <div class="detalhe">
-        <div class="cabecalho">
-            <h1 class="Titulo">
-                <p class="underline">Ped</p> <p> idos</p>
+<div class="principal-listaDePedidos">
+    <div class="detalhe-listaDePedidos">
+        <div class="cabecalho-listaDePedidos">
+            <h1 class="Titulo-listaDePedidos">
+                <p class="underline-listaDePedidos">Ped</p> <p> idos</p>
             </h1>
 
-
-            <div class="butoes">
-                <div class="button">
+            <div class="butoes-listaDePedidos">
+                <div class="button-listaDePedidos">
                     <a href="/listaDePedidos">
-                        <button class="buttonPedidos">Visualizar Pedidos</button>
+                        <button class="buttonPedidos-listaDePedidos">Visualizar Pedidos</button>
                     </a>
                 </div>
                 
-                <div class="button">
+                <div class="button-listaDePedidos">
                     <a href="/listaDePedidos?status=1">
-                        <button class="buttonPedidos1">Visualizar Pedidos Concluidos</button>
+                        <button class="buttonPedidos1-listaDePedidos">Visualizar Pedidos Concluidos</button>
                     </a>
                 </div>
                 
-                <div class="button">
+                <div class="button-listaDePedidos">
                     <a href="/listaDePedidos?status=2">
-                        <button class="buttonPedidos2">Visualizar Pedidos Pendentes</button>
+                        <button class="buttonPedidos2-listaDePedidos">Visualizar Pedidos Pendentes</button>
                     </a>
                 </div>
             </div>
         </div>
 
-        <div class="Produto">
-           
+        <div class="Produto-listaDePedidos">
             {% for pedido in pedidos %}
-
-            <div class="linha">
-                <div class="nome">
-                    <img class="iconedigix" src="{% static 'img/digixlogo.png'%}" alt="icone">
+            <div class="linha-listaDePedidos">
+                <div class="nome-listaDePedidos">
+                    <img class="iconedigix-listaDePedidos" src="{% static 'img/digixlogo.png'%}" alt="icone">
                     <p> {{pedido.idProduto.nome}}  </p>
-                    <!-- {{ pedido.idCompra.pedido }} - {{pedido.id}} -->
                 </div>
-                    <img class="caminhao" src="{% static 'img/truck.png'%}" alt="icone">
+                <img class="caminhao-listaDePedidos" src="{% static 'img/truck.png'%}" alt="icone">
             </div>
-
             {% endfor %}
         </div>
 

@@ -9,7 +9,7 @@
 <body class="body-listadeProdutos">
     {% include "components/user/menuUser.html" %}
 
-    <div id="menuColaborador"></div>
+    <input type="hidden" id="quantidadeMoedas" value="{{quantidade_moedas}}">
     <div class="containerProduto-listaProdutos">
         <div class="produtos-listaProdutos">
             <div class="produtosDigix-listaProdutos">
@@ -24,6 +24,9 @@
             </div>
             <div class="imagensDigix-listaProdutos">
                 {% for produto in produtos %}
+                <input type="hidden" name="nomeProduto[{{produto.id}}]" value="{{produto.nome}}">
+                <input type="hidden" name="valorProduto[{{produto.id}}]" value="{{produto.valor}}">
+                <input type="hidden" name="tipoProduto[{{produto.id}}]" value="{{produto.tipo}}">
                 <div class='imgD-listaProdutos' data-nome="{{ produto.nome|lower }}">
                     <button id='imgbotao' data-valor="{{produto.id}}"><img class='imagensP-listaProdutos' src="{{ produto.img1.url }}" alt="{{produto.nome}}"></button>
                 </div>
@@ -49,6 +52,8 @@
                         </div>
                         <div class="btn-refresh-listaProdutos">
                             <button class="Adquirir-listaProdutos" data-valor="{{produto.id}}">adquirir</button>
+                            <!-- mensagem de quantidade insuficiente -->
+                            <span class="msgErrorAddProduto-listaProdutos"></span>
                         </div>
                         <i class="fa fa-refresh refresh-listaProdutos" aria-hidden="true"></i>
                     </div>
@@ -93,5 +98,5 @@
 
 
     <script src="{% static 'js/UserJs/listaProdutos.js' %}"></script>
-</body>
+</div>
 {% endblock %}

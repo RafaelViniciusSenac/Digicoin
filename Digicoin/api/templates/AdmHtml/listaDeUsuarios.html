@@ -9,27 +9,27 @@
 
 <div class="mainListaUsuarios">
     
-    <div class="divPesquisa">
-        <div class="barraPesquisa">
+    <div class="divPesquisa-listaDeUsuarios">
+        <div class="barraPesquisa-listaDeUsuarios">
             <img src="{% static 'img/iconeLupa.png' %}" alt="Ícone de busca">
             <input id="barraBusca-listaProdutos" type="search" placeholder="Pesquisar usuário">
         </div>
     </div>
     
 
-        <div class="primeiraLinha">
+        <div class="primeiraLinha-listaDeUsuarios">
 
             <h1><span>Usu</span>ários</h1>
 
-            <div class="botoesUsuario">
+            <div class="botoesUsuario-listaDeUsuarios">
             
-                    <button class="addMoedas" id="addMoedas">
+                    <button class="addMoedas-listaDeUsuarios" id="addMoedas">
                         <img src="{% static 'img/iconAdicionar.png' %}" alt="">
                         Adicionar moedas
                     </button>
           
 
-                    <button class="addUsuarios" id="addUsuarios">
+                    <button class="addUsuarios-listaDeUsuarios" id="addUsuarios">
                         <img src="{% static 'img/iconAdicionar.png' %}" alt="">
                         Adicionar usuário
                     </button>
@@ -38,51 +38,51 @@
 
         </div>
 
-        <div class="head">
+        <div class="head-listaDeUsuarios">
             <p>Nome</p>
             <img src="{% static 'img/lista.png' %}" alt="">
         </div>
 
-        <div class="selecionar-todos">
+        <div class="selecionar-todos-listaDeUsuarios">
             <label>
                 <input type="checkbox" id="selecionarTodos"> 
                 Selecionar todos os usuários ativos
             </label>
         </div>
 
-        <div id="listaUsuarios" class="listaUsuarios">
+        <div class="listaUsuarios">
 
             {% for usuario in usuarios %}
 
             
             {% if usuario.is_active %}
             
-            <div class="linhaUsuario">
+            <div class="linhaUsuario-listaDeUsuarios">
                 <input type="checkbox" class="checkbox">
-                <div class="infoUser">
+                <div class="infoUser-listaDeUsuarios">
                     <img src="{% static 'img/userBlack.png' %}" alt="">
-                    <input type="text" class="idUser" value="{{usuario.id}}">
-                    <span class="nome">{{usuario.first_name}}</span>
+                    <input type="hidden" class='idUser-listaDeUsuarios' value="{{usuario.id}}">
+                    <span class="nome-listaDeUsuarios">{{usuario.first_name}}</span>
                     <span>D$ {{usuario.saldo}} </span>
-                    <span class="status"></span>
+                    <span class="status-listaDeUsuarios"></span>
                     
                 </div>
-                <img class="iconeEditar" id="editar"
+                <img class="iconeEditar-listaDeUsuarios" id="editar"
                 data-id="{{usuario.id}}"  src="{% static 'img/edit.png' %}" alt="">
             </div>
     
 
             {% else %}
 
-                <div class="linhaUsuario desativado">
+                <div class="linhaUsuario-listaDeUsuarios desativado-listaDeUsuarios">
                     <input type="checkbox" class="checkbox" disabled>
-                    <div class="infoUser">
-                        <input type="text" class="idUser" value="{{usuario.id}}">
+                    <div class="infoUser-listaDeUsuarios">
+                        <input type="text" class="idUser-listaDeUsuarios" value="{{usuario.id}}">
                         <img src="{% static 'img/userBlack.png' %}" alt="">
-                        <span class="nome">{{usuario.first_name}}</span>
-                        <span class="status">Desativado</span>
+                        <span class="nome-listaDeUsuarios">{{usuario.first_name}}</span>
+                        <span class="status-listaDeUsuarios">Desativado</span>
                     </div>
-                    <img class="iconeEditar" id="editar" data-id="{{usuario.id}}"  src="{% static 'img/edit.png' %}" alt="">
+                    <img class="iconeEditar-listaDeUsuarios" id="editar" data-id="{{usuario.id}}"  src="{% static 'img/edit.png' %}" alt="">
                 </div>
 
 
