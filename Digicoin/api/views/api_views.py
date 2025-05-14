@@ -11,23 +11,31 @@ from django.contrib.auth.hashers import make_password
 
 
 class User(APIView):
-
+    
     def get(self, request, id=None):
         if id:
             usuario = get_object_or_404(CustomUser, pk=id)
             serializer = UserSerializer(usuario)
-            return Response(serializer.data, status= status.HTTP_200_OK)
+            return Response(serializer.data, status=status.HTTP_200_OK)
 
-        usuario = CustomUser.objects.all()
+        nome = request.query_params.get("nome")
+        
+        if nome:
+            usuario = CustomUser.objects.filter(first_name__icontains=nome)[:5]
+        else:
+            usuario = CustomUser.objects.all()[:5]
+
         serializer = UserSerializer(usuario, many=True)
-        return Response(serializer.data, status= status.HTTP_200_OK)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
 
     def post(self, request):
         nome = request.data.get('nome')
         senha = request.data.get('senha')
         ra = request.data.get('ra')
         fistName = request.data.get('first_name')
-        # isAdm = request.data.get('is_adm')
+        isAdm = request.data.get('is_adm')
 
         if not nome or not senha:
             return Response({"error": "Todos os campos são obrigatórios!", "status": status.HTTP_400_BAD_REQUEST}, status= status.HTTP_400_BAD_REQUEST)
@@ -37,7 +45,7 @@ class User(APIView):
             password = make_password(senha),
             is_active = True,
             first_name = fistName,
-            
+            is_adm = isAdm,
             ra = ra
         )
         return Response({"message":"Usuário criado com sucesso!", "id":usuario.id, "status": status.HTTP_201_CREATED})
@@ -46,8 +54,8 @@ class User(APIView):
         usuario = get_object_or_404(CustomUser, pk=id)
         data = request.data.copy()
         operacao = data.get("operacao")
-        print("agy")
-        print(operacao)
+       
+        
         if operacao in ['adicionar', 'remover']:
             try:
                 saldo = int(data.get("saldo", 0))
@@ -55,11 +63,8 @@ class User(APIView):
                 return Response({"erro": "Saldo inválido."}, status=status.HTTP_400_BAD_REQUEST)
 
             if operacao == 'adicionar':
-                print("Antes:", usuario.pontuacao)
-                print("Saldo:", saldo)
                 usuario.pontuacao += saldo
                 usuario.saldo += saldo
-                print("Depois:", usuario.pontuacao)
 
             elif operacao == 'remover':
                 if usuario.saldo < saldo:
@@ -109,14 +114,15 @@ class Login(APIView):
     def post(self, request):
         nome = request.data.get('nome')
         senha = request.data.get('senha')
-
-        usuario = authenticate(username=nome, password=senha)
         
-        if(usuario):
-            login(request, usuario)
-            return Response({"status": status.HTTP_200_OK})
-        else:
-            return Response({"mensagem": "Usuario nao encontrado!", "status": status.HTTP_401_UNAUTHORIZED})
+        user = authenticate(username=nome, password=senha)
+        if user is not None:
+            login(request, user)
+            return Response({
+                'is_adm': user.is_adm
+            }, status=status.HTTP_200_OK)
+        
+        return Response({'error': 'Credenciais inválidas'}, status=status.HTTP_401_UNAUTHORIZED)
         
 class Logout(APIView):
     def post(self, request):

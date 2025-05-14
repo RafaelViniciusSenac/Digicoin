@@ -194,3 +194,37 @@ tr{
     display: flex;
     margin-bottom: 30px;
 }
+
+#paginacao {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+    font-family: Arial, sans-serif;
+}
+
+#paginacao button {
+    background-color: #d34af4;
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+#paginacao button:hover {
+    background-color: #fc671d;
+}
+
+#paginacao button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+#pagina-atual-predefinida {
+    font-weight: bold;
+    font-size: 1.1rem;
+}
