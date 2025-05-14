@@ -40,13 +40,13 @@ class Grid {
   }
 
   ordenarItensGrid(element, coluna) {
-    if (element.className === 'sort-desc') { // Se o botão estiver com a classe 'sort-desc', inverte a ordenação
-      element.className = 'sort-asc'; // Torna o botão 'sort-asc' e inverte a ordenação
+    if (element.className === 'sort-desc-carrinhoCompras') { // Se o botão estiver com a classe 'sort-desc', inverte a ordenação
+      element.className = 'sort-asc-carrinhoCompras'; // Torna o botão 'sort-asc' e inverte a ordenação
       this.listaGrid.sort((a, b) => {
         return this.compararValores(a[coluna], b[coluna]);
       });
     } else {
-      element.className = 'sort-desc'; // Torna o botão 'sort-desc' e inverte a ordenação
+      element.className = 'sort-desc-carrinhoCompras'; // Torna o botão 'sort-desc' e inverte a ordenação
       this.listaGrid.sort((a, b) => {
         return this.compararValores(b[coluna], a[coluna]);
       });
@@ -111,10 +111,10 @@ document.addEventListener("DOMContentLoaded", () => {
       let qtd = parseInt(1);
       let totalProduto = qtd * valor;
       let gridRow = `
-        <div class="itemGridRow">
-          <div class="itemGridCell col-produto" data-label="Produto">${item.nomeProduto}</div>
-          <div class="itemGridCell col-valor" data-label="Valor"><span class="cor-moeda">D$</span> <span class="cor-valor">${totalProduto}</span></div>
-          <div class="itemGridCell col-acoes" data-label="Ações"><button class="botao-remover" data-id="${item.idProduto}"><img src="${imgRemoverSrc}"></button></div>
+        <div class="itemGridRow-carrinhoCompras">
+          <div class="itemGridCell-carrinhoCompras col-produto" data-label="Produto">${item.nomeProduto}</div>
+          <div class="itemGridCell-carrinhoCompras col-valor" data-label="Valor"><span class="cor-moeda-carrinhoCompras">D$</span> <span class="cor-valor-carrinhoCompras">${totalProduto}</span></div>
+          <div class="itemGridCell-carrinhoCompras col-acoes" data-label="Ações"><button class="botao-remover-carrinhoCompras" data-id="${item.idProduto}"><img src="${imgRemoverSrc}"></button></div>
         </div>
       `;
       return gridRow;

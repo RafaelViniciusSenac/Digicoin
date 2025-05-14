@@ -16,13 +16,13 @@
       </div>
       {% csrf_token %}
       
-      <div class="itemGridHeader">
-        <div class="itemGridCell col-produto"><img class="iconeProduto-carrinhoCompras" src="{%static 'img/produto.png'%}" alt="produtos">Produto</div>
-        <div class="itemGridCell col-valor">Valor</div>
-        <div class="itemGridCell col-acoes">Ações</div>
+      <div class="itemGridHeader-carrinhoCompras">
+        <div class="itemGridCell-carrinhoCompras col-produto"><img class="iconeProduto-carrinhoCompras" src="{% static 'img/produto.png' %}" alt="produtos">Produto</div>
+        <div class="itemGridCell-carrinhoCompras col-valor">Valor</div>
+        <div class="itemGridCell-carrinhoCompras col-acoes">Ações</div>
       </div>
 
-      <div class="itensGrid" id="itensGrid">
+      <div class="itensGrid-carrinhoCompras" id="itensGrid">
         <!-- Os itens serão inseridos aqui pelo JavaScript -->
       </div>
       <div class="valorTotal-carrinhoCompras">
