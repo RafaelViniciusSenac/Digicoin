@@ -246,21 +246,22 @@ function getUsuariosSelecionados() {
 function renderizarUsuarios(usuarios, container) {
     usuarios.slice(0, 5).forEach(usuario => {
         const div = document.createElement('div');
-        div.className = 'linhaUsuario';
+        div.className = 'linhaUsuario-listaDeUsuarios';
         div.innerHTML = `
             <input type="checkbox" class="checkbox">
-            <div class="infoUser">
+            <div class="infoUser-listaDeUsuarios">
                 <img src="/static/img/userBlack.png" alt="">
-                <input type="text" class="idUser" value="${usuario.id}">
-                <span class="nome">${usuario.first_name}</span>
+                <input type="hidden" class="idUser-listaDeUsuarios" value="${usuario.id}">
+                <span class="nome-listaDeUsuarios">${usuario.first_name}</span>
                 <span>D$ ${usuario.saldo}</span>
-                <span class="status"></span>
+                <span class="status-listaDeUsuarios"></span>
             </div>
-            <img class="iconeEditar" id="editar" data-id="${usuario.id}" src="/static/img/edit.png" alt="">
+            <img class="iconeEditar-listaDeUsuarios" id="editar" data-id="${usuario.id}" src="/static/img/edit.png" alt="">
         `;
         container.appendChild(div);
     });
 }
+
 async function buscarUsuario() {
     const nome = document.getElementById('barraBusca-listaProdutos').value;
 

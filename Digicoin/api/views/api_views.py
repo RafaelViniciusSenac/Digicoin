@@ -35,7 +35,7 @@ class User(APIView):
         senha = request.data.get('senha')
         ra = request.data.get('ra')
         fistName = request.data.get('first_name')
-        # isAdm = request.data.get('is_adm')
+        isAdm = request.data.get('is_adm')
 
         if not nome or not senha:
             return Response({"error": "Todos os campos são obrigatórios!", "status": status.HTTP_400_BAD_REQUEST}, status= status.HTTP_400_BAD_REQUEST)
@@ -45,7 +45,7 @@ class User(APIView):
             password = make_password(senha),
             is_active = True,
             first_name = fistName,
-            
+            is_adm = isAdm,
             ra = ra
         )
         return Response({"message":"Usuário criado com sucesso!", "id":usuario.id, "status": status.HTTP_201_CREATED})
@@ -114,14 +114,14 @@ class Login(APIView):
     def post(self, request):
         nome = request.data.get('nome')
         senha = request.data.get('senha')
-
-        usuario = authenticate(username=nome, password=senha)
         
-        if(usuario):
-            login(request, usuario)
-            return Response({"status": status.HTTP_200_OK})
-        else:
-            return Response({"mensagem": "Usuario nao encontrado!", "status": status.HTTP_401_UNAUTHORIZED})
+        user = authenticate(username=nome, password=senha)
+        if user is not None:
+            return Response({
+                'is_adm': user.is_adm
+            }, status=status.HTTP_200_OK)
+        
+        return Response({'error': 'Credenciais inválidas'}, status=status.HTTP_401_UNAUTHORIZED)
         
 class Logout(APIView):
     def post(self, request):
