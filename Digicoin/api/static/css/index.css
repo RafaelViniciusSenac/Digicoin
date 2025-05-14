@@ -57,8 +57,9 @@ form{
 }
 
 .linhaInferior{
-    width: 80%;
     display: flex;
+    justify-content: center;
+    align-items: center;
     margin-bottom: 25px;
     justify-content: space-between;
 }
