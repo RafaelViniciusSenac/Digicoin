@@ -117,6 +117,7 @@ class Login(APIView):
         
         user = authenticate(username=nome, password=senha)
         if user is not None:
+            login(request, user)
             return Response({
                 'is_adm': user.is_adm
             }, status=status.HTTP_200_OK)
