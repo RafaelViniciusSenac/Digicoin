@@ -25,7 +25,7 @@
             <div class="ladoEsquerdo">
                 <div class="FormProduto">
                     <label for="Produto">Nome do Produto:</label>
-                    <input type="text" id="Produto" placeholder="Produto">
+                    <input type="text" id="Produto" placeholder="Produto" class="alertaInput">
                     <small class="alerta">Mensagem de erro</small>
                 </div>
                 <div class="FormQuantidade">
@@ -33,7 +33,7 @@
                     <input type="text" id="Quantidade" placeholder="Quantidade" 
                         oninput="mascaraMilhar(this)" 
                         onkeydown="return bloqueiaCaracteresIndesejados(event)" 
-                        maxlength="9" >
+                        maxlength="9" class="alertaInput">
                     <small class="alerta">Mensagem de erro</small>
                 </div>
                 <div class="FormPreco">
@@ -41,7 +41,7 @@
                     <input type="text" id="Preco" placeholder="999" 
                         oninput="mascaraMilhar(this)" 
                         onkeydown="return bloqueiaCaracteresIndesejados(event)"  
-                        maxlength="15" >
+                        maxlength="15" class="alertaInput" >
                     <small class="alerta">Mensagem de erro</small>
                 </div>
                 <div class="FormTipo">
@@ -143,11 +143,16 @@
         
                     </div>
                     <div class="rodaPeBotao">
+                        <div>
                         <input type="hidden" value="" id="valorEditar">
                         <input type="hidden" value="" id="valorEditar2">
+                        <div/>
+                        
+                        <div>
                         <button type="submit" class="buttonrodaPe">
                             Concluido
                         </button>
+                        <div/>
                     </div>
 
                 </footer>
@@ -172,7 +177,7 @@
                     <div class="miniContainer">
                     <div class="cadastroEventoTema">
                         <label for="nomeCampanha">Nome da Campanha</label>
-                        <input type="text" id="nomeCampanha">
+                        <input type="text" id="nomeCampanha" placeholder="nome da campanha">
                     </div>
                 
                     

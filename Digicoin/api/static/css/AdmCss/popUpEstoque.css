@@ -101,7 +101,7 @@ input[type="checkbox"] {
     border-radius: 5px;
     border: none;
     margin-top: 5px;
-    width: 150px;
+    width: 300px;
     height: 35px;   
     background-color: rgb(211, 74, 244);
     font-size: 15px;
@@ -122,6 +122,15 @@ input[type="checkbox"] {
 .alerta.error {
     visibility: visible;
 }
+
+
+
+.alertaInput.error{
+    border: 2px solid red;
+    
+}
+
+
 
 
 /* imagem mudando dentro da caixa */
@@ -292,10 +301,16 @@ input[type="file"] {
     width: 100px;
 }
 
+.buttonrodaPe{
+    margin-top: 15px;
+}
 footer, .rodaPeModal {
     position: absolute;
     bottom: 15px;
     left: 0;
+    flex-wrap: wrap;
+    
+    
     
     
 
@@ -309,6 +324,9 @@ footer, .rodaPeModal {
 
 .fim{
     text-align: end;
+    display: flex;
+    justify-content: end;
+    align-items: end;
 } 
 
 
@@ -344,6 +362,61 @@ footer, .rodaPeModal {
     align-items: center;
   }
 
+
+  #descricaoCampanha {
+    width: 100%;
+    max-width: 600px;
+    height: 150px;
+    padding: 12px;
+    font-size: 15px;
+    border: 1px solid #ccc;
+    resize: none; /* desativa a alça de redimensionamento */
+    outline: none;
+    background-color: #fff;
+    color: #333;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: border 0.3s ease;
+  }
+  
+  #descricaoCampanha:focus {
+    border-color: #66afe9; /* Borda azul clara ao focar */
+  }
+
+  .campanhaData {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+
+  
+.campanhaData .inicio,
+.campanhaData .fim {
+  flex: 1;
+  min-width: 50px;
+}
+
+.fim, .inicio{
+    display: flex;
+    flex-direction: column;
+}
+
+input[type="date"] {
+  width: 120px;
+  padding: 5px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  color: #333;
+  outline: none;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: border 0.3s ease;
+}
+
+input[type="date"]:focus {
+    border-color: #66afe9;
+}
 @media screen and (max-width: 375px) {
     .temaCampanhaCorpo{
         height: 400px;
@@ -353,6 +426,26 @@ footer, .rodaPeModal {
     }
     
     
+}
+
+.cadastroEventoTema, .campanhaData{
+    margin-top: 10px;
+}
+
+.cadastroEventoTema{
+    margin-bottom: 30px;
+}
+
+.cadastroEventoDescricao{
+    margin-bottom: 50px;
+}
+.campanhaData label {
+    margin-bottom: 6px; /* ou o valor que preferir */
+    display: block; /* importante para a margem funcionar corretamente */
+}
+
+.temaCampanhaHeard{
+    margin-bottom: 10px;
 }
 
 
@@ -572,7 +665,7 @@ footer, .rodaPeModal {
 
     .rodaPeBotao{
         display: inline-block;
-        margin: 6px 47px; 
+        margin: 17px 47px; 
     }
 
     .temaCampanhaCorpo{
@@ -836,7 +929,7 @@ footer, .rodaPeModal {
 
     .rodaPeBotao{
         display: inline-block;
-        margin: 6px 47px; 
+        margin: 18.5px 47px; 
     }
 
     .temaCampanhaCorpo{
@@ -1090,7 +1183,7 @@ footer, .rodaPeModal {
 
     .rodaPeBotao{
         display: inline-block;
-        margin: 2px 39px; /* Margem lateral */
+        margin: 12.5px 39px; /* Margem lateral */
     }
 
     .temaCampanhaCorpo{

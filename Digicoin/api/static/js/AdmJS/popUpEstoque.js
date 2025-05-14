@@ -42,7 +42,10 @@ document.addEventListener("DOMContentLoaded", function () {
     function ShowError(input, mensagem) {
         const formControl = input.parentElement;
         const small = formControl.querySelector("small");
+        const forms = formControl.querySelector("input");
+
         small.textContent = mensagem;
+        forms.classList.add("error");
         small.classList.add("error");
     }
 
@@ -50,6 +53,9 @@ document.addEventListener("DOMContentLoaded", function () {
     function ShowSucesso(input) {
         const formControl = input.parentElement;
         const small = formControl.querySelector("small");
+        const forms = formControl.querySelector("input");
+
+        forms.classList.remove("error");
         small.classList.remove("error");
     }
 
