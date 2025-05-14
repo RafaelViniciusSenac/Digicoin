@@ -54,7 +54,17 @@
                 </div>
             </div>
             {% comment %} fim da lista de desafios {% endcomment %}
-
+            <div class="pagination">
+                {% if desafios.has_previous %}
+                    <a href="?desafio_page={{ desafios.previous_page_number }}">Anterior</a>
+                {% endif %}
+            
+                <span>Página {{ desafios.number }} de {{ desafios.paginator.num_pages }}</span>
+            
+                {% if desafios.has_next %}
+                    <a href="?desafio_page={{ desafios.next_page_number }}">Próxima</a>
+                {% endif %}
+            </div>
 
 
         </div>

@@ -9,12 +9,13 @@
 
 <div class="mainListaUsuarios">
     
-    <div class="divPesquisa-listaDeUsuarios">
+    <div  class="divPesquisa-listaDeUsuarios">
         <div class="barraPesquisa-listaDeUsuarios">
-            <img src="{% static 'img/iconeLupa.png' %}" alt="">
-            <input type="search" placeholder="Pesquisar usuário">
+            <img src="{% static 'img/iconeLupa.png' %}" alt="Ícone de busca">
+            <input id="barraBusca-listaProdutos" type="search" placeholder="Pesquisar usuário">
         </div>
     </div>
+    
 
         <div class="primeiraLinha-listaDeUsuarios">
 
@@ -49,7 +50,7 @@
             </label>
         </div>
 
-        <div class="listaUsuarios-listaDeUsuarios">
+        <div id="listaUsuarios"  class="listaUsuarios">
 
             {% for usuario in usuarios %}
 

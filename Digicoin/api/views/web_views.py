@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from api.models import *
 from django.core.paginator import Paginator
 from ..serializers import UsuarioComHistoricoSerializer
-from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 
 def login(request):
@@ -174,15 +173,19 @@ def listaDeDesafios(request):
 
     return render(request, 'AdmHtml/listaDeDesafios.html', {'desafios': desafios, 'campanhas': campanhas})
 
+
 def listaDeUsuarios(request):
-    
-    user = CustomUser.objects.all().order_by("first_name")
+    nome = request.GET.get('nome', '') 
+    user = CustomUser.objects.filter(first_name__icontains=nome, is_adm=False).order_by("first_name")
     user_paginator = Paginator(user, 5)
     user_page = request.GET.get('user_page')
     usuarios = user_paginator.get_page(user_page)
-    
 
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        return render(request, 'AdmHtml/fragments/usuarios.html', {'usuarios': usuarios})
+    
     return render(request, 'AdmHtml/listaDeUsuarios.html', {'usuarios': usuarios})
+
 
 def desafiosCampanha(request):
 
