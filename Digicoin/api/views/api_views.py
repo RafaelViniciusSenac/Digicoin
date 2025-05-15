@@ -7,9 +7,6 @@ from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.hashers import make_password
 
-
-
-
 class User(APIView):
     
     def get(self, request, id=None):
@@ -165,6 +162,25 @@ class CadastrarCompraView(APIView):
     def post(self, request):
         dadosCompra = request.data.get('compra')
         itensCompra = request.data.get('itens')
+        usuario_id = request.user.id
+        # adiciona o id do usuário ao dadosCompra
+        dadosCompra['idUsuario'] = usuario_id
+
+        # Verifica se o usuário tem moeda suficiente
+        usuario = CustomUser.objects.get(id=usuario_id)
+        total_custo = dadosCompra['total']
+        if usuario.saldo < total_custo:
+            return Response({"error": "Usuário não tem saldo suficiente."}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Verifica se os produtos têm quantidade suficiente
+        erros = []
+        for item in itensCompra:
+            produto = Produto.objects.get(id=item['idProduto'])
+            if produto.quantidade < item['qtdProduto']:
+                erros.append({"error": f"Produto {produto.nome} não tem quantidade suficiente."})
+        
+        if erros:
+            return Response({"error": erros}, status=status.HTTP_400_BAD_REQUEST)
 
         # Cria a compra
         compraSerializer = CompraSerializer(data=dadosCompra)
@@ -179,13 +195,20 @@ class CadastrarCompraView(APIView):
             itemSerializer = ItensCompraSerializer(data=item)
             if itemSerializer.is_valid():
                 itemSerializer.save()
-                print("Item criado com sucesso!")
+                produto.quantidade -= item['qtdProduto']
+                produto.save()
             else:
-                print("deu erro")
-                return Response(itemSerializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                erros.append(itemSerializer.errors)
+
+        if erros:
+            return Response(erros, status=status.HTTP_400_BAD_REQUEST)
+
+        # Deduzir moeda do usuário
+        usuario.saldo -= total_custo
+        usuario.save()
 
         return Response({"message": "Compra e itens criados com sucesso!", "status": status.HTTP_201_CREATED})
-    
+ 
 class HistoricoSaldoUsuarioView(APIView):
     """Retorna as últimas 5 alterações de saldo do usuário logado"""
     def get(self, request):

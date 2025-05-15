@@ -100,7 +100,7 @@ async function enviarDadosParaApi(form = null) {
         console.log('Produto virtual');
         dadosCompra['entrega'] = 'Retirar';
     }
-    dadosCompra['idUsuario'] = 1;
+    //dadosCompra['idUsuario'] = 1;
     const storedData = JSON.parse(localStorage.getItem('listaProdutos')) || {};
     const grid = storedData.listaGrid || [];
     const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value;
@@ -118,9 +118,8 @@ async function enviarDadosParaApi(form = null) {
         itens: itensCompra
     };
     try {
-        const response = await apiRequest('/api/cadastrarCompra/', 'POST', dadosParaApi, {'X-CSRFToken':csrf});
-        console.log(response.status);
-        if (response.status == 201) {
+        const response = await apiRequest('/api/cadastrarCompra/', 'POST', dadosParaApi, {'X-CSRFToken': csrf});
+        if (response && response.status === 201) {
             localStorage.removeItem('listaProdutos');
             const grid = document.getElementById('itensGrid');
             grid.innerHTML = '';
@@ -128,7 +127,7 @@ async function enviarDadosParaApi(form = null) {
             popup.hidePopup();
             const total = document.getElementById('valorTotal');
             total.innerHTML = '0';
-            //mostrar mensagem de sucesso
+            // Mostrar mensagem de sucesso
             const popupSucesso = new Popup();
             popupSucesso.showPopup(`
             <div class="popup-sucesso-carrinhoCompras">
@@ -140,19 +139,28 @@ async function enviarDadosParaApi(form = null) {
                 </div>
             </div>
             `);
-            //redirecionar para outra página quando clicar no botao de fechar da popup
-                
+            // Redirecionar para outra página quando clicar no botão de fechar da popup
             popupSucesso.imgClosed.addEventListener("click", () => {
                 window.location.href = '/home';
             });
-
-            
         } else {
-            console.log('erro ao cadastrar');
+            console.log(response);
+            const popupErro = new Popup();
+            popupErro.showPopup(`
+            <div class="popup-erro-carrinhoCompras">
+                <div class="popup-erro-header-carrinhoCompras">
+                    <h2 class="popup-erro-titulo-carrinhoCompras">Erro ao realizar compra</h2>
+                </div>
+                <div class="popup-erro-body-carrinhoCompras">
+                    <p class="popup-erro-texto-carrinhoCompras">${response}.</p>
+                </div>
+            </div>
+            `);
         }
     } catch (error) {
-        console.log('Deu erro' + error);
+        console.log('Deu erro: ' + error);
     }
+
 }
 
 document.addEventListener("DOMContentLoaded", () => {
