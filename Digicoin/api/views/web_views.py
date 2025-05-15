@@ -10,27 +10,28 @@ def login(request):
 
 
 def home(request):
-   
     users = CustomUser.objects.all().order_by("-saldo")[:5]
-    
 
     userId = request.session.get('_auth_user_id')
     user = CustomUser.objects.filter(id=userId).first()
-    primeiroAcesso = user.primeiroAcesso
-    
-    users = CustomUser.objects.all().order_by("-saldo")[:5]
-        
-    desafio_list = Desafio.objects.filter(idCampanha__isnull=True)
-    desafio_paginator = Paginator(desafio_list, 5) 
-    desafio_page = request.GET.get('desafio_page') 
-    desafios = desafio_paginator.get_page(desafio_page)  
-    
+    primeiroAcesso = user.primeiroAcesso if user else False
+
+    campanha_ativa = Campanha.objects.filter(is_active=True).first()
+
+    if campanha_ativa:
+        desafio_list = Desafio.objects.filter(idCampanha=campanha_ativa)
+    else:
+        desafio_list = Desafio.objects.none()
+
+    desafio_paginator = Paginator(desafio_list, 5)
+    desafio_page = request.GET.get('desafio_page')
+    desafios = desafio_paginator.get_page(desafio_page)
 
     context = {
         'usuarios': users[1:],  
         'primeiro_usuario': users[0] if users else None,  
         'desafios': desafios,
-        'primeiroAcesso' : primeiroAcesso,
+        'primeiroAcesso': primeiroAcesso,
         'userId': userId    
     }
 

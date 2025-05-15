@@ -27,6 +27,16 @@ body{
     
 }
 
+.containerPage{
+    width: auto;
+    display: flex;
+    justify-content: center;
+}
+
+.containerWidth{
+    width: 80rem;
+}
+
 .ondeVaiFicarOMenu{
     height: 200px;
 }
@@ -202,6 +212,7 @@ body{
 
  .desafiosFlex{
     display: flex;
+    align-items: center;
     justify-content: space-between;
     background-color: #FDFDFD;
     width: 799px;
@@ -211,6 +222,7 @@ body{
     margin-top: 15px;
     box-shadow: 10px 4px 8px var(--sombra-base);/* Desloca a sombra 10px para a direita */
     transition: 0.4s;
+    padding: 10px 20px;
  }
 
  .desafiosFlex:hover{
@@ -365,7 +377,7 @@ body{
     margin-bottom: 20px;
 }
 
-@media (min-width: 0px) and (max-width: 768px) {
+@media (min-width: 0px) and (max-width: 1270px) {
 
     .botaoCampanha{
         margin-top: 40px;
@@ -415,6 +427,14 @@ body{
     .pagination span{
         text-align: center;
     }
+    .listaDesafios{
+        width: auto;
+    }
+
+    .containerWidth{
+        width: 30rem;
+    }
+
 }
 .pagination {
     display: flex;
@@ -434,6 +454,7 @@ body{
     border-radius: 5px;
     transition: background-color 0.3s ease;
     font-size: 18px;
+    margin-top: 20px;
 }
 
 .pagination .anterior:hover, .proxim    a:hover {
@@ -448,4 +469,23 @@ body{
 .paginas{
     display: flex;
     gap: 10px;
+}
+
+.descricao-cascata {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+    background-color: #f4f4f4;
+    padding: 0 1rem;
+    margin-top: 0.5rem;
+    border-left: 3px solid var(--laranja);
+}
+
+.descricao-cascata.open {
+    max-height: 500px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: start;
 }
