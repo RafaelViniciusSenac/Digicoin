@@ -117,7 +117,6 @@ async function enviarDadosParaApi(form = null) {
         compra: dadosCompra,
         itens: itensCompra
     };
-    try {
         const response = await apiRequest('/api/cadastrarCompra/', 'POST', dadosParaApi, {'X-CSRFToken': csrf});
         if (response && response.status === 201) {
             localStorage.removeItem('listaProdutos');
@@ -144,7 +143,11 @@ async function enviarDadosParaApi(form = null) {
                 window.location.href = '/home';
             });
         } else {
-            console.log(response);
+            let erros = '';
+            for (const error in response.error) {
+                erros += `${parseInt(error)+1}: ${response.error[error]}<br>`;
+            }
+            console.log(response.error);
             const popupErro = new Popup();
             popupErro.showPopup(`
             <div class="popup-erro-carrinhoCompras">
@@ -152,14 +155,11 @@ async function enviarDadosParaApi(form = null) {
                     <h2 class="popup-erro-titulo-carrinhoCompras">Erro ao realizar compra</h2>
                 </div>
                 <div class="popup-erro-body-carrinhoCompras">
-                    <p class="popup-erro-texto-carrinhoCompras">${response}.</p>
+                    <p class="popup-erro-texto-carrinhoCompras">${erros}.</p>
                 </div>
             </div>
             `);
         }
-    } catch (error) {
-        console.log('Deu erro: ' + error);
-    }
 
 }
 

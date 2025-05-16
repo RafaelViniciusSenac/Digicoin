@@ -170,17 +170,17 @@ class CadastrarCompraView(APIView):
         usuario = CustomUser.objects.get(id=usuario_id)
         total_custo = dadosCompra['total']
         if usuario.saldo < total_custo:
-            return Response({"error": "Usuário não tem saldo suficiente."}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": "Usuário não tem saldo suficiente.", "status":status.HTTP_400_BAD_REQUEST})
 
         # Verifica se os produtos têm quantidade suficiente
         erros = []
         for item in itensCompra:
             produto = Produto.objects.get(id=item['idProduto'])
             if produto.quantidade < item['qtdProduto']:
-                erros.append({"error": f"Produto {produto.nome} não tem quantidade suficiente."})
+                erros.append(f"Produto {produto.nome} não tem quantidade suficiente.")
         
         if erros:
-            return Response({"error": erros}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": erros, "status":status.HTTP_400_BAD_REQUEST})
 
         # Cria a compra
         compraSerializer = CompraSerializer(data=dadosCompra)
