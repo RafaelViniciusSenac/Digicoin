@@ -34,7 +34,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const campanhaCheckbox = document.getElementById("Campanha");
 
-    const checkboxlist = document.getElementById("checkboxlist");
     const campanhaLista = document.querySelector(".temaCampanhaCorpo");
 
 
@@ -202,16 +201,8 @@ document.addEventListener("DOMContentLoaded", function () {
         const camposComCampanha = camposObrigatoriosOk && tipoOk && imagemOk && campanhaOk;
         const camposSemCampanha = camposObrigatoriosOk && tipoOk && imagemOk;
 
-        console.log(checkRequired([produto, quantidade, preco]))
-        console.log(checkFisicoVirtualRequired())
-        console.log(imagemOk)
-        console.log(checkCampanhaRequired())
-
-        console.log("oq eu errei 1",camposComCampanha)
-        console.log("oq eu errei 3",camposSemCampanha)
+        
         if (camposComCampanha) {
-            
-            console.log("oq eu errei 2",camposComCampanha)
             // Caso 1 → controle true → abre modal
             
             controle = true
@@ -255,11 +246,11 @@ document.addEventListener("DOMContentLoaded", function () {
         let idCampanha = null;
         let editarValor = null
         editarValor = document.getElementById("valorEditar").value;
-        console.log("veridicado 1: ", editarValor)    
+           
         
         let editarValor2 = null
         editarValor2 = document.getElementById("valorEditar2").value;
-        console.log("veridicado 2: ", editarValor2)
+        
     
 
         if (editarValor != null){

@@ -126,7 +126,7 @@
                     
                     {% for evento in eventos %}
                     <div>
-                        <input type="checkbox" value="{{evento.id}}" class="listaCampanha">
+                        <input type="checkbox" value="{{evento.id}}" class="listaCampanha" id="{{evento.id}}">
                         <label for="{{evento.id}}">{{evento.nome}}</label>
                     </div>
                     {% endfor %}
