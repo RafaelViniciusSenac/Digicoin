@@ -9,6 +9,9 @@
   --preto: #000;
   --sombra-base: rgba(44, 0, 106, 0.4);
   --sombra-preta: rgba(0, 0, 0, 0.4);
+  --cinza-escuro-rgb: rgba(136, 136, 136);
+  --cinza-rgb: rgba(250, 246, 247);
+  --preto-rgb: rgba(0, 0, 0);
 }
 
 .body-carrinhoCompras {
@@ -66,33 +69,31 @@
   width: 100%;
 }
 
-
-.itemGridHeader {
+.itemGridHeader-carrinhoCompras {
  display: flex;
  font-weight: bold;
  padding: 10px;
  border-radius: 10px;
 }
 
-
-.itensGrid {
+.itensGrid-carrinhoCompras {
   display: flex;
   flex-direction: column;
   margin-top: 5px;
 }
 
-.itemGridCell.col-produto {
+.itemGridCell-carrinhoCompras.col-produto {
   min-width: 500px;
 }
 
-.itemGridCell img {
+.itemGridCell-carrinhoCompras img {
   width: 18px;
   margin-right: 5px;
   vertical-align: middle;
   margin-bottom: 1px;
 }
 
-.itemGridRow {
+.itemGridRow-carrinhoCompras {
   display: flex;
   align-items: center;
   text-align: center;
@@ -104,40 +105,40 @@
   box-shadow: 0 1px 3px var(--sombra-base);
 }
 
-.itemGridCell {
+.itemGridCell-carrinhoCompras {
   text-align: center;
   flex: 1;
   padding: 5px;
   font-size: 18px;
 }
 
-.itemGridCell.itens {
+.itemGridCell-carrinhoCompras.itens {
   min-width: 300px;
 }
 
-.botao-remover {
+.botao-remover-carrinhoCompras {
   border: none;
   background-color: transparent;
 }
 
-.botao-remover img {
+.botao-remover-carrinhoCompras img {
   width: 18px;
   cursor: pointer;
 }
 
-.botao-remover img:hover {
+.botao-remover-carrinhoCompras img:hover {
   filter: hue-rotate(-90deg);
 }
 
-.botao-remover img:active {
+.botao-remover-carrinhoCompras img:active {
   transform: translate(-2px, 2px);
 }
 
-.cor-moeda {
+.cor-moeda-carrinhoCompras {
   color: var(--laranja);
 }
 
-.cor-valor {
+.cor-valor-carrinhoCompras {
   color: var(--ciano);
 }
 
@@ -174,19 +175,19 @@
     min-width: 300px;
   }
 
-  .itemGridRow {
+  .itemGridRow-carrinhoCompras {
     display: block;
     margin-bottom: 1em;
   }
 
-  .itemGridCell {
+  .itemGridCell-carrinhoCompras {
     border: none;
     position: relative;
     padding-left: 30%;
     text-align: left;
   }
 
-  .itemGridCell:before {
+  .itemGridCell-carrinhoCompras:before {
     content: attr(data-label);
     position: absolute;
     top: 50%;
@@ -199,7 +200,7 @@
   }
 }
 
-dialog{
+dialog-carrinhoCompras {
     border-radius: 20px;
     max-width: 600px;
     position: relative;
@@ -210,7 +211,7 @@ dialog{
     overflow: hidden;
 }
 
-dialog::backdrop{
+dialog-carrinhoCompras::backdrop {
     position: fixed;
     top: 0;
     left: 0;
@@ -224,12 +225,12 @@ dialog::backdrop{
 }
 
 /* posicao do botao de fechar do lado direito */
-.popup-header {
+.popup-header-carrinhoCompras {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-.popup-titulo {
+.popup-titulo-carrinhoCompras {
     flex-grow: 1;
     text-align: center;
     color: var(--base);
@@ -237,17 +238,17 @@ dialog::backdrop{
     font-size: 25px;
     margin: 10px;
 }
-.popup-closed {
+.popup-closed-carrinhoCompras {
     width: 30px;
     height: 30px;
     float: right;
     cursor: pointer;
     margin: 10px;
 }
-.popup-closed:hover {
+.popup-closed-carrinhoCompras:hover {
     opacity: 0.7;
 }
-.popup-body {
+.popup-body-carrinhoCompras {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -255,7 +256,7 @@ dialog::backdrop{
     align-items: center;
 }
 
-.form {
+.form-carrinhoCompras {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -264,7 +265,7 @@ dialog::backdrop{
     font-size: 20px;
 }
 
-.input-label {
+.input-label-carrinhoCompras {
     display: flex;
     flex-direction: column;
     margin-left: 10px;
@@ -272,7 +273,7 @@ dialog::backdrop{
     width: 100%;
 }
 
-.form-group {
+.form-group-carrinhoCompras {
     display: flex;
     align-items: center;
     margin-bottom: 20px;
@@ -280,18 +281,18 @@ dialog::backdrop{
     gap: 20px;
 }
 
-.form-group .input-container {
+.form-group-carrinhoCompras .input-container-carrinhoCompras {
     display: flex;
     flex-direction: column;
     flex: 1;
     min-width: 250px; 
 }
 
-.input-container label {
+.input-container-carrinhoCompras label {
     margin-bottom: 5px;
 }
 
-.input-radio {
+.input-radio-carrinhoCompras {
     appearance: none;
     -webkit-appearance: none;
     width: 30px;
@@ -302,20 +303,20 @@ dialog::backdrop{
     cursor: pointer;
 }
 
-.input-radio:checked {
+.input-radio-carrinhoCompras:checked {
     background-color: var(--laranja); /* Fundo laranja quando selecionado */
 }
 
-.form-endereco-ativo input, 
-.form-endereco-ativo select {
+.form-endereco-ativo-carrinhoCompras input, 
+.form-endereco-ativo-carrinhoCompras select {
     cursor: text;
 }
-.form-endereco-desativado input, 
-.form-endereco-desativado select {
-    background-color: rgba(var(--cinza-escuro-rgb),0.3); /* Fundo cinza escuro com transparencia */
+.form-endereco-desativado-carrinhoCompras input, 
+.form-endereco-desativado-carrinhoCompras select {
+    background-color: var(--cinza); /* Fundo cinza escuro com transparencia */
     cursor: not-allowed;
 }
-.obs {
+.obs-carrinhoCompras {
     font-weight: bold;
     font-size: 14px;
     margin-bottom: 5px;
@@ -324,11 +325,11 @@ dialog::backdrop{
     justify-content: center;
     align-items: center;
 }
-.asterisco {
+.asterisco-carrinhoCompras {
     color: var(--laranja);
     font-size: 20px;
 }
-.input-text {
+.input-text-carrinhoCompras {
     padding: 10px;
     border: 1px solid var(--magenta);
     border-radius: 10px;
@@ -336,7 +337,7 @@ dialog::backdrop{
     margin-right: 10px;
 }
 
-.input-select {
+.input-select-carrinhoCompras {
     padding: 10px;
     border: 1px solid var(--magenta);
     border-radius: 10px;
@@ -345,7 +346,7 @@ dialog::backdrop{
 }
 
 
-.input-button {
+.input-button-carrinhoCompras {
     width: 200px;
     padding: 10px;
     border: none;
@@ -358,7 +359,73 @@ dialog::backdrop{
     cursor: pointer;
     margin-top: 20px;
 }
-.input-button:hover {
+.input-button-carrinhoCompras:hover {
     background-color: var(--branco);
     color: var(--preto);
+}
+
+body.no-scroll-carrinhoCompras {
+    overflow: hidden; /* Remove o scroll quando a popup está aberta */
+}
+
+.overlay-carrinhoCompras {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Alinha a popup no topo */
+    overflow-y: auto; /* Permite o scroll na página principal */
+}
+.popup-carrinhoCompras {
+    background-color: var(--branco);
+    max-width: 600px;
+    margin: 20px; /* Espaço para o scroll */
+    border-radius: 20px;
+    border: 1px solid var(--cinza);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    position: relative;
+}
+/* posicao do botao de fechar do lado direito */
+.popup-header-carrinhoCompras {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.popup-titulo-carrinhoCompras {
+    flex-grow: 1;
+    text-align: center;
+    color: var(--base);
+    font-weight: bold;
+    font-size: 25px;
+}
+.popup-closed-carrinhoCompras {
+    width: 20px;
+    height: 20px;
+    float: right;
+    cursor: pointer;
+    margin-left: 10px;
+}
+.popup-closed-carrinhoCompras:hover {
+    opacity: 0.7;
+}
+.popup-body-carrinhoCompras {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-sucesso-carrinhoCompras {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
