@@ -1,6 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-
-    
     const primeiroAcesso = document.getElementById('primeiroAcesso').value
     const popUpPrimeiroAcesso = document.getElementById('popUpPrimeiroAcesso')
     const userId = document.getElementById('userId').value
@@ -32,12 +30,29 @@ document.addEventListener('DOMContentLoaded', () => {
         const data = await response.json();
         if (response.status == 200) {
             alert(data.mensagem);
-            window.location.href = '/' // ou redirecionar
+            window.location.href = '/' 
         } else {
             alert(data.erro || "Erro ao atualizar a senha.");
         }
     }
+
     const formPrimeiroAcesso = document.getElementById('formPrimeiroAcesso')
     formPrimeiroAcesso.addEventListener('submit', primeiroAcessoSenha)
 
+    const botoes = document.querySelectorAll(".toggle-btn");
+
+    botoes.forEach((botao) => {
+        botao.addEventListener("click", function () {
+            const id = botao.getAttribute("data-id");
+            const descricao = document.getElementById("descricao-" + id);
+
+            document.querySelectorAll(".descricao-cascata.open").forEach(el => {
+                if (el !== descricao) {
+                    el.classList.remove("open");
+                }
+            });
+
+            descricao.classList.toggle("open");
+        });
+    });
 });
