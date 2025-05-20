@@ -16,12 +16,7 @@ def home(request):
     user = CustomUser.objects.filter(id=userId).first()
     primeiroAcesso = user.primeiroAcesso if user else False
 
-    campanha_ativa = Campanha.objects.filter(is_active=True).first()
-
-    if campanha_ativa:
-        desafio_list = Desafio.objects.filter(idCampanha=campanha_ativa)
-    else:
-        desafio_list = Desafio.objects.none()
+    desafio_list = Desafio.objects.filter(idCampanha__isnull=True)
 
     desafio_paginator = Paginator(desafio_list, 5)
     desafio_page = request.GET.get('desafio_page')
