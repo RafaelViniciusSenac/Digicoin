@@ -34,16 +34,31 @@
             </div>
         </div>
 
-        <div class="Produto-listaDePedidos">
-            {% for pedido in pedidos %}
-            <div class="linha-listaDePedidos">
+        <div class="Produto-listaDePedidos" >
+            {% for compra in compras%}
+            <div class="linha-listaDePedidos" onclick="toggleItens('{{ compra.id }}')" style="cursor: pointer;">
                 <div class="nome-listaDePedidos">
                     <img class="iconedigix-listaDePedidos" src="{% static 'img/digixlogo.png'%}" alt="icone">
-                    <p> {{pedido.idProduto.nome}}  </p>
+                    <p> {{compra.idUsuario.first_name}} - {{compra.pedido}} </p>
                 </div>
                 <img class="caminhao-listaDePedidos" src="{% static 'img/truck.png'%}" alt="icone">
             </div>
+            
+            <div id="itens-{{ compra.id }}" class="itensCompra-listaDePedidos" style="display: none;">
+                <strong>Itens da Compra:</strong>
+                <div class='descricaoItensCompra-listaDePedidos'>
+                    {% for item in pedidos %}
+                        {% if item.idCompra.id == compra.id %}
+                            <div class='infoItensCompra-listaDePedidos'>{{ item.idProduto.nome }} - Quantidade: {{ item.qtdProduto }}</div>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+
+        
+
             {% endfor %}
+
         </div>
 
 
@@ -66,10 +81,6 @@
 </div>
 
 
-
-
-
-
-
+<script src="{% static 'js/AdmJs/listaDePedidos.js' %}"></script>
 
 {% endblock content %}

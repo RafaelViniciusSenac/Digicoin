@@ -200,17 +200,20 @@ def listaDePedidos(request):
     pedidos = 0 
 
     if status_pedido == '1':
+        compras = Compra.objects.filter(pedido="concluido")
         pedidos = ItensCompra.objects.select_related('idProduto', 'idCompra').filter(idCompra__pedido="concluido")
     elif status_pedido == '2':
+        compras = Compra.objects.filter(pedido="pendente")
         pedidos = ItensCompra.objects.select_related('idProduto', 'idCompra').filter(idCompra__pedido="pendente")
     else:
+        compras = Compra.objects.all()
         pedidos = ItensCompra.objects.select_related('idProduto', 'idCompra').all() 
 
     pedido_paginator = Paginator(pedidos, 5) 
     pedido_page = request.GET.get('pedido_page')
     pedidos = pedido_paginator.get_page(pedido_page)
 
-    return render(request, 'AdmHtml/listaDePedidos.html', {'pedidos': pedidos})
+    return render(request, 'AdmHtml/listaDePedidos.html', {'compras': compras, 'pedidos': pedidos})
 
 
 def carrinho(request):
