@@ -70,14 +70,13 @@ select:focus {
     color: var(--preto);
 
     font-family: "K2D", sans-serif;
-    font-size: 25px;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
 }
 
 .cabecalho_btnexportar button {
-    display: flex;
+    /* display: flex;
     align-items: center;
     justify-content: center;
     gap: 5px;
@@ -92,7 +91,20 @@ select:focus {
     font-size: 24px;
     font-style: normal;
     font-weight: 400;
-    line-height: normal;
+    line-height: normal; */
+    background-color: rgb(211, 74, 244);
+    color: white;
+    height: 50px;
+    border: none;
+    padding: 10px 20px;
+    font-size: 17px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
 }
 
 .linha {
@@ -115,14 +127,16 @@ select:focus {
     display: flex;
     align-items: center;
     width: 100%;
+    height: 50px;
     box-sizing: border-box;
     justify-content: space-between;
     gap: 20px;
     font-family: "K2D", sans-serif;
-    border-radius: 10px;
+    border-left: 5px solid #CA8EFF;
+    border-radius: 12px;
     background: #fdfdfd;
     box-shadow: 5px 5px 10px 0px rgba(77, 44, 135, 0.45);
-    padding: 12px 20px;
+    padding: 10px 20px;
 }
 
 .tabela_campanha_conteudo_dado1 {
@@ -150,6 +164,9 @@ select:focus {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    margin: 10px;
+    font-size: 16px;
+    font-weight: bold;
 }
 
 .tabela_campanha_cabecalho {
@@ -175,10 +192,14 @@ select:focus {
 .campanhas_pre {
     margin-bottom: 50px;
 }
-
-button img {
-    width: 25px;
-    height: auto;
+.button-campanha {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+.button-campanha img {
+    width: 24px;
+    height: 24px;
 }
 
 .tabela_campanha {
@@ -190,7 +211,7 @@ button img {
     justify-content: space-between;
 }
 
-tr{
+.tr-campanha{
     display: flex;
     margin-bottom: 30px;
 }
