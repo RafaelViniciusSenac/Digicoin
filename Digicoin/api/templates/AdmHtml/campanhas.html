@@ -38,7 +38,7 @@
                 <tbody id="corpo-tabela">
                     
                     {% for campanha in campanhas %}
-                    <tr>
+                    <tr class="tr-campanha">
                         <td class="tabela_campanha_conteudo" data-nome="{{ campanha.nome|lower }}">
                             <div class="tabela_campanha_conteudo_dado1">
                                 <div class="circle" style="background-color: {% if campanha.is_active %}#00cc00{% else %}#ff0000{% endif %};"></div>
@@ -46,10 +46,10 @@
                             </div>
                             <div class="tabela_campanha_conteudo_dado2">
                                 <h2>{{ campanha.dataFim }}</h2>
-                                <button onclick="EditarCampanhas({{campanha.id}})">
+                                <button class="button-campanha" onclick="EditarCampanhas({{campanha.id}})">
                                     <img src="{% static 'img/edit.png' %}" alt="botao editar" />
                                 </button>
-                                <button onclick="inativarCampanhas({{campanha.id}})">
+                                <button class="button-campanha" onclick="inativarCampanhas({{campanha.id}})">
                                     <img src="{% static 'img/iconeDeletar.png' %}" alt="deletar">
                                 </button>
                             </div>
