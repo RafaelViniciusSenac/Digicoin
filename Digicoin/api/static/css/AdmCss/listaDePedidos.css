@@ -156,3 +156,19 @@ a {
     margin-right: 10px;
     font-size: 20px;
 }
+
+.itensCompra-listaDePedidos {
+    background-color: #f8f8f8;
+    padding: 15px 20px;
+    
+    border-left: 5px solid orange;
+    border-radius: 10px;
+    box-shadow: rgba(44, 0, 106, 0.1) 0px 4px 6px;
+    font-size: 18px;
+    width: 95%;
+}
+.descricaoItensCompra-listaDePedidos {
+    list-style: disc;
+    padding-left: 20px;
+}
+
