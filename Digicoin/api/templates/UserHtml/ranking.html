@@ -25,10 +25,14 @@
                 <div class="usuario__classificacao">{{ forloop.counter }}</div>
                 <div class="usuario__dados">
                     <div class="usuario__dados-nome">{{ user.first_name }}</div>
-                    <div class="usuario__dados-saldo"><div class="dg">DG$</div> {{ user.saldo }}</div>
+                    <div class="usuario__dados-saldo"><div class="dg">Pontuação</div> {{ user.pontuacao }}</div>
                 </div>
             </article>
         {% endfor %}
+        <div class="ranking-espacamento">
+            <h1>. <br> . <br> .</h1>
+            
+        </div>
         {% if mostrar_usuario_logado %}
             <article class="ranking__list ranking__list--highlight">
                 <div class="usuario__classificacao">{{ usuario_logado.posicao }}</div>

@@ -135,3 +135,9 @@ body{
 .ranking__list:first-child .usuario__dados .usuario__dados-saldo .dg{
   font-size: 20px;
 }
+
+.ranking-espacamento h1{
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 24px !important;
+}

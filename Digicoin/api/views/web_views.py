@@ -10,7 +10,7 @@ def login(request):
 
 
 def home(request):
-    users = CustomUser.objects.all().order_by("-saldo")[:5]
+    users = CustomUser.objects.filter(is_adm=False, is_active=True).order_by("-pontuacao")[:5]
 
     userId = request.session.get('_auth_user_id')
     user = CustomUser.objects.filter(id=userId).first()
@@ -121,13 +121,13 @@ def cadastrarDesafio(request):
 
 @login_required
 def ranking(request):
-    top_usuarios = CustomUser.objects.order_by('-saldo')[:7]
+    top_usuarios = CustomUser.objects.filter(is_adm=False,is_active=True).order_by('-pontuacao')[:7]
     
     usuario_logado = request.user
     
     usuario_em_top7 = any(usuario.id == usuario_logado.id for usuario in top_usuarios)
     
-    todos_usuarios = CustomUser.objects.order_by('-saldo')
+    todos_usuarios = CustomUser.objects.order_by('-pontuacao')
     posicao_usuario = 0
     for idx, usuario in enumerate(todos_usuarios, start=1):
         if usuario.id == usuario_logado.id:
@@ -195,8 +195,7 @@ def desafiosCampanha(request):
 
 def listaDePedidos(request):
     status_pedido = request.GET.get('status', None)  
-    print(status_pedido)
-
+    
     pedidos = 0 
 
     if status_pedido == '1':
