@@ -264,8 +264,21 @@ button {
 
 
 @media (max-width: 1000px){
+    .menucentro-listaEstoque{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
     .principal-listaEstoque{
         margin-left: 0;
+        
+    }
+
+    .cabecalho-listaEstoque{
+        display: flex;
+        flex-direction: column;
+        
         
     }
 }
