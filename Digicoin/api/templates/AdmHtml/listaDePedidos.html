@@ -3,6 +3,8 @@
 {% block content %}
 
 <link rel="stylesheet" href="{% static 'css/AdmCss/listaDePedidos.css'%}">
+<link rel="stylesheet" href="{% static 'css/AdmCss/paginacao.css'%}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 {% include 'components/adm/menuAdm.html' %}
 
@@ -35,12 +37,15 @@
         </div>
 
         <div class="Produto-listaDePedidos">
+            {% csrf_token %}
             {% for compra in compras %}
             <div class="linha-listaDePedidos" onclick="toggleItens('{{ compra.id }}')" style="cursor: pointer;">
                 <div class="nome-listaDePedidos">
                     <img class="iconedigix-listaDePedidos" src="{% static 'img/digixlogo.png'%}" alt="icone">
-                    <p>{{ compra.idUsuario.first_name }} - {{ compra.pedido }}</p>
+                    <p>ID: {{ compra.id }} - Usuario: {{ compra.idUsuario.first_name }} - {{ compra.pedido }}</p>
+                    
                 </div>
+            
                 <img class="caminhao-listaDePedidos" src="{% static 'img/truck.png'%}" alt="icone">
             </div>
             
@@ -55,25 +60,29 @@
                         {% endif %}
                     {% endfor %}
                 </div>
+                <strong>Tipo: <span>{{ compra.entrega }}</span>
+                {% if compra.pedido == 'Pendente' %}
+                    <button id="botaoConcluir">Concluir Pedido</button>
+                {% endif %}                
+                </strong>
             </div>
             {% endfor %}
         </div>
 
-        <div class="pagination">
+        <div class="paginacao-div">
             {% if compras.has_previous %}
-            <div class="paginas">
+            <div class="paginacao-paginas">
                 <div>
-                    <a class="anterior" href="?estoque_page={{ compras.previous_page_number }}"><i class="fa fa-arrow-left" aria-hidden="true"></i> Anterior</a>
+                    <a class="paginacao-anterior" href="?compra_page={{ compras.previous_page_number }}"><i class="fa fa-arrow-left" aria-hidden="true"></i> Anterior</a>
                 </div>
             {% endif %}
-        
+                <span>Página {{ compras.number }} de {{ compras.paginator.num_pages }}</span>
             {% if compras.has_next %}
                 <div>
-                    <a class="proxima" href="?estoque_page={{ compras.next_page_number }}">Próxima <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                    <a class="paginacao-proxima" href="?compra_page={{ compras.next_page_number }}">Próxima <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                 </div>
             {% endif %}
                 
-                <span>Página {{ compras.number }} de {{ compras.paginator.num_pages }}</span>
             </div>                
         </div>
     </div>  

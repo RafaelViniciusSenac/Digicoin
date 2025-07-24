@@ -144,37 +144,3 @@ a {
     padding-left: 20px;
 }
 
-.pagination {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 15px;
-    margin-top: 20px;
-}
-
-.pagination a {
-    padding: 8px 15px;
-    text-decoration: none;
-    color: white;
-    cursor: pointer;
-    background-color: var(--magenta);
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-    font-size: 18px;
-}
-
-.pagination .anterior:hover, .proxima:hover {
-    background-color: var(--laranja);
-}
-
-.pagination span {
-    font-size: 18px;    
-    font-weight: bold;
-}
-
-.paginas{
-    display: flex;
-    gap: 10px;
-}
-
