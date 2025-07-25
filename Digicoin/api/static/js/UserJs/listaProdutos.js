@@ -106,3 +106,18 @@ document.getElementById('barraBusca-listaProdutos').addEventListener('keyup', fu
         produto.style.display = nome.includes(termo) ? '' : 'none';
     });
 });
+
+document.querySelectorAll(".Adquirir-listaProdutos").forEach(button => {
+    button.addEventListener("click", function () {
+        const produtoId = this.getAttribute("data-valor");
+
+        const quantidadeSpan = document.querySelector(`#flip-${produtoId} .quantidade-listaProdutos span`);
+        const quantidade = parseInt(quantidadeSpan.textContent);
+
+        if (quantidade > 0) {
+            adicionarAoCarrinho(produtoId);
+        } else {
+            alert("Produto indisponível!");
+        }
+    });
+});

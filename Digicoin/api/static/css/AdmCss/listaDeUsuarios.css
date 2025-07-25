@@ -184,7 +184,6 @@
 .infoUser-listaDeUsuarios .nome-listaDeUsuarios {
     font-size: 16px;
     font-weight: bold;
-    padding-top: 15px;
 }
 
 .infoUser-listaDeUsuarios .status-listaDeUsuarios {
@@ -711,7 +710,7 @@
     }
 }
 
-.pagination{
+/* .pagination{
     margin-bottom: 40px;
     display: flex;
 }
@@ -736,4 +735,40 @@
     margin-top: 23px;
     margin-left: 10px;
     margin-right: 10px;
+} */
+
+.pagination-listaDeUsuarios {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.pagination-listaDeUsuarios a {
+    padding: 8px 15px;
+    text-decoration: none;
+    color: white;
+    cursor: pointer;
+    background-color: var(--magenta);
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    font-size: 18px;
+}
+
+.pagination-listaDeUsuarios .anterior-listaProdutos:hover,
+.proxim-listaProdutos a:hover {
+    background-color: var(--laranja);
+}
+
+
+.pagination-listaDeUsuarios span {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.pagination-listaDeUsuarios {
+    display: flex;
+    gap: 10px;
 }
