@@ -1,55 +1,84 @@
-
-{% extends "base.html" %} {% load static %} {% block content %} {% include 'components/adm/menuAdm.html' %} {% csrf_token %}
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+{% include 'components/adm/menuAdm.html' %}
+{% csrf_token %}
 {% include 'components/adm/popUpAdicionarProduto.html'%}
 
 <link rel="stylesheet" href="{% static 'css/AdmCss/campanhas.css' %}" />
 
-<div class="container">
-    
-        <div class="campo_pesquisar">
-            <div class="pesquisar">
-                <img class="lupa" src="{% static 'img/pesquisa.png' %}" alt="" />
+<div class="container" id="container-campanhas">
 
-                <input class="pesquisar_campanha" id="barraBusca" name="termo" type="search" placeholder="Pesquisar Campanha">
-            </div>
+    <div class="campo_pesquisar" id="campo-pesquisar">
+        <div class="pesquisar">
+            <img class="lupa" src="{% static 'img/pesquisa.png' %}" alt="" />
+            <input
+                class="pesquisar_campanha"
+                id="barraBusca"
+                name="termo"
+                type="search"
+                placeholder="Pesquisar Campanha"
+            />
         </div>
-    
+    </div>
+
     <div class="campanhas_pre">
         <div class="cabecalho">
             <div class="cabecalho_titulo">
-                <h1>Campanhas Criadas</h1>
+                <h1 id="titulo-campanhas">Campanhas Criadas</h1>
                 <div class="linha"></div>
             </div>
             <div class="cabecalho_btnexportar">
-                <button type="button" class="buttonCriarCampanha" value=5 id="buttonCriarCampanha"><img src="{% static 'img/criar_campanha.png' %}" alt="Exportar" />Criar Campanha</button>
+                <button
+                    type="button"
+                    class="buttonCriarCampanha"
+                    value="5"
+                    id="botao-criar-campanha"
+                >
+                    <img src="{% static 'img/criar_campanha.png' %}" alt="Exportar" />
+                    Criar Campanha
+                </button>
             </div>
         </div>
+
         <div class="campanha">
             <div class="cabecalho-campanha">
-                <div class="tabela_campanha_cabecalho_nome">
+                <div class="tabela_campanha_cabecalho_nome" id="coluna-nome">
                     <h2>Nome</h2>
                     <img src="{% static 'img/sort.png' %}" alt="Nome" style="width: 24px; height: 24px;" />
                 </div>
-                <div class="tabela_campanha_cabecalho_termino">
+                <div class="tabela_campanha_cabecalho_termino" id="coluna-termino">
                     <h2>Término</h2>
                 </div>
             </div>
+
             <table id="corpo-tabela-predefinida" class="tabela_campanha">
                 <tbody id="corpo-tabela">
-                    
                     {% for campanha in campanhas %}
-                    <tr class="tr-campanha">
+                    <tr class="tr-campanha" id="linha-campanha-{{ campanha.id }}">
                         <td class="tabela_campanha_conteudo" data-nome="{{ campanha.nome|lower }}">
                             <div class="tabela_campanha_conteudo_dado1">
-                                <div class="circle" style="background-color: {% if campanha.is_active %}#00cc00{% else %}#ff0000{% endif %};"></div>
-                                <h2>{{campanha.nome}}</h2>
+                                <div
+                                    class="circle"
+                                    style="background-color: {% if campanha.is_active %}#00cc00{% else %}#ff0000{% endif %};"
+                                    id="status-campanha-{{ campanha.id }}"
+                                ></div>
+                                <h2 id="nome-campanha-{{ campanha.id }}">{{ campanha.nome }}</h2>
                             </div>
                             <div class="tabela_campanha_conteudo_dado2">
-                                <h2>{{ campanha.dataFim }}</h2>
-                                <button class="button-campanha" onclick="EditarCampanhas({{campanha.id}})">
+                                <h2 id="data-fim-campanha-{{ campanha.id }}">{{ campanha.dataFim }}</h2>
+                                <button
+                                    class="button-campanha"
+                                    onclick="EditarCampanhas({{campanha.id}})"
+                                    id="editar-campanha-{{ campanha.id }}"
+                                >
                                     <img src="{% static 'img/edit.png' %}" alt="botao editar" />
                                 </button>
-                                <button class="button-campanha" onclick="inativarCampanhas({{campanha.id}})">
+                                <button
+                                    class="button-campanha"
+                                    onclick="inativarCampanhas({{campanha.id}})"
+                                    id="excluir-campanha-{{ campanha.id }}"
+                                >
                                     <img src="{% static 'img/iconeDeletar.png' %}" alt="deletar">
                                 </button>
                             </div>
@@ -58,59 +87,51 @@
                     {% endfor %}
                 </tbody>
             </table>
+
             <div id="paginacao">
-                
-                <button onclick="mudarPagina('predefinida', -1)">Anterior</button>
+                <button id="botao-anterior" onclick="mudarPagina('predefinida', -1)">Anterior</button>
                 <span id="pagina-atual-predefinida">1</span>
-                <button onclick="mudarPagina('predefinida', 1)">Próxima</button>
+                <button id="botao-proxima" onclick="mudarPagina('predefinida', 1)">Próxima</button>
             </div>
         </div>
     </div>
-    
+
 </div>
+
 <script src="{% static 'js/AdmJS/criarCampanha.js' %}"></script>
 <script>
     const porPagina = 4;
     const paginas = { predefinida: 1, criada: 1 };
-
 
     function mostrarPagina(tipo) {
         const todasLinhas = document.querySelectorAll(`#corpo-tabela-${tipo} .tabela_campanha_conteudo`);
         const linhasVisiveis = Array.from(todasLinhas).filter(l => l.style.display !== 'none');
         const totalPaginas = Math.ceil(linhasVisiveis.length / porPagina);
         const paginaAtual = paginas[tipo];
-    
+
         const inicio = (paginaAtual - 1) * porPagina;
         const fim = inicio + porPagina;
-    
-        // Oculta todas as visíveis primeiro
+
         todasLinhas.forEach(l => l.parentElement.style.display = 'none');
-    
-        // Exibe apenas as que devem aparecer na página atual
         linhasVisiveis.slice(inicio, fim).forEach(l => l.parentElement.style.display = '');
-    
-        // Atualiza o número da página
+
         const elementoPagina = document.getElementById(`pagina-atual-${tipo}`);
         if (elementoPagina) {
             elementoPagina.textContent = paginaAtual;
         }
     }
-    
 
     function mudarPagina(tipo, delta) {
         const linhas = document.querySelectorAll(`#corpo-tabela-${tipo} tr`);
         const totalPaginas = Math.ceil(linhas.length / porPagina);
         const novaPagina = paginas[tipo] + delta;
 
-        // Alterar página se estiver dentro do intervalo
         if (novaPagina >= 1 && novaPagina <= totalPaginas) {
             paginas[tipo] = novaPagina;
             mostrarPagina(tipo);
-            
         }
     }
 
-    // Função para filtrar as tabelas enquanto o usuário digita
     function filtrarTabela(tipo, filtro) {
         const linhas = document.querySelectorAll(`#corpo-tabela-${tipo} tr`);
         linhas.forEach(linha => {
@@ -120,24 +141,18 @@
                 linha.style.display = 'none';
             }
         });
-        mostrarPagina(tipo);  // Atualiza a paginação após filtro
+        mostrarPagina(tipo);
     }
 
-    // Função que é chamada sempre que o usuário digitar
     function buscarTabela(tipo) {
-        const filtro = document.getElementById(`campo-busca-${tipo}`).value;
+        const filtro = document.getElementById(`barraBusca`).value;
         filtrarTabela(tipo, filtro);
     }
 
-    // Inicializa as tabelas
     document.addEventListener('DOMContentLoaded', () => {
         mostrarPagina('predefinida');
         mostrarPagina('criada');
-
-        
     });
 </script>
-
-
 
 {% endblock content %}
