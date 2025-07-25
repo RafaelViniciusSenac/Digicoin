@@ -29,13 +29,13 @@
 .line{
     width: 50px;
     border: 1px solid var(--laranja);
-    margin-left: 20px;
+    margin-left: 50px;
 }
 
 .titulo-desafiosCampanha{
     display: flex;
     align-items: center;
-    margin: 0 0 0 20px;
+    margin-left: 50px;
     font-size: 42px;
 }
 
@@ -48,7 +48,7 @@
 {
     display: flex;
     align-items: center;
-    font-size: 35px;
+    font-size: 30px;
     font-weight: bold;
 }
 
@@ -57,9 +57,9 @@
     display: flex;
     justify-content: space-between;
     background-color: #FDFDFD;
-    width: 799px;
+    width: 100%;
     height: 60px;
-    line-height: 60px;
+    align-items: center;
     border-radius: 10px;
     margin-top: 15px;
     box-shadow: 10px 4px 8px var(--sombra-base);/* Desloca a sombra 10px para a direita */
@@ -112,7 +112,8 @@ color: #FC671D;
     flex-direction: column;
     justify-content: center;
     margin-top: 0px;
-    margin-left: 20px;
+    margin-right: 20px;
+    width: 600px;
     
 }
 
@@ -124,7 +125,7 @@ color: #FC671D;
 .vector{
     margin-right: 10px;
     margin-bottom: 5px;
-    width: 45px;
+    width: 55px;
     height: 45px;;
 }
 
@@ -168,9 +169,15 @@ margin-bottom: 100px;
 margin-top: 50px;
 margin-left: 20px;
 border: none;
-background-color: #FDFDFD;
+background-color: transparent;
 cursor: pointer;
 }
+
+.voltar img{
+    display: flex;
+    margin-right: 15px;
+}
+
 .pagination {
     display: flex;
     align-items: center;
@@ -197,4 +204,8 @@ cursor: pointer;
 .pagination span {
     font-size: 16px;
     color: #333;
+}
+
+.voltarBotao{
+    text-decoration: none;
 }
