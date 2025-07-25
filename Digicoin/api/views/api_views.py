@@ -151,6 +151,7 @@ class DesafioViewSet(viewsets.ModelViewSet):
     serializer_class = DesafioSerializer
 
 class CompraViewSet(viewsets.ModelViewSet):
+
     queryset = Compra.objects.all()
     serializer_class = CompraSerializer
 
@@ -208,6 +209,7 @@ class CadastrarCompraView(APIView):
         usuario.save()
 
         return Response({"message": "Compra e itens criados com sucesso!", "status": status.HTTP_201_CREATED})
+    
  
 class HistoricoSaldoUsuarioView(APIView):
     """Retorna as últimas 5 alterações de saldo do usuário logado"""
