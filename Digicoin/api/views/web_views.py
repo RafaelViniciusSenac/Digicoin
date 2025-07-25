@@ -207,9 +207,9 @@ def listaDePedidos(request):
 
     # Filtra as compras conforme o status
     if status:
-        compras_queryset = Compra.objects.filter(pedido=status)
+        compras_queryset = Compra.objects.filter(pedido=status).order_by('-id')
     else:
-        compras_queryset = Compra.objects.all()
+        compras_queryset = Compra.objects.all().order_by('-id')
 
     # Pagina apenas as compras
     compra_paginator = Paginator(compras_queryset, 5)

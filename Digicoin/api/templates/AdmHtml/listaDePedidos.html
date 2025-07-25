@@ -42,7 +42,11 @@
             <div class="linha-listaDePedidos" onclick="toggleItens('{{ compra.id }}')" style="cursor: pointer;">
                 <div class="nome-listaDePedidos">
                     <img class="iconedigix-listaDePedidos" src="{% static 'img/digixlogo.png'%}" alt="icone">
-                    <p>ID: {{ compra.id }} - Usuario: {{ compra.idUsuario.first_name }} - {{ compra.pedido }}</p>
+                    {% if compra.entrega == 'Entrega' and compra.pedido == 'Pendente' and compra.obsEntrega != 'False' %}
+                        <p>ID: {{ compra.id }} - Usuario: {{ compra.idUsuario.first_name }} - {{ compra.pedido }} (Em andamento) </p>   
+                    {% else %}
+                        <p>ID: {{ compra.id }} - Usuario: {{ compra.idUsuario.first_name }} - {{ compra.pedido }} </p>
+                    {% endif %}
                     
                 </div>
             
@@ -62,7 +66,13 @@
                 </div>
                 <strong>Tipo: <span>{{ compra.entrega }}</span>
                 {% if compra.pedido == 'Pendente' %}
-                    <button id="botaoConcluir">Concluir Pedido</button>
+                    <span>Observação: {{ compra.obsEntrega }}</span>
+                    {% if compra.entrega == 'Retirar' or compra.obsEntrega != 'False' %}
+                        <button id="botaoConcluir">Concluir Pedido</button>
+                    {% elif compra.entrega == 'Entrega' and compra.obsEntrega == 'False' %}
+                        <input type="text" class="obsEntrega" placeholder="Observação">
+                        <button id="botaoConcluir">Enviar Produto</button>
+                    {% endif %}
                 {% endif %}                
                 </strong>
             </div>
