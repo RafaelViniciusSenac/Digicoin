@@ -86,6 +86,7 @@ class Compra(models.Model):
     total = models.IntegerField(null=False, blank=False)
     entrega_choices = [("Retirar","Retirar"), ("Entrega","Entrega")]
     entrega = models.CharField(max_length=10, choices=entrega_choices)
+    obsEntrega = models.CharField(max_length=100, default=False, blank=True)
     cep = models.CharField(max_length=20, default=False)
     cidade = models.CharField(max_length=20, default=False)
     estado = models.CharField(max_length=20, default=False)
