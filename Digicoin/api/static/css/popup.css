@@ -1,0 +1,72 @@
+
+
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: var(--branco);
+    margin: 0;
+    padding: 0;
+    color: var(--preto);
+    font-size: 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+body.no-scroll {
+    overflow: hidden; /* Remove o scroll quando a popup está aberta */
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(var(--cinza-rgb), 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Alinha a popup no topo */
+    overflow-y: auto; /* Permite o scroll na página principal */
+}
+.popup {
+    background-color: var(--branco);
+    max-width: 600px;
+    margin: 20px; /* Espaço para o scroll */
+    border-radius: 20px;
+    border: 1px solid var(--cinza);
+    box-shadow: 0 10px 20px rgba(var(--preto-rgb), 0.1), 0 6px 6px rgba(var(--preto-rgb), 0.1);
+    padding: 10px;
+    position: relative;
+}
+/* posicao do botao de fechar do lado direito */
+.popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.popup-titulo {
+    flex-grow: 1;
+    text-align: center;
+    color: var(--base);
+    font-weight: bold;
+    font-size: 25px;
+}
+.popup-closed {
+    width: 20px;
+    height: 20px;
+    float: right;
+    cursor: pointer;
+    margin-left: 10px;
+}
+.popup-closed:hover {
+    opacity: 0.7;
+}
+.popup-body {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

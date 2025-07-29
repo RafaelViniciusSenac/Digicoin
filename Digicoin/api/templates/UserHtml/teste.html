@@ -6,7 +6,10 @@
 <h1>teste</h1>
 
 <div id="historico"></div>
-
-<script type="module" src="{% static 'js/UserJs/teste.js' %}"></script>
-
+  <script>
+    const imgRemoverSrc = "{% static 'img/remover.png' %}";
+    const imgFecharPopupSrc = "{% static 'img/bt_closed.png' %}";
+    const cssPopup = "{% static 'css/UserCss/popUp.css' %}";
+  </script>
+    <script type="module" src="{% static 'js/UserJs/teste.js' %}"></script>
 {% endblock %}

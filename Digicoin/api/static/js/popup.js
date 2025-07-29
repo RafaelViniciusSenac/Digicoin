@@ -9,6 +9,7 @@ class Popup {
     }
   
     async showPopup(conteudo, titulo = ' ') {
+      console.log('teste')
       await this.loadCSS(cssPopup);
   
       // Remove o elemento anterior, se existir
