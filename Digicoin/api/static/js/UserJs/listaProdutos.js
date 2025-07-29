@@ -39,6 +39,12 @@ document.addEventListener("DOMContentLoaded", function () {
                     return;
                 }
                 const idProdutoAdd = adiquirirBtn.dataset.valor;
+                const tipoQuantidade = document.querySelector(`input[name="quantidadeProduto[${idProdutoAdd}]"]`)?.value || "";
+                
+                if (tipoQuantidade <= 0) {
+                    return;
+                }
+                
                 const tipo = document.querySelector(`input[name="tipoProduto[${idProdutoAdd}]"]`)?.value || "";
                 let fisicoPrduto = (tipo == "Físico");
 
@@ -107,17 +113,37 @@ document.getElementById('barraBusca-listaProdutos').addEventListener('keyup', fu
     });
 });
 
-document.querySelectorAll(".Adquirir-listaProdutos").forEach(button => {
-    button.addEventListener("click", function () {
-        const produtoId = this.getAttribute("data-valor");
+function onClickAdicionarProduto(event) {
+    const button = event.currentTarget;
+    const produtoId = button.getAttribute("data-valor");
 
+    const quantidadeSpan = document.querySelector(`#flip-${produtoId} .quantidade-listaProdutos span`);
+    const quantidade = parseInt(quantidadeSpan.textContent);
+
+    if (quantidade <= 0) {
+        // Este trecho é opcional, pois o botão já deveria estar desabilitado ao carregar a página
+        alert("Produto indisponível!");
+    } else {
+        adicionarAoCarrinho(produtoId);
+    }
+}
+
+// ✅ Desabilita botões de produtos com quantidade 0 ao carregar a página
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".Adquirir-listaProdutos").forEach(button => {
+        const produtoId = button.getAttribute("data-valor");
         const quantidadeSpan = document.querySelector(`#flip-${produtoId} .quantidade-listaProdutos span`);
         const quantidade = parseInt(quantidadeSpan.textContent);
 
-        if (quantidade > 0) {
-            adicionarAoCarrinho(produtoId);
-        } else {
-            alert("Produto indisponível!");
+        if (quantidade <= 0) {
+            button.disabled = true;
+            button.classList.add("botao-desativado"); // classe opcional para estilizar
         }
+
+        // Atribui o evento de clique (mesmo que desabilitado, não será acionado)
+        button.addEventListener("click", onClickAdicionarProduto);
     });
 });
+
+
+

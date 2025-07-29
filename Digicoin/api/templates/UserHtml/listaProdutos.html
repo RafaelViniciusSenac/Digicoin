@@ -27,6 +27,7 @@
                 <input type="hidden" name="nomeProduto[{{produto.id}}]" value="{{produto.nome}}">
                 <input type="hidden" name="valorProduto[{{produto.id}}]" value="{{produto.valor}}">
                 <input type="hidden" name="tipoProduto[{{produto.id}}]" value="{{produto.tipo}}">
+                <input type="hidden" name="quantidadeProduto[{{produto.id}}]" value="{{produto.quantidade}}"> 
                 <div class='imgD-listaProdutos' data-nome="{{ produto.nome|lower }}">
                     <button id='imgbotao' data-valor="{{produto.id}}"><img class='imagensP-listaProdutos' src="{{ produto.img1.url }}" alt="{{produto.nome}}"></button>
                 </div>
@@ -51,14 +52,13 @@
                         <span>{{produto.valor}}</span>
                     </div>
                     
-                    <div class="btn-refresh-listaProdutos">
-                        {% if produto.quantidade > 0 %}
-                            <button class="Adquirir-listaProdutos" data-valor="{{produto.id}}">adquirir</button>
+                    <div class="btn-refresh-listaProdutos"> 
+                        {% if produto.quantidade <= 0 %}
+                        <button class="Adquirir-listaProdutos botao-desativado" data-valor="{{produto.id}}">indisponivel</button> 
                         {% else %}
-                            <button class="Adquirir-listaProdutos" data-valor="{{produto.id}}" >indisponível</button>
-                        {% endif %}
-                        
-                        <!-- mensagem de quantidade insuficiente -->
+                        <button class="Adquirir-listaProdutos botão-funcional" data-valor="{{produto.id}}">adquirir</button>   
+                        {%endif%}  
+                              
                         <span class="msgErrorAddProduto-listaProdutos"></span>
                     </div>
 
