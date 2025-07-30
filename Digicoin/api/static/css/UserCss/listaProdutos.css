@@ -479,19 +479,12 @@
     gap: 10px;
 }
 
-button:disabled,
 .botao-desativado {
     background-color: #ccc;
+    color: #666;
+    border: none;
     cursor: not-allowed;
-    opacity: 0.6;
-}
-
-.botao-desativado {
-    background-color: #ccc;        /* Cor de fundo cinza */
-    color: #666;                   /* Cor do texto mais apagada */
-    border: 1px solid #999;        /* Borda sutil */
-    cursor: not-allowed;           /* Cursor com ícone de proibido */
-    opacity: 0.7;                  /* Um pouco translúcido */
-    pointer-events: none;          /* Impede qualquer clique */
+    opacity: 0.7;
+    pointer-events: none;
     transition: 0.3s;
 }
