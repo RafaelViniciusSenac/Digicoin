@@ -56,7 +56,7 @@
                         <div class="historicoCompraTabelaCell quantidadeItens">Qtd</div>
                         <div class="historicoCompraTabelaCell dataCompra">Data <a href="?sort_by=dataCompra&order={% if request.GET.sort_by == 'dataCompra' and request.GET.order == 'asc' %}desc{% else %}asc{% endif %}"><img class="historicoCompraIconeSort {% if request.GET.sort_by == 'dataCompra' and request.GET.order == 'desc' %}historicoCompraSortDesc{% else %}historicoCompraSortAsc{% endif %}" src="{% static 'img/imgRanking/sort.png' %}" alt="Sort"></a></div>
                         <div class="historicoCompraTabelaCell total">Valor <a href="?sort_by=total&order={% if request.GET.sort_by == 'total' and request.GET.order == 'asc' %}desc{% else %}asc{% endif %}"><img class="historicoCompraIconeSort {% if request.GET.sort_by == 'total' and request.GET.order == 'desc' %}historicoCompraSortDesc{% else %}historicoCompraSortAsc{% endif %}" src="{% static 'img/imgRanking/sort.png' %}" alt="Sort"></a></div>
-                        <div class="historicoCompraTabelaCell entrega">Entrega</div>
+                        <div class="historicoCompraTabelaCell entrega">Tipo</div>
                         <div class="historicoCompraTabelaCell pedido">Status</div>
                     </div>
                 </div>
@@ -81,7 +81,11 @@
                         <div class="historicoCompraTabelaCell quantidadeItens" data-label="Qtd Itens">{{compra.quantidadeItens}}</div>
                         <div class="historicoCompraTabelaCell dataCompra" data-label="Data">{{compra.dataCompra|date:"d/m/Y"}}</div>
                         <div class="historicoCompraTabelaCell total" data-label="Total">{{compra.total}}</div>
-                        <div class="historicoCompraTabelaCell entrega" data-label="Entrega">{{compra.entrega}}</div>
+                        {% if compra.entrega == 'Entrega' and compra.pedido == 'Pendente' and compra.obsEntrega != 'False' %}
+                            <div class="historicoCompraTabelaCell entrega" data-label="Entrega">Em andamento</div>
+                        {% else %}
+                            <div class="historicoCompraTabelaCell entrega" data-label="Entrega">{{compra.entrega}}</div>
+                        {% endif %}
                         <div class="historicoCompraTabelaCell pedido" data-label="Pedido">{{compra.pedido}}</div>
                     </div>
                     {% endfor %}
