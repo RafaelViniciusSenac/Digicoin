@@ -2,9 +2,9 @@ dialog {
     border: none;
     border-radius: 15px;
     padding: 20px;
-    background-color: rgb(44, 0, 106); 
-    width: 300px;
-    height: 640px;
+    background-color: #4D2C87;
+    min-width: 300px;
+    height: 650px;
     color: #FFFFFF;
     
 }
@@ -34,7 +34,7 @@ dialog {
     cursor: pointer;
 }
 
-.FormProduto input, .FormQuantidade input, .FormPreco input, .cadastroEventoTema input, .cadastroEventoDescricao textarea{
+.FormProduto input, .FormQuantidade input, .FormPreco input, .cadastroEventoTema input, .cadastroEventoDescricao textarea, .FormDescricao input{
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
@@ -51,15 +51,16 @@ dialog {
     box-sizing: border-box;
 }
 
-.FormProduto > label, .FormQuantidade > label, .FormPreco > label, .FormImagem > label, .cadastroEventoTema > label, .cadastroEventoDescricao > label, .campanhaData > label {
+
+.FormProduto > label, .FormQuantidade > label, .FormPreco > label, .FormImagem > label, .cadastroEventoTema > label, .cadastroEventoDescricao > label, .campanhaData > label, .FormDescricao > label {
     margin-bottom: 8px; 
     font-size: 16px;
 }
 
-.FormProduto, .FormQuantidade, .FormPreco, .cadastroEventoTema, .cadastroEventoDescricao {
+.FormProduto, .FormQuantidade, .FormPreco, .cadastroEventoTema, .cadastroEventoDescricao, .FormDescricao {
     display: flex;
     flex-direction: column;
-    margin-bottom: 5px;
+    margin-bottom: 0px;
     width: 100%;
     box-sizing: border-box;
     position: relative;
@@ -79,7 +80,7 @@ dialog {
     margin-bottom: 20px;
 }
 
-.FormProduto > input:hover, .FormQuantidade > input:hover, .FormPreco > input:hover, .cadastroEventoTema > input:hover, .cadastroEventoDescricao > input:hover {
+.FormProduto > input:hover, .FormQuantidade > input:hover, .FormPreco > input:hover, .cadastroEventoTema > input:hover, .cadastroEventoDescricao > input:hover, .FormDescricao > input:hover {
     background-color: #ececec;
 }
 
@@ -478,7 +479,7 @@ input[type="date"]:focus {
         font-size: 18px;
     
     }
-    .FormProduto input, .FormQuantidade input, .FormPreco input, .cadastroEventoTema input, .cadastroEventoDescricao textarea{
+    .FormProduto input, .FormQuantidade input, .FormPreco input, .cadastroEventoTema input, .cadastroEventoDescricao textarea, .FormDescricao input{
         height: 30px;
         font-size: 18px;
         padding-left: 3px;
@@ -491,6 +492,7 @@ input[type="date"]:focus {
     .FormQuantidade input::placeholder,
     .FormPreco input::placeholder,
     .cadastroEventoTema input::placeholder,
+    .FormDescricao input::placeholder,
     .cadastroEventoDescricao textarea::placeholder {
         font-size: 14px; 
         padding-left: 3px;
@@ -503,7 +505,7 @@ input[type="date"]:focus {
 
     }
 
-    .FormProduto > label, .FormQuantidade > label, .FormPreco > label, .FormImagem > label, .cadastroEventoTema > label, .cadastroEventoDescricao > label, .campanhaData > label {
+    .FormProduto > label, .FormQuantidade > label, .FormPreco > label, .FormImagem > label, .cadastroEventoTema > label, .cadastroEventoDescricao > label, .campanhaData > label, .FormDescricao > label {
         margin-bottom: 8px; 
         font-size: 18px;
     }
@@ -524,7 +526,7 @@ input[type="date"]:focus {
         margin-left: 3px;
     }
 
-    .FormProduto, .FormQuantidade, .FormPreco, .cadastroEventoTema, .cadastroEventoDescricao {
+    .FormProduto, .FormQuantidade, .FormPreco, .cadastroEventoTema, .cadastroEventoDescricao, .FormDescricao {
         margin-bottom: 5px;
         
     }
@@ -701,7 +703,7 @@ input[type="date"]:focus {
         font-size: 20px;
     
     }
-    .FormProduto input, .FormQuantidade input, .FormPreco input, .cadastroEventoTema input, .cadastroEventoDescricao textarea{
+    .FormProduto input, .FormQuantidade input, .FormPreco input, .cadastroEventoTema input, .cadastroEventoDescricao textarea, .FormDescricao input{
         height: 35px;
         font-size: 20px;
         padding-left: 3px;
@@ -714,6 +716,7 @@ input[type="date"]:focus {
     .FormQuantidade input::placeholder,
     .FormPreco input::placeholder,
     .cadastroEventoTema input::placeholder,
+    .FormDescricao input::placeholder,
     .cadastroEventoDescricao textarea::placeholder {
         font-size: 16px; 
         padding-left: 3px;
@@ -726,7 +729,7 @@ input[type="date"]:focus {
 
     }
 
-    .FormProduto > label, .FormQuantidade > label, .FormPreco > label, .FormImagem > label, .cadastroEventoTema > label, .cadastroEventoDescricao > label, .campanhaData > label {
+    .FormProduto > label, .FormQuantidade > label, .FormPreco > label, .FormImagem > label, .cadastroEventoTema > label, .cadastroEventoDescricao > label, .campanhaData > label, .FormDescricao > label {
         margin-bottom: 10px; 
         font-size: 20px;
     }
@@ -747,7 +750,7 @@ input[type="date"]:focus {
         margin-left: 5px;
     }
 
-    .FormProduto, .FormQuantidade, .FormPreco, .cadastroEventoTema, .cadastroEventoDescricao {
+    .FormProduto, .FormQuantidade, .FormPreco, .cadastroEventoTema, .cadastroEventoDescricao, .FormDescricao {
         margin-bottom: 5px;
         
     }
@@ -945,11 +948,11 @@ input[type="date"]:focus {
         
 
     }
-    .FormProduto input, .FormQuantidade input, .cadastroEventoTema input{
+    .FormProduto input, .FormQuantidade input, .cadastroEventoTema input, .FormDescricao input{
         padding-left: 8px;
     }
 
-    .FormProduto input, .FormQuantidade input, .FormPreco input, .cadastroEventoTema input, .cadastroEventoDescricao textarea{
+    .FormProduto input, .FormQuantidade input, .FormPreco input, .cadastroEventoTema input, .cadastroEventoDescricao textarea, .FormDescricao input{
         width: 100%;
         box-sizing: border-box;
         max-width: 100%;
@@ -963,6 +966,7 @@ input[type="date"]:focus {
     .FormQuantidade input::placeholder,
     .FormPreco input::placeholder,
     .cadastroEventoTema input::placeholder,
+    .FormDescricao input::placeholder,
     .cadastroEventoDescricao textarea::placeholder {
         font-size: 18px; 
         
@@ -976,7 +980,7 @@ input[type="date"]:focus {
         margin-top: 45px;
     }
 
-    .FormProduto > label, .FormQuantidade > label, .FormPreco > label, .FormImagem > label, .cadastroEventoTema > label, .cadastroEventoDescricao > label, .campanhaData > label, .FormTipo div > label, .checkbox-group > label {
+    .FormProduto > label, .FormQuantidade > label, .FormPreco > label, .FormImagem > label, .cadastroEventoTema > label, .cadastroEventoDescricao > label, .campanhaData > label, .FormTipo div > label, .checkbox-group > label, .FormDescricao > lable {
         margin-bottom: 10px; 
         font-size: 18px;
     }
@@ -1160,12 +1164,15 @@ input[type="date"]:focus {
 
 
 
-@media (min-width:  876px) and (max-width: 1439px) {
+@media (min-width:  876px)  {
 
     dialog { 
-        width: 800px;
-        height: 550px;
+        width: 90%;
+        max-width: 900px;
+        height: 500px;
+        /* padding: 32px 100px 32px 100px; */ 
         padding: 32px;
+        
         
         
     }
@@ -1202,7 +1209,7 @@ input[type="date"]:focus {
 
     
     .ladoEsquerdo{
-        margin-top: 40px;
+        margin-top: 10px;
         padding-left: 10px;
         box-sizing: border-box;
     }
@@ -1210,6 +1217,7 @@ input[type="date"]:focus {
     .ladoDireito{
         box-sizing: border-box;
         padding-right: 10px;
+        
     }
 
 
@@ -1227,10 +1235,15 @@ input[type="date"]:focus {
 
     }
 
-    .FormProduto input, .FormQuantidade input, .cadastroEventoTema input{
+    .FormProduto, .FormQuantidade, .FormPreco, .cadastroEventoTema, .cadastroEventoDescricao, .cadastroEventoTema, .FormDescricao{
+        margin-bottom: 0px;
+    }
+    
+
+    .FormProduto input, .FormQuantidade input, .cadastroEventoTema input, .FormDescricao input{
         padding-left: 9px;
     }
-    .FormProduto input, .FormQuantidade input, .FormPreco input, .cadastroEventoTema input, .cadastroEventoDescricao textarea{
+    .FormProduto input, .FormQuantidade input, .FormPreco input, .FormDescricao input, .cadastroEventoTema input, .cadastroEventoDescricao textarea{
         
         width: 100%;
         max-width: 100%;
@@ -1243,12 +1256,13 @@ input[type="date"]:focus {
     .FormQuantidade input::placeholder,
     .FormPreco input::placeholder,
     .cadastroEventoTema input::placeholder,
+    .FormDescricao input::placeholder,
     .cadastroEventoDescricao textarea::placeholder {
         font-size: 18px; 
         
     }
    
-     .FormTipo{
+    .FormTipo{
         flex-wrap: wrap;
     }
 
@@ -1256,8 +1270,8 @@ input[type="date"]:focus {
         margin-top: 45px;
     }
     
-    .FormProduto > label, .FormQuantidade > label, .FormPreco > label, .FormImagem > label, .cadastroEventoTema > label, .cadastroEventoDescricao > label, .campanhaData > label, .FormTipo div > label {
-        margin-bottom: 12px; 
+    .FormProduto > label, .FormQuantidade > label, .FormPreco > label, .FormImagem > label, .cadastroEventoTema > label, .cadastroEventoDescricao > label, .campanhaData > label, .FormTipo div > label, .FormDescricao > label {
+        margin-bottom: 5px; 
         font-size: 20px;
     }
     
@@ -1314,20 +1328,27 @@ input[type="date"]:focus {
     .buttonConcluir, .buttonrodaPe, .buttonrodaPeModal {
         border-radius: 10px;
         border: none;
-        margin-top: 90px;
         width: 200px;
         height: 50px;   
         background-color: rgb(211, 74, 244);
         font-size: 26px;
         color: #FFFFFF;
         cursor: pointer; 
+        
  
         
     }
+    .buttonConcluir{
+        margin-top: 50px;
+    }
+
+    /* .buttonrodaPe{
+        margin-top: 0px; esse margem não funciona 
+    }  */
 
     .rodaPeBotao{
         display: inline-block;
-        margin: 18.5px 47px; 
+        margin: 14px 47px; 
     }
 
     .temaCampanhaCorpo{
@@ -1350,6 +1371,8 @@ input[type="date"]:focus {
     }
     
     .cadastroEvento{
+        display: flex;
+        flex-direction: column;
         width: 100%;
         margin-top: 25px;
     }
@@ -1395,11 +1418,19 @@ input[type="date"]:focus {
     }
 
   
-    .inicio, .fim {
+    /* .inicio, .fim {
         display: flex;
         flex-direction: column;
         align-items: center;
-    }
+    } */
+     .fim{
+        text-align: end;
+        margin-top: 20px;
+        display: flex;
+        justify-content: start;
+        align-items: start;
+        padding-left: 30px;
+    } 
 
     .inicio input{
         border: none;
@@ -1409,10 +1440,10 @@ input[type="date"]:focus {
         border: none;
     }
 
-    .inicio > label, .fim > label {
+    .inicio > label, .fim > label, .statusCampanha > label {
         font-size: 18px; /* Deixa o texto mais legível */
         color: white;
-        margin-bottom: 10px; /* Maior espaço entre label e input */
+        margin-bottom: 5px; /* Maior espaço entre label e input */
     }
     
     input[type="date"] {
@@ -1434,277 +1465,25 @@ input[type="date"]:focus {
         
     }
 
-    
 
-}
-
-/* DESKTOPS GRANDES (1440px +) */
-@media (min-width: 1440px) {
-
-    dialog { 
-        width: 1026px;
-        height: 641px;
-        padding: 34px;
-    }
-
-    .headerCentral{
-        
-        height: 15%;
-    
-    }
-
-    .headerLogo > img {
-        width: 200px;
-        
-    }
-    .cadastroEvento{
-        width: 100%;
-    }
-    #produtoForm{
-        display: flex;
-        flex-direction: row;
-        gap: 50px;
-        width: 100%;
-    }
-
-    .ModalContainer, .miniContainer{
-        width: 100%;
-        height: 85%;
-        display: flex;
-        justify-content: space-between;
-        flex-direction: row;
-
-    }
-    .ladoEsquerdo{
-        margin-top: 40px;
-        box-sizing: border-box;
-        padding-left: 20px;
-    }
-    .ladoDireito{
-        box-sizing: border-box;
-        padding-right: 20px;
-    }
-    
-
-    .ladoEsquerdo, .ladoDireito, .cadastroEventoTema, .cadastroEventoDescricao {
-        width: 48%;
-        display: flex;
+    /* campanha */
+    .miniContainer{
         flex-direction: column;
-        flex-wrap: wrap;
-        
-        
-
-    }
-    .FormProduto input, .FormQuantidade input, .cadastroEventoTema input{
-        padding-left: 10px;
     }
 
-    .FormProduto input, .FormQuantidade input, .FormPreco input, .cadastroEventoTema input, .cadastroEventoDescricao textarea{
-        width: 100%;
-        box-sizing: border-box;
-        font-size: 20px;
-        max-width: 100%;
-        height: 40px;  
-    
-    }
-    .FormProduto input::placeholder,
-    .FormQuantidade input::placeholder,
-    .FormPreco input::placeholder,
-    .cadastroEventoTema input::placeholder,
-    .cadastroEventoDescricao textarea::placeholder {
-        font-size: 20px; 
-        
-    }
-
-    .FormTipo{
-        flex-wrap: wrap;
-    }
-    .FormImagem .UploadBox{
-        margin-top: 45px;
-    }
-
-    .FormProduto > label, .FormQuantidade > label, .FormPreco > label, .FormImagem > label, .cadastroEventoTema > label, .cadastroEventoDescricao > label, .campanhaData > label, .FormTipo div > label {
-        margin-bottom: 15px; 
-        font-size: 22px;
-    }
-    
-    input[type="checkbox"] {
-        height: 20px;
-        width: 20px;
-        
-
-    }
-    
-
-    .UploadBox{
-        height: 300px ;
-    }
-
-    .FormCheckbox {
+    .statusCampanha{
+        margin-top: 20px;
         display: flex;
-        gap: 10px;
-    }
-
-    .temaCampanhaCorpo{
-        display: flex;
-        flex-wrap: wrap;
-        flex-direction: row;
-        width: 100%;
-    }
-    .temaCampanhaCorpo > div{
-        margin-left: 15px;
-    }
-    .produtoFormBotao {
-        display: flex;
-        position: relative;
-        justify-content: end;
-        margin-top: 52px;
-        
-    
-    }
-    .rodaPe {
-       
-       display: flex;
-       justify-content: space-between;
-     
-        
-    }
-
-    .criarCampanha{
-        display: flex;
-        align-items: end;
-    }
-
-    .criarCampanha > div{
-        font-size: 22px;
-        margin: 0px 0px 25px 50px;
-    }
-
-    .buttonrodaPeModal{
-        margin-bottom: 12px;
-    }
-    .buttonConcluir, .buttonrodaPe, .buttonrodaPeModal {
-        border-radius: 10px;
-        border: none;
-        margin-top: 90px;
-        width: 250px;
-        height: 55px;   
-        background-color: rgb(211, 74, 244);
-        font-size: 26px;
-        color: #FFFFFF;
-        cursor: pointer; 
- 
-        
-    }
-
-    .rodaPeBotao{
-        display: inline-block;
-        margin: 7px 52px; /* Margem lateral */
-    }
-
-    .temaCampanhaCorpo{
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        width: 100%;
-        flex-direction: center;
-        align-items: center;  
-
-
-    }
-
-    .temaCampanhaCorpo > div > label{
-        font-size: 20px;
-    }
-
-    .temaCampanhaHeard > div > p{
-        font-size: 22px;
-    }
-    
-    .cadastroEvento{
-        width: 100%;
-        margin-top: 25px;
-    }
-    .cadastroEventoTema{
         padding-left: 30px;
-        box-sizing: border-box;
-    }
-
-    .cadastroEventoDescricao{
-        padding-right: 30px;
-        box-sizing: border-box;
-    }
-
-    .cadastroEventoDescricao textarea{
-        width: 100%;
-        height: 200px;
-        padding: 10px;
-        box-sizing: border-box; /* Mantém o tamanho total fixo */
-        border-radius: 5px;
-        font-size: 20px !important;
-        border: none;
-    }
-
-    .cadastroEventoTema input{
-        width: 100%;
-        height: 40px;
-        padding: 5px;
-        box-sizing: border-box;
-        border-radius: 3px;
-        border: none;
-    }
-
-    .campanhaData{
-        margin-top: 50px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 40px;
-        width: 100%;
-    }
-
-  
-    .inicio, .fim {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .inicio input{
-        border: none;
-    }
-
-    .fim input{
-        border: none;
-    }
-
-    .inicio > label, .fim > label {
-        font-size: 18px; /* Deixa o texto mais legível */
-        color: white;
-        margin-bottom: 10px; /* Maior espaço entre label e input */
-    }
-    
-    input[type="date"] {
-        padding: 10px;
-        font-size: 16px;
-        border: 2px solid #ccc;
-        border-radius: 5px;
-        text-align: center;
-        background-color: #fff;
-        cursor: pointer;
-        width: 160px; /* Deixa o input mais largo */
-    }
-
-    .produtoDivFormBotao{
-        margin-right: -7px;
-    }
-    .FormPreco::before {
-        top: 62%;
         
     }
 
+    .statusCampanha label{
+        margin-right: 10px;
+    }
     
 
 }
+
+
 

@@ -90,7 +90,7 @@
 
             <div id="paginacao">
                 <button id="botao-anterior" onclick="mudarPagina('predefinida', -1)">Anterior</button>
-                <span id="pagina-atual-predefinida">1</span>
+                <span id="pagina-atual-predefinida1">pagina <span id="pagina-atual-predefinida">1</span></span>
                 <button id="botao-proxima" onclick="mudarPagina('predefinida', 1)">Próxima</button>
             </div>
         </div>
@@ -100,8 +100,9 @@
 
 <script src="{% static 'js/AdmJS/criarCampanha.js' %}"></script>
 <script>
-    const porPagina = 4;
+    const porPagina = 5;
     const paginas = { predefinida: 1, criada: 1 };
+    
 
     function mostrarPagina(tipo) {
         const todasLinhas = document.querySelectorAll(`#corpo-tabela-${tipo} .tabela_campanha_conteudo`);
@@ -128,6 +129,7 @@
 
         if (novaPagina >= 1 && novaPagina <= totalPaginas) {
             paginas[tipo] = novaPagina;
+            localStorage.setItem(`pagina-${tipo}`, novaPagina);
             mostrarPagina(tipo);
         }
     }
@@ -150,9 +152,42 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
+        const paginaSalva = parseInt(localStorage.getItem('pagina-predefinida')) || 1;
+        paginas['predefinida'] = paginaSalva;
         mostrarPagina('predefinida');
         mostrarPagina('criada');
     });
+    
+
+    document.getElementById('barraBusca').addEventListener('input', function () {
+        let termo = document.getElementById('barraBusca').value.toLowerCase();
+
+        const linhas = document.querySelectorAll('.tabela_campanha_conteudo');
+
+        linhas.forEach(linha => {
+            const nome = linha.dataset.nome.toLowerCase();
+            
+
+            if (nome.includes(termo)) {
+                this.parentElement
+                
+                linha.style.display = ''; // mostra
+                
+
+            } else {
+                console.log("esconder")
+                linha.style.display = 'none'; // esconde
+            }
+        });
+
+        paginas['predefinida'] = 1;
+        
+        
+        // Reaplica a paginação automaticamente
+        mostrarPagina('predefinida'); // ou 'criadas' se for outra tabela
+    });
+
+
 </script>
 
 {% endblock content %}
