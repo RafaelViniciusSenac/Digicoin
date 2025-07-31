@@ -1,3 +1,4 @@
+
 document.addEventListener("DOMContentLoaded", function () {
     const produtos = document.getElementsByClassName("imgD-listaProdutos");
     const listaProdutos = JSON.parse(localStorage.getItem('listaProdutos')) || { listaGrid: [] };
