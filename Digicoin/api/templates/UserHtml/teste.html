@@ -2,14 +2,40 @@
 {% load static %}
 
 {% block content %}
-<link rel="stylesheet" href="{% static 'css/popup.css' %}">
 <h1>teste</h1>
+    <h2>Exemplo de Popups</h2>
+    <button onclick="mostrarErro()">Mostrar Erro</button>
+    <button onclick="mostrarSucesso()">Mostrar Sucesso</button>
+    <button onclick="mostrarConfirmacao()">Mostrar Confirmação</button>
+    <script>
+            function mostrarErro() {
+            const popup = new Popup();
+            popup.showPopup(
+                "Ocorreu um erro inesperado ao processar sua solicitação.",
+                "Erro",
+                "erro"
+            );
+        }
 
-<div id="historico"></div>
-  <script>
-    const imgRemoverSrc = "{% static 'img/remover.png' %}";
-    const imgFecharPopupSrc = "{% static 'img/bt_closed.png' %}";
-    const cssPopup = "{% static 'css/UserCss/popUp.css' %}";
-  </script>
-    <script type="module" src="{% static 'js/UserJs/teste.js' %}"></script>
+        function mostrarSucesso() {
+            const popup = new Popup();
+            popup.showPopup(
+                "Sua operação foi concluída com sucesso!",
+                "Sucesso",
+                "sucesso"
+            );
+        }
+
+        function mostrarConfirmacao() {
+            const popup = new Popup();
+            popup.showPopup(
+                "Tem certeza que deseja excluir este item?",
+                "Confirmação",
+                "confirmacao",
+                () => alert("Confirmado!"),
+                () => alert("Cancelado!")
+            );
+        }
+    </script>
+    <script type="module" src="{% static 'js/popup.js' %}"></script>
 {% endblock %}
