@@ -205,12 +205,11 @@
     opacity: 0.4;
 }
 
-.idUser-listaDeUsuarios{
+.idUser-listaDeUsuarios {
     display: none;
 }
 
-.popupCadastrarUsuario{
-   
+.popupCadastrarUsuario {   
     position: fixed;
     top: 0;
     left: 0;
@@ -222,9 +221,7 @@
     align-items: center;
 }
 
-
-
-.popupAdicionarMoedas{
+.popupAdicionarMoedas {
     position: fixed;
     top: 0;
     left: 0;
@@ -432,6 +429,14 @@
 }
 
 @media (max-width: 768px) {
+
+    .mainListaUsuarios {
+        width: 80%;
+        margin-left: 0;
+        padding-left: 40px;
+        
+    }
+    
     .primeiraLinha-listaDeUsuarios {
         flex-direction: column;
         align-items: flex-start;
@@ -517,11 +522,12 @@
 
     .status-listaDeUsuarios {
         order: 3 !important;
-        margin: 4px 0 0 0 !important;
+        margin: 20px 0 0 0 !important;
         font-size: 12px !important;
         background: rgba(0,0,0,0.1);
-        padding: 2px 6px;
+        padding: 2px 1px;
         border-radius: 4px;
+        width: 10px;
     }
 
     .iconeEditar-listaDeUsuarios {
@@ -629,6 +635,7 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        height: 30px;
     }
 
     .iconeEditar-listaDeUsuarios {
@@ -640,6 +647,8 @@
     .linhaUsuario-listaDeUsuarios input[type="checkbox"] {
         margin-right: 6px;
         transform: scale(0.9);
+        width: 30px;
+        height: 30px;
     }
 
     .editarUsuario {
@@ -701,7 +710,7 @@
     }
 }
 
-.pagination{
+/* .pagination{
     margin-bottom: 40px;
     display: flex;
 }
@@ -726,4 +735,40 @@
     margin-top: 23px;
     margin-left: 10px;
     margin-right: 10px;
+} */
+
+.pagination-listaDeUsuarios {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.pagination-listaDeUsuarios a {
+    padding: 8px 15px;
+    text-decoration: none;
+    color: white;
+    cursor: pointer;
+    background-color: var(--magenta);
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    font-size: 18px;
+}
+
+.pagination-listaDeUsuarios .anterior-listaProdutos:hover,
+.proxim-listaProdutos a:hover {
+    background-color: var(--laranja);
+}
+
+
+.pagination-listaDeUsuarios span {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.pagination-listaDeUsuarios {
+    display: flex;
+    gap: 10px;
 }
