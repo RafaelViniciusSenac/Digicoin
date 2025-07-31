@@ -1,4 +1,3 @@
-
 class Popup {
     constructor() {
         this.injectCSS();
@@ -47,6 +46,7 @@ class Popup {
             .popup-alerta-container {
                 background-color: var(--branco);
                 max-width: 600px;
+                min-width: 340px;
                 margin: 20px;
                 border-radius: 20px;
                 padding: 20px;
@@ -66,6 +66,13 @@ class Popup {
                 flex-grow: 1;
                 font-weight: bold;
                 font-size: 22px;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+
+            .popup-alerta-titulo-texto {
+                font-style: italic;
             }
 
             .popup-alerta-fechar {
@@ -73,6 +80,10 @@ class Popup {
                 height: 20px;
                 cursor: pointer;
                 margin-left: auto;
+            }
+                
+            .popup-alerta-fechar:hover {
+                transform: scale(1.5);
             }
 
             .popup-alerta-body {
@@ -123,12 +134,17 @@ class Popup {
         this.appendElements();
 
         this.popupTitulo.innerHTML = '';
+
         const icon = document.createElement('img');
         icon.className = 'popup-alerta-icon';
         icon.src = this.getIconSrc(tipo);
         icon.alt = tipo;
         this.popupTitulo.appendChild(icon);
-        this.popupTitulo.appendChild(document.createTextNode(' ' + titulo));
+
+        const tituloSpan = document.createElement('span');
+        tituloSpan.className = 'popup-alerta-titulo-texto';
+        tituloSpan.textContent = ' ' + titulo;
+        this.popupTitulo.appendChild(tituloSpan);
 
         this.popupBody.innerHTML = '';
         const texto = document.createElement('div');
