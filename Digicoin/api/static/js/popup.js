@@ -72,7 +72,7 @@ class Popup {
             }
 
             .popup-alerta-titulo-texto {
-                font-style: italic;
+                font-style: bold;
             }
 
             .popup-alerta-fechar {
@@ -118,6 +118,12 @@ class Popup {
             .popup-erro { color: var(--erro); }
             .popup-sucesso { color: var(--sucesso); }
             .popup-confirmacao { color: var(--confirmacao); }
+            .popup-padrao { 
+                color: var(--base);
+                display: flex;
+                align-items: center; 
+                justify-content: center;
+            }
 
             .popup-alerta-icon {
                 width: 24px;
@@ -127,7 +133,7 @@ class Popup {
         document.head.appendChild(style);
     }
 
-    showPopup(conteudo, titulo = ' ', tipo = 'confirmacao', onConfirm = null, onCancel = null) {
+    showPopup(conteudo, titulo = ' ', tipo = 'padrao', onConfirm = null, onCancel = null) {
         this.removeOldPopup();
         this.createElements();
         this.setAttributes(tipo);
@@ -135,11 +141,13 @@ class Popup {
 
         this.popupTitulo.innerHTML = '';
 
-        const icon = document.createElement('img');
-        icon.className = 'popup-alerta-icon';
-        icon.src = this.getIconSrc(tipo);
-        icon.alt = tipo;
-        this.popupTitulo.appendChild(icon);
+        if(tipo != 'padrao') {
+            const icon = document.createElement('img');
+            icon.className = 'popup-alerta-icon';
+            icon.src = this.getIconSrc(tipo);
+            icon.alt = tipo;
+            this.popupTitulo.appendChild(icon);
+        }
 
         const tituloSpan = document.createElement('span');
         tituloSpan.className = 'popup-alerta-titulo-texto';
