@@ -4,6 +4,10 @@ from django.core.paginator import Paginator
 from ..serializers import UsuarioComHistoricoSerializer
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
+from openpyxl import Workbook
+from openpyxl.styles import Font, Alignment, PatternFill
+from datetime import datetime
 
 def login(request):
     return render(request, 'index.html')
@@ -243,4 +247,76 @@ def editarUsuario(request, id):
 
 def adicionarMoedas(request):
     return render(request, 'AdmHtml/adicionarMoedas.html')
+
+
+def exportar_vendas_excel(request):
+    """
+    View para exportar relatório de vendas em formato Excel
+    """
+    # Criar um novo workbook
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "Relatório de Vendas"
+    
+    # Definir estilos
+    header_font = Font(bold=True, color="FFFFFF")
+    header_fill = PatternFill(start_color="366092", end_color="366092", fill_type="solid")
+    header_alignment = Alignment(horizontal="center", vertical="center")
+    
+    # Cabeçalhos
+    headers = [
+        'ID Compra', 'Data da Compra', 'Cliente', 'RA Cliente', 
+        'Produto', 'Quantidade', 'Valor Unitário', 'Valor Total Item',
+        'Total da Compra', 'Status', 'Tipo de Entrega'
+    ]
+    
+    # Adicionar cabeçalhos
+    for col, header in enumerate(headers, 1):
+        cell = ws.cell(row=1, column=col, value=header)
+        cell.font = header_font
+        cell.fill = header_fill
+        cell.alignment = header_alignment
+    
+    # Buscar dados de vendas (compras) do banco de dados
+    compras = Compra.objects.all().order_by('-dataCompra')
+    
+    row = 2
+    print(compras)
+    for compra in compras:
+        print(compra)
+        # Buscar itens da compra
+        itens_compra = ItensCompra.objects.filter(idCompra=compra)
+        
+        for item in itens_compra:
+            ws.cell(row=row, column=1, value=compra.id)
+            ws.cell(row=row, column=2, value=compra.dataCompra.strftime('%d/%m/%Y %H:%M'))
+            ws.cell(row=row, column=3, value=f"{compra.idUsuario.first_name} {compra.idUsuario.last_name}")
+            ws.cell(row=row, column=4, value=compra.idUsuario.ra)
+            ws.cell(row=row, column=5, value=item.idProduto.nome)
+            ws.cell(row=row, column=6, value=item.qtdProduto)
+            ws.cell(row=row, column=7, value=item.idProduto.valor)
+            ws.cell(row=row, column=8, value=item.qtdProduto * item.idProduto.valor)
+            ws.cell(row=row, column=9, value=compra.total)
+            ws.cell(row=row, column=10, value=compra.pedido)
+            ws.cell(row=row, column=11, value=compra.entrega)
+            row += 1
+    
+    # Ajustar largura das colunas
+    column_widths = [12, 18, 25, 15, 30, 12, 15, 18, 18, 15, 15]
+    for col, width in enumerate(column_widths, 1):
+        ws.column_dimensions[ws.cell(row=1, column=col).column_letter].width = width
+    
+    # Preparar resposta HTTP
+    response = HttpResponse(
+        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
+    
+    # Nome do arquivo com data atual
+    filename = f"relatorio_vendas_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx"
+    response['Content-Disposition'] = f'attachment; filename="{filename}"'
+    
+    # Salvar workbook na resposta
+    wb.save(response)
+    
+    return response
 

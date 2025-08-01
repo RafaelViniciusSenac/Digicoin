@@ -12,7 +12,7 @@
             <div class="linha"></div>
         </div>
         <div class="cabecalho_btnexportar">           
-            <button><img src="{% static 'img/export.png' %}" alt="Exportar">Exportar</button>
+            <button id="exportButton"><img src="{% static 'img/export.png' %}" alt="Exportar">Exportar</button>
         </div>
     </div>
     <div class="relatorio">
@@ -20,8 +20,8 @@
             <tr>
                 <td class="tabela_relatorio_conteudo">
                     <div class="tabela_relatorio_conteudo_checkbox">
-                        <input type="checkbox" id="checkbox" name="checkbox" />
-                        <label for="checkbox"></label>
+                        <input type="checkbox" id="vendasCheckbox" name="checkbox" />
+                        <label for="vendasCheckbox"></label>
                     </div>
                     <div class="tabela_relatorio_conteudo_dado">
                         <img src="{% static 'img/relatorio.png' %}" alt="Relatório">
@@ -32,5 +32,17 @@
         </table>
     </div>
 </div>
+
+<script>
+    document.getElementById('exportButton').addEventListener('click', function() {
+        var vendasChecked = document.getElementById('vendasCheckbox').checked;
+
+        if (vendasChecked) {
+            window.location.href = '/api/exportar_vendas_excel/';
+        } else {
+            alert('Por favor, selecione uma opção para exportar.');
+        }
+    });
+</script>
 
 {% endblock content %}

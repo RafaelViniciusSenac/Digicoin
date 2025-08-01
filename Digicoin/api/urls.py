@@ -41,6 +41,6 @@ urlpatterns = [
     path('adicionarMoedas/', adicionarMoedas, name='adicionarMoedas'),
     path('listaDeDesafios/', listaDeDesafios, name='listaDeDesafios'),
     path('teste/', teste, name='teste'),
-    
+    path('api/exportar_vendas_excel/', exportar_vendas_excel, name='exportar_vendas_excel'),
 
 ]
