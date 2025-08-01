@@ -106,7 +106,7 @@
     border-left: 5px solid #CA8EFF;
     border-radius: 12px;
     padding: 5px 5px 4px 13px;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.05);
     justify-content: space-between;
     margin-bottom: 10px;
 }
