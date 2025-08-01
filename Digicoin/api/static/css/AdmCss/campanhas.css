@@ -52,15 +52,149 @@ select:focus {
 }
 
 .container {
-    padding: 40px 40px 0px 40px;
+    padding: 40px 40px 0px 0px;
     width: 50%;
     /* max-width: 800px; */
     /* margin-left: 450px;
     padding-left: 200px; */
     margin-left: 450px;
     padding-left: 200px;
+    overflow: hidden;
+    
+    
     
 }
+
+.campanhas_pre{
+    min-width: 600px;
+}
+
+@media (max-width: 1700px) {
+  .container {
+    margin-left: 400px;
+    padding-left: 200px;
+  }
+}
+
+@media (max-width: 1650px) {
+  .container {
+    margin-left: 380px;
+    padding-left: 200px;
+  }
+}
+
+@media (max-width: 1600px) {
+  .container {
+    margin-left: 365px;
+    padding-left: 200px;
+  }
+}
+
+@media (max-width: 1550px) {
+  .container {
+    margin-left: 355px;
+    padding-left: 200px;
+  }
+}
+
+@media (max-width: 1500px) {
+  .container {
+    margin-left: 345px;
+    padding-left: 200px;
+  }
+}
+
+@media (max-width: 1450px) {
+  .container {
+    margin-left: 325px;
+    padding-left: 200px;
+  }
+}
+
+/* Telas menores que 1200px */
+@media (max-width: 1400px) {
+  .container {
+    margin-left: 320px;
+    padding-left: 200px;
+  }
+}
+
+/* Telas menores que 1200px */
+@media (max-width: 1350px) {
+  .container {
+    margin-left: 315px;
+    padding-left: 200px;
+  }
+}
+
+@media (max-width: 1300px) {
+  .container {
+    margin-left: 295px;
+    padding-left: 200px;
+  }
+}
+
+@media (max-width: 1250px) {
+  .container {
+    margin-left: 275px;
+    padding-left: 200px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .container {
+    margin-left: 255px;
+    padding-left: 200px;
+  }
+}
+
+
+@media (max-width: 1150px) {
+  .container {
+    margin-left: 230px;
+    padding-left: 200px;
+  }
+}
+
+@media (max-width: 1100px) {
+  .container {
+    margin-left: 210px;
+    padding-left: 200px;
+  }
+}
+
+@media (max-width: 1050px) {
+  .container {
+    margin-left: 195px;
+    padding-left: 200px;
+  }
+}
+
+@media (max-width: 1025px) {
+  .container {
+    margin-left: 180px;
+    padding-left: 200px;
+  }
+}
+
+@media (max-width: 1000px) {
+  .container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 10px 10px 10px;
+    width: 100%;
+    margin-left: 0px;
+    box-sizing: border-box;
+  }
+
+  .campanhas_pre{
+    min-width: 0;
+    box-sizing: border-box;
+  }
+  
+}
+
 
 .cabecalho {
     display: flex;

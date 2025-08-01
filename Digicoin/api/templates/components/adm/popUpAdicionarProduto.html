@@ -197,12 +197,17 @@
                         </div>
 
                         <div class="statusCampanha">
-                            <label for="ativaCampanha">Status da Campanha</label>
-                            <div class="toggleSwitch">
-                                <input type="checkbox" id="ativaCampanha" name="ativaCampanha" checked>
-                                <label for="ativaCampanha" class="switchLabel"></label>
-                            </div>
-                        </div>
+  <label for="ativaCampanha">Status da Campanha</label>
+  
+  <div class="toggleSwitch">
+    <input type="checkbox" id="ativaCampanha" name="ativaCampanha" checked hidden>
+
+    <div class="statusButtons">
+      <label for="ativaCampanha" class="btnStatus ativo">Ativo</label>
+      <label for="ativaCampanha" class="btnStatus inativo">Desativo</label>
+    </div>
+  </div>
+</div>
                     </div>
     
                     {% comment %} <div class="campanhaData"> {% endcomment %}

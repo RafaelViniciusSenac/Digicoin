@@ -6,23 +6,24 @@
 {% include 'components/adm/popUpAdicionarProduto.html'%}
 
 <link rel="stylesheet" href="{% static 'css/AdmCss/campanhas.css' %}" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <div class="container" id="container-campanhas">
 
-    <div class="campo_pesquisar" id="campo-pesquisar">
-        <div class="pesquisar">
-            <img class="lupa" src="{% static 'img/pesquisa.png' %}" alt="" />
-            <input
-                class="pesquisar_campanha"
-                id="barraBusca"
-                name="termo"
-                type="search"
-                placeholder="Pesquisar Campanha"
-            />
-        </div>
-    </div>
-
+    
     <div class="campanhas_pre">
+        <div class="campo_pesquisar" id="campo-pesquisar">
+            <div class="pesquisar">
+                <img class="lupa" src="{% static 'img/pesquisa.png' %}" alt="" />
+                <input
+                    class="pesquisar_campanha"
+                    id="barraBusca"
+                    name="termo"
+                    type="search"
+                    placeholder="Pesquisar Campanha"
+                />
+            </div>
+        </div>
         <div class="cabecalho">
             <div class="cabecalho_titulo">
                 <h1 id="titulo-campanhas">Campanhas Criadas</h1>
@@ -52,11 +53,11 @@
                 </div>
             </div>
 
-            <table id="corpo-tabela-predefinida" class="tabela_campanha">
-                <tbody id="corpo-tabela">
+            <div id="corpo-tabela-predefinida" class="tabela_campanha">
+                <div id="corpo-tabela">
                     {% for campanha in campanhas %}
-                    <tr class="tr-campanha" id="linha-campanha-{{ campanha.id }}">
-                        <td class="tabela_campanha_conteudo" data-nome="{{ campanha.nome|lower }}">
+                    <div class="tr-campanha" id="linha-campanha-{{ campanha.id }}">
+                        <div class="tabela_campanha_conteudo" data-nome="{{ campanha.nome|lower }}">
                             <div class="tabela_campanha_conteudo_dado1">
                                 <div
                                     class="circle"
@@ -82,11 +83,12 @@
                                     <img src="{% static 'img/iconeDeletar.png' %}" alt="deletar">
                                 </button>
                             </div>
-                        </td>
-                    </tr>
+                        </div>
+                    </div>
                     {% endfor %}
-                </tbody>
-            </table>
+                </div>
+            </div>
+
 
             <div id="paginacao">
                 <button id="botao-anterior" onclick="mudarPagina('predefinida', -1)">Anterior</button>

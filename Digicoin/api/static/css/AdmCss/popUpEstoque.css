@@ -1426,6 +1426,7 @@ input[type="date"]:focus {
      .fim{
         text-align: end;
         margin-top: 20px;
+        
         display: flex;
         justify-content: start;
         align-items: start;
@@ -1443,6 +1444,7 @@ input[type="date"]:focus {
     .inicio > label, .fim > label, .statusCampanha > label {
         font-size: 18px; /* Deixa o texto mais legível */
         color: white;
+
         margin-bottom: 5px; /* Maior espaço entre label e input */
     }
     
@@ -1454,8 +1456,9 @@ input[type="date"]:focus {
         text-align: center;
         background-color: #fff;
         cursor: pointer;
-        width: 160px; /* Deixa o input mais largo */
+        width: 480px; /* Deixa o input mais largo */
     }
+
 
     .buttonrodaPeModal{
         margin-bottom: 8px;
@@ -1474,6 +1477,7 @@ input[type="date"]:focus {
     .statusCampanha{
         margin-top: 20px;
         display: flex;
+        flex-direction: column;
         padding-left: 30px;
         
     }
@@ -1481,9 +1485,54 @@ input[type="date"]:focus {
     .statusCampanha label{
         margin-right: 10px;
     }
+
+    .cadastroEventoTema{
+        width: 100%;
+    }
+
+    .cadastroEventoTema input{
+        width: 500px;
+        padding-left: 30px;
+    }
     
 
 }
 
 
 
+.statusButtons {
+  display: flex;
+  gap: 20px;
+  font-size: 18px;
+}
+
+.btnStatus {
+  cursor: pointer;
+  padding-left: 25px;
+  position: relative;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.btnStatus::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 3px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid #888;
+  background-color: #fff;
+  transition: all 0.2s ease;
+}
+
+input#ativaCampanha:checked + .statusButtons .ativo::before {
+  background-color: green;
+  border-color: green;
+}
+
+input#ativaCampanha:not(:checked) + .statusButtons .inativo::before {
+  background-color: red;
+  border-color: red;
+}
