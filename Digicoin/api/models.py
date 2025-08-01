@@ -86,6 +86,7 @@ class Compra(models.Model):
     total = models.IntegerField(null=False, blank=False)
     entrega_choices = [("Retirar","Retirar"), ("Entrega","Entrega")]
     entrega = models.CharField(max_length=10, choices=entrega_choices)
+    obsEntrega = models.CharField(max_length=100, default=False, blank=True)
     cep = models.CharField(max_length=20, default=False)
     cidade = models.CharField(max_length=20, default=False)
     estado = models.CharField(max_length=20, default=False)
@@ -94,7 +95,7 @@ class Compra(models.Model):
     numero = models.CharField(max_length=100, default=False)
     pedido_choices = [("Pendente", "Pendente"), ("Concluído","Concluído")]
     pedido = models.CharField(max_length=10, choices=pedido_choices, default='Pendente')
-    complemento = models.CharField(max_length=100, default=False)
+    complemento = models.CharField(max_length=100, default=False, blank=True)
     idUsuario = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False, blank=False)
     dataCompra = models.DateTimeField(auto_now_add=True)
 

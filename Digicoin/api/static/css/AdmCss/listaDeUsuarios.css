@@ -1,20 +1,37 @@
+
+:root {
+    --laranja: #FC671D;
+    --magenta: #D34AF4;/* cor do botão */
+    --cinza: #faf6f7;
+    --cinza-escuro:#888;
+    --ciano: #0BC0D3;
+    --base: #2c006a;
+    --branco: #fff;
+    --preto: #000;
+    --roxo: #4D2C87;  /* fundo roxo */
+    --sombra-base:rgba(44, 0, 106, 0.4);
+    --sombra-preta:rgba(0, 0, 0, 0.4);
+    --cinzaPlaceHolder:#9E9E9E;
+    --cinzaDatas: #D9D9D9;
+  }
+
 .mainListaUsuarios {
     padding: 40px;
     font-family: Arial, sans-serif;
-    max-width: 800px;
-    margin-left: 350px;
+    width: 50%;
+    margin-left: 450px;
     padding-left: 200px;
 
     
 }
 
-.divPesquisa {
+.divPesquisa-listaDeUsuarios {
     display: flex;
     justify-content: flex-end;
     margin-bottom: 20px;
 }
 
-.barraPesquisa {
+.barraPesquisa-listaDeUsuarios {
     border: 2px solid #ccc;
     border-radius: 20px;
     padding: 5px 15px;
@@ -23,38 +40,38 @@
     gap: 8px;
 }
 
-.barraPesquisa input {
+.barraPesquisa-listaDeUsuarios input {
     border: none;
     outline: none;
     font-size: 14px;
 }
 
-.barraPesquisa img{
+.barraPesquisa-listaDeUsuarios img{
     width: 30px;
     height: 30px;
 }
 
-.primeiraLinha {
+.primeiraLinha-listaDeUsuarios {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 25px;
 }
 
-.primeiraLinha h1 span {
+.primeiraLinha-listaDeUsuarios h1 span {
     border-bottom: 3px solid #FC671D;
     padding-bottom: 2px;
 }
 
-.botoesUsuario{
+.botoesUsuario-listaDeUsuarios{
     display: flex;
 }
 
-.botoesUsuario a{
+.botoesUsuario-listaDeUsuarios a{
     text-decoration: none;
 }
 
-.botoesUsuario button {
+.botoesUsuario-listaDeUsuarios button {
     
     border: none;
     padding: 10px 20px;
@@ -68,26 +85,26 @@
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-.addMoedas {
+.addMoedas-listaDeUsuarios {
     background-color: #00C4CC;
     color: white;
 }
 
-.addMoedas:hover{
+.addMoedas-listaDeUsuarios:hover{
     background-color: #037b80;
     transition: 0.5s ease-in-out;
 }
 
-.addUsuarios {
+.addUsuarios-listaDeUsuarios {
     background-color: #DA3ADC;
     color: white;
 }
-.addUsuarios:hover{
+.addUsuarios-listaDeUsuarios:hover{
     background-color: #b42fb6;
     transition: 0.5s ease-in-out;
 }
 
-.head {
+.head-listaDeUsuarios {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -95,7 +112,7 @@
     font-size: 22px;
 }
 
-.selecionar-todos {
+.selecionar-todos-listaDeUsuarios {
     padding: 10px 10px;
     background: var(--branco);
     border-radius: 8px;
@@ -104,7 +121,7 @@
     border-left: 5px solid var(--ciano);
 }
 
-.selecionar-todos label {
+.selecionar-todos-listaDeUsuarios label {
     display: flex;
     align-items: center;
     gap: 12px;
@@ -115,7 +132,7 @@
 }
 
 /* Custom checkbox */
-.selecionar-todos input[type="checkbox"] {
+.selecionar-todos-listaDeUsuarios input[type="checkbox"] {
     appearance: none;
     width: 20px;
     height: 20px;
@@ -125,12 +142,12 @@
     position: relative;
 }
 
-.selecionar-todos input[type="checkbox"]:checked {
+.selecionar-todos-listaDeUsuarios input[type="checkbox"]:checked {
     background-color: var(--ciano);
     border-color: var(--ciano);
 }
 
-.selecionar-todos input[type="checkbox"]:checked::after {
+.selecionar-todos-listaDeUsuarios input[type="checkbox"]:checked::after {
     content: '';
     position: absolute;
     left: 50%;
@@ -143,7 +160,7 @@
     transform: translate(-50%, -60%) rotate(-45deg);
 }
 
-.selecionar-todos input[type="checkbox"]:hover {
+.selecionar-todos-listaDeUsuarios input[type="checkbox"]:hover {
     border-color: var(--ciano);
 }
 
@@ -153,103 +170,248 @@
     gap: 12px;
 }
 
-.linhaUsuario {
+.linhaUsuario-listaDeUsuarios {
     display: flex;
     align-items: center;
     background-color: white;
     border-left: 5px solid #CA8EFF;
     border-radius: 12px;
-    padding: 10px;
+    padding: 15px;
     box-shadow: 2px 2px 6px rgba(0,0,0,0.05);
     justify-content: space-between;
+    margin-bottom: 10px;
 }
 
-.linhaUsuario input[type="checkbox"] {
+.linhaUsuario-listaDeUsuarios input[type="checkbox"] {
     margin-right: 10px;
 }
 
-.infoUser {
+.infoUser-listaDeUsuarios {
     display: flex;
     align-items: center;
     gap: 15px;
     flex-grow: 1;
 }
 
-.infoUser img{
+.infoUser-listaDeUsuarios img{
     width: 30px;
     height: 30px;
 }
 
-.infoUser .nome {
+.infoUser-listaDeUsuarios .nome-listaDeUsuarios {
     font-size: 16px;
     font-weight: bold;
 }
 
-.infoUser .status {
+.infoUser-listaDeUsuarios .status-listaDeUsuarios {
     margin-left: auto;
     color: #888;
     font-size: 14px;
 }
 
-.iconeEditar {
+.iconeEditar-listaDeUsuarios {
     cursor: pointer;
 }
 
-.status{
+.status-listaDeUsuarios{
     margin-right: 150px;
     
 }
 
-.desativado {
+.desativado-listaDeUsuarios {
     opacity: 0.4;
 }
 
-.idUser{
+.idUser-listaDeUsuarios {
     display: none;
 }
 
+
 .popupCadastrarUsuario{
    
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 9999;
-    justify-content: center;
-    align-items: center;
+    border: none;
+        border-radius: 8px;
+        padding: 30px 100px 100px 100px;
+        width: 90%;
+        max-width: 900px;
+        background-color: var(--roxo);
+        box-shadow: 0 4px 20px var(--sombra-preta);
+        color: var(--base);
 }
 
+.header-cadastrarUsuario{
+    display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+}
+
+.iconeX-cadastrarUsuario{
+    
+    width: 32px;
+    height: 32px;
+}
+
+.iconeX-cadastrarUsuario:hover{
+    cursor: pointer;
+}
+
+.button-cadastrarUsuario{
+    
+    font-size: 22px;
+    border-radius: 20px;
+    cursor: pointer;
+    border: none;
+    color: var(--branco);
+    background-color: var(--magenta);
+    width: 260px;
+    height: 60px;
+    
+}
+
+
+.input-cadastrarUsuario{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    
+}
+
+.input-cadastrarUsuario input{
+
+    border-radius: 4px;
+    border: none;
+    width: 800px;
+    height: 55px;   
+    background-color: var(--branco);
+    font-size: 20px;
+    color: var(--base);
+    margin-bottom: 40px;
+
+}
+
+
+
+.input-cadastrarUsuario label{
+    color: var(--branco);
+    font-size: 15px;
+
+}
+
+.input-cadastrarUsuario input:read-write
+{
+
+    color: var(--base);
+    padding-left: 20px;
+
+}
+
+.formUsuario-cadastrarUsuario{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+}
 
 
 .popupAdicionarMoedas{
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 9999;
-    justify-content: center;
-    align-items: center;
+    border: none;
+        border-radius: 8px;
+        padding: 30px 100px 100px 100px;
+        width: 90%;
+        max-width: 900px;
+        background-color: var(--roxo);
+        box-shadow: 0 4px 20px var(--sombra-preta);
+        color: var(--base);
+
 }
 
-:root {
-    --laranja: #FC671D;
-    --magenta: #D34AF4;
-    --cinza: #faf6f7;
-    --cinza-escuro:#888;
-    --ciano: #0BC0D3;
-    --base: #2c006a;
-    --branco: #fff;
-    --preto: #000;
-    --roxo: #4D2C87;  
-    --sombra-base:rgba(44, 0, 106, 0.4);
-    --sombra-preta:rgba(0, 0, 0, 0.4);
-    --cinzaPlaceHolder:#9E9E9E;
-    --cinzaDatas: #D9D9D9;
+.popupAdicionarMoedas::backdrop {
+    background-color: var(--sombra-preta);
 }
+
+.header-adicionarMoedas{
+    display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+}
+
+.formAdicionarMoedas{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    color: white;
+}
+
+.gerenciarDigicoins-adicionarMoedas h1{
+    text-align: center;
+    
+}
+
+.quantidade-adicionarMoedas{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    font-size: 22px
+}
+
+.quantidadeInput-adicionarMoedas{
+    border-radius: 4px;
+    height: 50px; 
+    border: none;
+    width: 291px;
+    margin-bottom: 50px;
+}
+
+.quantidadeInput-adicionarMoedas:read-write {
+    padding-left: 20px;
+}
+
+.quantidade-adicionarMoedas label {
+    font-size: 18px;
+}
+
+.botoes-adicionarMoedas{
+    display: flex;
+    gap: 20px;
+}
+
+.botoes-adicionarMoedas button{
+    border: none;
+    border-radius: 20px;
+    height: 59px;
+    width: 259px;
+    color: white;
+    font-weight: 800;
+    font-size: 20px;
+    margin-bottom: 30px;
+}
+
+.adicionar-adicionarMoedas{
+    background-color: rgba(11, 192, 211, 1);
+}
+
+.adicionar-adicionarMoedas:hover{
+    cursor: pointer;
+    background-color: rgb(10, 162, 179);
+    transition: 0.5s;
+}
+
+.remover-adicionarMoedas{
+    background-color: rgba(211, 74, 244, 1);
+}
+
+.remover-adicionarMoedas:hover{
+    cursor: pointer;
+    background-color: rgb(170, 59, 197);
+    transition: 0.5s;
+}
+
+
 .editarUsuario {
         border: none;
         border-radius: 8px;
@@ -399,6 +561,10 @@
         background-color:rgb(164, 58, 191) 
     }
 
+
+
+
+
     /* Responsividade */
  
     /* ========== RESPONSIVIDADE ========== */
@@ -431,37 +597,45 @@
 }
 
 @media (max-width: 768px) {
-    .primeiraLinha {
+
+    .mainListaUsuarios {
+        width: 80%;
+        margin-left: 0;
+        padding-left: 40px;
+        
+    }
+    
+    .primeiraLinha-listaDeUsuarios {
         flex-direction: column;
         align-items: flex-start;
         gap: 15px;
     }
 
-    .botoesUsuario {
+    .botoesUsuario-listaDeUsuarios {
         flex-direction: column;
         width: 100%;
         gap: 10px;
     }
 
-    .botoesUsuario button {
+    .botoesUsuario-listaDeUsuarios button {
         margin-left: 0;
         width: 100%;
         justify-content: center;
     }
 
-    .linhaUsuario {
+    .linhaUsuario-listaDeUsuarios {
         flex-direction: column;
         align-items: flex-start;
         gap: 10px;
         padding: 15px;
     }
 
-    .infoUser {
+    .infoUser-listaDeUsuarios {
         width: 100%;
         flex-wrap: wrap;
     }
 
-    .infoUser .status {
+    .infoUser-listaDeUsuarios .status-listaDeUsuarios {
         margin-right: 0;
         margin-left: 0;
         width: 100%;
@@ -481,7 +655,7 @@
         height: 24px;
     }
 
-    .linhaUsuario {
+    .linhaUsuario-listaDeUsuarios {
         flex-direction: row;
         align-items: flex-start;
         gap: 8px;
@@ -489,41 +663,42 @@
         position: relative;
     }
 
-    .linhaUsuario .checkbox {
+    .linhaUsuario-listaDeUsuarios .checkbox {
         margin-top: 8px;
     }
 
-    .infoUser {
+    .infoUser-listaDeUsuarios {
         flex-direction: column;
         gap: 4px;
         align-items: flex-start;
     }
 
-    .infoUser img {
+    .infoUser-listaDeUsuarios img {
         display: none; /* Remove ícone em mobile */
     }
 
-    .infoUser .nome {
+    .infoUser-listaDeUsuarios .nome-listaDeUsuarios {
         font-size: 14px;
         order: 1;
     }
 
-    .infoUser span:not(.nome) {
+    .infoUser-listaDeUsuarios span:not(.nome-listaDeUsuarios) {
         font-size: 13px;
         order: 2;
         color: var(--cinza-escuro);
     }
 
-    .status {
+    .status-listaDeUsuarios {
         order: 3 !important;
-        margin: 4px 0 0 0 !important;
+        margin: 20px 0 0 0 !important;
         font-size: 12px !important;
         background: rgba(0,0,0,0.1);
-        padding: 2px 6px;
+        padding: 2px 1px;
         border-radius: 4px;
+        width: 10px;
     }
 
-    .iconeEditar {
+    .iconeEditar-listaDeUsuarios {
         position: absolute;
         right: 12px;
         top: 50%;
@@ -579,24 +754,24 @@
 
 @media (max-width: 480px) {
     
-    .barraPesquisa {
+    .barraPesquisa-listaDeUsuarios {
         width: 100%;
     }
 
-    .selecionar-todos {
+    .selecionar-todos-listaDeUsuarios {
         padding: 10px;
         font-size: 14px;
     }
 
-    .head h3 {
+    .head-listaDeUsuarios h3 {
         font-size: 16px;
     }
 
-    .infoUser .nome {
+    .infoUser-listaDeUsuarios .nome-listaDeUsuarios {
         font-size: 14px;
     }
 
-    .infoUser span {
+    .infoUser-listaDeUsuarios span {
         font-size: 13px;
     }
 
@@ -619,26 +794,29 @@
         height: 18px;
     }
 
-    .linhaUsuario {
+    .linhaUsuario-listaDeUsuarios {
         padding: 10px;
     }
 
-    .infoUser .nome {
+    .infoUser-listaDeUsuarios .nome-listaDeUsuarios {
         max-width: 200px;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        height: 30px;
     }
 
-    .iconeEditar {
+    .iconeEditar-listaDeUsuarios {
         right: 8px;
         width: 22px;
         height: 22px;
     }
 
-    .linhaUsuario input[type="checkbox"] {
+    .linhaUsuario-listaDeUsuarios input[type="checkbox"] {
         margin-right: 6px;
         transform: scale(0.9);
+        width: 30px;
+        height: 30px;
     }
 
     .editarUsuario {
@@ -700,7 +878,7 @@
     }
 }
 
-.pagination{
+/* .pagination{
     margin-bottom: 40px;
     display: flex;
 }
@@ -725,4 +903,41 @@
     margin-top: 23px;
     margin-left: 10px;
     margin-right: 10px;
+} */
+
+.pagination-listaDeUsuarios {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 20px;
 }
+
+.pagination-listaDeUsuarios a {
+    padding: 8px 15px;
+    text-decoration: none;
+    color: white;
+    cursor: pointer;
+    background-color: var(--magenta);
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    font-size: 18px;
+}
+
+.pagination-listaDeUsuarios .anterior-listaProdutos:hover,
+.proxim-listaProdutos a:hover {
+    background-color: var(--laranja);
+}
+
+
+.pagination-listaDeUsuarios span {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.pagination-listaDeUsuarios {
+    display: flex;
+    gap: 10px;
+}
+

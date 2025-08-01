@@ -1,19 +1,18 @@
-.mainListaDesafios{
+.mainListaDesafios-listaDeDesafios {
     padding: 40px;
     font-family: Arial, sans-serif;
     max-width: 800px;
     margin-left: 350px;
     padding-left: 200px;
-
 }
 
-.divPesquisa {
+.divPesquisa-listaDeDesafios {
     display: flex;
     justify-content: flex-end;
     margin-bottom: 20px;
 }
 
-.barraPesquisa {
+.barraPesquisa-listaDeDesafios {
     border: 2px solid #ccc;
     border-radius: 20px;
     padding: 5px 15px;
@@ -22,39 +21,38 @@
     gap: 8px;
 }
 
-.barraPesquisa input {
+.barraPesquisa-listaDeDesafios input {
     border: none;
     outline: none;
     font-size: 14px;
 }
 
-.barraPesquisa img{
+.barraPesquisa-listaDeDesafios img {
     width: 30px;
     height: 30px;
 }
 
-.primeiraLinha {
+.primeiraLinha-listaDeDesafios {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 25px;
 }
 
-.primeiraLinha h1 span {
+.primeiraLinha-listaDeDesafios h1 span {
     border-bottom: 3px solid #FC671D;
     padding-bottom: 2px;
 }
 
-.botoesDesafio{
+.botoesDesafio-listaDeDesafios {
     display: flex;
 }
 
-.botoesDesafio a{
+.botoesDesafio-listaDeDesafios a {
     text-decoration: none;
 }
 
-.botoesDesafio button {
-    
+.botoesDesafio-listaDeDesafios button {
     border: none;
     padding: 10px 20px;
     font-size: 18px;
@@ -67,16 +65,17 @@
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-.addDesafio {
+.addDesafio-listaDeDesafios {
     background-color: #DA3ADC;
     color: white;
 }
-.addDesafio:hover{
+
+.addDesafio-listaDeDesafios:hover {
     background-color: #b42fb6;
     transition: 0.5s ease-in-out;
 }
 
-.head {
+.head-listaDeDesafios {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -84,79 +83,72 @@
     font-size: 22px;
 }
 
-.recompensa{
+.recompensa-listaDeDesafios {
     margin-left: 450px;
 }
 
-.listaDesafios{
+.listaDesafios-listaDeDesafios {
     display: flex;
     flex-direction: column;
     gap: 20px;
-
 }
 
-.desafio{
+.desafio-listaDeDesafios {
     display: flex;
     border-radius: 10px;
     box-shadow: 5px 5px 10px 0px rgba(77, 44, 135, 0.45);
     justify-content: space-between;
     font-size: 20px;
-
 }
 
-.desafio:hover{
+.desafio-listaDeDesafios:hover {
     transform: scale(1.05);
     transition: ease-in-out 0.5s;
 }
 
-
-.desafioLeft{
+.desafioLeft-listaDeDesafios {
     display: flex;
     align-items: center;
     margin-left: 20px;
     gap: 10px;
 }
 
-.desafioLeft img{
+.desafioLeft-listaDeDesafios img {
     width: 34px;
     height: 34px;
 }
 
-.desafioRight{
+.desafioRight-listaDeDesafios {
     align-items: center;
     display: flex;
     margin-right: 20px;
     width: 200px;
-    justify-content: space-between
-
+    justify-content: space-between;
 }
 
-.dg{
+.dg-listaDeDesafios {
     color: rgba(252, 103, 29, 1);
-    
 }
 
-.valor{
+.valor-listaDeDesafios {
     color: rgba(11, 192, 211, 1);
 }
 
-.botoesEditar{
+.botoesEditar-listaDeDesafios {
     display: flex;
     gap: 15px;
 }
 
-.botoesEditar img{
+.botoesEditar-listaDeDesafios img {
     width: 24px;
     height: 24px;
-    
 }
 
-.botoesEditar img:hover{
+.botoesEditar-listaDeDesafios img:hover {
     cursor: pointer;
-    
 }
 
-.popUpAdicionarDesafio{
+.popUpAdicionarDesafio-listaDeDesafios{
     position: fixed;
     top: 0;
     left: 0;
@@ -168,7 +160,7 @@
     align-items: center;
 }
 
-.popUpEditarDesafio{
+.popUpEditarDesafio-listaDeDesafios {
     position: fixed;
     top: 0;
     left: 0;

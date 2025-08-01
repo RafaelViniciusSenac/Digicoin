@@ -4,37 +4,30 @@
 
 <link rel="stylesheet" href="{% static 'css/UserCss/carrinhoCompra.css' %}">
 
-
 <div class="body-carrinhoCompras">
-
-  <!-- importar componenents menuUser.html -->
   {% include "components/user/menuUser.html" %}
   <div class="containerPrincipal-carrinhoCompras">
     <div class="containerSecundaria-carrinhoCompras">
       <div class="titulo-carrinhoCompras">
         <div class="icone-carrinhoCompras">
-          <img src="{%static 'img/carrinho.png'%}" alt="Carrinho">
+          <img src="{% static 'img/carrinho.png' %}" alt="Carrinho">
         </div>
         Carrinho de Compras
-        <!-- <input type="text" id="campoBusca" data-valor="nome,valor" placeholder="Buscar..."> -->
       </div>
       {% csrf_token %}
-      <table>
-        <thead>
-          <tr>
-            <th><img src="{%static 'img/produto.png'%}" alt="produtos"> Produto <img id="btOrdenar"
-              data-valor="nomeProduto" class="sort-asc" src="{%static 'img/sort.png'%}" alt="sort"></th>
-            <th width="100px">Valor <img id="btOrdenar" data-valor="valorProduto" class="sort-asc"
-                src="{%static 'img/sort.png'%}" alt="sort"></th>
-            <th width="80px">Ações</th>
-          </tr>
-        </thead>
-        <tbody id="itensGrid">
+      
+      <div class="itemGridHeader-carrinhoCompras">
+        <div class="itemGridCell-carrinhoCompras col-produto"><img class="iconeProduto-carrinhoCompras" src="{% static 'img/produto.png' %}" alt="produtos">Produto</div>
+        <div class="itemGridCell-carrinhoCompras col-valor">Valor</div>
+        <div class="itemGridCell-carrinhoCompras col-acoes">Ações</div>
+      </div>
 
-        </tbody>
-      </table>
+      <div class="itensGrid-carrinhoCompras" id="itensGrid">
+        <!-- Os itens serão inseridos aqui pelo JavaScript -->
+      </div>
       <div class="valorTotal-carrinhoCompras">
         <h4>Total de Digicoins: <span id="valorTotal">0</span></h4>
+        <a href="{% url 'listaProdutos' %}" class="checkoutButton-carrinhoCompras">Continuar Comprando</a>
         <button id="botaoFinalizarPedido" class="checkoutButton-carrinhoCompras">Finalizar Pedido</button>
       </div>
     </div>

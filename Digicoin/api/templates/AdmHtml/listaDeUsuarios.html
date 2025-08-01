@@ -9,26 +9,27 @@
 
 <div class="mainListaUsuarios">
     
-    <div class="divPesquisa">
-        <div class="barraPesquisa">
-            <img src="{% static 'img/iconeLupa.png' %}" alt="">
-            <input type="search" placeholder="Pesquisar usuário">
+    <div  class="divPesquisa-listaDeUsuarios">
+        <div class="barraPesquisa-listaDeUsuarios">
+            <img src="{% static 'img/iconeLupa.png' %}" alt="Ícone de busca">
+            <input id="barraBusca-listaProdutos" type="search" placeholder="Pesquisar usuário">
         </div>
     </div>
+    
 
-        <div class="primeiraLinha">
+        <div class="primeiraLinha-listaDeUsuarios">
 
             <h1><span>Usu</span>ários</h1>
 
-            <div class="botoesUsuario">
+            <div class="botoesUsuario-listaDeUsuarios">
             
-                    <button class="addMoedas" id="addMoedas">
+                    <button class="addMoedas-listaDeUsuarios" id="addMoedas">
                         <img src="{% static 'img/iconAdicionar.png' %}" alt="">
-                        Adicionar moedas
+                        Gerenciar digicoins
                     </button>
           
 
-                    <button class="addUsuarios" id="addUsuarios">
+                    <button class="addUsuarios-listaDeUsuarios" id="addUsuarios">
                         <img src="{% static 'img/iconAdicionar.png' %}" alt="">
                         Adicionar usuário
                     </button>
@@ -37,51 +38,51 @@
 
         </div>
 
-        <div class="head">
+        <div class="head-listaDeUsuarios">
             <p>Nome</p>
             <img src="{% static 'img/lista.png' %}" alt="">
         </div>
 
-        <div class="selecionar-todos">
+        <div class="selecionar-todos-listaDeUsuarios">
             <label>
                 <input type="checkbox" id="selecionarTodos"> 
                 Selecionar todos os usuários ativos
             </label>
         </div>
 
-        <div class="listaUsuarios">
+        <div id="listaUsuarios"  class="listaUsuarios">
 
             {% for usuario in usuarios %}
 
             
             {% if usuario.is_active %}
             
-            <div class="linhaUsuario">
+            <div class="linhaUsuario-listaDeUsuarios">
                 <input type="checkbox" class="checkbox">
-                <div class="infoUser">
+                <div class="infoUser-listaDeUsuarios">
                     <img src="{% static 'img/userBlack.png' %}" alt="">
-                    <input type="text" class="idUser" value="{{usuario.id}}">
-                    <span class="nome">{{usuario.first_name}}</span>
+                    <input type="hidden" class='idUser-listaDeUsuarios' value="{{usuario.id}}">
+                    <span class="nome-listaDeUsuarios">{{usuario.first_name}}</span>
                     <span>D$ {{usuario.saldo}} </span>
-                    <span class="status"></span>
+                    <span class="status-listaDeUsuarios"></span>
                     
                 </div>
-                <img class="iconeEditar" id="editar"
+                <img class="iconeEditar-listaDeUsuarios" id="editar"
                 data-id="{{usuario.id}}"  src="{% static 'img/edit.png' %}" alt="">
             </div>
     
 
             {% else %}
 
-                <div class="linhaUsuario desativado">
+                <div class="linhaUsuario-listaDeUsuarios desativado-listaDeUsuarios">
                     <input type="checkbox" class="checkbox" disabled>
-                    <div class="infoUser">
-                        <input type="text" class="idUser" value="{{usuario.id}}">
+                    <div class="infoUser-listaDeUsuarios">
+                        <input type="text" class="idUser-listaDeUsuarios" value="{{usuario.id}}">
                         <img src="{% static 'img/userBlack.png' %}" alt="">
-                        <span class="nome">{{usuario.first_name}}</span>
-                        <span class="status">Desativado</span>
+                        <span class="nome-listaDeUsuarios">{{usuario.first_name}}</span>
+                        <span class="status-listaDeUsuarios">Desativado</span>
                     </div>
-                    <img class="iconeEditar" id="editar" data-id="{{usuario.id}}"  src="{% static 'img/edit.png' %}" alt="">
+                    <img class="iconeEditar-listaDeUsuarios" id="editar" data-id="{{usuario.id}}"  src="{% static 'img/edit.png' %}" alt="">
                 </div>
 
 
@@ -154,7 +155,7 @@
            
             {% endfor%} 
         </div>
-        <div class="pagination">
+        <div class="pagination-listaDeUsuarios">
             {% if usuarios.has_previous %}
                 <div>
                     <a style="font-size: 20px; margin-right: 10px;" href="?user_page={{ usuarios.previous_page_number }}">Anterior</a>
@@ -173,13 +174,79 @@
 </div>
 
 <dialog id="popupCadastrarUsuario" class="popupCadastrarUsuario">
-    {% include "AdmHtml/cadastrarUsuario.html" %}
+    
+    <div class="header-cadastrarUsuario">
+        <img src="{% static 'img/logoAdmin.png' %}" alt="LogoAdmin">
+        <img id="fecharCadastrar" class="iconeX-cadastrarUsuario" src="{% static 'img/iconeX.png' %}" alt="">
+    
+    </div>
+    
+    <form method="POST" class="formUsuario-cadastrarUsuario" id="formUsuario">
+    
+        {% csrf_token %}
+        <div class="input-cadastrarUsuario">
+            <label for="">Nome do Usuário</label>
+            <input type="text" id="nome" class="nome" placeholder="Digite o nome do usuário" >
+        </div>
+    
+        <div class="input-cadastrarUsuario">
+            <label for="">Email</label>
+            <input type="email" id="email" class="email" placeholder="Digite seu email" >
+        </div>
+    
+        <div class="input-cadastrarUsuario">
+            <label for="">RA do Usuário</label>
+            <input type="number" id="ra" class="ra" placeholder="23317444">
+        </div>
+    
+        <div class="input-cadastrarUsuario">
+            <label for="">Senha  temporária</label>
+            <input type="text" id="senha" class="senha" placeholder="Rw9!K$2@qPb">
+        </div>
+
+        <div class="input">
+            <label for="">Admin</label>
+            <input type="checkbox" id="isAdmin"  >
+        </div> 
+    
+        <button onclick="cadastrar(event)" type="submit" id="cadastrarUsuario" class="button-cadastrarUsuario">Concluído</button>
+    
+    </form>
+
 </dialog>
 
 <dialog id="popupAdicionarMoedas" class="popupAdicionarMoedas">
-    {% include "AdmHtml/adicionarMoedas.html" %}
+    
+    
+        <div class="header-adicionarMoedas">
+            <img src="{% static 'img/logoAdmin.png' %}" alt="LogoAdmin">
+            <img class="iconeX-adicionarMoedas" id='fecharAdicionarMoedas' src="{% static 'img/iconeX.png' %}" alt="">
+        </div>
+    
+        <form class="formAdicionarMoedas" id='formAdicionarMoedas'>
+           {% csrf_token %}
+            <div class="gerenciarDigicoins-adicionarMoedas" >
+                
+                <h1>Gerenciar digicoins</h1>    
+                <div class="quantidade-adicionarMoedas">
+                <label>Quantidade a ser adicionada ou removida</label>
+                <input class="quantidadeInput-adicionarMoedas" id='saldo' type="number" placeholder="5.000">
+                </div>
+            </div>
+            <div class="botoes-adicionarMoedas">
+                <button class="adicionar-adicionarMoedas" id='adicionar'>Adicionar</button>
+                <button class="remover-adicionarMoedas" id='remover'>Remover</button>
+            </div>
+    
+        </form>
+        
+    
+    
+    
+
 </dialog>
 
 
 <script src="{% static 'js/AdmJS/listaDeUsuarios.js' %}"></script>
+<script src="{% static 'js/AdmJS/cadastrarUsuario.js' %}"></script>
 {% endblock %}

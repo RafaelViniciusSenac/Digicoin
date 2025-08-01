@@ -5,25 +5,25 @@
 
 
 <link rel="stylesheet" href="{% static 'css/AdmCss/relatorio.css' %}">
-<div class="container">
-    <div class="cabecalho">
-        <div class="cabecalho_titulo">
+<div class="container-relatorio">
+    <div class="cabecalho-relatorio">
+        <div class="cabecalho_titulo-relatorio">
             <h1>Relatórios</h1>
-            <div class="linha"></div>
+            <div class="linha-relatorio"></div>
         </div>
         <div class="cabecalho_btnexportar">           
-            <button id="exportButton"><img src="{% static 'img/export.png' %}" alt="Exportar">Exportar</button>
+            <button><img src="{% static 'img/export.png' %}" alt="Exportar">Exportar</button>
         </div>
     </div>
-    <div class="relatorio">
-        <table class="tabela_relatorio">
+    <div class="relatorio-relatorio">
+        <table class="tabela_relatorio-relatorio">
             <tr>
                 <td class="tabela_relatorio_conteudo">
                     <div class="tabela_relatorio_conteudo_checkbox">
-                        <input type="checkbox" id="vendasCheckbox" name="checkbox" />
-                        <label for="vendasCheckbox"></label>
+                        <input type="checkbox" id="checkbox" name="checkbox" />
+                        <label for="checkbox"></label>
                     </div>
-                    <div class="tabela_relatorio_conteudo_dado">
+                    <div class="tabela_relatorio_conteudo_dado-relatorio">
                         <img src="{% static 'img/relatorio.png' %}" alt="Relatório">
                         <h2>Vendas</h2>
                     </div>
@@ -32,17 +32,5 @@
         </table>
     </div>
 </div>
-
-<script>
-    document.getElementById('exportButton').addEventListener('click', function() {
-        var vendasChecked = document.getElementById('vendasCheckbox').checked;
-
-        if (vendasChecked) {
-            window.location.href = '/api/exportar_vendas_excel/';
-        } else {
-            alert('Por favor, selecione uma opção para exportar.');
-        }
-    });
-</script>
 
 {% endblock content %}

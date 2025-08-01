@@ -7,27 +7,32 @@ from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.hashers import make_password
 
-
-
-
 class User(APIView):
-
+    
     def get(self, request, id=None):
         if id:
             usuario = get_object_or_404(CustomUser, pk=id)
             serializer = UserSerializer(usuario)
-            return Response(serializer.data, status= status.HTTP_200_OK)
+            return Response(serializer.data, status=status.HTTP_200_OK)
 
-        usuario = CustomUser.objects.all()
+        nome = request.query_params.get("nome")
+        
+        if nome:
+            usuario = CustomUser.objects.filter(first_name__icontains=nome)[:5]
+        else:
+            usuario = CustomUser.objects.all()[:5]
+
         serializer = UserSerializer(usuario, many=True)
-        return Response(serializer.data, status= status.HTTP_200_OK)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
 
     def post(self, request):
         nome = request.data.get('nome')
         senha = request.data.get('senha')
         ra = request.data.get('ra')
         fistName = request.data.get('first_name')
-        # isAdm = request.data.get('is_adm')
+        isAdm = request.data.get('is_adm')
 
         if not nome or not senha:
             return Response({"error": "Todos os campos são obrigatórios!", "status": status.HTTP_400_BAD_REQUEST}, status= status.HTTP_400_BAD_REQUEST)
@@ -37,7 +42,7 @@ class User(APIView):
             password = make_password(senha),
             is_active = True,
             first_name = fistName,
-            
+            is_adm = isAdm,
             ra = ra
         )
         return Response({"message":"Usuário criado com sucesso!", "id":usuario.id, "status": status.HTTP_201_CREATED})
@@ -46,8 +51,8 @@ class User(APIView):
         usuario = get_object_or_404(CustomUser, pk=id)
         data = request.data.copy()
         operacao = data.get("operacao")
-        print("agy")
-        print(operacao)
+       
+        
         if operacao in ['adicionar', 'remover']:
             try:
                 saldo = int(data.get("saldo", 0))
@@ -55,11 +60,8 @@ class User(APIView):
                 return Response({"erro": "Saldo inválido."}, status=status.HTTP_400_BAD_REQUEST)
 
             if operacao == 'adicionar':
-                print("Antes:", usuario.pontuacao)
-                print("Saldo:", saldo)
                 usuario.pontuacao += saldo
                 usuario.saldo += saldo
-                print("Depois:", usuario.pontuacao)
 
             elif operacao == 'remover':
                 if usuario.saldo < saldo:
@@ -109,14 +111,15 @@ class Login(APIView):
     def post(self, request):
         nome = request.data.get('nome')
         senha = request.data.get('senha')
-
-        usuario = authenticate(username=nome, password=senha)
         
-        if(usuario):
-            login(request, usuario)
-            return Response({"status": status.HTTP_200_OK})
-        else:
-            return Response({"mensagem": "Usuario nao encontrado!", "status": status.HTTP_401_UNAUTHORIZED})
+        user = authenticate(username=nome, password=senha)
+        if user is not None:
+            login(request, user)
+            return Response({
+                'is_adm': user.is_adm
+            }, status=status.HTTP_200_OK)
+        
+        return Response({'error': 'Credenciais inválidas'}, status=status.HTTP_401_UNAUTHORIZED)
         
 class Logout(APIView):
     def post(self, request):
@@ -148,6 +151,7 @@ class DesafioViewSet(viewsets.ModelViewSet):
     serializer_class = DesafioSerializer
 
 class CompraViewSet(viewsets.ModelViewSet):
+
     queryset = Compra.objects.all()
     serializer_class = CompraSerializer
 
@@ -159,6 +163,25 @@ class CadastrarCompraView(APIView):
     def post(self, request):
         dadosCompra = request.data.get('compra')
         itensCompra = request.data.get('itens')
+        usuario_id = request.user.id
+        # adiciona o id do usuário ao dadosCompra
+        dadosCompra['idUsuario'] = usuario_id
+
+        # Verifica se o usuário tem moeda suficiente
+        usuario = CustomUser.objects.get(id=usuario_id)
+        total_custo = dadosCompra['total']
+        if usuario.saldo < total_custo:
+            return Response({"error": "Usuário não tem saldo suficiente.", "status":status.HTTP_400_BAD_REQUEST})
+
+        # Verifica se os produtos têm quantidade suficiente
+        erros = []
+        for item in itensCompra:
+            produto = Produto.objects.get(id=item['idProduto'])
+            if produto.quantidade < item['qtdProduto']:
+                erros.append(f"Produto {produto.nome} não tem quantidade suficiente.")
+        
+        if erros:
+            return Response({"error": erros, "status":status.HTTP_400_BAD_REQUEST})
 
         # Cria a compra
         compraSerializer = CompraSerializer(data=dadosCompra)
@@ -173,13 +196,21 @@ class CadastrarCompraView(APIView):
             itemSerializer = ItensCompraSerializer(data=item)
             if itemSerializer.is_valid():
                 itemSerializer.save()
-                print("Item criado com sucesso!")
+                produto.quantidade -= item['qtdProduto']
+                produto.save()
             else:
-                print("deu erro")
-                return Response(itemSerializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                erros.append(itemSerializer.errors)
+
+        if erros:
+            return Response(erros, status=status.HTTP_400_BAD_REQUEST)
+
+        # Deduzir moeda do usuário
+        usuario.saldo -= total_custo
+        usuario.save()
 
         return Response({"message": "Compra e itens criados com sucesso!", "status": status.HTTP_201_CREATED})
     
+ 
 class HistoricoSaldoUsuarioView(APIView):
     """Retorna as últimas 5 alterações de saldo do usuário logado"""
     def get(self, request):

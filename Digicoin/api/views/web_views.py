@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from api.models import *
 from django.core.paginator import Paginator
 from ..serializers import UsuarioComHistoricoSerializer
-from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from openpyxl import Workbook
@@ -15,27 +14,23 @@ def login(request):
 
 
 def home(request):
-   
     users = CustomUser.objects.all().order_by("-saldo")[:5]
-    
 
     userId = request.session.get('_auth_user_id')
     user = CustomUser.objects.filter(id=userId).first()
-    primeiroAcesso = user.primeiroAcesso
-    
-    users = CustomUser.objects.all().order_by("-saldo")[:5]
-        
+    primeiroAcesso = user.primeiroAcesso if user else False
+
     desafio_list = Desafio.objects.filter(idCampanha__isnull=True)
-    desafio_paginator = Paginator(desafio_list, 5) 
-    desafio_page = request.GET.get('desafio_page') 
-    desafios = desafio_paginator.get_page(desafio_page)  
-    
+
+    desafio_paginator = Paginator(desafio_list, 5)
+    desafio_page = request.GET.get('desafio_page')
+    desafios = desafio_paginator.get_page(desafio_page)
 
     context = {
         'usuarios': users[1:],  
         'primeiro_usuario': users[0] if users else None,  
         'desafios': desafios,
-        'primeiroAcesso' : primeiroAcesso,
+        'primeiroAcesso': primeiroAcesso,
         'userId': userId    
     }
 
@@ -158,9 +153,7 @@ def ranking(request):
 
 def listaEstoque(request):
     eventos = Campanha.objects.filter(is_active=True)
-             
 
-    
 
     estoque_list = Produto.objects.filter(is_active=True)
     estoque_paginator = Paginator(estoque_list, 5) 
@@ -180,15 +173,19 @@ def listaDeDesafios(request):
 
     return render(request, 'AdmHtml/listaDeDesafios.html', {'desafios': desafios, 'campanhas': campanhas})
 
+
 def listaDeUsuarios(request):
-    
-    user = CustomUser.objects.all().order_by("first_name")
+    nome = request.GET.get('nome', '') 
+    user = CustomUser.objects.filter(first_name__icontains=nome, is_adm=False).order_by("first_name")
     user_paginator = Paginator(user, 5)
     user_page = request.GET.get('user_page')
     usuarios = user_paginator.get_page(user_page)
-    
 
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        return render(request, 'AdmHtml/fragments/usuarios.html', {'usuarios': usuarios})
+    
     return render(request, 'AdmHtml/listaDeUsuarios.html', {'usuarios': usuarios})
+
 
 def desafiosCampanha(request):
 
@@ -200,24 +197,36 @@ def desafiosCampanha(request):
     return render(request, 'UserHtml/desafiosCampanha.html', {'desafios': desafios})
 
 
+@login_required
 def listaDePedidos(request):
-    status_pedido = request.GET.get('status', None)  
-    print(status_pedido)
+    status_pedido = request.GET.get('status')
 
-    pedidos = 0 
+    # Mapeia os valores da query string para os valores reais do campo 'pedido'
+    status_map = {
+        '1': 'Concluído',
+        '2': 'Pendente'
+    }
 
-    if status_pedido == '1':
-        pedidos = ItensCompra.objects.select_related('idProduto', 'idCompra').filter(idCompra__pedido="concluido")
-    elif status_pedido == '2':
-        pedidos = ItensCompra.objects.select_related('idProduto', 'idCompra').filter(idCompra__pedido="pendente")
+    status = status_map.get(status_pedido)
+
+    # Filtra as compras conforme o status
+    if status:
+        compras_queryset = Compra.objects.filter(pedido=status).order_by('-id')
     else:
-        pedidos = ItensCompra.objects.select_related('idProduto', 'idCompra').all() 
+        compras_queryset = Compra.objects.all().order_by('-id')
 
-    pedido_paginator = Paginator(pedidos, 5) 
-    pedido_page = request.GET.get('pedido_page')
-    pedidos = pedido_paginator.get_page(pedido_page)
+    # Pagina apenas as compras
+    compra_paginator = Paginator(compras_queryset, 5)
+    compra_page = request.GET.get('compra_page')
+    compras = compra_paginator.get_page(compra_page)
 
-    return render(request, 'AdmHtml/listaDePedidos.html', {'pedidos': pedidos})
+    # Busca todos os itens relacionados às compras paginadas
+    pedidos = ItensCompra.objects.select_related('idProduto', 'idCompra').filter(idCompra__in=compras)
+
+    return render(request, 'AdmHtml/listaDePedidos.html', {
+        'compras': compras,
+        'pedidos': pedidos
+    })
 
 
 def carrinho(request):

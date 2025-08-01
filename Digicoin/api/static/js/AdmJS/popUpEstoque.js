@@ -34,7 +34,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const campanhaCheckbox = document.getElementById("Campanha");
 
-    const checkboxlist = document.getElementById("checkboxlist");
     const campanhaLista = document.querySelector(".temaCampanhaCorpo");
 
 
@@ -42,7 +41,10 @@ document.addEventListener("DOMContentLoaded", function () {
     function ShowError(input, mensagem) {
         const formControl = input.parentElement;
         const small = formControl.querySelector("small");
+        const forms = formControl.querySelector("input");
+
         small.textContent = mensagem;
+        forms.classList.add("error");
         small.classList.add("error");
     }
 
@@ -50,29 +52,36 @@ document.addEventListener("DOMContentLoaded", function () {
     function ShowSucesso(input) {
         const formControl = input.parentElement;
         const small = formControl.querySelector("small");
+        const forms = formControl.querySelector("input");
+
+        forms.classList.remove("error");
         small.classList.remove("error");
     }
 
     // Função de validação dos campos obrigatórios
     function checkRequired(inputs) {
-        return inputs.every(input => {
+        let isValid = true;
+
+        inputs.forEach(input => {
             if (input.value.trim() === "") {
                 ShowError(input, "Campo obrigatório");
-                return false;
+                isValid = false;
             } else {
                 ShowSucesso(input);
-                return true;
             }
         });
+
+        return isValid;
     }
+
 
     // Função para validar o checkbox de Campanha
     function checkCampanhaRequired() {
         if (!campanhaCheckbox.checked) {
-            ShowError(campanhaCheckbox, "*");
+            
             return false;
         } else {
-            ShowSucesso(campanhaCheckbox);
+            
             return true;
         }
     }
@@ -83,13 +92,27 @@ document.addEventListener("DOMContentLoaded", function () {
         const fisicoCheckbox = document.getElementById('Fisico');
         const virtualCheckbox = document.getElementById('Virtual');
 
+        const erroFisico = document.getElementById('erroFisico');
+        const erroVirtual = document.getElementById('erroVirtual');
+
         if (!fisicoCheckbox.checked && !virtualCheckbox.checked) {
+            
+            erroFisico.classList.add('error');
+
+            erroVirtual.classList.add('error');
+
             return false;
         } else {
-            ShowSucesso(fisicoCheckbox);
+            
+            erroFisico.classList.remove('error');
+
+            
+            erroVirtual.classList.remove('error');
+
             return true;
         }
     }
+
 
     document.getElementById('Fisico').addEventListener('change', function () {
         if (this.checked) {
@@ -105,27 +128,108 @@ document.addEventListener("DOMContentLoaded", function () {
         checkFisicoVirtualRequired();
     });
 
+    function temImagemOuImagemExistente() {
+        const uploadBox = document.querySelector(".UploadBox");
+        const imgPopUp = document.getElementById('imagem');
+         const uploadIcon = document.querySelector(".upload-icon")
+
+        
+    
+        if (uploadBox.classList.contains("has-image") || (imgPopUp.files && imgPopUp.files.length > 0)) {
+            uploadBox.classList.remove("erro-upload");
+            uploadIcon.classList.remove("erro-icon"); 
+            return true;
+        } else {
+            uploadBox.classList.add("erro-upload");
+            uploadIcon.classList.add("erro-icon"); 
+
+            return false;
+        }  
+    }
+    
+    
+    function checkComparacao() {
+        const checkboxes = document.getElementsByClassName('listaCampanha');
+
+        for (let i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i].checked) {
+                return true;  // achou pelo menos um marcado
+            }
+        }
+
+        return false;  // nenhum marcado
+    }
+
+
+        
 
     // Eventos para abrir e fechar popups
+    let controle = true
+    const btnConcluir = document.getElementById("btnConcluir");
+    if (controle) {
+        
+        // Se controle == true → queremos tipo 'button'
+        btnConcluir.setAttribute("type", "button");
+    } else {
+        
+        // Se controle == false → queremos tipo 'submit'
+        btnConcluir.setAttribute("type", "submit");
+    }
+
+
     
     buttonClose.addEventListener("click", () => modalPrimeiro.close());
-    buttonConcluir.addEventListener("click", () => {
-        if (checkRequired([produto, quantidade, preco]) && checkCampanhaRequired() && checkFisicoVirtualRequired()) {
-
-
-
-            modalSegundo.showModal();
+    // Configura apenas uma vez, no carregamento
+    document.getElementById("produtoForm2").addEventListener("submit", (e) => {
+        if (!checkComparacao()) {
+            e.preventDefault(); // bloqueia en vio se não tiver checkbox marcado
+        } else {
+            handleSubmit(e);
         }
     });
 
 
-    buttonClose2.addEventListener("click", () => modalSegundo.close());
-    buttonLinkCampanha.addEventListener("click", () => modalTerceiro.showModal());
-    buttonClose3.addEventListener("click", () => modalTerceiro.close());
+
+    // Quando clicar no botão concluir
+    buttonConcluir.addEventListener("click", () => {
+    
+        const camposObrigatoriosOk = checkRequired([produto, quantidade, preco]);
+        const tipoOk = checkFisicoVirtualRequired();
+        const imagemOk = temImagemOuImagemExistente();  // Chama só 1 vez
+        const campanhaOk = checkCampanhaRequired();
+
+        const camposComCampanha = camposObrigatoriosOk && tipoOk && imagemOk && campanhaOk;
+        const camposSemCampanha = camposObrigatoriosOk && tipoOk && imagemOk;
+
+        
+        if (camposComCampanha) {
+            // Caso 1 → controle true → abre modal
+            
+            controle = true
+            btnConcluir.setAttribute("type", "button");  // apenas abre modal
+            modalSegundo.showModal();
+
+                // Configura botões do modal (fechar e links)
+            buttonClose2.addEventListener("click", () => modalSegundo.close());
+            buttonLinkCampanha.addEventListener("click", () => modalTerceiro.showModal());
+            buttonClose3.addEventListener("click", () => modalTerceiro.close());
+            
+        } else if (camposSemCampanha) {
+            
+            controle = false
+            btnConcluir.setAttribute("type", "submit");
+            document.getElementById("produtoForm").addEventListener("submit", handleSubmit);
+        } 
+    });
+
+
+    
+
 
 
     async function handleSubmit(event) {
         event.preventDefault();
+        
     
         let nome = document.getElementById('Produto').value;
         let quantidade = document.getElementById('Quantidade').value;
@@ -140,14 +244,35 @@ document.addEventListener("DOMContentLoaded", function () {
         let imagemFile = imagemInput.files[0];
     
         let idCampanha = null;
-        let checkboxes = document.getElementsByClassName('listaCampanha');
+        let editarValor = null
+        editarValor = document.getElementById("valorEditar").value;
+           
+        
+        let editarValor2 = null
+        editarValor2 = document.getElementById("valorEditar2").value;
+        
     
-        for (let i = 0; i < checkboxes.length; i++) {
-            if (checkboxes[i].checked) {
-                idCampanha = checkboxes[i].value;
-                break;
+
+        if (editarValor != null){
+            idCampanha = editarValor
+        }else if (editarValor2 != null){
+            idCampanha = editarValor2
+        }
+
+    
+        if (controle){
+            let checkboxes = document.getElementsByClassName('listaCampanha');
+        
+            for (let i = 0; i < checkboxes.length; i++) {
+                if (checkboxes[i].checked) {
+                    idCampanha = checkboxes[i].value;
+                    break;
+                }
+    
             }
         }
+
+
     
         let fisico = document.getElementById("Fisico");
         let virtual = document.getElementById("Virtual");
@@ -160,10 +285,12 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
             tipo = null;
         }
+
+
     
         const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value;
-    
-        const chaveEstrangeira = await apiRequest(`/api/campanha/${idCampanha}/`, 'GET', null, { 'X-CSRFToken': csrf });
+        
+
     
         // Criação do formData para envio com imagem
         const formData = new FormData();
@@ -171,21 +298,32 @@ document.addEventListener("DOMContentLoaded", function () {
         formData.append("valor", preco);
         formData.append("quantidade", quantidade);
         formData.append("tipo", tipo);
-        formData.append("idCampanha", chaveEstrangeira.id);
-        formData.append("dataInicio", chaveEstrangeira.dataInicio);
-        formData.append("dataFim", chaveEstrangeira.dataFim);
-        formData.append("descricao", chaveEstrangeira.descricao);
-        formData.append("is_active", chaveEstrangeira.is_active);
+        formData.append("idCampanha", idCampanha);
+        formData.append("is_active", true);
     
         if (imagemFile) {
             formData.append("img1", imagemFile);
         }
-    
-        let editarValor = document.getElementById("valorEditar").value;
-    
+        
+        
+        
         let response;
     
-        if (editarValor) {
+        if (editarValor2) {
+            // Atualização via PUT — mas precisa ver se seu back aceita multipart no PUT
+            response = await fetch(`/api/produto/${editarValor2}/`, {
+                method: 'PUT',
+                headers: {
+                    'X-CSRFToken': csrf
+                    // sem Content-Type
+                },
+                body: formData
+            });
+            
+            editarValor2 = null
+
+        } else if (editarValor) {
+            
             // Atualização via PUT — mas precisa ver se seu back aceita multipart no PUT
             response = await fetch(`/api/produto/${editarValor}/`, {
                 method: 'PUT',
@@ -195,7 +333,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 },
                 body: formData
             });
-        } else {
+            editarValor = null
+        
+        
+        
+        }else {
             // Cadastro via POST com FormData e imagem
             response = await fetch('/api/produto/', {
                 method: 'POST',
@@ -209,11 +351,10 @@ document.addEventListener("DOMContentLoaded", function () {
     
         window.location.reload()
     }
-    
 
-
+        
+   
     
-    document.getElementById("produtoForm2").addEventListener("submit", handleSubmit);
 
     async function EventoCampanhas(event) {
         event.preventDefault();
@@ -243,7 +384,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         let valorCampanhaId = document.getElementById('valorEditar').value;
-        let valorbutaoCamp = document.getElementById('buttonCriarCampanha').value;
+
         
         let formCampanhaTerceiro = document.getElementById('CriacaoDeCampanhaForm');
 
@@ -278,16 +419,16 @@ document.addEventListener("DOMContentLoaded", function () {
         
             
         }
-
-        if (valorbutaoCamp){
-            window.location.reload()   
+        let botaoElement = document.getElementById('buttonCriarCampanha');
+        if (botaoElement) {
+            let valorbutaoCamp = botaoElement.value;
+            if (valorbutaoCamp) {
+                window.location.reload();
+            }
         }
     }
 
     document.getElementById("CriacaoDeCampanhaForm").addEventListener("submit", EventoCampanhas);
-
-
-
 
 
 

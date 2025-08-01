@@ -1,17 +1,13 @@
-body{
-    margin: 0;
-    padding: 0;
-}
 
-.menuMobile{
+.menuMobile-menuAdm {
     display: none;
 }
 
-hr{
+hr {
     display: none;
 }
 
-.lateral{
+.lateral-menuAdm {
     background-color: rgba(77, 44, 135, 1);
     width: 350px;
     position: fixed;
@@ -23,33 +19,33 @@ hr{
     padding-top: 20px;
 }
 
-.arrowLeftDiv{
+.arrowLeftDiv-menuAdm {
     display: none;
 }
 
-.logoAdminDesk{
+.logoAdminDesk-menuAdm {
     width: 180px;
     height: 100px;
     margin-bottom: 50px;
 }
 
-.buttons{
+.buttons-menuAdm {
     display: flex;
     flex-direction: column;
     gap: 40px;
     margin-bottom: 20px;
 }
 
-.menuA{
+.menuA-menuAdm {
     text-decoration: none;
 }
 
-.buttonL{
+.buttonL-menuAdm {
     background-color: rgba(252, 103, 29, 1);
     display: flex;
     border: none;
     width: 300px;
-    height: 55px;
+    height: 50px;
     border-radius: 25px;
     align-items: center;
     justify-content: flex-start;
@@ -60,20 +56,26 @@ hr{
     font-weight: 800;
 }
 
-.buttonL:hover{
+.buttonL-menuAdm img{
+    width: 30px;
+    height: 30px;
+}
+
+.buttonL-menuAdm:hover {
     background-color: rgb(252, 84, 0);
     transition: 0.5s;
     cursor: pointer;
 }
 
-.sair{
+.sair-menuAdm {
+    margin-top: 50px;
     text-decoration: none;
 }
 
-.buttonSair{
+.buttonSair-menuAdm {
     background-color: rgba(211, 74, 244, 1);
     width: 300px;
-    height: 65px;
+    height: 55px;
     display: flex;
     border: none;
     border-radius: 25px;
@@ -86,14 +88,13 @@ hr{
     gap: 60px;
 }
 
-.buttonSair:hover{
+.buttonSair-menuAdm:hover {
     background-color: rgb(196, 10, 243);
     transition: 0.5s;
     cursor: pointer;
 }
 
-.top
-{
+.top-menuAdm {
     margin-left: 350px;
     box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
     display: flex;
@@ -103,7 +104,7 @@ hr{
     padding-right: 50px;
 }
 
-.perfil{
+.perfil-menuAdm {
     display: flex;
     align-items: center;
     gap: 5px;
@@ -111,63 +112,61 @@ hr{
     font-weight: 400;
 }
 
-.perfil img{
+.perfil-menuAdm img {
     height: 50px;
     width: 50px;
 }
 
-.displayOn{
+.displayOn-menuAdm {
     display: flex;
 }
 
 @media (max-width: 1000px) {
-    .lateral{
+    .lateral-menuAdm {
         width: 235px;
         top: 0;
     }
-    
-    .arrowLeftDiv{
+
+    .arrowLeftDiv-menuAdm {
         width: 235px;
         padding-left: 30px;
         display: flex;
         justify-content: left;
     }
 
-    .arrowLeft:hover{
+    .arrowLeft-menuAdm:hover {
         cursor: pointer;
     }
 
-    hr{
+    hr {
         display: flex;
         width: 190px;
     }
 
-    .logoAdminDesk{
+    .logoAdminDesk-menuAdm {
         width: 110px;
         height: 65px;
         margin-bottom: 0;
     }
 
-    .buttons{
+    .buttons-menuAdm {
         gap: 50px;
         margin-top: 25px;
         margin-bottom: 25px;
     }
-   
-    .buttonL{
+
+    .buttonL-menuAdm {
         width: 190px;
         height: 36px;
         font-size: 11px;
-     
     }
-    .buttonL img{
+
+    .buttonL-menuAdm img {
         width: 20px;
         height: 20px;
     }
 
-   
-
-    .buttonSair{
+    .buttonSair-menuAdm {
         width: 190px;
         height: 36px;
         font-size: 12px;
@@ -175,55 +174,53 @@ hr{
         justify-content: center;
         padding-left: 0;
         gap: 10px;
-        
     }
-    .buttonSair img{
+
+    .buttonSair-menuAdm img {
         width: 20px;
         height: 20px;
     }
-  
 
-    .displayOn{
+    .displayOn-menuAdm {
         display: flex;
     }
-    .displayOff{
+
+    .displayOff-menuAdm {
         display: none;
     }
 
-    .top{
+    .top-menuAdm {
         display: none;
     }
-    .menuMobile{
+
+    .menuMobile-menuAdm {
         display: flex;
         align-items: center;
         justify-content: space-between;
         background-color: rgba(77, 44, 135, 1);
-        /* padding-left: 50px;
-        padding-right: 50px; */
-       padding: 25px 50px 25px 50px;
+        padding: 25px 50px 25px 50px;
     }
-    .groupAdmin{
+
+    .groupAdmin-menuAdm {
         height: 35px;
         width: 35px;
     }
 
-    .groupAdmin:hover{
+    .groupAdmin-menuAdm:hover {
         cursor: pointer;
     }
 
-    .iconeUser{
+    .iconeUser-menuAdm {
         height: 35px;
         width: 35px;
     }
 
-    .iconeUser:hover{
+    .iconeUser-menuAdm:hover {
         cursor: pointer;
     }
 
-    .logoAdminMob{
+    .logoAdminMob-menuAdm {
         width: 110px;
         height: 64px;
     }
-
-
 }

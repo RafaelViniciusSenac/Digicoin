@@ -10,60 +10,63 @@
 <input type="hidden" id='primeiroAcesso' value='{{primeiroAcesso}}'>
 <input type="hidden" id='userId' value='{{userId}}'>
 
-<div class="botaoCampanha" id="botaoCampanha">
-    <a href="{% url 'desafiosCampanha' %}" class="desafiosCampanha" id="desafiosCampanha"><img src="{% static 'img/iconeAlvo.png' %}" alt="">
-            Desafios da Campanha </a>
-</div>
+<div class="containerPage">
+    <div class="containerWidth">
+        <div class="botaoCampanha" id="botaoCampanha">
+            <a href="{% url 'desafiosCampanha' %}" class="desafiosCampanha" id="desafiosCampanha"><img src="{% static 'img/iconeAlvo.png' %}" alt="">
+                    Desafios da Campanha </a>
+        </div>
 
-<div class="parteDeBaixo" id="parteDeBaixo">
-    <div class="rankingList" id="rankingList">
-        <h2 class="textDecoratinDesafios">Ranking</h2>
-        <div class="line"></div>
+        <div class="parteDeBaixo" id="parteDeBaixo">
+            <div class="rankingList" id="rankingList">
+                <h2 class="textDecoratinDesafios">Ranking</h2>
+                <div class="line"></div>
 
-        <ul class="numero1" id="numero1">
-            {% include 'components/user/rankingUser.html' %}
-        </ul>
+                <ul class="numero1" id="numero1">
+                    {% include 'components/user/rankingUser.html' %}
+                </ul>
+            </div>
+                
+            <div class="listaDesafios">
+                <h2 class="textDecoratinDesafios"><img src="" alt=""> <img src="{% static 'img/iconeDesafios.png' %}" alt="">Desafios</h2>
+                <div class="line"></div>
+                <div class="listaDesafios" id="listaDesafios">
+                    {% include "components/user/listarDesafios.html" %}
+                </div>
+            </div>
+
+            <div id="userId"></div>
+
+        </div>
+
+
+
+        <dialog class="popUpPrimeiroAcesso" id="popUpPrimeiroAcesso">
+
+            <form id="formPrimeiroAcesso" class='formPrimeiroAcesso'>
+                {% csrf_token %}
+                
+                <div class="logoPrimeiroAcesso">
+                    <img src="{% static 'img/digixlogo.png' %}" alt="">
+                </div>
+                
+                <div class="senhaPrimeiroAcesso">
+                    <label>Nova senha</label>
+                    <input type="password" id="senha">
+                </div>
+
+                <div class="confirmarSenhaPrimeiroAcesso">
+                    <label>Confirmar senha</label>
+                    <input type="password" id="confirmarSenha">
+                </div>
+
+                <button type="submit" id="concluirPrimeiroAcesso" class="concluirPrimeiroAcesso">Confirmar</button>
+
+            </form>
+
+        </dialog>
+
+        <script src="{% static 'js/home.js' %}"> </script>
     </div>
-        
-    <div class="listaDesafios">
-        <h2 class="textDecoratinDesafios"><img src="" alt=""> <img src="{% static 'img/iconeDesafios.png' %}" alt="">Desafios</h2>
-        <div class="line"></div>
-        <div class="listaDesafios" id="listaDesafios">
-            {% include "components/user/listarDesafios.html" %}
-        </div>
-    </div>
-
-    <div id="userId"></div>
-
 </div>
-
-
-
-<dialog class="popUpPrimeiroAcesso" id="popUpPrimeiroAcesso">
-
-    <form id="formPrimeiroAcesso" class='formPrimeiroAcesso'>
-        {% csrf_token %}
-        
-        <div class="logoPrimeiroAcesso">
-            <img src="{% static 'img/digixlogo.png' %}" alt="">
-        </div>
-        
-        <div class="senhaPrimeiroAcesso">
-            <label>Nova senha</label>
-            <input type="password" id="senha">
-        </div>
-
-        <div class="confirmarSenhaPrimeiroAcesso">
-            <label>Confirmar senha</label>
-            <input type="password" id="confirmarSenha">
-        </div>
-
-        <button type="submit" class="concluirPrimeiroAcesso">Confirmar</button>
-
-    </form>
-
-</dialog>
-
-<script src="{% static 'js/home.js' %}"> </script>
-</html>
 {% endblock %}
