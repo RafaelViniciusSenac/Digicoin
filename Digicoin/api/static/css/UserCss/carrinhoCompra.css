@@ -230,7 +230,10 @@
 }
 
 .input-container-carrinhoCompras label {
+    display: flex;
+    align-items: center; /* Centraliza verticalmente */
     margin-bottom: 5px;
+    gap: 8px; /* Espaço entre o radio e o texto */
 }
 
 .input-radio-carrinhoCompras {
