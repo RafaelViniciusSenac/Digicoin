@@ -1,18 +1,19 @@
 .principal-listaDePedidos {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 100px;
+   
+    padding: 40px; 
+    max-width: 800px; 
+    margin-left: 450px; 
+    padding-left: 200px;
+
+
 }
 
 .detalhe-listaDePedidos {
-    margin-left: 350px;
-    width: 60%;
+    width: 100%;
 }
 
 .Conteiner-listaDePedidos {
-    margin-left: 350px;
+    margin-left: 35px;
     color: black;
     font-size: 35px;
     display: flex;
@@ -23,7 +24,7 @@
 .Titulo-listaDePedidos {
     display: flex;
     font-weight: bold;
-    font-size: 25px;
+    font-size: 40px;
 }
 
 .underline-listaDePedidos {
@@ -35,6 +36,7 @@
     flex-direction: column;
     gap: 20px;
     margin-top: 20px;
+    width: 500px;
 }
 
 .iconedigix-listaDePedidos {
@@ -119,10 +121,11 @@ a {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    margin-top: 100px;
+    
 }
 
 .butoes-listaDePedidos {
+    width: 70%;
     display: flex;
     flex-direction: row;
     gap: 10px;
