@@ -96,24 +96,28 @@ document.addEventListener("DOMContentLoaded", () => {
     const popup = new Popup();
     function abrirPopup() {
         const titulo = 'Finalizar Pedido';
-        const body = `<form class="form-carrinhoCompras" id="formTipoEntraga"> 
-        <label for="entrega">Selecione o tipo de entrega<span class="asterisco-carrinhoCompras">*</span></label>
-        <div class="form-group-carrinhoCompras">
-            <div class="input-container-carrinhoCompras">
-            <label>
-                <input checked class="input-radio-carrinhoCompras" id="option1" type="radio" name="entrega" value="Retirar">
-                Retirar na Digix
-            </label>
-            </div>
-            <div class="input-container-carrinhoCompras">
-            <label>
-                <input class="input-radio-carrinhoCompras" id="option2" type="radio" name="entrega" value="Entrega">
-                Entregar no endereço
-            </label>
+        const body = `<form class="form-carrinhoCompras" id="formTipoEntraga">
+        <span class="obs-carrinhoCompras"><span class="asterisco-carrinhoCompras">*</span> Campos obrigatórios</span>
+        <div class="form-local-tipo-carrinhoCompras">
+            <div class="form-group-carrinhoCompras">
+                <div class="input-label-carrinhoCompras">
+                    <label for="entrega">Selecione o tipo de entrega<span class="asterisco-carrinhoCompras">*</span></label>
+                </div>
+                <div class="input-container-carrinhoCompras">
+                    <label>
+                        <input checked class="input-radio-carrinhoCompras" id="option1" type="radio" name="entrega" value="Retirar">
+                        Retirar na Digix
+                    </label>
+                </div>
+                <div class="input-container-carrinhoCompras">
+                    <label>
+                        <input class="input-radio-carrinhoCompras" id="option2" type="radio" name="entrega" value="Entrega">
+                        Entregar no endereço
+                    </label>
+                </div>
             </div>
         </div>
         <div class="form-endereco-desativado-carrinhoCompras" id="endereco">
-            <span class="obs-carrinhoCompras"><span class="asterisco-carrinhoCompras">*</span> Campos obrigatórios</span>
             <div class="form-group-carrinhoCompras">
             <div class="input-container-carrinhoCompras">
                 <label for="cep">Cep<span class="asterisco-carrinhoCompras">*</span></label>

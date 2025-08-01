@@ -212,6 +212,7 @@
     margin-left: 10px;
     margin-bottom: 5px;
     width: 100%;
+    text-align: start;
 }
 
 .form-group-carrinhoCompras {
@@ -219,7 +220,11 @@
     align-items: center;
     margin-bottom: 20px;
     flex-wrap: wrap;
-    gap: 20px;
+}
+
+.form-local-tipo-carrinhoCompras {
+    margin-top: 20px;
+    margin-left: 25px;
 }
 
 .form-group-carrinhoCompras .input-container-carrinhoCompras {
@@ -300,4 +305,9 @@
 .input-button-carrinhoCompras:hover {
     background-color: var(--branco);
     color: var(--preto);
+}
+
+.input-label-carrinhoCompras1{
+  width: 100%;
+  text-align: start;
 }
