@@ -103,16 +103,18 @@
     const porPagina = 5;
     const paginas = { predefinida: 1, criada: 1 };
     
+    
+    
 
     function mostrarPagina(tipo) {
         const todasLinhas = document.querySelectorAll(`#corpo-tabela-${tipo} .tabela_campanha_conteudo`);
         const linhasVisiveis = Array.from(todasLinhas).filter(l => l.style.display !== 'none');
-        
         const totalPaginas = Math.ceil(linhasVisiveis.length / porPagina);
         const paginaAtual = paginas[tipo];
 
         const inicio = (paginaAtual - 1) * porPagina;
         const fim = inicio + porPagina;
+    
 
         todasLinhas.forEach(l => l.parentElement.style.display = 'none');
         linhasVisiveis.slice(inicio, fim).forEach(l => l.parentElement.style.display = '');
@@ -123,10 +125,6 @@
         }
 
 
-        const contadorDePagina = document.getElementById('contador-de-pagina');
-        if (contadorDePagina) {
-            contadorDePagina.textContent = totalPaginas;
-        }
     }
 
     function mudarPagina(tipo, delta) {
@@ -159,9 +157,21 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
+        const todasLinhas = document.querySelectorAll(`#corpo-tabela-predefinida .tabela_campanha_conteudo`);
+        const linhasVisiveis = Array.from(todasLinhas).filter(l => l.style.display !== 'none');
+
+        const totalPaginas = Math.max(1, Math.ceil(linhasVisiveis.length / porPagina));
+
+        const contadorDePagina = document.getElementById('contador-de-pagina');
+        if (contadorDePagina) {
+            contadorDePagina.textContent = totalPaginas;
+        }
+
         const paginaSalva = parseInt(localStorage.getItem('pagina-predefinida')) || 1;
         paginas['predefinida'] = paginaSalva;
         mostrarPagina('predefinida');
+        
+
         mostrarPagina('criada');
     });
     
