@@ -45,7 +45,7 @@ hr {
     display: flex;
     border: none;
     width: 300px;
-    height: 55px;
+    height: 50px;
     border-radius: 25px;
     align-items: center;
     justify-content: flex-start;
@@ -56,6 +56,11 @@ hr {
     font-weight: 800;
 }
 
+.buttonL-menuAdm img{
+    width: 30px;
+    height: 30px;
+}
+
 .buttonL-menuAdm:hover {
     background-color: rgb(252, 84, 0);
     transition: 0.5s;
@@ -63,13 +68,14 @@ hr {
 }
 
 .sair-menuAdm {
+    margin-top: 50px;
     text-decoration: none;
 }
 
 .buttonSair-menuAdm {
     background-color: rgba(211, 74, 244, 1);
     width: 300px;
-    height: 65px;
+    height: 55px;
     display: flex;
     border: none;
     border-radius: 25px;
