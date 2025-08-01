@@ -37,11 +37,13 @@ select:focus {
 
 .pesquisar_campanha {
     background-color: transparent;
-    font-size: 18px;
+    border-radius: 20px; 
+    padding: 5px 15px;
+    display: flex; 
+    align-items: center;
     border: none;
-    height: 32px;
-    width: 260px;
-    font-family: "K2D", sans-serif;
+    gap: 8px;
+    
 }
 
 .lupa {
@@ -50,7 +52,7 @@ select:focus {
 }
 
 .container {
-    padding: 40px;
+    padding: 40px 40px 0px 40px;
     width: 50%;
     /* max-width: 800px; */
     /* margin-left: 450px;
@@ -230,7 +232,7 @@ select:focus {
     align-items: center;
     justify-content: center;
     gap: 1rem;
-    margin-top: 2rem;
+    margin-top: 1rem;
     font-family: Arial, sans-serif;
 }
 

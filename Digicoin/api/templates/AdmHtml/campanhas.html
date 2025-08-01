@@ -90,7 +90,7 @@
 
             <div id="paginacao">
                 <button id="botao-anterior" onclick="mudarPagina('predefinida', -1)">Anterior</button>
-                <span id="pagina-atual-predefinida1">pagina <span id="pagina-atual-predefinida">1</span></span>
+                <span id="pagina-atual-predefinida1">pagina <span id="pagina-atual-predefinida">1</span> de <span id="contador-de-pagina">1</span></span>
                 <button id="botao-proxima" onclick="mudarPagina('predefinida', 1)">Próxima</button>
             </div>
         </div>
@@ -107,6 +107,7 @@
     function mostrarPagina(tipo) {
         const todasLinhas = document.querySelectorAll(`#corpo-tabela-${tipo} .tabela_campanha_conteudo`);
         const linhasVisiveis = Array.from(todasLinhas).filter(l => l.style.display !== 'none');
+        
         const totalPaginas = Math.ceil(linhasVisiveis.length / porPagina);
         const paginaAtual = paginas[tipo];
 
@@ -119,6 +120,12 @@
         const elementoPagina = document.getElementById(`pagina-atual-${tipo}`);
         if (elementoPagina) {
             elementoPagina.textContent = paginaAtual;
+        }
+
+
+        const contadorDePagina = document.getElementById('contador-de-pagina');
+        if (contadorDePagina) {
+            contadorDePagina.textContent = totalPaginas;
         }
     }
 
