@@ -38,10 +38,11 @@
                             <input type="date" id="campoData" name="data" placeholder="Pesquisar por Data" style="display:none;">
                             <select id="campoEntrega" name="entrega" placeholder="Tipo de Entrega" style="display:none;">
                                 <option value="Retirar">Retirar</option>
-                                <option value="Entrega">Entrega</option>
+                                <option value="Entrega">Entregar</option>
                             </select>
                             <select id="campoStatus" name="status" placeholder="Status da compra" style="display:none;">
                                 <option value="Pendente">Pendente</option>
+                                <option value="Andamento">Em andamento</option>
                                 <option value="Concluido">Concluido</option>
                             </select>
                             <button type="submit">Pesquisar</button>
@@ -81,11 +82,7 @@
                         <div class="historicoCompraTabelaCell quantidadeItens" data-label="Qtd Itens">{{compra.quantidadeItens}}</div>
                         <div class="historicoCompraTabelaCell dataCompra" data-label="Data">{{compra.dataCompra|date:"d/m/Y"}}</div>
                         <div class="historicoCompraTabelaCell total" data-label="Total">{{compra.total}}</div>
-                        {% if compra.entrega == 'Entrega' and compra.pedido == 'Pendente' and compra.obsEntrega != 'False' %}
-                            <div class="historicoCompraTabelaCell entrega" data-label="Entrega">Em andamento</div>
-                        {% else %}
-                            <div class="historicoCompraTabelaCell entrega" data-label="Entrega">{{compra.entrega}}</div>
-                        {% endif %}
+                        <div class="historicoCompraTabelaCell entrega" data-label="Entrega">{{compra.entrega}}</div>
                         <div class="historicoCompraTabelaCell pedido" data-label="Pedido">{{compra.pedido}}</div>
                     </div>
                     {% endfor %}

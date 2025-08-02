@@ -1,0 +1,81 @@
+:root {
+  --laranja: #FC671D;
+  --magenta: #D34AF4;
+  --cinza: #faf6f7;
+  --cinza-escuro: #888;
+  --ciano: #0BC0D3;
+  --base: #2c006a;
+  --branco: #fff;
+  --preto: #000;
+  --sombra-base: rgba(44, 0, 106, 0.4);
+  --sombra-preta: rgba(0, 0, 0, 0.4);
+  --cinza-escuro-rgb: rgba(136, 136, 136);
+  --cinza-rgb: rgba(250, 246, 247);
+  --preto-rgb: rgba(0, 0, 0);
+}
+
+body.no-scroll-carrinhoCompras {
+    overflow: hidden; /* Remove o scroll quando a popup está aberta */
+}
+
+.overlay-carrinhoCompras {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Alinha a popup no topo */
+    overflow-y: auto; /* Permite o scroll na página principal */
+}
+.popup-carrinhoCompras {
+    background-color: var(--branco);
+    max-width: 600px;
+    margin: 20px; /* Espaço para o scroll */
+    border-radius: 20px;
+    border: 1px solid var(--cinza);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    position: relative;
+}
+/* posicao do botao de fechar do lado direito */
+.popup-header-carrinhoCompras {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.popup-titulo-carrinhoCompras {
+    flex-grow: 1;
+    text-align: center;
+    color: var(--base);
+    font-weight: bold;
+    font-size: 25px;
+}
+.popup-closed-carrinhoCompras {
+    width: 20px;
+    height: 20px;
+    float: right;
+    cursor: pointer;
+    margin-left: 10px;
+}
+.popup-closed-carrinhoCompras:hover {
+    opacity: 0.7;
+}
+.popup-body-carrinhoCompras {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-sucesso-carrinhoCompras {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

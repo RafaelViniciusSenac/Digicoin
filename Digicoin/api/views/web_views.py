@@ -47,44 +47,63 @@ def historicoCompra(request):
     sort_by = request.GET.get('sort_by', 'dataCompra')
     order = request.GET.get('order', 'desc')
     
+    # Filtra compras do usuário logado
     compra = Compra.objects.filter(idUsuario=request.user.id)
     
+    # Filtros de pesquisa
     if tipo_pesquisa == 'nome' and nome_query:
-        compra_ids = ItensCompra.objects.filter(idProduto__nome__icontains=nome_query).values_list('idCompra_id', flat=True)
+        compra_ids = ItensCompra.objects.filter(
+            idProduto__nome__icontains=nome_query
+        ).values_list('idCompra_id', flat=True)
         compra = compra.filter(id__in=compra_ids)
+
     elif tipo_pesquisa == 'data' and data_query:
         compra = compra.filter(dataCompra__date=data_query)
+
     elif tipo_pesquisa == 'entrega' and entrega_query:
         compra = compra.filter(entrega=entrega_query)
+
     elif tipo_pesquisa == 'status' and status_query:
-        compra = compra.filter(pedido=status_query)
-    
+        if status_query == 'Andamento':
+            compra = compra.filter(entrega='Entrega', pedido='Pendente').exclude(obsEntrega='False')
+        else:
+            compra = compra.filter(pedido=status_query)
+
+    # Ordenação
     if order == 'asc':
         compra = compra.order_by(sort_by)
     else:
         compra = compra.order_by(f'-{sort_by}')
         
+    # Busca os itens das compras
     itensCompra = ItensCompra.objects.filter(idCompra__in=compra.values_list('id', flat=True))
     
-    # Criar um dicionário para armazenar os itens de cada compra
+    # Organiza os itens por compra
     compra_itens = {}
     for item in itensCompra:
         if item.idCompra_id not in compra_itens:
             compra_itens[item.idCompra_id] = {'itens': [], 'quantidadeItens': 0}
         compra_itens[item.idCompra_id]['itens'].append(item)
-        compra_itens[item.idCompra_id]['quantidadeItens'] += item.qtdProduto  # Usando 'qtdProduto' do modelo ItensCompra
+        compra_itens[item.idCompra_id]['quantidadeItens'] += item.qtdProduto
 
     # Paginação
     compra_paginator = Paginator(compra, 5)
     compra_page = request.GET.get('compra_page')
     compras = compra_paginator.get_page(compra_page)
 
-    # Adicionar os itens e a quantidade total a cada compra
+    # Adiciona os itens e status ajustado
     for c in compras:
         c.itens = compra_itens.get(c.id, {}).get('itens', [])
         c.quantidadeItens = compra_itens.get(c.id, {}).get('quantidadeItens', 0)
 
-    return render(request, 'UserHtml/historicoCompra.html', {'compra': compras, 'eventos': eventos})
+        # Ajusta o status para "Em andamento" se atender à condição
+        if c.entrega == 'Entrega' and c.pedido == 'Pendente' and c.obsEntrega != 'False':
+            c.pedido = 'Em andamento'
+
+    return render(request, 'UserHtml/historicoCompra.html', {
+        'compra': compras,
+        'eventos': eventos
+    })
 
 def primeiroAcesso(request):
     return render(request, 'primeiroAcesso.html')
