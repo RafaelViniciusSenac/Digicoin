@@ -86,25 +86,38 @@
     {% endfor %}
 
 
-        <div class="pagination-listaProdutos" id="paginacao-listaProdutos">
-            {% if produtos.has_previous %}
-            <div class="paginas-listaProdutos">
-                <div>
-                    <a class="anterior-listaProdutos" href="?listaProduto_page={{ produtos.previous_page_number }}"><i class="fa fa-arrow-left" aria-hidden="true"></i> Anterior</a>
-                </div>
-            {% endif %}
+    <div class="pagination-listaProdutos" id="paginacao-listaProdutos">
+        <div class="paginas-listaProdutos">
+            <!-- Botão Anterior -->
+            <div>
+                {% if produtos.has_previous %}
+                    <a class="anterior-listaProdutos" href="?listaProduto_page={{ produtos.previous_page_number }}">
+                        <i class="fa fa-arrow-left" aria-hidden="true"></i> Anterior
+                    </a>
+                {% else %}
+                    <span class="anterior-listaProdutos botao-desativado-paginacao">
+                        <i class="fa fa-arrow-left" aria-hidden="true"></i> Anterior
+                    </span>
+                {% endif %}
+            </div>
         
-            {% if produtos.has_next %}
-                <div>
-                    <a class="proxima-listaProdutos" href="?listaProduto_page={{ produtos.next_page_number }}">Próxima <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
-                </div>
-            {% endif %}
-                
-                <span>Página {{ produtos.number }} de {{ produtos.paginator.num_pages }}</span>
-            </div>                
+            <span>Página {{ produtos.number }} de {{ produtos.paginator.num_pages }}</span>
+        
+            <!-- Botão Próxima -->
+            <div>
+                {% if produtos.has_next %}
+                    <a class="proxima-listaProdutos" href="?listaProduto_page={{ produtos.next_page_number }}">
+                        Próxima <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                    </a>
+                {% else %}
+                    <span class="proxima-listaProdutos botao-desativado-paginacao">
+                        Próxima <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                    </span>
+                {% endif %}
+            </div>
         </div>
+        
     </div>
-
 
     <script src="{% static 'js/UserJs/listaProdutos.js' %}"></script>
 </div>
