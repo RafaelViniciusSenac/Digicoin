@@ -130,7 +130,8 @@
     }
 
     function mudarPagina(tipo, delta) {
-        const linhas = document.querySelectorAll(`#corpo-tabela-${tipo} tr`);
+        const linhas = document.querySelectorAll(`#corpo-tabela-${tipo} .tr-campanha`);
+
         const totalPaginas = Math.ceil(linhas.length / porPagina);
         const novaPagina = paginas[tipo] + delta;
 
@@ -142,7 +143,8 @@
     }
 
     function filtrarTabela(tipo, filtro) {
-        const linhas = document.querySelectorAll(`#corpo-tabela-${tipo} tr`);
+        const linhas = document.querySelectorAll(`#corpo-tabela-${tipo} .tr-campanha`);
+
         linhas.forEach(linha => {
             if (linha.textContent.toLowerCase().includes(filtro.toLowerCase())) {
                 linha.style.display = '';

@@ -1237,6 +1237,7 @@ input[type="date"]:focus {
 
     .FormProduto, .FormQuantidade, .FormPreco, .cadastroEventoTema, .cadastroEventoDescricao, .cadastroEventoTema, .FormDescricao{
         margin-bottom: 0px;
+        margin-top: 20px;
     }
     
 
@@ -1270,7 +1271,7 @@ input[type="date"]:focus {
         margin-top: 45px;
     }
     
-    .FormProduto > label, .FormQuantidade > label, .FormPreco > label, .FormImagem > label, .cadastroEventoTema > label, .cadastroEventoDescricao > label, .campanhaData > label, .FormTipo div > label, .FormDescricao > label {
+    .FormProduto > label, .FormQuantidade > label, .FormPreco > label, .FormImagem > label, .cadastroEventoTema > label, .cadastroEventoDescricao > label, .campanhaData > label, .FormTipo div > label, .FormDescricao > label, .fim > label{
         margin-bottom: 5px; 
         font-size: 20px;
     }
@@ -1399,10 +1400,9 @@ input[type="date"]:focus {
     
 
     .cadastroEventoTema input{
-        width: 100%;
+        
         height: 35px;
-        padding: 5px;
-        box-sizing: border-box;
+        padding: 10px;
         border-radius: 3px;
         border: none;
     }
@@ -1425,8 +1425,8 @@ input[type="date"]:focus {
     } */
      .fim{
         text-align: end;
-        margin-top: 20px;
-        
+        margin-top: 25px;
+        font-size: 18px;
         display: flex;
         justify-content: start;
         align-items: start;
@@ -1441,12 +1441,7 @@ input[type="date"]:focus {
         border: none;
     }
 
-    .inicio > label, .fim > label, .statusCampanha > label {
-        font-size: 18px; /* Deixa o texto mais legível */
-        color: white;
-
-        margin-bottom: 5px; /* Maior espaço entre label e input */
-    }
+    
     
     input[type="date"] {
         padding: 8px;
@@ -1479,20 +1474,29 @@ input[type="date"]:focus {
         display: flex;
         flex-direction: column;
         padding-left: 30px;
+        width: 500px;
         
     }
 
     .statusCampanha label{
+        margin-bottom: 10px;
         margin-right: 10px;
+        
     }
 
     .cadastroEventoTema{
-        width: 100%;
+        width: 530px;
+    }
+
+    .miniContainer{
+        justify-content: center;
+        align-items: center;
     }
 
     .cadastroEventoTema input{
-        width: 500px;
-        padding-left: 30px;
+        width: 100%;
+        align-items: center;
+        padding-left: 20px;
     }
     
 
