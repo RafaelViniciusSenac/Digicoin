@@ -329,3 +329,134 @@ def exportar_vendas_excel(request):
     
     return response
 
+
+
+def exportar_produtos_mais_vendidos_excel(request):
+    """
+    View para exportar relatório de produtos mais vendidos em formato Excel
+    """
+    # Criar um novo workbook
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "Produtos Mais Vendidos"
+    
+    # Definir estilos
+    header_font = Font(bold=True, color="FFFFFF")
+    header_fill = PatternFill(start_color="366092", end_color="366092", fill_type="solid")
+    header_alignment = Alignment(horizontal="center", vertical="center")
+    
+    # Cabeçalhos
+    headers = [
+        'Produto', 'Quantidade Total Vendida', 'Valor Unitário', 
+        'Receita Total', 'Número de Vendas'
+    ]
+    
+    # Adicionar cabeçalhos
+    for col, header in enumerate(headers, 1):
+        cell = ws.cell(row=1, column=col, value=header)
+        cell.font = header_font
+        cell.fill = header_fill
+        cell.alignment = header_alignment
+    
+    # Buscar dados de produtos mais vendidos
+    from django.db.models import Sum, Count
+    
+    produtos_vendidos = (ItensCompra.objects
+                        .select_related('idProduto')
+                        .values('idProduto__nome', 'idProduto__valor')
+                        .annotate(
+                            quantidade_total=Sum('qtdProduto'),
+                            numero_vendas=Count('idCompra', distinct=True)
+                        )
+                        .order_by('-quantidade_total'))
+    
+    row = 2
+    for produto in produtos_vendidos:
+        receita_total = produto['quantidade_total'] * produto['idProduto__valor']
+        
+        ws.cell(row=row, column=1, value=produto['idProduto__nome'])
+        ws.cell(row=row, column=2, value=produto['quantidade_total'])
+        ws.cell(row=row, column=3, value=produto['idProduto__valor'])
+        ws.cell(row=row, column=4, value=receita_total)
+        ws.cell(row=row, column=5, value=produto['numero_vendas'])
+        row += 1
+    
+    # Ajustar largura das colunas
+    column_widths = [30, 20, 15, 18, 18]
+    for col, width in enumerate(column_widths, 1):
+        ws.column_dimensions[ws.cell(row=1, column=col).column_letter].width = width
+    
+    # Preparar resposta HTTP
+    response = HttpResponse(
+        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
+    
+    # Nome do arquivo com data atual
+    filename = f"relatorio_produtos_mais_vendidos_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx"
+    response['Content-Disposition'] = f'attachment; filename="{filename}"'
+    
+    # Salvar workbook na resposta
+    wb.save(response)
+    
+    return response
+
+
+def exportar_usuarios_com_mais_moedas_excel(request):
+    """
+    View para exportar relatório de usuários com mais moedas em formato Excel
+    """
+    # Criar um novo workbook
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "Usuários com Mais Moedas"
+    
+    # Definir estilos
+    header_font = Font(bold=True, color="FFFFFF")
+    header_fill = PatternFill(start_color="366092", end_color="366092", fill_type="solid")
+    header_alignment = Alignment(horizontal="center", vertical="center")
+    
+    # Cabeçalhos
+    headers = [
+        'Posição', 'Nome Completo', 'RA', 'Email', 'Quantidade de Moedas'
+    ]
+    
+    # Adicionar cabeçalhos
+    for col, header in enumerate(headers, 1):
+        cell = ws.cell(row=1, column=col, value=header)
+        cell.font = header_font
+        cell.fill = header_fill
+        cell.alignment = header_alignment
+    
+    # Buscar dados de usuários ordenados por quantidade de moedas (saldo)
+    usuarios = CustomUser.objects.filter(is_adm=False).order_by('-saldo')
+    
+    row = 2
+    posicao = 1
+    for usuario in usuarios:
+        ws.cell(row=row, column=1, value=posicao)
+        ws.cell(row=row, column=2, value=f"{usuario.first_name} {usuario.last_name}")
+        ws.cell(row=row, column=3, value=usuario.ra)
+        ws.cell(row=row, column=4, value=usuario.email)
+        ws.cell(row=row, column=5, value=usuario.saldo)
+        row += 1
+        posicao += 1
+    
+    # Ajustar largura das colunas
+    column_widths = [10, 25, 15, 30, 20]
+    for col, width in enumerate(column_widths, 1):
+        ws.column_dimensions[ws.cell(row=1, column=col).column_letter].width = width
+    
+    # Preparar resposta HTTP
+    response = HttpResponse(
+        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
+    
+    # Nome do arquivo com data atual
+    filename = f"relatorio_usuarios_mais_moedas_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx"
+    response['Content-Disposition'] = f'attachment; filename="{filename}"'
+    
+    # Salvar workbook na resposta
+    wb.save(response)
+    
+    return response
+
