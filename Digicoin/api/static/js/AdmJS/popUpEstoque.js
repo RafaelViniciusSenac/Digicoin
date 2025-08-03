@@ -378,7 +378,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         if (!nome || dataFim.value === "" || fim < inicio) {
-            alert("Preencha todos os campos corretamente.");
+            
+            const popup = new Popup();
+            popup.showPopup("Preencha todos os campos corretamente.","Error","erro");
             return;
         }
 

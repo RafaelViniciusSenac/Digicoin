@@ -93,6 +93,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById('Produto').value = "";
         document.getElementById('Quantidade').value = "";
         document.getElementById('Preco').value = "";
+        document.getElementById('Descricao').value = "";
         document.getElementById('Campanha').checked = false;
         document.getElementById('Fisico').checked = false;
         document.getElementById('Virtual').checked = false;

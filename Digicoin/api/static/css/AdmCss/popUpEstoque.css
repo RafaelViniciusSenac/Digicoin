@@ -38,7 +38,10 @@ dialog {
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
-    height: 25px;
+    
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 
 }
 
@@ -47,12 +50,11 @@ dialog {
     justify-content: space-between;
     flex-direction: column;
     padding: 5px;
-    margin-top: 5px;
     box-sizing: border-box;
 }
 
 
-.FormProduto > label, .FormQuantidade > label, .FormPreco > label, .FormImagem > label, .cadastroEventoTema > label, .cadastroEventoDescricao > label, .campanhaData > label, .FormDescricao > label {
+.FormProduto > label, .FormQuantidade > label, .FormPreco > label, .FormImagem > label, .cadastroEventoTema > label, .cadastroEventoDescricao > label, .campanhaData > label, .FormDescricao > label, .fim > label, .statusCampanha > label {
     margin-bottom: 8px; 
     font-size: 16px;
 }
@@ -141,8 +143,8 @@ input[type="checkbox"] {
     justify-content: center;
     flex-direction: column;
     width: 100%;
-    height: 190px;
-    margin-top: 15px;
+    height: 160px;
+    margin-top: 5px;
     border: 2px dashed #ccc;
     border-radius: 10px;
     background-color: #f9f9f9;
@@ -151,6 +153,7 @@ input[type="checkbox"] {
     text-align: center;
     overflow: hidden; /* Garante que nada saia da borda */
     position: relative;
+    box-sizing: border-box;
 }
 
 .UploadBox.erro-upload small{
@@ -313,18 +316,19 @@ footer, .rodaPeModal {
 
 }
 
-.campanhaData{
-    display: flex;
-    justify-content: space-between;
-    
-}
+
 
 .fim{
-    text-align: end;
+    text-align: start;
     display: flex;
-    justify-content: end;
-    align-items: end;
+    justify-content: start;
+    align-items: start;
+    margin-bottom: 30px;
 } 
+
+.statusButtons{
+    margin-top: 10px;
+}
 
 .FormPreco {
     position: relative;
@@ -375,27 +379,24 @@ footer, .rodaPeModal {
     border-color: #66afe9; /* Borda azul clara ao focar */
   }
 
-  .campanhaData {
-    display: flex;
-    gap: 10px;
-    margin-top: 20px;
-    flex-wrap: wrap;
-  }
+  
 
   
 .campanhaData .inicio,
 .campanhaData .fim {
   flex: 1;
-  min-width: 50px;
+  width:100%;
 }
 
 .fim, .inicio{
     display: flex;
     flex-direction: column;
+    
 }
 
 input[type="date"] {
-  width: 120px;
+  width: 100%;
+  max-width: 100%;
   padding: 5px;
   font-size: 15px;
   border: 1px solid #ccc;
@@ -405,6 +406,7 @@ input[type="date"] {
   outline: none;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   transition: border 0.3s ease;
+  box-sizing: border-box;
 }
 
 input[type="date"]:focus {
@@ -452,9 +454,10 @@ input[type="date"]:focus {
 }
 
 /* CELULARES MÉDIOS (431px - 480px) */
-@media (min-width: 431px) and (max-width: 480px) {
+@media (min-width: 431px) and (max-width: 700px) {
+    
     dialog { 
-        width: 380px;
+        width: 80%;
         height: 680px;
         padding: 22px;
     }
@@ -464,7 +467,7 @@ input[type="date"]:focus {
     }
 
     .buttonConcluir, .buttonrodaPe, .buttonrodaPeModal {
-        width: 370px;
+        width: 90%;
         height: 38px;
         font-size: 18px;
     }
@@ -501,7 +504,7 @@ input[type="date"]:focus {
 
     #produtoForm, #produtoForm2  {
         padding: 8px;
-        margin-top: 8px;
+        box-sizing: border-box;
 
     }
 
@@ -527,7 +530,7 @@ input[type="date"]:focus {
     }
 
     .FormProduto, .FormQuantidade, .FormPreco, .cadastroEventoTema, .cadastroEventoDescricao, .FormDescricao {
-        margin-bottom: 5px;
+        margin-bottom: 0px;
         
     }
     .FormTipo{
@@ -607,6 +610,11 @@ input[type="date"]:focus {
         left: 0;
     
     }
+
+    .rodaPe, .rodaPeModal{
+        display: block;
+        text-align: center;
+    }
     .FormPreco input {
         padding-left: 35px; 
         height: 30px;
@@ -622,8 +630,9 @@ input[type="date"]:focus {
         font-size: 18px;
         
     }
+
     input[type="date"] {
-        width: 150px;
+        width: 100%;
         padding: 5px;
         font-size: 18px;
         border-radius: 5px;
@@ -631,6 +640,7 @@ input[type="date"]:focus {
     }
     .cadastroEventoTema, .campanhaData{
         margin-top: 15px;
+        box-sizing: border-box;
     }
     
     .cadastroEventoTema{
@@ -654,8 +664,10 @@ input[type="date"]:focus {
         
     }
 
+
     .fim > label, .inicio > label{
         font-size: 18px;
+        box-sizing: border-box;
     }
     .buttonrodaPe{
     margin-top: 18px;
@@ -663,55 +675,87 @@ input[type="date"]:focus {
    .CriarNovaCampanha {
     font-size: 18px; /* ou o tamanho que quiser */
     }
+    .statusCampanha label {
+        margin-bottom: 10px;
+        margin-right: 10px;
+        font-size: 18px;
+    }
 
     
 }
 
-/* CELULARES GRANDES (481px - 768px) */
-@media (min-width: 481px) and (max-width: 766px) {
+@media (min-width: 700px) and (max-width: 800px) {
+
     dialog { 
-        width: 420px;
-        height: 720px;
-        padding: 26px;
-    }
-
-    .buttonConcluir, .buttonrodaPe, .buttonrodaPeModal {
-        width: 420px;
-        height: 40px;
-        font-size: 20px;
-    }
-    
-    .temaCampanhaCorpo{
+        width: 90%;
+        max-width: 900px;
         height: 500px;
-        overflow-y: auto;
-        overflow-x: hidden;
-    
+        padding: 32px;
     }
 
-    .FormPreco::before {
-        top: 60%;
-        
+    .headerCentral {
+        height: 15%;
     }
-
 
     .headerLogo > img {
-        width: 135px;
+        width: 130px;
     }
 
-    .headerCentral .buttonClose, .headerCentral .buttonClose2, .headerCentral .buttonClose3 {
-        margin-top: 17px;
-        font-size: 20px;
-    
-    }
-    .FormProduto input, .FormQuantidade input, .FormPreco input, .cadastroEventoTema input, .cadastroEventoDescricao textarea, .FormDescricao input{
-        height: 35px;
-        font-size: 20px;
-        padding-left: 3px;
-        
-    
+    .cadastroEvento {
+        width: 100%;
+        max-width: 100%;
     }
 
-    
+    #produtoForm {
+        display: flex;
+        flex-direction: row;
+        gap: 30px;
+        width: 100%;
+    }
+
+    .ModalContainer, .miniContainer {
+        width: 100%;
+        height: 85%;
+        display: flex;
+        justify-content: space-between;
+        flex-direction: row;
+    }
+
+    .ladoEsquerdo {
+        margin-top: 10px;
+        padding-left: 10px;
+        box-sizing: border-box;
+    }
+
+    .ladoDireito {
+        box-sizing: border-box;
+        padding-right: 10px;
+    }
+
+    .ladoEsquerdo, .ladoDireito, .cadastroEventoTema, .cadastroEventoDescricao {
+        width: 48%;
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
+    }
+
+    .FormProduto, .FormQuantidade, .FormPreco, .cadastroEventoTema, .cadastroEventoDescricao, .FormDescricao {
+        margin-bottom: 0px;
+        margin-top: 10px;
+    }
+
+    .FormProduto input, .FormQuantidade input, .cadastroEventoTema input, .FormDescricao input {
+        padding-left: 9px;
+    }
+
+    .FormProduto input, .FormQuantidade input, .FormPreco input, .FormDescricao input, .cadastroEventoTema input, .cadastroEventoDescricao textarea {
+        width: 100%;
+        max-width: 100%;
+        font-size: 16px;
+        box-sizing: border-box;
+        height: 30px;
+    }
+
     .FormProduto input::placeholder,
     .FormQuantidade input::placeholder,
     .FormPreco input::placeholder,
@@ -719,452 +763,222 @@ input[type="date"]:focus {
     .FormDescricao input::placeholder,
     .cadastroEventoDescricao textarea::placeholder {
         font-size: 16px; 
-        padding-left: 3px;
-        
     }
 
-    #produtoForm, #produtoForm2  {
-        padding: 10px;
-        margin-top: 10px;
-
+    .FormTipo {
+        flex-wrap: wrap;
     }
 
-    .FormProduto > label, .FormQuantidade > label, .FormPreco > label, .FormImagem > label, .cadastroEventoTema > label, .cadastroEventoDescricao > label, .campanhaData > label, .FormDescricao > label {
-        margin-bottom: 10px; 
-        font-size: 20px;
-    }
-    
-    .FormTipo div > label{
-        font-size: 20px;
-    }
-    .FormCheckbox{
-        margin-top: 5px;
-    }
-    .checkbox-group{
-        display: flex;
-        align-items: center;
-    }
-
-    .checkbox-group > label{
-        font-size: 20px;
-        margin-left: 5px;
-    }
-
-    .FormProduto, .FormQuantidade, .FormPreco, .cadastroEventoTema, .cadastroEventoDescricao, .FormDescricao {
-        margin-bottom: 5px;
-        
-    }
-    .FormTipo{
-        margin-bottom: 20px;
-    }
-    
-    input[type="checkbox"] {
-        height: 19px;
-        width: 19px;
-
-    }
-
-    .UploadBox img {
-        width: 60px; 
-        height: 60px; 
-        margin-bottom: 5px;
-    }
-    .imagemTemanhaCampanha > img {
-        height: 30px;
-        
-    }
-    
-    .temaCampanhaHeard > div > p {
-        margin-left: 10px;
-        font-size: 20px;
-        
-    }
-    
-    #produtoForm2{
-        margin-top: 10px;
-    
-    }
-        
-    .temaCampanhaCorpo > div {
-        margin-bottom: 25px;
-        
-    }
-
-
-    .temaCampanhaCorpo > div > label{
-        font-size: 20px;
-    }
-
-    .temaCampanhaCorpo  input[type="checkbox"]{
-        margin-right: 10px;
-        height: 25px;
-        width: 25px;
-    }
-
-
-    .temaCampanhaCorpo input[type="text"]{
-        height: 18px;
-        font-size: 20px;
-        padding-left: 5px;
-        padding-right: 5px;
-        width: 210px;
-    } 
-
-    .CriarNovaCampanha{
-        left: 10px;
-    
-    }
-    .prefixo {
-        margin-left: 6px;
-        margin-right: 6px;
-        
-    }
-    
-    .input-container input {
-        width: 100px;
-    }
-    
-    .buttonrodaPe{
-        margin-top: 15px;
-    }
-    footer, .rodaPeModal {
-        bottom: 15px;
-        left: 0;
-    
-    }
-    .FormPreco input {
-        padding-left: 35px; 
-        height: 35px;
-        line-height: 40px;
-        top: 10px;
-        font-size: 20px;
-    }
-
-    #descricaoCampanha {
-        max-width: 600px;
-        height: 180px;
-        padding: 12px;
-        font-size: 20px;
-        
-    }
-    input[type="date"] {
-        width: 170px;
-        padding: 7px;
-        font-size: 20px;
-        border-radius: 5px;
-
-    }
-    .cadastroEventoTema, .campanhaData{
-        margin-top: 20px;
-    }
-    
-    .cadastroEventoTema{
-        margin-bottom: 35px;
-    }
-    
-    .cadastroEventoDescricao{
-        margin-bottom: 60px;
-    }
-    .campanhaData label {
-        margin-bottom: 6px; /* ou o valor que preferir */
-        
-    }
-    
-    .temaCampanhaHeard{
-        margin-bottom: 20px;
-    }
-
-
-    .fim > label, .inicio > label{
-        font-size: 20px;
-    }
-   .buttonrodaPe{
-    margin-top: 20px;
-   }
-   .CriarNovaCampanha {
-    font-size: 20px; /* ou o tamanho que quiser */
-    }
-}
-
-
-@media (min-width: 767px) and (max-width: 875px) {
-
-    dialog { 
-        width: 720px;
-        height: 500px;
-        padding: 28px;
-        
-        
-    }
-
-    .headerCentral{
-        
-        height: 15%;
-    
-    }
-
-    .headerLogo > img {
-        width: 120px;
-        
-    }
-    .cadastroEvento{
-        height: 220px;
-        width: 100%;
-    }
-    #produtoForm{
-        display: flex;
-        flex-direction: row;
-        gap: 30px;
-        width: 100%;
-    }
-
-    .ModalContainer, .miniContainer{
-        width: 100%;
-        height: 85%;
-        display: flex;
-        justify-content: space-between;
-        flex-direction: row;
-
-    }
-    .ladoEsquerdo{
+    .FormImagem .UploadBox {
         margin-top: 40px;
-        box-sizing: border-box;
-        padding-left: 5px;
-    }
-    .ladoDireito{
-        box-sizing: border-box;
-        padding-right: 5px;
-    }
-    
-
-    .ladoEsquerdo, .ladoDireito, .cadastroEventoTema, .cadastroEventoDescricao {
-        width: 48%;
-        display: flex;
-        flex-direction: column;
-        
-        flex-wrap: wrap;
-        
-        
-        
-
-    }
-    .FormProduto input, .FormQuantidade input, .cadastroEventoTema input, .FormDescricao input{
-        padding-left: 8px;
     }
 
-    .FormProduto input, .FormQuantidade input, .FormPreco input, .cadastroEventoTema input, .cadastroEventoDescricao textarea, .FormDescricao input{
-        width: 100%;
-        box-sizing: border-box;
-        max-width: 100%;
-        height: 30px;  
-        font-size: 18px;
-        
-    
-    }
-    
-    .FormProduto input::placeholder,
-    .FormQuantidade input::placeholder,
-    .FormPreco input::placeholder,
-    .cadastroEventoTema input::placeholder,
-    .FormDescricao input::placeholder,
-    .cadastroEventoDescricao textarea::placeholder {
-        font-size: 18px; 
-        
-    }
-
-
-    .FormTipo{
-        flex-wrap: wrap;
-    }
-    .FormImagem .UploadBox{
-        margin-top: 45px;
-    }
-
-    .FormProduto > label, .FormQuantidade > label, .FormPreco > label, .FormImagem > label, .cadastroEventoTema > label, .cadastroEventoDescricao > label, .campanhaData > label, .FormTipo div > label, .checkbox-group > label, .FormDescricao > lable {
-        margin-bottom: 10px; 
+    .FormProduto > label, .FormQuantidade > label, .FormPreco > label, .FormImagem > label, .cadastroEventoTema > label, .cadastroEventoDescricao > label, .campanhaData > label, .FormTipo div > label, .FormDescricao > label, .fim > label {
+        margin-bottom: 5px; 
         font-size: 18px;
     }
-    
+
     input[type="checkbox"] {
-        height: 20px;
-        width: 20px;
-        
-
+        height: 16px;
+        width: 16px;
     }
-    
+
+    .UploadBox {
+        height: 230px;
+    }
 
     .FormCheckbox {
         display: flex;
         gap: 10px;
     }
 
-    .temaCampanhaCorpo{
+    .temaCampanhaCorpo {
         display: flex;
         flex-wrap: wrap;
         flex-direction: row;
         width: 100%;
     }
-    .temaCampanhaCorpo > div{
+
+    .temaCampanhaCorpo > div {
         margin-left: 15px;
     }
+
     .produtoFormBotao {
         display: flex;
         position: relative;
         justify-content: end;
         margin-top: 20px;
-        
-    
-    }
-    .rodaPe {
-       
-       display: flex;
-       justify-content: space-between;
-     
-        
     }
 
-    .criarCampanha{
+    .rodaPe {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .criarCampanha {
         display: flex;
         align-items: end;
     }
 
-    .criarCampanha > div{
-        font-size: 22px;
-        margin: 0px 0px 25px 50px;
+    .criarCampanha > div {
+        font-size: 18px;
+        margin: 0px 0px 20px 40px;
     }
+
     .buttonConcluir, .buttonrodaPe, .buttonrodaPeModal {
         border-radius: 10px;
         border: none;
-        margin-top: 90px;
-        width: 200px;
-        height: 50px;   
+        width: 180px;
+        height: 45px;   
         background-color: rgb(211, 74, 244);
-        font-size: 26px;
+        font-size: 22px;
         color: #FFFFFF;
         cursor: pointer; 
- 
-        
     }
 
-    .rodaPeBotao{
+    .buttonConcluir {
+        margin-top: 40px;
+    }
+
+    .rodaPeBotao {
         display: inline-block;
-        margin: 17px 47px; 
+        margin: 12px 40px; 
     }
 
-    .temaCampanhaCorpo{
+    .temaCampanhaCorpo {
         display: flex;
         flex-wrap: wrap;
         gap: 10px;
         width: 100%;
         flex-direction: center;
         align-items: center;  
-
-
     }
 
-    .temaCampanhaCorpo > div > label{
-        font-size: 18px;
+    .temaCampanhaCorpo > div > label {
+        font-size: 16px;
     }
 
-    .temaCampanhaHeard > div > p{
-        font-size: 18px;
+    .temaCampanhaHeard > div > p {
+        font-size: 16px;
     }
-    
-    .cadastroEvento{
+
+    .cadastroEvento {
+        display: flex;
+        flex-direction: column;
         width: 100%;
         margin-top: 25px;
     }
-    .cadastroEventoTema{
-        padding-left: 30px;
+
+    .cadastroEventoTema {
         box-sizing: border-box;
     }
 
-    .cadastroEventoDescricao{
+    .cadastroEventoDescricao {
         padding-right: 30px;
-        margin-bottom: 0px;
         box-sizing: border-box;
     }
 
-    .cadastroEventoDescricao textarea{
+    .cadastroEventoDescricao textarea {
         width: 100%;
-        height: 120px;
-        padding: 10px;
-        font-size: 18px !important;
-        box-sizing: border-box; 
+        height: 130px;
+        padding: 8px;
+        font-size: 16px !important;
+        box-sizing: border-box;
         border-radius: 5px;
         border: none;
     }
 
-    .cadastroEventoTema input{
-        width: 100%;
-        height: 35px;
-        padding: 5px;
-        box-sizing: border-box;
+    .cadastroEventoTema input {
+        height: 30px;
+        padding: 8px;
         border-radius: 3px;
         border: none;
     }
 
-    .campanhaData{
-        margin-top: 50px;
+    .campanhaData {
+        margin-top: 40px;
         display: flex;
         align-items: center;
         justify-content: center;
         flex-wrap: wrap;
-        gap: 40px;
+        gap: 30px;
         width: 100%;
     }
 
-  
-    .inicio, .fim {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .inicio input{
-        border: none;
-    }
-
-    .fim input{
-        border: none;
-    }
-
-    .inicio > label, .fim > label {
-        font-size: 18px; 
-        color: white;
-        margin-bottom: 10px; 
-    }
-    
-    input[type="date"] {
-        padding: 10px;
+    .fim {
+        text-align: end;
+        margin-top: 25px;
         font-size: 16px;
+        display: flex;
+        justify-content: start;
+        align-items: start;
+        margin-bottom: 10px;
+    }
+
+    .inicio input {
+        border: none;
+    }
+
+    .fim input {
+        border: none;
+    }
+
+    input[type="date"] {
+        padding: 6px;
+        font-size: 15px;
         border: 2px solid #ccc;
         border-radius: 5px;
         text-align: center;
         background-color: #fff;
         cursor: pointer;
-        width: 160px; 
+        width: 500px;
+        box-sizing: border-box;
     }
 
-    .produtoDivFormBotao{
-        margin-right: 9px;
-        margin-top: -13px;
+    .buttonrodaPeModal {
+        margin-bottom: 8px;
     }
+
     .FormPreco::before {
-        top: 59%;
-        
-    }.UploadBox {
-        height: 220px;
-        margin-top: 15px;
-        border-radius: 10px;
+        top: 61%;
     }
 
-} 
+    /* campanha */
+    .miniContainer {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .statusCampanha {
+        margin-top: 20px;
+        display: flex;
+        flex-direction: column;
+        width: 500px;
+    }
+
+    .statusCampanha label {
+        margin-bottom: 10px;
+        margin-right: 10px;
+        font-size: 18px;
+    }
+
+    .cadastroEventoTema {
+        width: 500px;
+    }
+
+    .cadastroEventoTema input {
+        width: 100%;
+        align-items: center;
+        padding-left: 20px;
+    }
+}
 
 
 
 
-@media (min-width:  876px)  {
+
+@media (min-width:  800px)  {
 
     dialog { 
         width: 90%;
@@ -1230,14 +1044,13 @@ input[type="date"]:focus {
         display: flex;
         flex-direction: column;
         box-sizing: border-box;
-        flex-wrap: wrap;
         
 
     }
 
     .FormProduto, .FormQuantidade, .FormPreco, .cadastroEventoTema, .cadastroEventoDescricao, .cadastroEventoTema, .FormDescricao{
         margin-bottom: 0px;
-        margin-top: 20px;
+        margin-top: 10px;
     }
     
 
@@ -1378,7 +1191,6 @@ input[type="date"]:focus {
         margin-top: 25px;
     }
     .cadastroEventoTema{
-        padding-left: 30px;
         box-sizing: border-box;
     }
 
@@ -1430,7 +1242,6 @@ input[type="date"]:focus {
         display: flex;
         justify-content: start;
         align-items: start;
-        padding-left: 30px;
     } 
 
     .inicio input{
@@ -1451,7 +1262,7 @@ input[type="date"]:focus {
         text-align: center;
         background-color: #fff;
         cursor: pointer;
-        width: 480px; /* Deixa o input mais largo */
+        width: 500px; /* Deixa o input mais largo */
     }
 
 
@@ -1469,23 +1280,24 @@ input[type="date"]:focus {
         flex-direction: column;
     }
 
+
+
     .statusCampanha{
-        margin-top: 20px;
         display: flex;
         flex-direction: column;
-        padding-left: 30px;
         width: 500px;
         
     }
 
     .statusCampanha label{
-        margin-bottom: 10px;
+        font-size: 18px;
+        margin-bottom: 5px;
         margin-right: 10px;
         
     }
 
     .cadastroEventoTema{
-        width: 530px;
+        width: 500px;
     }
 
     .miniContainer{
@@ -1514,7 +1326,7 @@ input[type="date"]:focus {
   cursor: pointer;
   padding-left: 25px;
   position: relative;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 500;
 }
 
@@ -1522,7 +1334,7 @@ input[type="date"]:focus {
   content: "";
   position: absolute;
   left: 0;
-  top: 3px;
+  top: 0px;
   width: 14px;
   height: 14px;
   border-radius: 50%;
