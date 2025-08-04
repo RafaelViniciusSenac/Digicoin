@@ -159,7 +159,7 @@ def listaEstoque(request):
     
     return render(request, 'AdmHtml/listaEstoque.html', {'estoque': estoque, 'eventos': eventos})
 
-def listaDeDesafios(request):
+def listaDeDesafios(request):                   
     desafio = Desafio.objects.filter(is_active = True)
     desafio_paginator = Paginator(desafio, 5)
     desafio_page = request.GET.get('desafio_page')

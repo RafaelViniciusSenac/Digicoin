@@ -46,7 +46,7 @@
         {% for desafio in desafios %}
 
         <div class='desafio-listaDeDesafios'>
-
+            <input type="hidden" class="idDesafio" value="{{desafio.id}}">
             <div class="desafioLeft-listaDeDesafios">
                 <img src="{% static 'img/alvoCampanha.png' %}" alt="">
                 <p id="nomeDesafio" class='nomeDesafio-listaDeDesafios'>{{ desafio.nome }}</p>
