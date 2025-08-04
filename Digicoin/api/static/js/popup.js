@@ -8,6 +8,8 @@ class Popup {
         this.imgClosed = null;
         this.popupBody = null;
         this.popupFooter = null;
+        this.dialogsEscondidos = [];
+
     }
 
     injectCSS() {
@@ -38,7 +40,7 @@ class Popup {
                 background: rgba(0, 0, 0, 0.5);
                 display: flex;
                 justify-content: center;
-                align-items: flex-start;
+                align-items: center;
                 overflow-y: auto;
                 z-index: 9999;
             }
@@ -53,6 +55,7 @@ class Popup {
                 position: relative;
                 animation: fadeInUp 0.3s ease-out;
                 box-shadow: 0 10px 20px var(--sombra-base);
+                z-index: 9999;
             }
 
             .popup-alerta-header {
@@ -188,11 +191,29 @@ class Popup {
     hidePopup() {
         this.removeOldPopup();
         document.body.classList.remove('no-scroll-popup-alerta');
+
+        this.dialogsEscondidos.forEach(dialog => {
+            if (dialog.dataset.wasOpen === "true") {
+                dialog.showModal(); // ou show() dependendo do uso
+                delete dialog.dataset.wasOpen;
+            }
+        });
+        this.dialogsEscondidos = [];
+
+
     }
 
     removeOldPopup() {
         const oldPopup = document.querySelector(".overlay-popup-alerta");
         if (oldPopup) oldPopup.remove();
+
+        document.querySelectorAll('dialog[open]').forEach(dialog => {
+            console.log(dialog);
+            dialog.dataset.wasOpen = "true"; // marca que estava aberto
+            dialog.close(); // esconde
+            this.dialogsEscondidos.push(dialog);
+        });
+
     }
 
     createElements() {
