@@ -10,7 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "cypress": "^14.5.2"
-  },
-  "description": ""
+    "cypress": "^14.5.2",
+    "i": "^0.3.7"
+  }
+
 }
