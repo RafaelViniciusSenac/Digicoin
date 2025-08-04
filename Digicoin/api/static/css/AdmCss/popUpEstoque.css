@@ -1237,7 +1237,8 @@ input[type="date"]:focus {
     } */
      .fim{
         text-align: end;
-        margin-top: 25px;
+        margin-top: 15px;
+        margin-bottom: 15px;
         font-size: 18px;
         display: flex;
         justify-content: start;

@@ -11,6 +11,7 @@ buttonClose3.addEventListener("click", () => {
     document.getElementById('dataFim').value = "";
     // document.getElementById('descricaoCampanha').value = "";
     document.getElementById('valorEditar').value = "";
+    resetarFormularioCampanha();
     modalTerceiro.close();
 });
 
@@ -71,3 +72,22 @@ async function inativarCampanhas(elemento) {
 
 }
 
+function resetarFormularioCampanha() {
+    const campos = [nomeCampanha, dataFim];
+
+    campos.forEach((input) => {
+        input.value = "";
+        const formControl = input.parentElement;
+        const small = formControl.querySelector("small");
+        const campoInput = formControl.querySelector("input");
+
+        if (small) {
+            small.classList.remove("error");
+        }
+
+        if (campoInput) {
+            campoInput.classList.remove("error");
+        }
+    });
+
+}

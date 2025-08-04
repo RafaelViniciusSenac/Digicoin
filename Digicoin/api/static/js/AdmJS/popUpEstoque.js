@@ -39,6 +39,69 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const campanhaLista = document.querySelector(".temaCampanhaCorpo");
 
+    function resetarFormularioProduto() {
+        const campos = [produto, descricao, quantidade, preco];
+
+        campos.forEach((input) => {
+            input.value = "";
+            const formControl = input.parentElement;
+            const small = formControl.querySelector("small");
+            const campoInput = formControl.querySelector("input");
+
+            if (small) {
+                small.classList.remove("error");
+            }
+
+            if (campoInput) {
+                campoInput.classList.remove("error");
+            }
+        });
+
+        // Limpa imagem
+        const uploadBox = document.querySelector(".UploadBox");
+        const uploadIcon = document.querySelector(".upload-icon");
+        const imagemInput = document.getElementById("imagem");
+
+        uploadBox.style.backgroundImage = "";
+        uploadBox.classList.remove("has-image", "erro-upload");
+        uploadIcon.classList.remove("erro-icon");
+        if (imagemInput) imagemInput.value = "";
+
+        // Limpa checkboxes
+        document.getElementById("Fisico").checked = false;
+        document.getElementById("Virtual").checked = false;
+        document.getElementById("Campanha").checked = false;
+
+        document.getElementById("erroFisico").classList.remove("error");
+        document.getElementById("erroVirtual").classList.remove("error");
+
+        // Reseta controle
+        controle = true;
+        btnConcluir.setAttribute("type", "button");
+    }
+
+    function resetarFormularioCampanha() {
+        const campos = [nomeCampanha, dataFim];
+
+        campos.forEach((input) => {
+            input.value = "";
+            const formControl = input.parentElement;
+            const small = formControl.querySelector("small");
+            const campoInput = formControl.querySelector("input");
+
+            if (small) {
+                small.classList.remove("error");
+            }
+
+            if (campoInput) {
+                campoInput.classList.remove("error");
+            }
+        });
+
+        // Reset geral do formulário, se quiser garantir
+        // const form = document.getElementById("CriacaoDeCampanhaForm");
+        // if (form) form.reset();
+    }
 
     // Função para exibir erros
     function ShowError(input, mensagem) {
@@ -180,8 +243,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    
-    buttonClose.addEventListener("click", () => modalPrimeiro.close());
+    buttonClose.addEventListener("click", () => {
+        modalPrimeiro.close();
+        resetarFormularioProduto();
+    });
     // Configura apenas uma vez, no carregamento
     document.getElementById("produtoForm2").addEventListener("submit", (e) => {
         if (!checkComparacao()) {
@@ -215,7 +280,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 // Configura botões do modal (fechar e links)
             buttonClose2.addEventListener("click", () => modalSegundo.close());
             buttonLinkCampanha.addEventListener("click", () => modalTerceiro.showModal());
-            buttonClose3.addEventListener("click", () => modalTerceiro.close());
+            buttonClose3.addEventListener("click", () => {
+                modalTerceiro.close();
+                resetarFormularioCampanha();
+            });
             
         } else if (camposSemCampanha) {
             
@@ -363,12 +431,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     async function EventoCampanhas(event) {
         event.preventDefault();
-
-        let nome = document.getElementById('nomeCampanha').value;
+        let nomeInput = document.getElementById('nomeCampanha')
+        let nome = nomeInput.value;
         let inicio = new Date(); // pega o momento atual
         inicio.setHours(0, 0, 0, 0);
         // let inicio = new Date(document.getElementById('dataInicio').value + "T00:00:00"); // Garante o horário correto
-        let fim = new Date(document.getElementById('dataFim').value + "T00:00:00");
+        let dataFimInput = document.getElementById('dataFim');
+        let fim = new Date(dataFimInput.value + "T00:00:00");
         let status = document.getElementById('ativaCampanha').checked; 
         // let descricaoCampanha = document.getElementById('descricaoCampanha').value;
         const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value
@@ -376,13 +445,29 @@ document.addEventListener("DOMContentLoaded", function () {
         const hoje = new Date()
         hoje.setHours(0, 0, 0, 0);
 
+        
+        let Valid = true;
 
-        if (!nome || dataFim.value === "" || fim < inicio) {
-            
-            const popup = new Popup();
-            popup.showPopup("Preencha todos os campos corretamente.","Error","erro");
-            return;
+        // Validação do nome
+        if (nome.trim() === "") {
+            ShowError(nomeInput, "Campo obrigatório");
+            Valid = false;
+        } else {
+            ShowSucesso(nomeInput);
         }
+
+        // Validação da data
+        if (dataFimInput.value === "") {
+            ShowError(dataFimInput, "Campo obrigatório");
+            Valid = false;
+        } else if (fim < inicio) {
+            ShowError(dataFimInput, "A data final precisa ser hoje ou depois.");
+            Valid = false;
+        } else {
+            ShowSucesso(dataFimInput);
+        }
+
+        if (!Valid) return;
 
         const evento = {
             nome: nome,
