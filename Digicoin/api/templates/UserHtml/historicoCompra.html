@@ -6,37 +6,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carrinho</title>
+    <title>Histórico de Compra</title>
     <link rel="stylesheet" href="{% static 'css/UserCss/historicoCompra.css' %}">
 
 </head>
 <body>
+  {% include "components/user/menuUser.html" %}
 
-
- 
-  
-    <div class="container">
-        <div class="titulo">
-            <div class="icone">
-                <img src="{%static 'img/historico.png'%}" alt="Carrinho">
-                <h2>Histórico de compras</h2> 
+    <div class="historicoCompraTela">
+        <div class="historicoCompraContainer">
+            <div class="historicoCompraCabecalho">
+                <div class="historicoCompraTitulo">
+                    <div class="historicoCompraTituloIcone">
+                        <img src="{% static 'img/historico.png' %}" alt="icone historico">
+                        <div class="historicoCompraCabecalhoUnderline"></div>
+                    </div>
+                    <h2>Histórico de Compras</h2>
+                </div>
+                <div class="historicoCompraBarraPesquisa">
+                    <form method="GET" action="{% url 'historicoCompra' %}">
+                        <div class="historicoCompraBarraPesquisaBuscaContainer">
+                            <img src="{% static 'img/iconeLupa.png' %}" alt="/Lupa">
+                            <select id="tipoPesquisa" name="tipoPesquisa" onchange="mostrarCampoPesquisa()">
+                                <option value="">Tipo</option>
+                                <option value="nome">Nome do Item</option>
+                                <option value="data">Data de Compra</option>
+                                <option value="entrega">Tipo de entrega</option>
+                                <option value="status">Status da compra</option>
+                            </select>
+                            <input type="text" id="campoNome" name="nome" placeholder="Pesquisar por Nome" style="display:none;">
+                            <input type="date" id="campoData" name="data" placeholder="Pesquisar por Data" style="display:none;">
+                            <select id="campoEntrega" name="entrega" placeholder="Tipo de Entrega" style="display:none;">
+                                <option value="Retirar">Retirar</option>
+                                <option value="Entrega">Entregar</option>
+                            </select>
+                            <select id="campoStatus" name="status" placeholder="Status da compra" style="display:none;">
+                                <option value="Pendente">Pendente</option>
+                                <option value="Andamento">Em andamento</option>
+                                <option value="Concluido">Concluido</option>
+                            </select>
+                            <button type="submit">Pesquisar</button>
+                        </div>
+                    </form>
+                </div>  
+            </div>        
+            <div class="historicoCompraTabela">
+                <div class="historicoCompraTabelaHead">
+                    <div class="historicoCompraTabelaRowheader">
+                        <div class="historicoCompraTabelaCell itens">Itens <br><span class="historicoCompraTituloColIdNome">Id - Nome</span></div>
+                        <div class="historicoCompraTabelaCell quantidadeItens">Qtd</div>
+                        <div class="historicoCompraTabelaCell dataCompra">Data <a href="?sort_by=dataCompra&order={% if request.GET.sort_by == 'dataCompra' and request.GET.order == 'asc' %}desc{% else %}asc{% endif %}"><img class="historicoCompraIconeSort {% if request.GET.sort_by == 'dataCompra' and request.GET.order == 'desc' %}historicoCompraSortDesc{% else %}historicoCompraSortAsc{% endif %}" src="{% static 'img/imgRanking/sort.png' %}" alt="Sort"></a></div>
+                        <div class="historicoCompraTabelaCell total">Valor <a href="?sort_by=total&order={% if request.GET.sort_by == 'total' and request.GET.order == 'asc' %}desc{% else %}asc{% endif %}"><img class="historicoCompraIconeSort {% if request.GET.sort_by == 'total' and request.GET.order == 'desc' %}historicoCompraSortDesc{% else %}historicoCompraSortAsc{% endif %}" src="{% static 'img/imgRanking/sort.png' %}" alt="Sort"></a></div>
+                        <div class="historicoCompraTabelaCell entrega">Tipo</div>
+                        <div class="historicoCompraTabelaCell pedido">Status</div>
+                    </div>
+                </div>
+                <div class="historicoCompraTabelaBody">
+                    {% csrf_token %}
+                    {% for compra in compra %}
+                    <div class="historicoCompraTabelaRow">
+                        <div class="historicoCompraTabelaCell itens" data-label="Itens">
+                            <div class="historicoCompraLocalItens">
+                                <div class="historicoCompraIconeItens">
+                                    <img class="historicoCompraIconeProduto" src="{% static 'img/produto.png' %}" alt="/produto">
+                                </div>
+                                <div class="historicoCompraItens">
+                                    {% for item in compra.itens %}
+                                    <div class="historicoCompraItem">
+                                        {{item.id}} - {{item.idProduto.nome}}
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="historicoCompraTabelaCell quantidadeItens" data-label="Qtd Itens">{{compra.quantidadeItens}}</div>
+                        <div class="historicoCompraTabelaCell dataCompra" data-label="Data">{{compra.dataCompra|date:"d/m/Y"}}</div>
+                        <div class="historicoCompraTabelaCell total" data-label="Total">{{compra.total}}</div>
+                        <div class="historicoCompraTabelaCell entrega" data-label="Entrega">{{compra.entrega}}</div>
+                        <div class="historicoCompraTabelaCell pedido" data-label="Pedido">{{compra.pedido}}</div>
+                    </div>
+                    {% endfor %}
+                </div>
             </div>
-            </div>
-        <table>
-          <thead>
-            <tr>
-              <th><img src="{%static 'img/produto.png'%}" alt="produtos"> Produto </th>
-              <th width="80px">Qtd</th>
-              <th width="100px">Data <img onclick="ordenarItens(this,'data')" class="sort-asc" src="{%static 'img/sort.png'%}" alt="sort"></th>
-              <th width="150px">Valor</th>
-            </tr>
-          </thead>
-          <tbody id="cart-items">
-          </tbody>
-        </table>
-      </div>
-      <script src="{% static 'js/UserJs/historicoCompra.js' %}"></script>
 
+            <div class="pagination">
+                {% if compra.has_previous %}
+                <div class="paginas">
+                    <div>
+                        <a class="anterior" href="?compra_page={{ compra.previous_page_number }}"><i class="fa fa-arrow-left" aria-hidden="true"></i> Anterior</a>
+                    </div>
+                {% endif %}
+            
+                {% if compra.has_next %}
+                    <div>
+                        <a class="proxima" href="?compra_page={{ compra.next_page_number }}">Próxima <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                    </div>
+                {% endif %}
+                    
+                    <span>Página {{ compra.number }} de {{ compra.paginator.num_pages }}</span>
+                </div>                
+            </div>
+        </div> 
+    </div>
+    <script src="{% static 'js/UserJs/historicoCompra.js' %}"></script>
 </body>
 </html>
 

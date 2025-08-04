@@ -22,10 +22,19 @@ body{
 }
 
 *{
-    margin: 0;
-    padding: 0;
+   
     list-style-type: none;
     
+}
+
+.containerPage{
+    width: auto;
+    display: flex;
+    justify-content: center;
+}
+
+.containerWidth{
+    width: 80rem;
 }
 
 .ondeVaiFicarOMenu{
@@ -47,9 +56,10 @@ body{
 
 .line{
     width: 40px;
+    position: relative;
+    left: 20px;
+    width: 40px;
     height: 0;
-    top: 273px;
-    left: 375px;
     border: 1px solid var(--laranja);
 }
 
@@ -61,6 +71,7 @@ body{
     align-content: center;
     margin-bottom: 50px;
     margin-top: 90px;
+   
 }
 
 .desafiosCampanha{
@@ -70,6 +81,7 @@ body{
     justify-content: center;
     align-items: center;
     font-size: 30px;
+    text-decoration: none;
 }
 
 .desafiosCampanha:hover{
@@ -77,7 +89,7 @@ body{
 
 }
 
-/* referente aos outros colocados */
+
 
 .outrosColocados{
     background: rgb(77,44,135);
@@ -107,7 +119,6 @@ body{
     height: 40px;
 }
 
-/* referente ao primeiro colocado */
 
 .primeiro{
     margin-top: 15px;
@@ -119,9 +130,34 @@ body{
     padding: 2px;
     border-radius: 20px;
 
+
+}
+.pagination{
+    margin-bottom: 40px;
+    display: flex;
+}
+.pagination a {
+    font-size: 24px;
+    text-decoration: none;
+    
 }
 
+.pagination div{
+    margin-top: 20px;
+    display: flex;
+}
 
+.pagination img{
+    transform: rotate(180deg);
+    width: 32px;
+    height: 32px;
+}
+
+.pagination span{
+    margin-top: 23px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
 
 .primeiro li{
     width: 100%;
@@ -168,12 +204,15 @@ body{
 
 .textDecoratinDesafios{
     display: flex;
+    margin: 0;
+    margin-left: 20px;
 }
 
 
 
  .desafiosFlex{
     display: flex;
+    align-items: center;
     justify-content: space-between;
     background-color: #FDFDFD;
     width: 799px;
@@ -183,14 +222,13 @@ body{
     margin-top: 15px;
     box-shadow: 10px 4px 8px var(--sombra-base);/* Desloca a sombra 10px para a direita */
     transition: 0.4s;
+    padding: 10px 20px;
  }
 
  .desafiosFlex:hover{
     scale: 1.03;
     cursor: pointer;
  }
-
-
 
  .desafiosFlex li{
     margin-left:10px ;
@@ -201,3 +239,270 @@ body{
     margin-right: 10px;
     font-size: large;
 }    
+
+.popUpPrimeiroAcesso{
+    border-radius: 10px;
+    padding: 70px;
+    background-color: #FDFDFD;
+    
+}
+
+#senha{
+    margin-bottom: 0px;
+    padding: 8px;
+}
+#confirmarSenha{
+    margin-bottom: 0px;
+    padding: 8px;
+}
+.concluirPrimeiroAcesso{
+    width: 150px;
+    height: 30px; 
+    background-color: #FC671D;
+    border: none;
+    color: #fff;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+    
+
+
+.labelPopUpPrimeiroAcesso{
+    display: flex;
+    justify-content: center;
+}
+    
+/* .formPrimeiroAcesso{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+} */
+.senhaPrimeiroAcesso{
+    font-size: 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    margin-bottom: 20px;
+}
+/* .senhaPrimeiroAcesso label{ */
+   
+/* } */
+    
+.confirmarSenhaPrimeiroAcesso{
+    font-size: 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    margin-bottom: 20px;
+}
+/* .confirmarSenhaPrimeiroAcesso label{ */
+   
+
+/* } */
+
+.logoPrimeiroAcesso img{
+    
+    width: 200px;
+    height: 120px;
+    margin-top: -30px;
+    margin-bottom: 20px;
+}
+
+@media (min-width: 0px) and (max-width: 430px) {
+.popUpPrimeiroAcesso{
+    border-radius: 10px;
+    padding: 70px;
+    background-color: #FDFDFD;
+    
+}
+
+#senha{
+    margin-bottom: 0px;
+    padding: 8px;
+}
+#confirmarSenha{
+    margin-bottom: 0px;
+    padding: 8px;
+}
+.concluirPrimeiroAcesso{
+    width: 150px;
+    height: 30px; 
+    background-color: #FC671D;
+    border: none;
+    color: #fff;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+    
+
+
+.labelPopUpPrimeiroAcesso{
+    display: flex;
+    justify-content: center;
+}
+    
+/* .formPrimeiroAcesso{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+} */
+.senhaPrimeiroAcesso{
+    font-size: 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    margin-bottom: 20px;
+}
+/* .senhaPrimeiroAcesso label{ */
+   
+/* } */
+    
+.confirmarSenhaPrimeiroAcesso{
+    font-size: 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    margin-bottom: 20px;
+}
+/* .confirmarSenhaPrimeiroAcesso label{ */
+   
+
+}
+
+.logoPrimeiroAcesso img{
+    
+    width: 200px;
+    height: 120px;
+    margin-top: -30px;
+    margin-bottom: 20px;
+}
+
+@media (min-width: 0px) and (max-width: 1270px) {
+
+    .botaoCampanha{
+        margin-top: 40px;
+    }
+
+    .botaoCampanha a{
+        margin-top: 40px;
+        font-size: 25px;
+    }
+
+    .desafiosCampanha{
+        height: 190px;
+        width: 390px;
+    }
+
+    .parteDeBaixo{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .desafiosFlex{
+        width: 390px;
+    }
+
+    .outrosColocados{
+        width: 340px;
+    }
+
+    .primeiro{
+        width: 340px;
+    }
+
+    .listaDesafios p{
+        font-size: 12px;
+    }
+
+    .listaDesafios li{
+        font-size: 20px;
+    }
+
+    .pagination{
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
+
+    .pagination span{
+        text-align: center;
+    }
+    .listaDesafios{
+        width: auto;
+    }
+
+    .containerWidth{
+        width: 30rem;
+    }
+
+}
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.pagination a {
+    padding: 8px 15px;
+    text-decoration: none;
+    color: white;
+    cursor: pointer;
+    background-color: var(--magenta);
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+.pagination .anterior:hover, .proxim    a:hover {
+    background-color: var(--laranja);
+}
+
+.pagination span {
+    font-size: 18px;    
+    font-weight: bold;
+}
+
+.paginas{
+    display: flex;
+    gap: 10px;
+}
+
+.descricao-cascata {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+    background-color: #f4f4f4;
+    padding: 0 1rem;
+    margin-top: 0.5rem;
+    border-left: 3px solid var(--laranja);
+}
+
+.descricao-cascata.open {
+    max-height: 500px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: start;
+}
+
+.datas-campanhas {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+.datas-campanhas p {
+    white-space: nowrap;
+    margin: 0;
+}
+
+@media (max-width: 600px) {
+    .datas-campanhas {
+        flex-direction: column;
+    }
+}

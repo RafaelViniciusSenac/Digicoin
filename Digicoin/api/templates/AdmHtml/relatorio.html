@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+{% include 'components/adm/menuAdm.html' %}
+
+
+<link rel="stylesheet" href="{% static 'css/AdmCss/relatorio.css' %}">
+<div class="container-relatorio">
+    <div class="cabecalho-relatorio">
+        <div class="cabecalho_titulo-relatorio">
+            <h1>Relatórios</h1>
+            <div class="linha-relatorio"></div>
+        </div>
+        <div class="cabecalho_btnexportar-relatorio">           
+            <button id="exportButton"><img src="{% static 'img/export.png' %}" alt="Exportar">Exportar</button>
+        </div>
+    </div>
+    <div class="relatorio">
+        <table class="tabela_relatorio">
+            <tr>
+                <td class="tabela_relatorio_conteudo-relatorio">
+                    <div class="tabela_relatorio_conteudo_checkbox-relatorio">
+                        <input type="checkbox" id="vendasCheckbox" name="checkbox" />
+                        <label for="vendasCheckbox"></label>
+                    </div>
+                    <div class="tabela_relatorio_conteudo_dado-relatorio">
+                        <img src="{% static 'img/relatorio.png' %}" alt="Relatório">
+                        <h2>Vendas</h2>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="tabela_relatorio_conteudo-relatorio">
+                    <div class="tabela_relatorio_conteudo_checkbox-relatorio">
+                        <input type="checkbox" id="produtosMaisVendidosCheckbox" name="checkbox" />
+                        <label for="produtosMaisVendidosCheckbox"></label>
+                    </div>
+                    <div class="tabela_relatorio_conteudo_dado-relatorio">
+                        <img src="{% static 'img/relatorio.png' %}" alt="Relatório">
+                        <h2>Produtos mais vendidos</h2>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="tabela_relatorio_conteudo-relatorio">
+                    <div class="tabela_relatorio_conteudo_checkbox-relatorio">
+                        <input type="checkbox" id="usuariosMaisMoedasCheckbox" name="checkbox" />
+                        <label for="usuariosMaisMoedasCheckbox"></label>
+                    </div>
+                    <div class="tabela_relatorio_conteudo_dado-relatorio">
+                        <img src="{% static 'img/relatorio.png' %}" alt="Relatório">
+                        <h2>Usuários com mais moedas</h2>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const checkboxes = document.querySelectorAll("input[name=\"checkbox\"]");
+
+        checkboxes.forEach(function(checkbox) {
+            checkbox.addEventListener("change", function() {
+                if (this.checked) {
+                    checkboxes.forEach(function(otherCheckbox) {
+                        if (otherCheckbox !== checkbox) {
+                            otherCheckbox.checked = false;
+                        }
+                    });
+                }
+            });
+        });
+
+        document.getElementById("exportButton").addEventListener("click", function() {
+            var vendasChecked = document.getElementById("vendasCheckbox").checked;
+            var produtosMaisVendidosChecked = document.getElementById("produtosMaisVendidosCheckbox").checked;
+            var usuariosMaisMoedasChecked = document.getElementById("usuariosMaisMoedasCheckbox").checked;
+
+            if (vendasChecked) {
+                window.location.href = "/api/exportar_vendas_excel/";
+            } else if (produtosMaisVendidosChecked) {
+                window.location.href = "/api/exportar_produtos_mais_vendidos_excel/";
+            } else if (usuariosMaisMoedasChecked) {
+                window.location.href = "/api/exportar_usuarios_com_mais_moedas_excel/";
+            } else {
+                alert("Por favor, selecione uma opção para exportar.");
+            }
+        });
+    });
+</script>
+
+{% endblock content %}

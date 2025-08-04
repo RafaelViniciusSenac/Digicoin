@@ -1,0 +1,202 @@
+:root {
+    --laranja: #FC671D;
+    --magenta: #D34AF4;/* cor do botão */
+    --cinza: #faf6f7;
+    --cinza-escuro:#888;
+    --ciano: #0BC0D3;
+    --base: #2c006a;
+    --branco: #fff;
+    --preto: #000;
+    --roxo: #4D2C87;  /* fundo roxo */
+    --sombra-base:rgba(44, 0, 106, 0.4);
+    --sombra-preta:rgba(0, 0, 0, 0.4);
+    --cinzaPlaceHolder:#9E9E9E;
+    --cinzaDatas: #D9D9D9;
+  }
+
+.body-adicionarMoedas{
+    background: var(--roxo);
+    margin: 0px 100px;
+    border-radius: 10px;
+    
+}
+
+.header-adicionarMoedas{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 50px;
+}
+
+.iconeX-adicionarMoedas{
+    
+    width: 32px;
+    height: 32px;
+}
+
+.iconeX-adicionarMoedas:hover{
+    cursor: pointer;
+}
+
+.formAdicionarMoedas{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    color: white;
+    gap: 150px;
+}
+
+.gerenciarDigicoins-adicionarMoedas h1{
+    text-align: center;
+    margin-bottom: 100px;
+}
+
+.quantidade-adicionarMoedas{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    font-size: 22px
+}
+
+.quantidadeInput-adicionarMoedas{
+    border-radius: 4px;
+    height: 50px; 
+    border: none;
+    width: 291px;
+}
+
+.quantidadeInput-adicionarMoedas:read-write {
+    padding-left: 20px;
+}
+
+.quantidade-adicionarMoedas label {
+    font-size: 18px;
+}
+
+.botoes-adicionarMoedas{
+    display: flex;
+    gap: 20px;
+}
+
+.botoes-adicionarMoedas button{
+    border: none;
+    border-radius: 20px;
+    height: 59px;
+    width: 259px;
+    color: white;
+    font-weight: 800;
+    font-size: 20px;
+    margin-bottom: 30px;
+}
+
+.adicionar-adicionarMoedas{
+    background-color: rgba(11, 192, 211, 1);
+}
+
+.adicionar-adicionarMoedas:hover{
+    cursor: pointer;
+    background-color: rgb(10, 162, 179);
+    transition: 0.5s;
+}
+
+.remover-adicionarMoedas{
+    background-color: rgba(211, 74, 244, 1);
+}
+
+.remover-adicionarMoedas:hover{
+    cursor: pointer;
+    background-color: rgb(170, 59, 197);
+    transition: 0.5s;
+}
+
+
+/* Adicione isso ao final do arquivo adicionarMoedas.css */
+
+@media (max-width: 768px) {
+    .body-adicionarMoedas {
+        margin: 0 30px !important;
+        padding: 20px;
+    }
+
+    .header-adicionarMoedas {
+        margin: 15px 0 30px 0;
+    }
+
+    .gerenciarDigicoins-adicionarMoedas h1 {
+        font-size: 24px;
+        margin-bottom: 60px;
+    }
+
+    .formAdicionarMoedas{
+        gap: 50px;
+    }
+
+    .quantidade-adicionarMoedas {
+        font-size: 18px;
+        gap: 15px;
+    }
+
+    .quantidade-adicionarMoedas input {
+        width: 100%;
+        max-width: 250px;
+        height: 45px;
+        font-size: 16px;
+    }
+
+
+    .botoes-adicionarMoedas {
+        flex-direction: column;
+        gap: 15px;
+        width: 100%;
+        align-items: center;
+    }
+
+    .botoes-adicionarMoedas button {
+        width: 100% !important;
+        max-width: 280px;
+        height: 50px;
+        font-size: 16px;
+    }
+
+    .iconeX-adicionarMoedas {
+        width: 28px;
+        height: 28px;
+    }
+}
+
+@media (max-width: 480px) {
+    .body-adicionarMoedas {
+        margin: 0 15px !important;
+        padding: 15px;
+    }
+
+    .gerenciarDigicoins-adicionarMoedas h1 {
+        font-size: 20px;
+        margin-bottom: 40px;
+    }
+
+    .quantidade-adicionarMoedas label {
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .quantidade-adicionarMoedas input {
+        height: 40px;
+        font-size: 14px;
+        max-width: 200px;
+    }
+
+    .botoes-adicionarMoedas button {
+        height: 45px;
+        font-size: 15px;
+    }
+
+    .header-adicionarMoedas img:first-child {
+        width: 150px;
+    }
+}

@@ -1,100 +1,111 @@
-{% extends 'base.html'%}
-{% load static%}
+{% extends 'base.html' %}
+{% load static %}
+
 
 {% block content %}
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
-    rel="stylesheet">
-<link rel="stylesheet" href="{% static 'css/UserCss/listaProdutos.css'%}">
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/UserCss/listaProdutos.css' %}">
 
-{% include "components/user/menuUser.html" %}
+<body class="body-listadeProdutos">
+    {% include "components/user/menuUser.html" %}
 
-<body>
-    <div id="menuColaborador"></div>
-    <div class="container">
-        <div class="produtos">
-            <div class="produtosDigix">
-                <div class="ProdBarra">
+    <input type="hidden" id="quantidadeMoedas" value="{{quantidade_moedas}}">
+    <div class="containerProduto-listaProdutos">
+        <div class="produtos-listaProdutos">
+            <div class="produtosDigix-listaProdutos">
+                <div class="ProdBarra-listaProdutos">
                     <h1>Produtos Digix</h1>
-                    <div class="barra"></div>
+                    <div class="barra-listaProdutos"></div>
                 </div>
-                <div class="search">
-                    <i id="lupa" class="fa fa-search" aria-hidden="true"></i>
-                    <input class="searchBar" type="search">
+                <div class="search-listaProdutos">
+                    <i id="lupa-listaProdutos" class="fa fa-search" aria-hidden="true"></i>
+                    <input id="barraBusca-listaProdutos" class="searchBar-listaProdutos" type="search" placeholder="Buscar Produto">
                 </div>
             </div>
-
-            <div class="imagensDigix">
-                <div class='imgD'>
-                    <button id='imgbotao'><img class='imagensP' src="{% static 'img/imgProdutos/copo.png' %}"
-                            alt='Copo Stanley'></button>
+            <div class="imagensDigix-listaProdutos">
+                {% for produto in produtos %}
+                <input type="hidden" name="nomeProduto[{{produto.id}}]" value="{{produto.nome}}">
+                <input type="hidden" name="valorProduto[{{produto.id}}]" value="{{produto.valor}}">
+                <input type="hidden" name="tipoProduto[{{produto.id}}]" value="{{produto.tipo}}">
+                <input type="hidden" name="quantidadeProduto[{{produto.id}}]" value="{{produto.quantidade}}"> 
+                <div class='imgD-listaProdutos' data-nome="{{ produto.nome|lower }}">
+                    <button id='imgbotao' data-valor="{{produto.id}}"><img class='imagensP-listaProdutos' src="{{ produto.img1.url }}" alt="{{produto.nome}}"></button>
                 </div>
-                <div class='imgD'>
-                    <button id='imgbotao'><img class='imagensP' src="{% static 'img/imgProdutos/mouse pad.png' %}"
-                            alt='Mouse Pad'></button>
-                </div>
-                <div class='imgD'>
-                    <button id='imgbotao'><img class='imagensP' src="{% static 'img/imgProdutos/iphone.png' %}"
-                            alt='Iphone'></button>
-                </div>
-                <div class='imgD'>
-                    <button id='imgbotao'><img class='imagensP' src="{% static 'img/imgProdutos/copo.png' %}"
-                            alt='Teclado'></button>
-                </div>
-                <div class='imgD'>
-                    <button id='imgbotao'><img class='imagensP' src="{% static 'img/imgProdutos/caderno5.png' %}"
-                            alt='Caderno'></button>
-                </div>
-                <div class='imgD'>
-                    <button id='imgbotao'><img class='imagensP' src="{% static 'img/imgProdutos/caderno 1.png' %}"
-                            alt='Caderno'></button>
-                </div>
+                {% endfor %}
             </div>
         </div>
 
+    {% for produto in produtos %}
+    <dialog id="modal-{{produto.id}}" class="dialog-listaProdutos">
+        <div class="containerDialog-listaProdutos">
+            <div id="flip-{{produto.id}}" class="flip-listaProdutos">
+                <div class="frente-listaProdutos">
+                    <div class="topo-listaProdutos">
+                        <div class="NProduto-listaProdutos">{{produto.nome}}</div>
+                        <button class="fechar-listaProdutos X-listaProdutos">X</button>
+                    </div>
+                    <div class="imagemCard-listaProdutos">
+                        <img class="ImProduto-listaProdutos" src="{{ produto.img1.url }}" alt="{{produto.nome}}">
+                    </div>
+                    <div class="preco-listaProdutos">
+                        <p>DG$</p>
+                        <span>{{produto.valor}}</span>
+                    </div>
+                    
+                    <div class="btn-refresh-listaProdutos"> 
+                        {% if produto.quantidade <= 0 %}
+                        <button class="Adquirir-listaProdutos botao-desativado" data-valor="{{produto.id}}">indisponivel</button> 
+                        {% else %}
+                        <button class="Adquirir-listaProdutos botão-funcional" data-valor="{{produto.id}}">adquirir</button>   
+                        {%endif%}  
+                              
+                        <span class="msgErrorAddProduto-listaProdutos"></span>
+                    </div>
 
-        <dialog id="modal">
-            <div class="container">
-                <div class="flip">
-                    <div class="frente">
-                        <div class="topo">
-                            <div class="NProduto">Copo Stanley</div>
-                            <button id="fechar" class="X">X</button>
-                        </div>
-                        <div class="imagemCard">
-                            <img class="ImProduto" src="{% static 'img/imgProdutos/copo.png' %}" alt="copo">
-                        </div>
-                        <div class="preco">
-                            <p>DG$</p>
-                            <span>9999</span>
-                        </div>
-                        <div class="btn-refresh">
-                            <button class="Adquirir">adquirir</button>
-                            <i id="refresh" class="fa fa-refresh" aria-hidden="true"></i>
-                        </div>
+                    <i class="fa fa-refresh refresh-listaProdutos" aria-hidden="true"></i>
+                </div>
+                <div class="tras-listaProdutos">
+                    <div class="topo-listaProdutos">
+                        <div class="NProduto-listaProdutos">{{produto.nome}}</div>
+                        <button class="fechar-listaProdutos X-listaProdutos">X</button>
                     </div>
-                    <div class="tras">
-                        <div class="topo">
-                            <div class="NProduto">Copo Stanley</div>
-                            <button id="fechar2" class="X">X</button>
-                        </div>
-                        <div class="quantidade">
-                            <p>Quantidade: </p>
-                            <span>999</span>
-                        </div>
-                        <div class="descricao">
-                            <p>Sobre: </p>
-                            <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure, dolorem.</span>
-                        </div>
-                        <i id="refresh2" class="fa fa-refresh" aria-hidden="true"></i>
+                    <div class="quantidade-listaProdutos">
+                        <p>Quantidade: </p>
+                        <span>{{produto.quantidade}}</span>
                     </div>
+                    <div class="descricao-listaProdutos">
+                        <p>Sobre: </p>
+                        <span>{{produto.descricao}}</span>
+                    </div>
+                    <i class="fa fa-refresh refresh-listaProdutos" aria-hidden="true"></i>
                 </div>
             </div>
-        </dialog>
+        </div>
+    </dialog>
+    {% endfor %}
+
+
+        <div class="pagination-listaProdutos" id="paginacao-listaProdutos">
+            {% if produtos.has_previous %}
+            <div class="paginas-listaProdutos">
+                <div>
+                    <a class="anterior-listaProdutos" href="?listaProduto_page={{ produtos.previous_page_number }}"><i class="fa fa-arrow-left" aria-hidden="true"></i> Anterior</a>
+                </div>
+            {% endif %}
+        
+            {% if produtos.has_next %}
+                <div>
+                    <a class="proxima-listaProdutos" href="?listaProduto_page={{ produtos.next_page_number }}">Próxima <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                </div>
+            {% endif %}
+                
+                <span>Página {{ produtos.number }} de {{ produtos.paginator.num_pages }}</span>
+            </div>                
+        </div>
     </div>
+
+
     <script src="{% static 'js/UserJs/listaProdutos.js' %}"></script>
-
-</body>
-
+</div>
 {% endblock %}

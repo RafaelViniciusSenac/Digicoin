@@ -1,0 +1,45 @@
+ :root {
+    --laranja: #FC671D;
+    --magenta: #D34AF4;
+    --cinza: #faf6f7;
+    --cinza-escuro: #888;
+    --ciano: #0BC0D3;
+    --base: #2c006a;
+    --branco: #fff;
+    --preto: #000;
+    --sombra-base: rgba(44, 0, 106, 0.4);
+    --sombra-preta: rgba(0, 0, 0, 0.4);
+}
+.paginacao-div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.paginacao-div a {
+    padding: 8px 15px;
+    text-decoration: none;
+    color: white;
+    cursor: pointer;
+    background-color: var(--magenta);
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    font-size: 18px;
+}
+
+.paginacao-div .anterior:hover, .proxima:hover {
+    background-color: var(--laranja);
+}
+
+.paginacao-div  span {
+    font-size: 18px;    
+    font-weight: bold;
+}
+
+.paginacao-paginas{
+    display: flex;
+    gap: 10px;
+}

@@ -11,22 +11,42 @@
     --sombra-preta: rgba(0, 0, 0, 0.4);
 }
 
-body {
+.body-listaProdutos {
     font-family: "Arial", "Open Sans";
     display: flex;
     flex-direction: column;
     justify-content: center;
+    background-color: white;
 }
 
-.container {
+
+.containerProduto-listaProdutos {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
-    height: 100%;
+    height: 84vh;
+    margin-top: 30px;
 }
 
-.search {
+.containerDialog-listaProdutos {
+    width: 500px;
+    height: 500px;
+}
+
+.ProdBarra-listaProdutos h1 {
+    margin: 0px;
+}
+
+.ProdBarra-listaProdutos {
+    display: block;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 0 0 20px 0;
+}
+
+.search-listaProdutos {
     display: flex;
     align-items: center;
     background-color: var(--branco);
@@ -36,38 +56,43 @@ body {
     height: 50px;
 }
 
-.searchBar {
+.searchBar-listaProdutos {
     border-radius: 30px;
-    width: 400px;
+    width: 300px;
     border: none;
     padding: 10px;
     font-size: 25px;
 }
 
-#lupa {
+#lupa-listaProdutos {
     width: 40px;
     padding-left: 10px;
     font-size: 25px;
     color: var(--laranja);
 }
 
-.searchBar:focus {
+.searchBar-listaProdutos:focus {
     outline: none;
 }
 
-.produtos {
+.produtos-listaProdutos {
     margin: 0 auto;
-    padding-top: 70px;
-    padding-left: 350px;
+    padding-top: 40px;
 }
 
-.produtosDigix {
+.produtosDigix-listaProdutos {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 20px;
+    padding: 0;
+    text-align: left;
+    width: 100%;
 }
 
-.barra {
+.produtosDigix-listaProdutos h1 {
+    margin: 0px;
+}
+
+.barra-listaProdutos {
     width: 40px;
     height: 0;
     top: 273px;
@@ -75,82 +100,91 @@ body {
     border: 2px var(--laranja) solid;
 }
 
-.imagensDigix,
+.imagensDigix-listaProdutos,
 .imagensCampanha {
     display: grid;
-    grid-template-columns: repeat(4, 250px);
-    grid-template-rows: repeat(2, 250px);
+    grid-template-columns: repeat(4, 200px);
+    grid-template-rows: repeat(2, 200px);
     gap: 60px;
     margin-bottom: 50px;
-    margin-top: 40px;
+    margin-top: 40px;    
 }
 
-.imgD {
+
+
+.imgD-listaProdutos {
     display: flex;
     justify-content: center;
     align-items: center;
     border: solid 4px var(--preto);
-    width: 240px;
-    height: 240px;
+    width: 200px;
+    height: 200px;
     padding: 10px;
     border-radius: 40px;
     overflow: hidden;
     transition: 0.2s;
+    background-color: #fff;
 }
 
-.imgD button {
+.imgD-listaProdutos button {
     border: none;
     background: var(--branco);
 }
 
-.imgD:hover {
+.imgD-listaProdutos:hover {
     scale: 1.2;
 }
 
-.produtos .imagensP {
+.produtos-listaProdutos .imagensP-listaProdutos {
+    display: block;
     width: 190px;
-    height: auto;
-}
+    height: 190px;
+    object-fit: contain;
+    cursor: pointer;
+}   
 
-dialog {
+
+.dialog-listaProdutos {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     border: none;
     border-radius: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background-color: white;
     padding: 0;
+    margin: 0;
+    background: transparent;
 }
 
-dialog::backdrop {
+.dialog-listaProdutos::backdrop {
     background-color: rgba(0, 0, 0, 0.4);
 }
 
-.frente {
+.frente-listaProdutos {
     text-align: center;
     box-shadow: 5px 5px 15px 2px rgba(0, 0, 0, 0.6);
     border-radius: 20px;
 }
 
-.frente .NProduto {
+.frente-listaProdutos .NProduto-listaProdutos {
     font-size: 25px;
     font-weight: bold;
     color: var(--preto);
 }
 
-.frente .imagemCard {
+.frente-listaProdutos .imagemCard-listaProdutos {
     display: flex;
     justify-content: center;
 }
 
-.frente .ImProduto {
-    width: 200px;
-    height: 200px;
-    padding: 20px 0 50px 0;
+.frente-listaProdutos .ImProduto-listaProdutos {
+    width: 230px;
+    height: 230px;
+    object-fit: contain;
+    display: block;
+    margin: 0 0 20px 0;
 }
 
-.frente .preco {
+.frente-listaProdutos .preco-listaProdutos {
     display: flex;
     justify-content: center;
     font-size: 30px;
@@ -158,42 +192,44 @@ dialog::backdrop {
     margin: 5px 0 10px;
 }
 
-.frente .preco p {
+.frente-listaProdutos .preco-listaProdutos p {
     margin: 0px;
     color: var(--laranja);
     font-weight: bold;
 }
 
-.frente .preco span {
+.frente-listaProdutos .preco-listaProdutos span {
     margin: 0px;
     color: var(--ciano);
-    font-weight: bold;  
+    font-weight: bold;
 }
 
-.frente .topo {
+.frente-listaProdutos .topo-listaProdutos {
     display: flex;
     justify-content: space-between;
     padding: 15px;
 }
 
-.topo .X {
+.topo-listaProdutos .X-listaProdutos {
     border: none;
     background: var(--branco);
     font-size: 30px;
     cursor: pointer;
 }
 
-.topo .X img {
+
+.topo-listaProdutos .X-listaProdutos img {
     width: 25px;
     height: auto;
 }
 
-.Adquirir {
+
+.Adquirir-listaProdutos {
     background-color: var(--magenta);
     color: #fff;
     font-size: 25px;
-    padding: 10px 0;
-    margin: 11px auto;
+    padding: 6px 0;
+    margin: 7px auto;
     border: none;
     border-radius: 25px;
     width: 70%;
@@ -201,22 +237,34 @@ dialog::backdrop {
     text-transform: uppercase;
 }
 
-.Adquirir:hover {
+.botão-funcional:hover {
     background-color: rgb(201, 1, 201);
 }
 
-.btn-refresh {
+
+.msgErrorAddProduto-listaProdutos {
+    color: red;
+    font-size: 15px;
+    font-weight: bold;
+    display: none;
+}
+
+.btn-refresh-listaProdutos {
     display: flex;
     flex-direction: column;
-    font-size: 30px;
 }
 
-#refresh, #refresh2{
-    margin: 1px;
+.refresh-listaProdutos {
+    margin: 10px;
     cursor: pointer;
+    font-size: 40px;
 }
 
-.tras {
+.tras-listaProdutos .refresh-listaProdutos {
+    margin-top: 150px;
+}
+
+.tras-listaProdutos {
     text-align: center;
     width: 200px;
     height: 200px;
@@ -226,106 +274,156 @@ dialog::backdrop {
     transform: rotateY(180deg);
 }
 
-.tras .topo {
+
+.tras-listaProdutos .topo-listaProdutos {
     font-size: 25px;
     font-weight: bold;
     display: flex;
     justify-content: space-between;
     padding: 20px;
-    margin-bottom: 40px;
     font-size: 35px;
 }
 
-.tras .NProduto {
+.tras-listaProdutos .NProduto-listaProdutos {
     font-size: 25px;
     font-weight: bold;
     color: var(--preto);
 }
 
-.tras .quantidade {
+.tras-listaProdutos .quantidade-listaProdutos {
     display: flex;
     padding-left: 30px;
 }
 
-.tras .quantidade span {
+.tras-listaProdutos .quantidade-listaProdutos span {
     margin: 0px;
-    padding-left: 10px;
-    padding-top: 25px;
+    padding: 25px 0px 0px 10px;
 }
 
-.tras .descricao {
+.tras-listaProdutos .descricao-listaProdutos {
     display: flex;
-    padding: 30px;
-    margin-bottom: 90px;
+    align-items: center;
+    padding: 0px 0px 0px 30px;
+    gap: 5px;
+    width: 430px;
+    height: auto;
 }
 
-.tras .quantidade p {
+.descricao-listaProdutos span {
+    display: block;
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: break-word;
+}
+
+.tras-listaProdutos .quantidade-listaProdutos p {
     font-weight: bold;
     color: var(--laranja);
 }
 
-.tras .descricao p {
+.tras-listaProdutos .descricao-listaProdutos p {
     font-weight: bold;
     color: var(--laranja);
+    gap: 5px;
 }
 
 @media (max-width: 768px) {
 
-    .imagensDigix,
-    .imagensCampanha {
+    .containerProduto-listaProdutos {
         display: flex;
         flex-direction: column;
         align-items: center;
+        padding: 0;
+        margin: 0;
     }
 
-    .produtosDigix {
-        display: block;
-        align-items: center;
-        justify-content: center;
+    .containerDialog-listaProdutos {
+        width: 100%;
+        height: 50px;
     }
 
-    .ProdBarra {
-        display: block;
-        justify-content: center;
-        align-items: center;
+    .produtosDigix-listaProdutos {
+        display: flex;
         flex-direction: column;
-        margin: 0 20px 0 75px ;
-        margin-bottom: 20px;
+        align-items: center;
+        width: 100%;
     }
 
-    .search {
+    .produtos-listaProdutos {
+        margin: 0 auto;
+        padding-bottom: 0px;
+    }
+
+    .imgD-listaProdutos {
+        width: 90%;
+        background-color: white;        
+    }
+
+    .search-listaProdutos {
         display: flex;
         align-items: center;
-        width: 370px;
-        margin: 0 70px 0 70px;
     }
 
-    dialog {
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        border: none;
-        padding: 5px;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        background-color: white;
+    .searchBar-listaProdutos {
+        width: 90%;
+        font-size: 16px;
     }
-}
 
-.container {
-    position: relative;
-    width: 500px;
-    height: 500px;
+    .dialog-listaProdutos {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        height: auto;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+
+    }
+
+    .NProduto-listaProdutos {
+        font-size: 18px;
+    }
+
+    .Adquirir-listaProdutos {
+        width: 70%;
+        font-size: 16px;
+    }
+
+    .refresh-listaProdutos {
+        font-size: 40px;
+    }
+
+    .imagensDigix-listaProdutos {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 40px;
+        padding: 0;
+        margin: 20px;
+    }
+
+    .descricao-listaProdutos,
+    .tras-listaProdutos,
+    .frente-listaProdutos {
+        padding: 0;
+        gap: 20px;
+        height: auto;
+    }
+
+    .pagination-listaProdutos {
+        margin: 0px;
+        padding: 0 0 50px 0;
+    }
 }
 
 .virado {
     transform: rotateY(180deg);
 }
-.virado2{
+
+.virado2 {
     transform: rotateY(180deg);
 }
 
-.flip {
+.flip-listaProdutos {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -334,11 +432,62 @@ dialog::backdrop {
     border: none;
 }
 
-.frente, .tras {
+.frente-listaProdutos,
+.tras-listaProdutos {
     position: absolute;
     width: 100%;
     height: 100%;
     border-radius: 20px;
     box-shadow: 0px 0px 10px black;
     backface-visibility: hidden;
+    background-color: white;
 }
+
+.pagination-listaProdutos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.pagination-listaProdutos a {
+    padding: 8px 15px;
+    text-decoration: none;
+    color: white;
+    cursor: pointer;
+    background-color: var(--magenta);
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    font-size: 18px;
+}
+
+.pagination-listaProdutos .anterior-listaProdutos:hover,
+.proxim-listaProdutos a:hover {
+    background-color: var(--laranja);
+}
+
+
+.pagination-listaProdutos span {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.paginas-listaProdutos {
+    display: flex;
+    gap: 10px;
+}
+
+.botao-desativado {
+    background-color: #ccc;
+    color: #666;
+    border: none;
+    cursor: not-allowed;
+    opacity: 0.7;
+    pointer-events: none;
+    transition: 0.3s;
+}
+
+
+/* teste basico */

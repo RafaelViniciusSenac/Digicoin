@@ -32,4 +32,18 @@ class ItensCompraSerializer(serializers.ModelSerializer):
         model = ItensCompra
         fields = '__all__'
 
-        
+class HistoricoSaldoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HistoricoSaldo
+        fields = ['saldo_anterior', 'saldo_novo', 'diferenca', 'data_alteracao']
+
+class UsuarioComHistoricoSerializer(serializers.ModelSerializer):
+    ultimas_alteracoes = serializers.SerializerMethodField()
+
+    class Meta:
+        model = CustomUser
+        fields = ['id', 'username', 'saldo', 'ultimas_alteracoes']
+
+    def get_ultimas_alteracoes(self, obj):
+        queryset = obj.historico_saldo.all()[:5]
+        return HistoricoSaldoSerializer(queryset, many=True).data

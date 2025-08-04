@@ -21,33 +21,57 @@
             </div>
         </header>
         <div class="ModalContainer">
-            <form id="produtoForm" autocomplete="off">
+            <form id="produtoForm">
             <div class="ladoEsquerdo">
                 <div class="FormProduto">
                     <label for="Produto">Nome do Produto:</label>
-                    <input type="text" id="Produto" placeholder="Produto">
+                    <input type="text" id="Produto" placeholder="Produto" class="alertaInput">
+                    <small class="alerta">Mensagem de erro</small>
+                </div>
+                <div class="FormDescricao">
+                    <label for="Descricao">Descrição:</label>
+                    <input type="text" id="Descricao" placeholder="Descrição do produto"
+                        maxlength="100" class="alertaInput">
                     <small class="alerta">Mensagem de erro</small>
                 </div>
                 <div class="FormQuantidade">
                     <label for="Quantidade">Quantidade:</label>
-                    <input type="number" id="Quantidade" placeholder="Quantidade">
+                    <input type="text" id="Quantidade" placeholder="Quantidade" 
+                        oninput="mascaraMilhar(this)" 
+                        onkeydown="return bloqueiaCaracteresIndesejados(event)" 
+                        maxlength="9" class="alertaInput">
                     <small class="alerta">Mensagem de erro</small>
                 </div>
                 <div class="FormPreco">
                     <label for="Preco">Preço:</label>
-                    <input type="number" id="Preco" placeholder="R$ 99,99">
+                    <input type="text" id="Preco" placeholder="999" 
+                        oninput="mascaraMilhar(this)" 
+                        onkeydown="return bloqueiaCaracteresIndesejados(event)"  
+                        maxlength="15" class="alertaInput" >
                     <small class="alerta">Mensagem de erro</small>
                 </div>
                 <div class="FormTipo">
                     <div><label>Tipo:</label></div>
                     <div class="FormCheckbox">
-                        <input type="checkbox" id="Campanha">
-                        <label for="Campanha">Campanha</label>
-                        <small class="alerta">*</small> 
-                        <input type="checkbox" id="Fisico">
-                        <label for="Fisico">Físico</label>
-                        <input type="checkbox" id="Virtual">
-                        <label for="Virtual">Virtual</label>
+
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="Campanha">
+                            <label for="Campanha">Campanha</label>
+                            <small class="alerta">*</small> 
+                        </div>
+
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="Fisico">
+                            <label for="Fisico">Físico</label>
+                            <small class="alerta" id="erroFisico">*</small>
+                        </div>
+
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="Virtual">
+                            <label for="Virtual">Virtual</label>
+                            <small class="alerta" id="erroVirtual">*</small>
+                        </div> 
+                        
                     </div>
                 </div>
             </div>
@@ -56,7 +80,7 @@
                     <label>Faça o upload da imagem do produto:</label>
                     <label for="imagem" class="UploadBox">
                         <div class="default-content">
-                            <img src="{% static "img/uploadIcon.png" %}" alt="uploadIcon">
+                            <img src="{% static "img/uploadIcon.png" %}" alt="uploadIcon" class="upload-icon">
                             <hr>
                             <small>Arraste e solte o arquivo de imagem aqui</small>
                             <small>para realizar upload</small>
@@ -65,11 +89,14 @@
                         </div>
                     </label>
                     <input type="file" id="imagem" accept="image/jpeg, image/png, image/webp">
+                    
+                    
+                    
                     <footer class="produtoFormBotao">
 
                         <div class="produtoDivFormBotao">
                             <!-- Botão Concluir redireciona para o segundo pop up -->
-                            <button type="button" class="buttonConcluir">Concluido</button>
+                            <button id="btnConcluir" type="button" class="buttonConcluir">Concluido</button>
                         </div>
                     </footer>
                 </div>
@@ -103,26 +130,13 @@
 
                 <div class="temaCampanhaCorpo">
                     
+                    {% for evento in eventos %}
                     <div>
-                        <input type="checkbox" id="Padrão">
-                        <label for="Padrão">Padrão</label>
+                        <input type="checkbox" value="{{evento.id}}" class="listaCampanha" id="{{evento.id}}">
+                        <label for="{{evento.id}}">{{evento.nome}}</label>
                     </div>
-                    <div>
-                        <input type="checkbox" id="Carnaval">
-                        <label for="Carnaval">Carnaval</label>
-                    </div>
-                    <div>
-                        <input type="checkbox" id="IndependenciaDoBrasil">
-                        <label for="IndependenciaDoBrasil">Independência do Brasil</label>
-                    </div>
-                    <div>
-                        <input type="checkbox" id="Natal">
-                        <label for="Natal">Natal</label>
-                    </div>
-                    <div>
-                        <input type="checkbox" id="Reveillon">
-                        <label for="Reveillon">Réveillon</label>
-                    </div>
+                    {% endfor %}
+                    
                 
                 </div>
             </div>
@@ -135,7 +149,16 @@
         
                     </div>
                     <div class="rodaPeBotao">
-                        <button type="submit" class="buttonrodaPe">Concluido</button>
+                        <div>
+                        <input type="hidden" value="" id="valorEditar">
+                        <input type="hidden" value="" id="valorEditar2">
+                        <div/>
+                        
+                        <div>
+                        <button type="submit" class="buttonrodaPe">
+                            Concluido
+                        </button>
+                        <div/>
                     </div>
 
                 </footer>
@@ -143,7 +166,7 @@
         </div>
     </dialog> 
 
-    <dialog id="CriacaoDeCampanha">
+    <dialog id="CriacaoDeCampanha" >
         <header class="headerCentral">
             <div class="headerLogo">
                 <img src="{% static "img/logoAdmin.png" %}"  alt="LOGO">
@@ -155,36 +178,55 @@
             </div>
         </header>
         <div class="ModalContainerModal">
-            <form id="CriacaoDeCampanhaForm">
+            <form id="CriacaoDeCampanhaForm" >
                 <div class="cadastroEvento">
                     <div class="miniContainer">
-                    <div class="cadastroEventoTema">
-                        <label for="nomeCampanha">Nome da Campanha</label>
-                        <input type="text" id="nomeCampanha">
-                    </div>
-                
-                    
-                    <div class="cadastroEventoDescricao">
+                        <div class="cadastroEventoTema">
+                            <label for="nomeCampanha">Nome da Campanha</label>
+                            <input type="text" id="nomeCampanha" placeholder="Nome da Campanha" class="alertaInput">
+                            <small class="alerta">Mensagem de erro</small>
+                        </div>
+
+                    {% comment %} <div class="cadastroEventoDescricao">
                         <label for="descricaoCampanha">Descrição (Opcional)</label>
                         <textarea id="descricaoCampanha" cols="30" rows="10" placeholder="Digite aqui..."></textarea>
-                    </div>
+                    </div> {% endcomment %}
+                
+                        <div class="fim">
+                            <label for="dataFim">Data Encerramento</label>
+                            <input type="date" id="dataFim" class="alertaInput">
+                            <small class="alerta">Mensagem de erro</small>
+                        </div>
+
+                        <div class="statusCampanha">
+                            <label for="ativaCampanha">Status da Campanha</label>
+                            
+                            <div class="toggleSwitch">
+                                <input type="checkbox" id="ativaCampanha" name="ativaCampanha" checked hidden>
+
+                                <div class="statusButtons">
+                                <label for="ativaCampanha" class="btnStatus ativo">Ativo</label>
+                                <label for="ativaCampanha" class="btnStatus inativo">Desativo</label>
+                                </div>
+                            </div>
+                            </div>
                     </div>
     
-                    <div class="campanhaData">
-                        <div class="inicio">
+                    {% comment %} <div class="campanhaData"> {% endcomment %}
+                        {% comment %} <div class="inicio">
                             <label for="dataInicio">Início</label>
                             <input type="date" id="dataInicio">
-                        </div>
+                        </div> {% endcomment %}
                         
-                        <div class="fim">
+                        {% comment %} <div class="fim">
                             <label for="dataFim">Fim</label>
                             <input type="date" id="dataFim">
-                        </div>
-                    </div>
+                        </div> {% endcomment %}
+                    {% comment %} </div> {% endcomment %}
     
                     <footer class="rodaPeModal">
                         <div>
-                            <button type="submit" class="buttonrodaPeModal">Concluído</button>
+                            <button type="submit" class="buttonrodaPeModal">Concluido</button>
                         </div>
                     </footer>
                 </div>
@@ -193,4 +235,6 @@
     </dialog>
     
     <script src="{% static 'js/AdmJS/popUpEstoque.js' %}"></script>
+    <script src="{%static 'js/popup.js'%}"></script>
+    
 </body>

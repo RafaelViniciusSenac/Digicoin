@@ -23,3 +23,21 @@ async function apiRequest(url, method = 'GET', body = null, headers = {}) {
         return null;
     }
 }
+
+function buscarEndereco(cepField, ruaField, bairroField, cidadeField, estadoField) {
+    let cep = document.getElementById(cepField).value.replace(/\D/g, '');
+    if (cep.length === 8) {
+        fetch(`https://viacep.com.br/ws/${cep}/json/`)
+            .then(response => response.json())
+            .then(data => {
+                if (!data.erro) {
+                    document.getElementById(ruaField).value = data.logradouro;
+                    document.getElementById(bairroField).value = data.bairro;
+                    document.getElementById(cidadeField).value = data.localidade;
+                    document.getElementById(estadoField).value = data.uf;
+                }
+            })
+            .catch(error => console.error('Erro ao buscar o CEP:', error));
+    }
+}
+

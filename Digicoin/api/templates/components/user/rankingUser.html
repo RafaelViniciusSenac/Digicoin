@@ -7,7 +7,7 @@
     <li>
         <div class="circulo">1º</div>
         <div><img src="{% static 'img/icone.png' %}" alt=""></div>
-        <div><p>{{primeiro_usuario.username}}</p></div>
+        <div><p>{{primeiro_usuario.first_name}}</p></div>
     </li>
 </div>
 
@@ -17,7 +17,7 @@
             <li>
                 <div class="circulo">{{ forloop.counter|add:"1"}}º</div>                   
                 <div><img src="{% static 'img/icone.png' %}" alt=""></div>
-                <div><p>{{user.username}}</p></div>
+                <div><p>{{user.first_name}}</p></div>
             </li>
         </div>  
 

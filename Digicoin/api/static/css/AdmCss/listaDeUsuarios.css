@@ -1,0 +1,943 @@
+
+:root {
+    --laranja: #FC671D;
+    --magenta: #D34AF4;/* cor do botão */
+    --cinza: #faf6f7;
+    --cinza-escuro:#888;
+    --ciano: #0BC0D3;
+    --base: #2c006a;
+    --branco: #fff;
+    --preto: #000;
+    --roxo: #4D2C87;  /* fundo roxo */
+    --sombra-base:rgba(44, 0, 106, 0.4);
+    --sombra-preta:rgba(0, 0, 0, 0.4);
+    --cinzaPlaceHolder:#9E9E9E;
+    --cinzaDatas: #D9D9D9;
+  }
+
+.mainListaUsuarios {
+    padding: 40px;
+    font-family: Arial, sans-serif;
+    width: 50%;
+    margin-left: 450px;
+    padding-left: 200px;
+
+    
+}
+
+.divPesquisa-listaDeUsuarios {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+
+.barraPesquisa-listaDeUsuarios {
+    border: 2px solid #ccc;
+    border-radius: 20px;
+    padding: 5px 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.barraPesquisa-listaDeUsuarios input {
+    border: none;
+    outline: none;
+    font-size: 14px;
+}
+
+.barraPesquisa-listaDeUsuarios img{
+    width: 30px;
+    height: 30px;
+}
+
+.primeiraLinha-listaDeUsuarios {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.primeiraLinha-listaDeUsuarios h1 span {
+    border-bottom: 3px solid #FC671D;
+    padding-bottom: 2px;
+}
+
+.botoesUsuario-listaDeUsuarios{
+    display: flex;
+}
+
+.botoesUsuario-listaDeUsuarios a{
+    text-decoration: none;
+}
+
+.botoesUsuario-listaDeUsuarios button {
+    
+    border: none;
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 10px;
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.addMoedas-listaDeUsuarios {
+    background-color: #00C4CC;
+    color: white;
+}
+
+.addMoedas-listaDeUsuarios:hover{
+    background-color: #037b80;
+    transition: 0.5s ease-in-out;
+}
+
+.addUsuarios-listaDeUsuarios {
+    background-color: #DA3ADC;
+    color: white;
+}
+.addUsuarios-listaDeUsuarios:hover{
+    background-color: #b42fb6;
+    transition: 0.5s ease-in-out;
+}
+
+.head-listaDeUsuarios {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    font-size: 22px;
+}
+
+.selecionar-todos-listaDeUsuarios {
+    padding: 10px 10px;
+    background: var(--branco);
+    border-radius: 8px;
+    margin-bottom: 15px;
+    box-shadow: 2px 2px 6px rgba(0,0,0,0.05);
+    border-left: 5px solid var(--ciano);
+}
+
+.selecionar-todos-listaDeUsuarios label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--base);
+    font-weight: 500;
+}
+
+/* Custom checkbox */
+.selecionar-todos-listaDeUsuarios input[type="checkbox"] {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--base);
+    border-radius: 4px;
+    cursor: pointer;
+    position: relative;
+}
+
+.selecionar-todos-listaDeUsuarios input[type="checkbox"]:checked {
+    background-color: var(--ciano);
+    border-color: var(--ciano);
+}
+
+.selecionar-todos-listaDeUsuarios input[type="checkbox"]:checked::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 12px;
+    height: 6px;
+    border: 2px solid var(--branco);
+    border-top: none;
+    border-right: none;
+    transform: translate(-50%, -60%) rotate(-45deg);
+}
+
+.selecionar-todos-listaDeUsuarios input[type="checkbox"]:hover {
+    border-color: var(--ciano);
+}
+
+.listaUsuarios {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.linhaUsuario-listaDeUsuarios {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    border-left: 5px solid #CA8EFF;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 2px 2px 6px rgba(0,0,0,0.05);
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.linhaUsuario-listaDeUsuarios input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.infoUser-listaDeUsuarios {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-grow: 1;
+}
+
+.infoUser-listaDeUsuarios img{
+    width: 30px;
+    height: 30px;
+}
+
+.infoUser-listaDeUsuarios .nome-listaDeUsuarios {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.infoUser-listaDeUsuarios .status-listaDeUsuarios {
+    margin-left: auto;
+    color: #888;
+    font-size: 14px;
+}
+
+.iconeEditar-listaDeUsuarios {
+    cursor: pointer;
+}
+
+.status-listaDeUsuarios{
+    margin-right: 150px;
+    
+}
+
+.desativado-listaDeUsuarios {
+    opacity: 0.4;
+}
+
+.idUser-listaDeUsuarios {
+    display: none;
+}
+
+
+.popupCadastrarUsuario{
+   
+    border: none;
+        border-radius: 8px;
+        padding: 30px 100px 100px 100px;
+        width: 90%;
+        max-width: 900px;
+        background-color: var(--roxo);
+        box-shadow: 0 4px 20px var(--sombra-preta);
+        color: var(--base);
+}
+
+.header-cadastrarUsuario{
+    display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+}
+
+.iconeX-cadastrarUsuario{
+    
+    width: 32px;
+    height: 32px;
+}
+
+.iconeX-cadastrarUsuario:hover{
+    cursor: pointer;
+}
+
+.button-cadastrarUsuario{
+    
+    font-size: 22px;
+    border-radius: 20px;
+    cursor: pointer;
+    border: none;
+    color: var(--branco);
+    background-color: var(--magenta);
+    width: 260px;
+    height: 60px;
+    
+}
+
+
+.input-cadastrarUsuario{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    
+}
+
+.input-cadastrarUsuario input{
+
+    border-radius: 4px;
+    border: none;
+    width: 800px;
+    height: 55px;   
+    background-color: var(--branco);
+    font-size: 20px;
+    color: var(--base);
+    margin-bottom: 40px;
+
+}
+
+
+
+.input-cadastrarUsuario label{
+    color: var(--branco);
+    font-size: 15px;
+
+}
+
+.input-cadastrarUsuario input:read-write
+{
+
+    color: var(--base);
+    padding-left: 20px;
+
+}
+
+.formUsuario-cadastrarUsuario{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+}
+
+
+.popupAdicionarMoedas{
+    border: none;
+        border-radius: 8px;
+        padding: 30px 100px 100px 100px;
+        width: 90%;
+        max-width: 900px;
+        background-color: var(--roxo);
+        box-shadow: 0 4px 20px var(--sombra-preta);
+        color: var(--base);
+
+}
+
+.popupAdicionarMoedas::backdrop {
+    background-color: var(--sombra-preta);
+}
+
+.header-adicionarMoedas{
+    display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+}
+
+.formAdicionarMoedas{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    color: white;
+}
+
+.gerenciarDigicoins-adicionarMoedas h1{
+    text-align: center;
+    
+}
+
+.quantidade-adicionarMoedas{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    font-size: 22px
+}
+
+.quantidadeInput-adicionarMoedas{
+    border-radius: 4px;
+    height: 50px; 
+    border: none;
+    width: 291px;
+    margin-bottom: 50px;
+}
+
+.quantidadeInput-adicionarMoedas:read-write {
+    padding-left: 20px;
+}
+
+.quantidade-adicionarMoedas label {
+    font-size: 18px;
+}
+
+.botoes-adicionarMoedas{
+    display: flex;
+    gap: 20px;
+}
+
+.botoes-adicionarMoedas button{
+    border: none;
+    border-radius: 20px;
+    height: 59px;
+    width: 259px;
+    color: white;
+    font-weight: 800;
+    font-size: 20px;
+    margin-bottom: 30px;
+}
+
+.adicionar-adicionarMoedas{
+    background-color: rgba(11, 192, 211, 1);
+}
+
+.adicionar-adicionarMoedas:hover{
+    cursor: pointer;
+    background-color: rgb(10, 162, 179);
+    transition: 0.5s;
+}
+
+.remover-adicionarMoedas{
+    background-color: rgba(211, 74, 244, 1);
+}
+
+.remover-adicionarMoedas:hover{
+    cursor: pointer;
+    background-color: rgb(170, 59, 197);
+    transition: 0.5s;
+}
+
+
+.editarUsuario {
+        border: none;
+        border-radius: 8px;
+        padding: 30px 100px 100px 100px;
+        width: 90%;
+        max-width: 900px;
+        background-color: var(--roxo);
+        box-shadow: 0 4px 20px var(--sombra-preta);
+        color: var(--base);
+    }
+
+    .editarUsuario::backdrop {
+        background-color: var(--sombra-preta);
+    }
+
+    .dialog-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+    }
+
+    .close-dialog {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 5px;
+    }
+
+    .close-icon {
+        width: 32px;
+        height: 32px;
+    }
+
+    .form-columns {
+        display: flex;
+        gap: 150px;
+    }
+    .form-columns label{
+        color: white;
+    }
+
+    .form-left, .form-right {
+        flex: 1;
+    }
+
+    .form-group {
+        margin-bottom: 25px;
+    }
+
+    .form-label {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 16px;
+        color: var(--base);
+        font-weight: 500;
+    }
+
+    .form-input {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid var(--cinzaDatas);
+        border-radius: 4px;
+        font-size: 16px;
+        background-color: var(--branco);
+        color: var(--base);
+    }
+
+    .form-input:focus {
+        outline: none;
+        border-color: var(--ciano);
+    }
+
+    .saldo-group {
+        text-align: center;
+    }
+
+    .saldo-control {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .saldo-button {
+        background-color: var(--roxo);
+        border: none;
+        border-radius: 4px;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        padding: 0;
+    }
+
+    .saldo-button:hover {
+        background-color: var(--base);
+    }
+
+    .saldo-control input {
+        width: 100px;
+        text-align: center;
+    }
+
+    .action-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        margin-top: 30px;
+    }
+
+    .action-button {
+        padding: 14px;
+        border: none;
+        border-radius: 20px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        color: var(--branco);
+        transition: background-color 0.3s;
+    }
+
+    .desativar {
+        background-color: rgba(244, 74, 176, 1);
+    }
+
+    .desativar:hover {
+        background-color: rgb(205, 36, 137);
+    }
+
+    .ativar {
+        background-color: var(--ciano);
+    }
+
+    .ativar:hover {
+        background-color: rgb(7, 122, 134);
+    }
+
+    .submit {
+        background-color: rgba(211, 74, 244, 1);
+        margin-top: 20px;
+    }
+
+    .submit:hover {
+        background-color:rgb(164, 58, 191) 
+    }
+
+
+
+
+
+    /* Responsividade */
+ 
+    /* ========== RESPONSIVIDADE ========== */
+@media (max-width: 1200px) {
+    .mainListaUsuarios {
+        margin-left: 350px;
+        padding-left: 100px;
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 1000px) {
+    .mainListaUsuarios {
+        margin-left: 0;
+        padding: 20px;
+        padding-left: 20px;
+    }
+
+    .form-columns {
+        gap: 50px !important;
+        flex-direction: column;
+    }
+
+    .editarUsuario {
+        padding: 20px 30px !important;
+        width: 95% !important;
+    }
+
+  
+}
+
+@media (max-width: 768px) {
+
+    .mainListaUsuarios {
+        width: 80%;
+        margin-left: 0;
+        padding-left: 40px;
+        
+    }
+    
+    .primeiraLinha-listaDeUsuarios {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .botoesUsuario-listaDeUsuarios {
+        flex-direction: column;
+        width: 100%;
+        gap: 10px;
+    }
+
+    .botoesUsuario-listaDeUsuarios button {
+        margin-left: 0;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .linhaUsuario-listaDeUsuarios {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 15px;
+    }
+
+    .infoUser-listaDeUsuarios {
+        width: 100%;
+        flex-wrap: wrap;
+    }
+
+    .infoUser-listaDeUsuarios .status-listaDeUsuarios {
+        margin-right: 0;
+        margin-left: 0;
+        width: 100%;
+        text-align: right;
+    }
+
+    .saldo-control input {
+        width: 70px;
+    }
+
+    .dialog-header img.dialog-logo {
+        width: 120px;
+    }
+
+    .close-icon {
+        width: 24px;
+        height: 24px;
+    }
+
+    .linhaUsuario-listaDeUsuarios {
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 8px;
+        padding: 12px;
+        position: relative;
+    }
+
+    .linhaUsuario-listaDeUsuarios .checkbox {
+        margin-top: 8px;
+    }
+
+    .infoUser-listaDeUsuarios {
+        flex-direction: column;
+        gap: 4px;
+        align-items: flex-start;
+    }
+
+    .infoUser-listaDeUsuarios img {
+        display: none; /* Remove ícone em mobile */
+    }
+
+    .infoUser-listaDeUsuarios .nome-listaDeUsuarios {
+        font-size: 14px;
+        order: 1;
+    }
+
+    .infoUser-listaDeUsuarios span:not(.nome-listaDeUsuarios) {
+        font-size: 13px;
+        order: 2;
+        color: var(--cinza-escuro);
+    }
+
+    .status-listaDeUsuarios {
+        order: 3 !important;
+        margin: 20px 0 0 0 !important;
+        font-size: 12px !important;
+        background: rgba(0,0,0,0.1);
+        padding: 2px 1px;
+        border-radius: 4px;
+        width: 10px;
+    }
+
+    .iconeEditar-listaDeUsuarios {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 24px;
+        height: 24px;
+    }
+
+    .idUser {
+        display: none !important;
+    }
+
+    .editarUsuario {
+        padding: 30px 40px 80px 40px !important;
+        width: 85% !important;
+    }
+
+    .form-columns {
+        gap: 30px !important;
+    }
+
+    .form-input {
+        font-size: 14px;
+        padding: 10px 12px;
+    }
+
+    .saldo-control input {
+        width: 80px;
+    }
+
+    .action-button {
+        padding: 12px;
+        font-size: 14px;
+    }
+
+    .dialog-header {
+        margin-bottom: 20px;
+    }
+
+    .saldo-button {
+        width: 28px;
+        height: 28px;
+    }
+
+    .saldo-button img {
+        width: 16px;
+        height: 16px;
+    }
+
+   
+
+}
+
+@media (max-width: 480px) {
+    
+    .barraPesquisa-listaDeUsuarios {
+        width: 100%;
+    }
+
+    .selecionar-todos-listaDeUsuarios {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .head-listaDeUsuarios h3 {
+        font-size: 16px;
+    }
+
+    .infoUser-listaDeUsuarios .nome-listaDeUsuarios {
+        font-size: 14px;
+    }
+
+    .infoUser-listaDeUsuarios span {
+        font-size: 13px;
+    }
+
+    .editarUsuario {
+        padding: 15px 20px !important;
+    }
+
+    .form-input {
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+
+    .action-button {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .saldo-button img {
+        width: 18px;
+        height: 18px;
+    }
+
+    .linhaUsuario-listaDeUsuarios {
+        padding: 10px;
+    }
+
+    .infoUser-listaDeUsuarios .nome-listaDeUsuarios {
+        max-width: 200px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        height: 30px;
+    }
+
+    .iconeEditar-listaDeUsuarios {
+        right: 8px;
+        width: 22px;
+        height: 22px;
+    }
+
+    .linhaUsuario-listaDeUsuarios input[type="checkbox"] {
+        margin-right: 6px;
+        transform: scale(0.9);
+        width: 30px;
+        height: 30px;
+    }
+
+    .editarUsuario {
+        padding: 20px 15px 60px 15px !important;
+        width: 90% !important;
+    }
+
+    .form-columns {
+        gap: 20px !important;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-input {
+        width: 300px;
+        font-size: 13px;
+        padding: 8px 10px;
+    }
+
+    .saldo-control input {
+        width: 70px;
+        font-size: 14px;
+    }
+
+    .action-button {
+        padding: 10px;
+        font-size: 13px;
+    }
+
+    .dialog-logo {
+        width: 120px !important;
+    }
+
+    .close-icon {
+        width: 20px;
+        height: 20px;
+    }
+
+    .saldo-button {
+        width: 24px;
+        height: 24px;
+    }
+
+    .saldo-button img {
+        width: 14px;
+        height: 14px;
+    }
+
+    
+    .pagination{
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
+    
+    .pagination span{
+        text-align: center;
+    }
+}
+
+/* .pagination{
+    margin-bottom: 40px;
+    display: flex;
+}
+.pagination a {
+    font-size: 24px;
+    text-decoration: none;
+    
+}
+
+.pagination div{
+    margin-top: 20px;
+    display: flex;
+}
+
+.pagination img{
+    transform: rotate(180deg);
+    width: 32px;
+    height: 32px;
+}
+
+.pagination span{
+    margin-top: 23px;
+    margin-left: 10px;
+    margin-right: 10px;
+} */
+
+.pagination-listaDeUsuarios {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.pagination-listaDeUsuarios a {
+    padding: 8px 15px;
+    text-decoration: none;
+    color: white;
+    cursor: pointer;
+    background-color: var(--magenta);
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    font-size: 18px;
+}
+
+.pagination-listaDeUsuarios .anterior-listaProdutos:hover,
+.proxim-listaProdutos a:hover {
+    background-color: var(--laranja);
+}
+
+
+.pagination-listaDeUsuarios span {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.pagination-listaDeUsuarios {
+    display: flex;
+    gap: 10px;
+}
+

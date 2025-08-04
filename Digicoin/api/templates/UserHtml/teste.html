@@ -1,0 +1,136 @@
+{% extends 'base.html'%}
+{% load static %}
+
+{% block content %}
+<h1>teste</h1>
+    <h2>Exemplo de Popups</h2>
+    <button onclick="mostrarErro()">Mostrar Erro</button>
+    <button onclick="mostrarSucesso()">Mostrar Sucesso</button>
+    <button onclick="mostrarConfirmacao()">Mostrar Confirmação</button>
+    <button onclick="mostrarPadrao()">Mostrar Padrão</button>
+    <script>
+            function mostrarErro() {
+            const popup = new Popup();
+            popup.showPopup(
+                "Ocorreu um erro inesperado ao processar sua solicitação.",
+                "Erro",
+                "erro"
+            );
+        }
+
+        function mostrarSucesso() {
+            const popup = new Popup();
+            popup.showPopup(
+                "Sua operação foi concluída com sucesso!",
+                "Sucesso",
+                "sucesso"
+            );
+        }
+
+        function mostrarConfirmacao() {
+            const popup = new Popup();
+            popup.showPopup(
+                "Tem certeza que deseja excluir este item?",
+                "Confirmação",
+                "confirmacao",
+                () => alert("Confirmado!"),
+                () => alert("Cancelado!")
+            );
+        }
+
+        function mostrarPadrao(){
+            const body = `<form class="form-carrinhoCompras" id="formTipoEntraga"> 
+            <label class="input-label-carrinhoCompras">Selecione o tipo de entrega</label>
+            <div class="form-group-carrinhoCompras">
+                <div class="input-container-carrinhoCompras">
+                <label>
+                    <input checked class="input-radio-carrinhoCompras" id="option1" type="radio" name="entrega" value="Retirar">
+                    Retirar na Digix
+                </label>
+                </div>
+                <div class="input-container-carrinhoCompras">
+                <label>
+                    <input class="input-radio-carrinhoCompras" id="option2" type="radio" name="entrega" value="Entrega">
+                    Entregar no endereço
+                </label>
+                </div>
+            </div>
+            <div class="form-endereco-desativado-carrinhoCompras" id="endereco">
+                <span class="obs-carrinhoCompras"><span class="asterisco-carrinhoCompras">*</span> Campos obrigatórios</span>
+                <div class="form-group-carrinhoCompras">
+                <div class="input-container-carrinhoCompras">
+                    <label for="cep">Cep<span class="asterisco-carrinhoCompras">*</span></label>
+                    <input class="input-text-carrinhoCompras required" type="text" name="cep" id="cep" disabled />
+                </div>
+                </div>
+                <div class="form-group-carrinhoCompras">
+                <div class="input-container-carrinhoCompras">
+                    <label for="cidade">Cidade<span class="asterisco-carrinhoCompras">*</span></label>
+                    <input class="input-text-carrinhoCompras required" type="text" name="cidade" id="cidade" disabled />
+                </div>
+                <div class="input-container-carrinhoCompras">
+                    <label for="estado">Estado<span class="asterisco-carrinhoCompras">*</span></label>
+                    <select disabled class="input-select-carrinhoCompras required" name="estado" id="estado">
+                        <option value="AC">AC</option>
+                        <option value="AL">AL</option>
+                        <option value="AP">AP</option>
+                        <option value="AM">AM</option>
+                        <option value="BA">BA</option>
+                        <option value="CE">CE</option>
+                        <option value="DF">DF</option>
+                        <option value="ES">ES</option>
+                        <option value="GO">GO</option>
+                        <option value="MA">MA</option>
+                        <option value="MT">MT</option>
+                        <option value="MS">MS</option>
+                        <option value="PA">PA</option>
+                        <option value="PB">PB</option>
+                        <option value="PR">PR</option>
+                        <option value="PE">PE</option>
+                        <option value="PI">PI</option>
+                        <option value="RJ">RJ</option>
+                        <option value="RN">RN</option>
+                        <option value="RS">RS</option>
+                        <option value="RO">RO</option>
+                        <option value="RR">RR</option>
+                        <option value="SC">SC</option>
+                        <option value="SP">SP</option>
+                        <option value="SE">SE</option>
+                        <option value="TO">TO</option>
+                    </select>
+                    </div>
+                    </div>
+                    <div class="form-group-carrinhoCompras">
+                    <div class="input-container-carrinhoCompras">
+                        <label for="bairro">Bairro<span class="asterisco-carrinhoCompras">*</span></label>
+                        <input class="input-text-carrinhoCompras required" type="text" name="bairro" id="bairro" disabled />
+                    </div>
+                    </div>
+                    <div class="form-group-carrinhoCompras">
+                    <div class="input-container-carrinhoCompras">
+                        <label for="rua">Rua<span class="asterisco-carrinhoCompras">*</span></label>
+                        <input class="input-text-carrinhoCompras required" type="text" name="rua" id="rua" disabled />
+                    </div>
+                    </div>
+                    <div class="form-group-carrinhoCompras">
+                    <div class="input-container-carrinhoCompras">
+                        <label for="numero">Número<span class="asterisco-carrinhoCompras">*</span></label>
+                        <input class="input-text-carrinhoCompras required" type="text" name="numero" disabled />
+                    </div>
+                    <div class="input-container-carrinhoCompras">
+                        <label for="complemento">Complemento</label>
+                        <input class="input-text-carrinhoCompras" type="text" name="complemento" disabled />
+                    </div>
+                    </div>
+                    </div>
+                    <div class="form-group-carrinhoCompras">
+                    <button class="input-button-carrinhoCompras" type="submit" id="botaoConcluirPedido">Concluir Pedido</button>
+                </div>
+            </form>`;
+            const popup = new Popup();
+            popup.showPopup(body, "Finalizar Pedido");
+
+        }
+    </script>
+    <script type="module" src="{% static 'js/popup.js' %}"></script>
+{% endblock %}

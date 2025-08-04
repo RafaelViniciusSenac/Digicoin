@@ -1,33 +1,34 @@
+{% if desafios %}
+    {% for desafio in desafios %}
+        <ul class="desafios">
+            <li class="desafio-item">
+                    <div class="desafiosFlex toggle-btn" data-id="{{ desafio.id }}">
+                        <strong>{{ desafio.nome }}</strong>
+                        <p>Recompensa: DG${{ desafio.valor }}</p>
+                    </div>
 
+                    <div class="descricao-cascata" id="descricao-{{ desafio.id }}">
+                        <p><strong>Descrição:</strong> {{ desafio.descricao }}</p>
+                        <p><strong>Campanha:</strong> {{ desafio.idCampanha.nome }}</p>
+                        <div class="datas-campanhas" style="display: flex; flex-direction: row; gap: 1rem;">
+                            <p style="white-space: nowrap;"><strong>Início:</strong> {{ desafio.dataInicio }}</p>
+                            <p style="white-space: nowrap;"><strong>Fim:</strong> {{ desafio.dataFim }}</p>
+                        </div>
+                        
+                    </div>
+            </li>
+        </ul>
+    {% endfor %}
 
-
-
-{% for desafio in desafios  %}
-
-    <ul class="desafios">
-        <div class="desafiosFlex" id="desafiosFlex">
-            <!-- fiz isso para poder dar display flex na lista de desafios -->
-            <li>{{desafio.nome}}</li>
-            <p>Recompensa: DG${{desafio.valor}}</p>
-        </div>
-      
-        {% comment %} <div class="desafiosFlex" id="desafiosFlex">
-            <li>Desafio2</li>
-        </div>
-        
-        <div class="desafiosFlex" id="desafiosFlex">
-            <li>Desafio3</li>
-        </div>
-        
-        <div class="desafiosFlex" id="desafiosFlex">
-            <li>Desafio4</li>
-        </div>
-        
-        <div class="desafiosFlex" id="desafiosFlex">
-            <li>Desafio5</li>
-        </div>    {% endcomment %}
-    </ul> 
-
-{% endfor %}
-
-
+    <div class="pagination">
+        {% if desafios.has_previous %}
+            <a href="?desafio_page={{ desafios.previous_page_number }}">Anterior</a>
+        {% endif %}
+        {% if desafios.has_next %}
+            <a href="?desafio_page={{ desafios.next_page_number }}">Próxima</a>
+        {% endif %}
+        <span>Página {{ desafios.number }} de {{ desafios.paginator.num_pages }}</span>
+    </div>
+{% else %}
+    <p>Nenhum desafio disponível na campanha ativa.</p>
+{% endif %}

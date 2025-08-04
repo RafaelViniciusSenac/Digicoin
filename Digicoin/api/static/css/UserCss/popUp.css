@@ -6,9 +6,6 @@ body{
     padding: 0;
     color: var(--preto);
     font-size: 18px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
     align-items: center;
 }
 

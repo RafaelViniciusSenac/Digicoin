@@ -16,21 +16,20 @@
   }
 
 
-body{
+.body-cadastrarUsuario{
     background: var(--roxo);
     margin: 0px 100px;
-    
-
+   
 }
 
-.header{
+.header-cadastrarUsuario{
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-top: 20px;
       margin-left: 20px;
       margin-right: 20px;
-      margin-bottom: 100px;
+      margin-bottom: 50px;
   }
 
 .botao{
@@ -39,15 +38,17 @@ body{
     align-items: center;
 }
 
-.iconeX{
+.iconeX-cadastrarUsuario{
     
     width: 32px;
     height: 32px;
 }
 
+.iconeX-cadastrarUsuario:hover{
+    cursor: pointer;
+}
 
-
-.cadastrarUsuario{
+.button-cadastrarUsuario{
     
     font-size: 22px;
     border-radius: 20px;
@@ -58,18 +59,19 @@ body{
     width: 260px;
     height: 60px;
     margin-right: 25px;
+    margin-bottom: 20px;
     
 }
 
 
-.input{
+.input-cadastrarUsuario{
     display: flex;
     flex-direction: column;
     gap: 10px;
     
 }
 
-.input input{
+.input-cadastrarUsuario input{
 
     border-radius: 4px;
     border: none;
@@ -83,19 +85,14 @@ body{
 }
 
 
-span{
-    font-size: 15px;
-    color: var(--branco);
-    
-}
 
-label{
+.input-cadastrarUsuario label{
     color: var(--branco);
     font-size: 15px;
     margin-bottom: 15px;
 }
 
-.input input:read-write
+.input-cadastrarUsuario input:read-write
 {
 
     color: var(--base);
@@ -103,7 +100,7 @@ label{
 
 }
 
-.formUsuario{
+.formUsuario-cadastrarUsuario{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -111,3 +108,92 @@ label{
 
 }
 
+
+/* Adicione isso ao final do cadastrarUsuario.css */
+
+@media (max-width: 1200px){
+    .input-cadastrarUsuario input {
+        max-width: 600px;
+    }
+}
+@media (max-width: 900px)  {
+    .input-cadastrarUsuario input {
+        max-width: 400px;
+    }
+}
+
+
+@media (max-width: 768px) {
+    .body-cadastrarUsuario {
+        margin: 0 30px !important;
+        padding: 20px;
+    }
+
+    .header-cadastrarUsuario {
+        margin: 15px 0 30px 0;
+    }
+
+    .input-cadastrarUsuario input {
+        max-width: 300px;
+        height: 50px;
+        font-size: 18px;
+    }
+
+    .button-cadastrarUsuario {
+        width: 220px;
+        height: 55px;
+        font-size: 20px;
+    }
+
+    .iconeX-cadastrarUsuario {
+        width: 28px;
+        height: 28px;
+    }
+}
+
+@media (max-width: 480px) {
+    .body-cadastrarUsuario {
+        margin: 0 15px !important;
+        padding: 15px;
+    }
+
+    .input-cadastrarUsuario input {
+        max-width: 200px;
+        height: 45px;
+        font-size: 16px;
+        margin-bottom: 30px;
+    }
+
+    .input-cadastrarUsuario label {
+        font-size: 14px;
+    }
+
+    .button-cadastrarUsuario {
+        width: 100%;
+        max-width: 280px;
+        height: 50px;
+        font-size: 18px;
+        margin-right: 0;
+    }
+
+    .header-cadastrarUsuario img:first-child {
+        width: 150px;
+    }
+
+    .iconeX-cadastrarUsuario {
+        width: 24px;
+        height: 24px;
+    }
+}
+
+@media (max-width: 360px) {
+    .input-cadastrarUsuario input {
+        height: 42px;
+        font-size: 15px;
+    }
+
+    .button-cadastrarUsuario {
+        height: 45px;
+        font-size: 16px;
+    }
+}

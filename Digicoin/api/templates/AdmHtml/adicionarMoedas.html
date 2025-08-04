@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/AdmCss/adicionarMoedas.css'%}">
+
+<div class="body-adicionarMoedas">
+    <div class="header-adicionarMoedas">
+        <img src="{% static 'img/logoAdmin.png' %}" alt="LogoAdmin">
+        <img class="iconeX-adicionarMoedas" id='fecharAdicionarMoedas' src="{% static 'img/iconeX.png' %}" alt="">
+    </div>
+
+    <form class="formAdicionarMoedas" id='formAdicionarMoedas'>
+       {% csrf_token %}
+        <div class="gerenciarDigicoins-adicionarMoedas" >
+            
+            <h1>Gerenciar digicoins</h1>    
+            <div class="quantidade-adicionarMoedas">
+            <label>Quantidade a ser adicionada ou removida</label>
+            <input class="quantidadeInput-adicionarMoedas" id='saldo' type="number" placeholder="5.000">
+            </div>
+        </div>
+        <div class="botoes-adicionarMoedas">
+            <button class="adicionar-adicionarMoedas" id='adicionar'>Adicionar</button>
+            <button class="remover-adicionarMoedas" id='remover'>Remover</button>
+        </div>
+
+    </form>
+    
+
+
+</div>
+
+
+{% endblock content %}
