@@ -121,7 +121,6 @@ document
   .forEach((botao) => {
     botao.addEventListener('click', async () => {
       const id = botao.getAttribute('data-id');
-      const container = botao.closest('.desafio-listaDeDesafios');
       const nomeDesafio = document
         .querySelector('.nomeDesafio-listaDeDesafios')
         .textContent.trim();
@@ -144,9 +143,9 @@ document
         { 'X-CSRFToken': csrf },
       );
 
-      if (response.ok) {
+      if (response) {
         alert('Desafio desativado com sucesso!');
-        container.remove();
+        window.location.reload();
       } else {
         alert('Erro ao desativar: ');
       }
