@@ -93,6 +93,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById('Produto').value = "";
         document.getElementById('Quantidade').value = "";
         document.getElementById('Preco').value = "";
+        document.getElementById('Descricao').value = "";
         document.getElementById('Campanha').checked = false;
         document.getElementById('Fisico').checked = false;
         document.getElementById('Virtual').checked = false;
@@ -144,16 +145,15 @@ async function inativar (elemento) {
         img2: null,
         img3: null,
         valor: produto.valor,
+        descricao: produto.descricao,
         quantidade: produto.quantidade,
         tipo: produto.tipo,
         is_active: novoStatus,
         idCampanha: produto.idCampanha
     };
 
-    const resultado = await apiRequest(`/api/produto/${id}/`, 'PUT', produtoAtualizado, { 'X-CSRFToken': csrf });
+    await apiRequest(`/api/produto/${id}/`, 'PUT', produtoAtualizado, { 'X-CSRFToken': csrf });
     window.location.reload();
-
-    console.log(resultado);
 }
 
 async function Editar(idProduto) {
@@ -167,6 +167,7 @@ async function Editar(idProduto) {
     const dados = await apiRequest(`/api/produto/${idProduto}/`, 'GET', null, { 'X-CSRFToken': csrf });
     
     document.getElementById('Produto').value = dados.nome;
+    document.getElementById('Descricao').value = dados.descricao || "";
     document.getElementById('Quantidade').value = aplicarMascaraMilhar(dados.quantidade.toString());
     document.getElementById('Preco').value = aplicarMascaraMilhar(dados.valor.toString());
     if (dados.idCampanha != null) {

@@ -62,6 +62,7 @@ class Produto(models.Model):
     img3 =  models.ImageField(upload_to='produtos/', null=True, blank=True)
     valor = models.IntegerField(null=False, blank=False)
     quantidade = models.IntegerField(null=False, blank=False)
+    descricao = models.TextField(null=False, blank=False)
     tipo_choices = [("Físico", "Físico"), ("Virtual","Virtual")]
     tipo = models.CharField(max_length=10, choices=tipo_choices)
     is_active = models.BooleanField(default=True)
