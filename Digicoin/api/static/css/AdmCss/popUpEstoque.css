@@ -1118,7 +1118,8 @@ input[type="date"]:focus {
         display: flex;
         position: relative;
         justify-content: end;
-        margin-top: 21px;
+        bottom: 0;
+        margin-top: 15px;
         
     
     }
@@ -1153,7 +1154,7 @@ input[type="date"]:focus {
         
     }
     .buttonConcluir{
-        margin-top: 50px;
+        margin-top: 49px;
     }
 
     /* .buttonrodaPe{
