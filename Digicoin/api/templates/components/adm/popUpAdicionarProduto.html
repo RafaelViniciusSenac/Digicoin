@@ -28,6 +28,12 @@
                     <input type="text" id="Produto" placeholder="Produto" class="alertaInput">
                     <small class="alerta">Mensagem de erro</small>
                 </div>
+                <div class="FormDescricao">
+                    <label for="Descricao">Descrição:</label>
+                    <input type="text" id="Descricao" placeholder="Descrição do produto"
+                        maxlength="100" class="alertaInput">
+                    <small class="alerta">Mensagem de erro</small>
+                </div>
                 <div class="FormQuantidade">
                     <label for="Quantidade">Quantidade:</label>
                     <input type="text" id="Quantidade" placeholder="Quantidade" 
@@ -160,7 +166,7 @@
         </div>
     </dialog> 
 
-    <dialog id="CriacaoDeCampanha">
+    <dialog id="CriacaoDeCampanha" >
         <header class="headerCentral">
             <div class="headerLogo">
                 <img src="{% static "img/logoAdmin.png" %}"  alt="LOGO">
@@ -175,29 +181,48 @@
             <form id="CriacaoDeCampanhaForm" >
                 <div class="cadastroEvento">
                     <div class="miniContainer">
-                    <div class="cadastroEventoTema">
-                        <label for="nomeCampanha">Nome da Campanha</label>
-                        <input type="text" id="nomeCampanha" placeholder="nome da campanha">
-                    </div>
-                
-                    
-                    <div class="cadastroEventoDescricao">
+                        <div class="cadastroEventoTema">
+                            <label for="nomeCampanha">Nome da Campanha</label>
+                            <input type="text" id="nomeCampanha" placeholder="Nome da Campanha" class="alertaInput">
+                            <small class="alerta">Mensagem de erro</small>
+                        </div>
+
+                    {% comment %} <div class="cadastroEventoDescricao">
                         <label for="descricaoCampanha">Descrição (Opcional)</label>
                         <textarea id="descricaoCampanha" cols="30" rows="10" placeholder="Digite aqui..."></textarea>
-                    </div>
+                    </div> {% endcomment %}
+                
+                        <div class="fim">
+                            <label for="dataFim">Data Encerramento</label>
+                            <input type="date" id="dataFim" class="alertaInput">
+                            <small class="alerta">Mensagem de erro</small>
+                        </div>
+
+                        <div class="statusCampanha">
+                            <label for="ativaCampanha">Status da Campanha</label>
+                            
+                            <div class="toggleSwitch">
+                                <input type="checkbox" id="ativaCampanha" name="ativaCampanha" checked hidden>
+
+                                <div class="statusButtons">
+                                <label for="ativaCampanha" class="btnStatus ativo">Ativo</label>
+                                <label for="ativaCampanha" class="btnStatus inativo">Desativo</label>
+                                </div>
+                            </div>
+                            </div>
                     </div>
     
-                    <div class="campanhaData">
-                        <div class="inicio">
+                    {% comment %} <div class="campanhaData"> {% endcomment %}
+                        {% comment %} <div class="inicio">
                             <label for="dataInicio">Início</label>
                             <input type="date" id="dataInicio">
-                        </div>
+                        </div> {% endcomment %}
                         
-                        <div class="fim">
+                        {% comment %} <div class="fim">
                             <label for="dataFim">Fim</label>
                             <input type="date" id="dataFim">
-                        </div>
-                    </div>
+                        </div> {% endcomment %}
+                    {% comment %} </div> {% endcomment %}
     
                     <footer class="rodaPeModal">
                         <div>
@@ -210,5 +235,6 @@
     </dialog>
     
     <script src="{% static 'js/AdmJS/popUpEstoque.js' %}"></script>
+    <script src="{%static 'js/popup.js'%}"></script>
     
 </body>
