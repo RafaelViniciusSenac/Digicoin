@@ -174,11 +174,11 @@
 }
 
 .frente-listaProdutos .ImProduto-listaProdutos {
-    width: 230px;
-    height: 230px;
+    width: 210px;
+    height: 210px;
     object-fit: contain;
     display: block;
-    margin: 0 0 20px 0;
+    margin: 0 0 10px 0;
 }
 
 .frente-listaProdutos .preco-listaProdutos {
@@ -405,7 +405,7 @@
     .frente-listaProdutos {
         padding: 0;
         gap: 20px;
-        height: auto;
+        height: 10px;
     }
 
     .pagination-listaProdutos {
