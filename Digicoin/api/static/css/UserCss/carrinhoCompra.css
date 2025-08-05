@@ -33,7 +33,9 @@
   margin-top: 100px;
   margin-left: 20px;
   margin-right: 20px;
-  width: 800px;
+  width: 100%;
+  max-width: 800px;
+  box-sizing: border-box;
 }
 
 .titulo-carrinhoCompras {
@@ -169,6 +171,11 @@
 }
 
 @media screen and (max-width: 600px) {
+  
+  .itemGridHeader-carrinhoCompras {
+    display: none;
+  }
+
   .containerSecundaria-carrinhoCompras {
     min-width: 300px;
   }
