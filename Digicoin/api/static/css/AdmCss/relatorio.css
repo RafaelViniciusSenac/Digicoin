@@ -15,9 +15,12 @@
 }
 
 .container-relatorio {
-    margin-left: 35%;
-    margin-top: 6.5em;
-    width: 910px;
+    padding: 40px;
+    font-family: Arial, sans-serif;
+    width: 50%;
+    margin-left: 450px;
+    padding-left: 200px;
+    margin-top: 64px;
 }
 
 .cabecalho-relatorio {
@@ -25,46 +28,49 @@
     align-items: center;
     justify-content: space-between;
     flex-direction: row;
-    margin-bottom: 110px;
-}
-
-.cabecalho_titulo-relatorio {
-    color: var(--preto);
-    font-family: 'K2D', sans-serif;
-    font-size: 25px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
+    margin-bottom: 70px;
 }
 
 .cabecalho_btnexportar-relatorio button {
+    border: none;
+    padding: 10px 40px;
+    font-size: 14px;
+    border-radius: 10px;
+    margin-left: 10px;
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 5px;
-    width: 261px;
-    height: 53px;
-    border-radius: 15px;
-    background: var(--magenta);
-    border: none;
+    gap: 10px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: var(--magenta);
     color: var(--branco);
-    font-family: 'K2D', sans-serif;
-    font-size: 24px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
 }
 
-.linha-relatorio {
-    width: 47px;
-    height: 4px;
-    background-color: var(--laranja);
+.cabecalho_titulo-relatorio h1 span {
+    border-bottom: 3px solid #FC671D;
+    padding-bottom: 2px;
+}
+
+.tabela_relatorio {
+    width: 100%;
+    table-layout: fixed;
+}
+
+.tabela_relatorio_body {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.tabela_relatorio_body tr {
+    width: 100%;
 }
 
 .tabela_relatorio_conteudo-relatorio {
     display: flex;
     align-items: center;
     gap: 20px;
+    width: 100%;
 }
 
 input[type="checkbox"] {
@@ -72,8 +78,8 @@ input[type="checkbox"] {
 }
 
 .tabela_relatorio_conteudo_checkbox-relatorio {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     border: 2px solid;
     border-color: var(--magenta);
     border-radius: 4px;
@@ -103,15 +109,26 @@ label {
 }
 
 .tabela_relatorio_conteudo_dado-relatorio {
-    width: 750px;
-    height: 60px;
     display: flex;
-    align-items: center;
     flex-direction: row;
     gap: 20px;
     font-family: 'K2D', sans-serif;
-    border-radius: 10px;
     background: #FDFDFD;
-    box-shadow: 5px 5px 10px 0px rgba(77, 44, 135, 0.45);
-    padding: 12px 20px;
+    align-items: center;
+    background-color: white;
+    border-left: 5px solid #CA8EFF;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.05);
+    width: 100%;  /* A célula ocupa toda a largura */
+}
+
+.tabela_relatorio_conteudo_dado-relatorio img {
+    width: 30px;
+    height: 30px;
+}
+
+.tabela_relatorio_conteudo_dado-relatorio-titulo {
+    font-size: 16px;
+    font-weight: bold;
 }
