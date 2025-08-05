@@ -216,7 +216,7 @@ def desafiosCampanha(request):
     return render(request, 'UserHtml/desafiosCampanha.html', {'desafios': desafios})
 
 
-@login_required
+
 def listaDePedidos(request):
     status_pedido = request.GET.get('status')
 
