@@ -343,7 +343,8 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        width: 100%;
+        width: 90%;
+        gap: 30px;
     }
 
     .produtos-listaProdutos {
@@ -359,6 +360,7 @@
     .search-listaProdutos {
         display: flex;
         align-items: center;
+        padding: 5px;
     }
 
     .searchBar-listaProdutos {
