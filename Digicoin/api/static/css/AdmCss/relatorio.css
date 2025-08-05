@@ -1,6 +1,6 @@
 :root {
     --laranja: #FC671D;
-    --magenta: #D34AF4;
+    --magenta: #DA3ADC;
     --cinza: #faf6f7;
     --cinza-escuro: #888;
     --ciano: #0BC0D3;
@@ -131,4 +131,51 @@ label {
 .tabela_relatorio_conteudo_dado-relatorio-titulo {
     font-size: 16px;
     font-weight: bold;
+}
+
+
+
+
+@media (max-width: 1385px) {
+    .container-relatorio {
+        margin-left: 350px;
+        padding-left: 100px;
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 1000px) {
+    .container-relatorio {
+        margin-left: auto;
+        margin-right: auto;
+        padding: 20px;
+        padding-left: 20px;
+        width: 80%;
+    } 
+}
+
+@media (max-width: 768px) {
+
+    .container-relatorio {
+        margin-left: auto;
+        margin-right: auto;
+    } 
+
+    .cabecalho-relatorio{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .cabecalho_btnexportar-relatorio{
+        width: 100%;
+    }
+    
+    .cabecalho_btnexportar-relatorio button{
+        margin: 0;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
 }
