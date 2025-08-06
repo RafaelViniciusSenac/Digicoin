@@ -61,7 +61,10 @@
             <dialog class="popUpEditarDesafio-listaDeDesafios" id="popUpEditarDesafio-{{desafio.id}}">
                 <div class='body-cadastrarDesafio'>
                     <div class="header-cadastrarDesafio">
-                        <img src="{% static 'img/logoAdmin.png' %}" alt="LogoAdmin">
+                        <div class = "header-cadastrarDesafio1">
+                            <img src="{% static 'img/logoAdmin.png' %}" alt="LogoAdmin">
+                        </div>
+                        
                         <div class="botao-cadastrarDesafio">
                             
                             <img class="iconeX-cadastrarDesafio" id='iconeX' src="{% static 'img/iconeX.png' %}" alt="">
@@ -70,6 +73,7 @@
                 
                     <form method="POST" id="formCadastrarDesafio" class="formDesafio-cadastrarDesafio">
                 
+
                         {% csrf_token %}
                         <div class="form-cadastrarDesafio">
                             <div class="cima-cadastrarDesafio">
@@ -92,6 +96,7 @@
                             </div>
                             <div class="baixo-cadastrarDesafio">
                                 <div class="statusDesafioDiv-cadastrarDesafio">
+                                    <div class="linha">
                                     <label for="">Status do desafio</label>
                                     <select name="campanha" id="campanha">  
                                         {% if desafio.idCampanha == None %}                 
@@ -108,8 +113,13 @@
                                             <option value="{{campanha.id}}">{{campanha.nome}}</option>           
                                         {% endfor %}   
                                     </select>
+                                    </div>
+                                    <div class="dataDesafioInterno-cadastrarDesafio">
+                                        <label class="dataDesafio-cadastrarDesafio" for="">Fim</label>
+                                        <input type="date" id="fimDesafio" value="{{ desafio.dataFim|date:'Y-m-d' }}">
+                                    </div>
                                 </div>
-                                <div class="dataDesafioDiv-cadastrarDesafio">
+                                {% comment %} <div class="dataDesafioDiv-cadastrarDesafio">
                                     <div class="dataDesafioInterno-cadastrarDesafio">
                                         <label class="dataDesafio-cadastrarDesafio" for="">Início</label>
                                         <input type="date" id="inicioDesafio" value="{{ desafio.dataInicio|date:'Y-m-d' }}">
@@ -118,7 +128,7 @@
                                         <label class="dataDesafio-cadastrarDesafio" for="">Fim</label>
                                         <input type="date" id="fimDesafio" value="{{ desafio.dataFim|date:'Y-m-d' }}">
                                     </div>
-                                </div>
+                                </div> {% endcomment %}
                             </div>
                         </div>
                         <button type="submit" class="button-cadastrarDesafio">Concluído</button>
@@ -159,7 +169,10 @@
     
     <div class='body-cadastrarDesafio'>
         <div class="header-cadastrarDesafio">
-            <img src="{% static 'img/logoAdmin.png' %}" alt="LogoAdmin">
+
+            <div class = "header-cadastrarDesafio1">
+                            <img src="{% static 'img/logoAdmin.png' %}" alt="LogoAdmin">
+            </div>
             <div class="botao-cadastrarDesafio">
                 
                 <img class="iconeX-cadastrarDesafio" id='iconeX' src="{% static 'img/iconeX.png' %}" alt="">
