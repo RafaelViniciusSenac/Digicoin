@@ -228,7 +228,7 @@ select:focus {
     position: static; /* remove o absolute */
     z-index: auto;    /* reseta o z-index */
   }
-  h2 {
+  .tabela_campanha_conteudo_dado1 h2, .tabela_campanha_conteudo_dado2 h2 {
     white-space: normal !important; /* permite quebra de linha */
     overflow: visible !important;   /* remove o corte */
     text-overflow: unset !important; /* desativa os '...' */
