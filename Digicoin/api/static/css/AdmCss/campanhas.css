@@ -52,7 +52,7 @@ select:focus {
 }
 
 .container {
-    padding: 40px 40px 0px 0px;
+    padding: 40px 0px 0px 0px;
     width: 50%;
     /* max-width: 800px; */
     /* margin-left: 450px;
@@ -64,6 +64,7 @@ select:focus {
     
     
 }
+
 
 .campanhas_pre{
     min-width: 600px;
@@ -131,7 +132,14 @@ select:focus {
   .container {
     margin-left: 295px;
     padding-left: 200px;
+
   }
+  .campanhas_pre{
+    position: absolute;
+    z-index: 1000;
+  }
+
+
 }
 
 @media (max-width: 1250px) {
@@ -139,12 +147,20 @@ select:focus {
     margin-left: 275px;
     padding-left: 200px;
   }
+  .campanhas_pre{
+    position: absolute;
+    z-index: 1000;
+  }
 }
 
 @media (max-width: 1200px) {
   .container {
     margin-left: 255px;
     padding-left: 200px;
+  }
+  .campanhas_pre{
+    position: absolute;
+    z-index: 1000;
   }
 }
 
@@ -154,12 +170,20 @@ select:focus {
     margin-left: 230px;
     padding-left: 200px;
   }
+  .campanhas_pre{
+    position: absolute;
+    z-index: 1000;
+  }
 }
 
 @media (max-width: 1100px) {
   .container {
     margin-left: 210px;
     padding-left: 200px;
+  }
+  .campanhas_pre{
+    position: absolute;
+    z-index: 1000;
   }
 }
 
@@ -168,12 +192,22 @@ select:focus {
     margin-left: 195px;
     padding-left: 200px;
   }
+  .campanhas_pre{
+    position: absolute;
+    z-index: 1000;
+  }
+
 }
 
 @media (max-width: 1025px) {
   .container {
     margin-left: 180px;
     padding-left: 200px;
+  }
+
+  .campanhas_pre{
+    position: absolute;
+    z-index: 1000;
   }
 }
 
@@ -191,9 +225,26 @@ select:focus {
   .campanhas_pre{
     min-width: 0;
     box-sizing: border-box;
+    position: static; /* remove o absolute */
+    z-index: auto;    /* reseta o z-index */
+  }
+  h2 {
+    white-space: normal !important; /* permite quebra de linha */
+    overflow: visible !important;   /* remove o corte */
+    text-overflow: unset !important; /* desativa os '...' */
   }
   
 }
+
+@media (max-width: 500px) {
+  .cabecalho-campanha{
+    justify-content: flex-start !important ;
+  }
+  #coluna-termino{
+    margin-left: 28%;
+  }
+}
+
 
 
 .cabecalho {
@@ -203,6 +254,7 @@ select:focus {
     flex-direction: row;
     margin-bottom: 50px;
     margin-top: 32px;
+    
 }
 
 .cabecalho_titulo {
@@ -215,6 +267,7 @@ select:focus {
 
 #titulo-campanhas{
     padding: 0;
+    padding-right: 20px;
     margin: 0;
 }
 
@@ -334,7 +387,7 @@ select:focus {
 .tabela_campanha_cabecalho_termino {
     display: flex;
     align-items: center;
-    margin-right: 190px;
+    margin-right: 180px;
 }
 
 .campanhas_pre {
