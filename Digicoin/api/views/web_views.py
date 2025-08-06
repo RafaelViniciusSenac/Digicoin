@@ -14,7 +14,7 @@ def login(request):
 
 
 def home(request):
-    users = CustomUser.objects.all().order_by("-saldo")[:5]
+    users = CustomUser.objects.filter(is_adm=False).order_by("-saldo")[:5]
 
     userId = request.session.get('_auth_user_id')
     user = CustomUser.objects.filter(id=userId).first()
@@ -216,7 +216,7 @@ def desafiosCampanha(request):
     return render(request, 'UserHtml/desafiosCampanha.html', {'desafios': desafios})
 
 
-@login_required
+
 def listaDePedidos(request):
     status_pedido = request.GET.get('status')
 

@@ -122,14 +122,12 @@ function onClickAdicionarProduto(event) {
     const quantidade = parseInt(quantidadeSpan.textContent);
 
     if (quantidade <= 0) {
-        // Este trecho é opcional, pois o botão já deveria estar desabilitado ao carregar a página
         alert("Produto indisponível!");
     } else {
         adicionarAoCarrinho(produtoId);
     }
 }
 
-// ✅ Desabilita botões de produtos com quantidade 0 ao carregar a página
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll(".Adquirir-listaProdutos").forEach(button => {
         const produtoId = button.getAttribute("data-valor");
@@ -138,10 +136,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (quantidade <= 0) {
             button.disabled = true;
-            button.classList.add("botao-desativado"); // classe opcional para estilizar
+            button.classList.add("botao-desativado-produtos");
         }
 
-        // Atribui o evento de clique (mesmo que desabilitado, não será acionado)
         button.addEventListener("click", onClickAdicionarProduto);
     });
 });
