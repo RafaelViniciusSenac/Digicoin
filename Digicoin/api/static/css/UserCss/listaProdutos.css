@@ -252,9 +252,10 @@
 }
 
 .refresh-listaProdutos {
-    margin: 10px;
+    margin: 30px auto;
     cursor: pointer;
-    font-size: 40px;
+    font-size: 20px;
+
 }
 
 .tras-listaProdutos .refresh-listaProdutos {
@@ -299,30 +300,40 @@
 
 .tras-listaProdutos .descricao-listaProdutos {
     display: flex;
-    align-items: center;
+    align-items: start;
+    flex-direction: row;
     padding: 0px 0px 0px 30px;
-    gap: 5px;
-    width: 430px;
+    width: 90%;
     height: auto;
+    gap: 10px;    
 }
 
-.descricao-listaProdutos span {
-    display: block;
+
+.tras-listaProdutos .quantidade-listaProdutos strong {
+    font-weight: bold;
+    color: var(--laranja);
+}
+
+.tras-listaProdutos .quantidade-listaProdutos span {
+    font-weight: bold;
+    color: var(--ciano);
+}
+
+.tras-listaProdutos .descricao-listaProdutos strong {
+    font-weight: bold;
+    color: var(--laranja);
+}
+
+.tras-listaProdutos .descricao-listaProdutos span {
+    margin: 0;
+    text-align: left;
+    width: 70%;
+    color: #00BCD4; /* ciano */
+    font-weight: bold;
     white-space: normal;
     word-break: break-word;
-    overflow-wrap: break-word;
 }
 
-.tras-listaProdutos .quantidade-listaProdutos p {
-    font-weight: bold;
-    color: var(--laranja);
-}
-
-.tras-listaProdutos .descricao-listaProdutos p {
-    font-weight: bold;
-    color: var(--laranja);
-    gap: 5px;
-}
 
 @media (max-width: 768px) {
 
