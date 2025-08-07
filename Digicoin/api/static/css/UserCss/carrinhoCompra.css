@@ -318,3 +318,7 @@
   width: 100%;
   text-align: start;
 }
+
+.campo-invalido-carrinhoCompras {
+    border: 2px solid red;
+}

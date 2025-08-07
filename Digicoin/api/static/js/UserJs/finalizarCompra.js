@@ -1,3 +1,4 @@
+let popupFinalizarCompra;
 function desativarEnderecoForm(acao) {
     const enderecoForm = document.getElementById('endereco');
     if (acao) {
@@ -51,8 +52,7 @@ async function enviarDadosParaApi(form = null) {
         localStorage.removeItem('listaProdutos');
         const grid = document.getElementById('itensGrid');
         grid.innerHTML = '';
-        const popup = new Popup();
-        popup.hidePopup();
+        popupFinalizarCompra.hidePopup();
         const total = document.getElementById('valorTotal');
         total.innerHTML = '0';
         // Mostrar mensagem de sucesso
@@ -75,8 +75,29 @@ async function enviarDadosParaApi(form = null) {
     }
 }
 
+function validarFormulario(form) {
+    let valido = true;
+    const tipoEntrega = form.querySelector('input[name="entrega"]:checked').value;
+
+    const camposObrigatorios = form.querySelectorAll('.required');
+    console.log(camposObrigatorios);
+    camposObrigatorios.forEach(campo => {
+        campo.classList.remove('campo-invalido-carrinhoCompras');
+
+        // Se for campo de endereço e tipo for "Retirar", ignora
+        if (tipoEntrega === 'Retirar' && campo.closest('#endereco')) return;
+
+        if (!campo.value.trim()) {
+            campo.classList.add('campo-invalido-carrinhoCompras');
+            valido = false;
+        }
+    });
+
+    return valido;
+}
+
 document.addEventListener("DOMContentLoaded", () => {
-    const popup = new Popup();
+    popupFinalizarCompra = new Popup();
     function abrirPopup() {
         const titulo = 'Finalizar Pedido';
         const body = `
@@ -173,7 +194,7 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
         </form>`;
 
-        popup.showPopup(body, titulo);
+        popupFinalizarCompra.showPopup(body, titulo);
 
         // Eventos após exibir popup
         const option1 = document.getElementById('option1');
@@ -198,7 +219,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
             form.onsubmit = (event) => {
                 event.preventDefault();
-                enviarDadosParaApi(form);
+                // Valida antes de enviar
+                if (validarFormulario(form)) {
+                    enviarDadosParaApi(form);
+                } else {
+                    const popupErro = new Popup();
+                    popupErro.showPopup("Preencha todos os campos obrigatórios.","Erro","erro");
+                }
             };
         }
     }
