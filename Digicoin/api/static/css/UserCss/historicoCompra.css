@@ -31,12 +31,12 @@
 .historicoCompraTela {
   width: 100%;
   display: flex;
-  align-items: center;
-  justify-content: center; /* Adiciona centralização horizontal */
+  justify-content: center;
+  gap: 30px;
+  margin: 5rem auto;  
 }
 
-.historicoCompraContainer {
-  padding: 5px; 
+.historicoCompraContainer { 
   border-radius: 10px;
   max-width: 900px;
   width: 100%; /* Garante que o container ocupe toda a largura disponível */
@@ -46,32 +46,28 @@
 .historicoCompraCabecalho {
   display: flex;
   flex-wrap: wrap;
+  margin-bottom: 30px;
 }
 
 .historicoCompraTitulo {
   display: flex;
-  align-items: center;
   margin-left: 20px;
   font-size: 1.3em;
   padding-top: 5px;
 }
   
-.historicoCompraTituloIcone {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-  
-.historicoCompraTituloIcone img {
-  display: block;
+.historicoCompraTitulo img {
   width: 40px;
 }
 
+.historicoCompraTituloIcone h2 {
+  margin: 0;
+}
+
 .historicoCompraCabecalhoUnderline {
-  width: 100%;
+  background-color: var(--laranja);
+  width: 40px;
   height: 2px;
-  background-color: red;
-  margin-top: 1px;
 }
   
 .historicoCompraBarraPesquisaBuscaContainer {
@@ -144,7 +140,6 @@
   align-items: center;
   padding: 5px 5px;
   border-radius: 10px;
-  /* background-color: #fff; */
 }
 
 /* alinhar na centro na vertical */
@@ -176,6 +171,7 @@
   /* diminuir tamanho da fonte */
   font-size: 0.8em;
 }
+
 
 .historicoCompraLocalItens {
   display: flex;

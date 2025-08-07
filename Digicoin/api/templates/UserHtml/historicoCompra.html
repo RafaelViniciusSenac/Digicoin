@@ -17,11 +17,11 @@
         <div class="historicoCompraContainer">
             <div class="historicoCompraCabecalho">
                 <div class="historicoCompraTitulo">
+                    <img src="{% static 'img/historico.png' %}" alt="icone historico">
                     <div class="historicoCompraTituloIcone">
-                        <img src="{% static 'img/historico.png' %}" alt="icone historico">
+                        <h2>Histórico de Compras</h2>
                         <div class="historicoCompraCabecalhoUnderline"></div>
                     </div>
-                    <h2>Histórico de Compras</h2>
                 </div>
                 <div class="historicoCompraBarraPesquisa">
                     <form method="GET" action="{% url 'historicoCompra' %}">
@@ -53,7 +53,7 @@
             <div class="historicoCompraTabela">
                 <div class="historicoCompraTabelaHead">
                     <div class="historicoCompraTabelaRowheader">
-                        <div class="historicoCompraTabelaCell itens">Itens <br><span class="historicoCompraTituloColIdNome">Id - Nome</span></div>
+                        <div class="historicoCompraTabelaCell itens">Itens <br><span class="historicoCompraTituloColIdNome"></span></div>
                         <div class="historicoCompraTabelaCell quantidadeItens">Qtd</div>
                         <div class="historicoCompraTabelaCell dataCompra">Data <a href="?sort_by=dataCompra&order={% if request.GET.sort_by == 'dataCompra' and request.GET.order == 'asc' %}desc{% else %}asc{% endif %}"><img class="historicoCompraIconeSort {% if request.GET.sort_by == 'dataCompra' and request.GET.order == 'desc' %}historicoCompraSortDesc{% else %}historicoCompraSortAsc{% endif %}" src="{% static 'img/imgRanking/sort.png' %}" alt="Sort"></a></div>
                         <div class="historicoCompraTabelaCell total">Valor <a href="?sort_by=total&order={% if request.GET.sort_by == 'total' and request.GET.order == 'asc' %}desc{% else %}asc{% endif %}"><img class="historicoCompraIconeSort {% if request.GET.sort_by == 'total' and request.GET.order == 'desc' %}historicoCompraSortDesc{% else %}historicoCompraSortAsc{% endif %}" src="{% static 'img/imgRanking/sort.png' %}" alt="Sort"></a></div>
