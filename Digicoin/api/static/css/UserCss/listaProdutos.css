@@ -52,7 +52,7 @@
     align-items: center;
     background-color: var(--branco);
     border: black solid 2px;
-    border-radius: 20px;
+    border-radius: 15px;
     margin: 0px;
     height: 35px;
 }
@@ -174,11 +174,11 @@
 }
 
 .frente-listaProdutos .ImProduto-listaProdutos {
-    width: 230px;
-    height: 230px;
+    width: 210px;
+    height: 210px;
     object-fit: contain;
     display: block;
-    margin: 0 0 20px 0;
+    margin: 0 0 10px 0;
 }
 
 .frente-listaProdutos .preco-listaProdutos {
@@ -252,9 +252,10 @@
 }
 
 .refresh-listaProdutos {
-    margin: 10px;
+    margin: 30px auto;
     cursor: pointer;
-    font-size: 40px;
+    font-size: 20px;
+
 }
 
 .tras-listaProdutos .refresh-listaProdutos {
@@ -299,30 +300,40 @@
 
 .tras-listaProdutos .descricao-listaProdutos {
     display: flex;
-    align-items: center;
+    align-items: start;
+    flex-direction: row;
     padding: 0px 0px 0px 30px;
-    gap: 5px;
-    width: 430px;
+    width: 90%;
     height: auto;
+    gap: 10px;    
 }
 
-.descricao-listaProdutos span {
-    display: block;
+
+.tras-listaProdutos .quantidade-listaProdutos strong {
+    font-weight: bold;
+    color: var(--laranja);
+}
+
+.tras-listaProdutos .quantidade-listaProdutos span {
+    font-weight: bold;
+    color: var(--ciano);
+}
+
+.tras-listaProdutos .descricao-listaProdutos strong {
+    font-weight: bold;
+    color: var(--laranja);
+}
+
+.tras-listaProdutos .descricao-listaProdutos span {
+    margin: 0;
+    text-align: left;
+    width: 70%;
+    color: #00BCD4; /* ciano */
+    font-weight: bold;
     white-space: normal;
     word-break: break-word;
-    overflow-wrap: break-word;
 }
 
-.tras-listaProdutos .quantidade-listaProdutos p {
-    font-weight: bold;
-    color: var(--laranja);
-}
-
-.tras-listaProdutos .descricao-listaProdutos p {
-    font-weight: bold;
-    color: var(--laranja);
-    gap: 5px;
-}
 
 @media (max-width: 768px) {
 
@@ -343,7 +354,8 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        width: 100%;
+        width: 90%;
+        gap: 30px;
     }
 
     .produtos-listaProdutos {
@@ -359,6 +371,7 @@
     .search-listaProdutos {
         display: flex;
         align-items: center;
+        padding: 5px;
     }
 
     .searchBar-listaProdutos {
@@ -403,7 +416,7 @@
     .frente-listaProdutos {
         padding: 0;
         gap: 20px;
-        height: auto;
+        height: 10px;
     }
 
     .pagination-listaProdutos {
