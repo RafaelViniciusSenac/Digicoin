@@ -7,10 +7,10 @@ from django.http import HttpResponse
 from openpyxl import Workbook
 from openpyxl.styles import Font, Alignment, PatternFill
 from datetime import datetime
+import json
 
 def login(request):
     return render(request, 'index.html')
-
 
 
 def home(request):
@@ -183,14 +183,27 @@ def listaEstoque(request):
     return render(request, 'AdmHtml/listaEstoque.html', {'estoque': estoque, 'eventos': eventos})
 
 def listaDeDesafios(request):                   
-    desafio = Desafio.objects.filter(is_active = True)
-    desafio_paginator = Paginator(desafio, 5)
+    nome = request.GET.get('nome', '')
+    desafios_qs = Desafio.objects.filter(is_active=True)
+
+    if nome:
+        desafios_qs = desafios_qs.filter(nome__icontains=nome)
+
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        desafios_serializados = list(desafios_qs.values('id', 'nome', 'valor'))
+        json_data = json.dumps(desafios_serializados)
+        return HttpResponse(json_data, content_type='application/json')
+
+    desafio_paginator = Paginator(desafios_qs, 5)
     desafio_page = request.GET.get('desafio_page')
     desafios = desafio_paginator.get_page(desafio_page)
 
     campanhas = Campanha.objects.filter(is_active=True)
 
-    return render(request, 'AdmHtml/listaDeDesafios.html', {'desafios': desafios, 'campanhas': campanhas})
+    return render(request, 'AdmHtml/listaDeDesafios.html', {
+        'desafios': desafios,
+        'campanhas': campanhas
+    })
 
 
 def listaDeUsuarios(request):

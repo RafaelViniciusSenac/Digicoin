@@ -11,7 +11,7 @@
     <div class="divPesquisa-listaDeDesafios">
         <div class="barraPesquisa-listaDeDesafios">
             <img src="{% static 'img/iconeLupa.png' %}" alt="">
-            <input type="search" placeholder="Pesquisar usuário">
+            <input id="pesquisaDesafio" type="search" placeholder="Pesquisar usuário">
         </div>
     </div>
 
@@ -24,12 +24,6 @@
                 <img src="{% static 'img/iconAdicionar.png' %}" alt="">
                 Adicionar desafio
             </button>
-
-            {% comment %}
-            <dialog id="popupAdicionarDesafio" class="popupAdicionarDesafio-listaDeDesafios">
-                {% include "AdmHtml/cadastrarDesafio.html" %}
-            </dialog>
-            {% endcomment %}
         </div>
 
     </div>
@@ -42,7 +36,7 @@
         <p class='recompensa-listaDeDesafios'>Recompensa $</p>
     </div>
 
-    <div class="listaDesafios-listaDeDesafios">
+    <div id="listaDesafios" class="listaDesafios-listaDeDesafios">
         {% for desafio in desafios %}
 
         <div class='desafio-listaDeDesafios'>

@@ -151,3 +151,69 @@ document
       }
     });
   });
+
+  function renderizarDesafios(desafios) {
+    const primeiroDesafio = document.querySelector('.desafio-listaDeDesafios');
+    if (!primeiroDesafio) {
+      console.warn('Nenhum desafio encontrado no HTML.');
+      return;
+    }
+  
+    const container = primeiroDesafio.parentElement;
+    container.innerHTML = ''; // limpa todos os desafios atuais
+  
+    desafios.forEach(desafio => {
+      const div = document.createElement('div');
+      div.className = 'desafio-listaDeDesafios';
+  
+      div.innerHTML = `
+        <input type="hidden" class="idDesafio" value="${desafio.id}">
+        <div class="desafioLeft-listaDeDesafios">
+          <img src="/static/img/alvoCampanha.png" alt="">
+          <p class="nomeDesafio-listaDeDesafios">${desafio.nome}</p>
+        </div>
+        <div class="desafioRight-listaDeDesafios">
+          <p class="dg-listaDeDesafios">DG$ <span class="valor-listaDeDesafios">${desafio.valor}</span></p>
+          <div class="botoesEditar-listaDeDesafios">
+            <img class="botaoEditar-listaDeDesafios" data-id="${desafio.id}" src="/static/img/edit.png" alt="">
+            <img src="/static/img/lixeira.png" alt="Desativar" class="btn-desativar-desafio-listaDeDesafios" data-id="${desafio.id}">
+          </div>
+        </div>
+      `;
+  
+      container.appendChild(div);
+    });
+  }
+  
+  
+  
+  document.addEventListener('DOMContentLoaded', function () {
+    const inputPesquisa = document.getElementById('pesquisaDesafio');
+  
+    if (!inputPesquisa) {
+      console.warn('Campo de pesquisa não encontrado!');
+      return;
+    }
+  
+    inputPesquisa.addEventListener('input', async function () {
+      const nome = this.value;
+  
+      try {
+        const url = nome.trim() === '' ? window.location.pathname : `?nome=${encodeURIComponent(nome)}`;
+  
+        const response = await fetch(url, {
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+          },
+        });
+  
+        if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
+  
+        const desafios = await response.json();
+        renderizarDesafios(desafios);
+      } catch (error) {
+        console.error('Erro ao buscar desafios:', error);
+      }
+    });
+  });
+  
