@@ -1,4 +1,3 @@
-// Aguardar o DOM estar completamente carregado
 document.addEventListener('DOMContentLoaded', () => {
     const popupCadastrarUsuario = document.getElementById('popupCadastrarUsuario');
     const addUsuarios = document.getElementById('addUsuarios');
@@ -28,17 +27,17 @@ document.addEventListener('DOMContentLoaded', () => {
         popupAdicionarMoedas.close();
     });
 
-        // Selecionar todos os usuários ativos
+        
     const selecionarTodos = document.getElementById('selecionarTodos');
     selecionarTodos.addEventListener('change', (e) => {
         const checkboxes = document.querySelectorAll('.linhaUsuario-listaDeUsuarios:not(.desativado) .checkbox');
         checkboxes.forEach(checkbox => {
             checkbox.checked = e.target.checked;
-            checkbox.disabled = false; // Garante que estejam habilitados
+            checkbox.disabled = false; 
         });
     });
 
-    // Atualizar o checkbox "Selecionar todos" quando checkboxes individuais forem alterados
+    
     document.querySelectorAll('.linhaUsuario-listaDeUsuarios:not(.desativado) .checkbox').forEach(checkbox => {
         checkbox.addEventListener('change', () => {
             const allChecked = [...document.querySelectorAll('.linhaUsuario-listaDeUsuarios:not(.desativado) .checkbox')]
@@ -76,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (botao.classList.contains('add')) {
                 valorAtual += 1;
             } else if (botao.classList.contains('sub')) {
-                valorAtual = Math.max(0, valorAtual - 1); // Não permite valores negativos
+                valorAtual = Math.max(0, valorAtual - 1); 
             }
     
             inputSaldo.value = valorAtual;
@@ -91,13 +90,13 @@ document.addEventListener('DOMContentLoaded', () => {
             
             if (botao.classList.contains('desativar')) {
                 statusInput.value = 'false';
-                // alert('Usuário desativado com sucesso!');
+                
             } else if (botao.classList.contains('ativar')) {
                 statusInput.value = 'true';
-                // alert('Usuário ativado com sucesso!');
+                
             }
             
-            // Opcional: feedback visual
+            
             dialog.querySelectorAll('.action-button').forEach(btn => btn.classList.remove('active'));
             botao.classList.add('active');
         });
@@ -107,11 +106,11 @@ document.addEventListener('DOMContentLoaded', () => {
         form.addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            // Pega o ID do usuário a partir do diálogo pai
-            const dialog = this.closest('.editarUsuario');
-            const userId = dialog.id.split('-')[1]; // Extrai o ID do usuário do ID do diálogo
             
-            // Dados do formulário
+            const dialog = this.closest('.editarUsuario');
+            const userId = dialog.id.split('-')[1]; 
+            
+            
             const nome = this.querySelector('.nome').value;
             const email = this.querySelector('.email').value;
             const ra = this.querySelector('.ra').value;
@@ -132,8 +131,8 @@ document.addEventListener('DOMContentLoaded', () => {
             
             if (response.status == 200) {
                 console.log(response);
-                // Atualizar a interface, se necessário
-                location.reload(); // Recarrega a página (opcional)
+                
+                location.reload(); 
             } else {
                 console.log("Erro ao editar usuário: " + response);
                 alert("Erro ao editar usuário!");
@@ -145,7 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     concluido.forEach(botao => {
         botao.addEventListener('click', (e) => {
-            // Acha o <dialog> mais próximo na hierarquia
+            
             const dialog = botao.closest('dialog');
             if (dialog) {
                 dialog.close();
@@ -154,16 +153,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Modifique o evento de clique do botão addMoedas
+
 addMoedas.addEventListener('click', () => {
     popupAdicionarMoedas.showModal();
-    const usuariosSelecionados = getUsuariosSelecionados(); // Alteramos para pegar mais dados
+    const usuariosSelecionados = getUsuariosSelecionados(); 
     
-    // Novo código para manipular o popup
     const formAdicionarMoedas = document.getElementById('formAdicionarMoedas');
     const inputQuantidade = document.getElementById('saldo');
-    
-    // Função para enviar as moedas
+
     const enviarMoedas = async (operacao) => {
         const valor = parseInt(inputQuantidade.value);
         const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value;
@@ -201,7 +198,6 @@ addMoedas.addEventListener('click', () => {
         }
     };
 
-    // Adiciona eventos aos botões
     document.getElementById('adicionar').addEventListener('click', (e) => {
         e.preventDefault();
         enviarMoedas('adicionar');
@@ -213,7 +209,6 @@ addMoedas.addEventListener('click', () => {
     });
 });
 
-// Atualize a função para obter dados completos
 function getUsuariosSelecionados() {
     const linhas = document.querySelectorAll('.linhaUsuario-listaDeUsuarios');
     const usuarios = [];
@@ -282,11 +277,6 @@ async function buscarUsuario() {
         console.log('Erro ao buscar usuários:', error);
     }
 }
-
-
-
-
-
 
 document.getElementById('barraBusca-listaProdutos').addEventListener('input', buscarUsuario);
 

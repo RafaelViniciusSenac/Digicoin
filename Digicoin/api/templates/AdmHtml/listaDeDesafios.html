@@ -7,49 +7,51 @@
 {% include 'components/adm/menuAdm.html' %}
 
 <div class="mainListaDesafios-listaDeDesafios">
-    
+
     <div class="divPesquisa-listaDeDesafios">
         <div class="barraPesquisa-listaDeDesafios">
             <img src="{% static 'img/iconeLupa.png' %}" alt="">
             <input type="search" placeholder="Pesquisar usuário">
         </div>
     </div>
-    
+
     <div class="primeiraLinha-listaDeDesafios">
-    
+
         <h1><span>Des</span>afios</h1>
-    
+
         <div class="botoesDesafio-listaDeDesafios">
             <button class="addDesafio-listaDeDesafios" id="addDesafio">
                 <img src="{% static 'img/iconAdicionar.png' %}" alt="">
                 Adicionar desafio
             </button>
-    
+
             {% comment %}
             <dialog id="popupAdicionarDesafio" class="popupAdicionarDesafio-listaDeDesafios">
                 {% include "AdmHtml/cadastrarDesafio.html" %}
             </dialog>
             {% endcomment %}
         </div>
-    
+
     </div>
-    
+
     <div class="head-listaDeDesafios">
-        <p>Nome</p>
-        <img src="{% static 'img/lista.png' %}" alt="">
+        <div class="headNome-listaDeDesafios">
+            <p>Nome</p>
+            <img src=" {% static 'img/lista.png' %}" alt="">
+        </div>
         <p class='recompensa-listaDeDesafios'>Recompensa $</p>
     </div>
-    
+
     <div class="listaDesafios-listaDeDesafios">
         {% for desafio in desafios %}
-    
+
         <div class='desafio-listaDeDesafios'>
-    
+            <input type="hidden" class="idDesafio" value="{{desafio.id}}">
             <div class="desafioLeft-listaDeDesafios">
                 <img src="{% static 'img/alvoCampanha.png' %}" alt="">
                 <p id="nomeDesafio" class='nomeDesafio-listaDeDesafios'>{{ desafio.nome }}</p>
             </div>
-    
+
             <div class="desafioRight-listaDeDesafios">
                 <p class="dg-listaDeDesafios">DG$ <span id="valor" class="valor-listaDeDesafios">{{desafio.valor}}</span></p>
                 <div class="botoesEditar-listaDeDesafios">
@@ -66,13 +68,12 @@
                         </div>
                         
                         <div class="botao-cadastrarDesafio">
-                            
+
                             <img class="iconeX-cadastrarDesafio" id='iconeX' src="{% static 'img/iconeX.png' %}" alt="">
                         </div>
                     </div>
-                
+
                     <form method="POST" id="formCadastrarDesafio" class="formDesafio-cadastrarDesafio">
-                
 
                         {% csrf_token %}
                         <div class="form-cadastrarDesafio">
@@ -88,19 +89,19 @@
                                         <input type="number" id="valorDesafio" class="valorDesafio-cadastrarDesafio" placeholder="valor do desafio" value="{{desafio.valor}}">
                                     </div>
                                 </div>
-                        
+
                                 <div class="descricaoDesafioDiv-cadastrarDesafio">
                                     <label for="">Descrição</label>
                                     <textarea id="descricao" class="descricao-cadastrarDesafio" placeholder="Digite a descrição do desafio">{{desafio.descricao}}</textarea>
-                                </div>       
+                                </div>
                             </div>
                             <div class="baixo-cadastrarDesafio">
                                 <div class="statusDesafioDiv-cadastrarDesafio">
                                     <div class="linha">
                                     <label for="">Status do desafio</label>
-                                    <select name="campanha" id="campanha">  
-                                        {% if desafio.idCampanha == None %}                 
-                                        <option value=""> 
+                                    <select name="campanha" id="campanha">
+                                        {% if desafio.idCampanha == None %}
+                                        <option value="">
                                             Sem Campanha
                                         </option>
                                         {% else %}
@@ -108,10 +109,10 @@
                                             {{desafio.idCampanha}}
                                         </option>
                                         {% endif %}
-                        
-                                        {% for campanha in campanhas %}                    
-                                            <option value="{{campanha.id}}">{{campanha.nome}}</option>           
-                                        {% endfor %}   
+
+                                        {% for campanha in campanhas %}
+                                        <option value="{{campanha.id}}">{{campanha.nome}}</option>
+                                        {% endfor %}
                                     </select>
                                     </div>
                                     <div class="dataDesafioInterno-cadastrarDesafio">
@@ -132,9 +133,9 @@
                             </div>
                         </div>
                         <button type="submit" class="button-cadastrarDesafio">Concluído</button>
-                   
+
                     </form>
-                 
+
                 </div>
             </dialog>
 
@@ -146,27 +147,28 @@
 
     <div class="pagination">
         {% if desafios.has_previous %}
-            <div>
-                <a style="font-size: 20px; margin-right: 10px;" href="?desafui_page={{ desafios.previous_page_number }}">Anterior</a>
-            </div>
+        <div>
+            <a style="font-size: 20px; margin-right: 10px;" href="?desafui_page={{ desafios.previous_page_number }}">Anterior</a>
+        </div>
         {% endif %}
-    
-        {% if desafios.has_next %}
-            <div>
-                <a style="font-size: 20px; " href="?desafio_page={{ desafios.next_page_number }}">Próxima</a>
-            </div>
-        {% endif %}
-        
+
         <span>Página {{ desafios.number }} de {{ desafios.paginator.num_pages }}</span>
+
+        {% if desafios.has_next %}
+        <div>
+            <a style="font-size: 20px; " href="?desafio_page={{ desafios.next_page_number }}">Próxima</a>
+        </div>
+        {% endif %}
+
     </div>
-        
+
 </div>
 
 
 <script src="{% static 'js/AdmJs/listaDeDesafios.js' %}"></script>
 
 <dialog class="popUpAdicionarDesafio-listaDeDesafios" id="popUpAdicionarDesafio">
-    
+
     <div class='body-cadastrarDesafio'>
         <div class="header-cadastrarDesafio">
 
@@ -240,8 +242,8 @@
         
      
     </div>
-{% comment %} 
-    {% include 'AdmHtml/cadastrarDesafio.html' %} {% endcomment %}
+    {% include 'AdmHtml/cadastrarDesafio.html' %}
+
 
 </dialog>
 {% endblock content %}

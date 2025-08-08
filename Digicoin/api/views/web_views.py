@@ -14,7 +14,7 @@ def login(request):
 
 
 def home(request):
-    users = CustomUser.objects.all().order_by("-saldo")[:5]
+    users = CustomUser.objects.filter(is_adm=False).order_by("-saldo")[:5]
 
     userId = request.session.get('_auth_user_id')
     user = CustomUser.objects.filter(id=userId).first()
@@ -182,7 +182,7 @@ def listaEstoque(request):
     
     return render(request, 'AdmHtml/listaEstoque.html', {'estoque': estoque, 'eventos': eventos})
 
-def listaDeDesafios(request):
+def listaDeDesafios(request):                   
     desafio = Desafio.objects.filter(is_active = True)
     desafio_paginator = Paginator(desafio, 5)
     desafio_page = request.GET.get('desafio_page')
@@ -206,17 +206,25 @@ def listaDeUsuarios(request):
     return render(request, 'AdmHtml/listaDeUsuarios.html', {'usuarios': usuarios})
 
 
-def desafiosCampanha(request):
+def desafiosCampanha(request, campanha_id):
 
-    desafio = Desafio.objects.filter(idCampanha=True)
+    desafio = Desafio.objects.filter(idCampanha=campanha_id)
     desafio_paginator = Paginator(desafio, 5)
     desafio_page = request.GET.get('desafio_page')
     desafios = desafio_paginator.get_page(desafio_page)
 
     return render(request, 'UserHtml/desafiosCampanha.html', {'desafios': desafios})
 
+def desafiosCampanhaAtivas(request):
+    campanha = Campanha.objects.filter(is_active=True).order_by('nome')
+    campanha_paginator = Paginator(campanha, 5)
+    campanha_page = request.GET.get('campanha_page')
+    campanhas = campanha_paginator.get_page(campanha_page)
 
-@login_required
+    return render(request, 'UserHtml/desafiosCampanhaAtivas.html', {'campanha': campanhas, 'campanhas': campanhas})
+
+
+
 def listaDePedidos(request):
     status_pedido = request.GET.get('status')
 
