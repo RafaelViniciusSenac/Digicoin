@@ -8,6 +8,8 @@ class Popup {
         this.imgClosed = null;
         this.popupBody = null;
         this.popupFooter = null;
+        this.dialog = null;
+        this.tipo = '';
     }
 
     injectCSS() {
@@ -31,7 +33,7 @@ class Popup {
                 overflow: hidden;
             }
 
-            .overlay-popup-alerta {
+            .popup-alerta-dialog {
                 position: fixed;
                 top: 0; left: 0;
                 width: 100%; height: 100%;
@@ -39,17 +41,26 @@ class Popup {
                 display: flex;
                 justify-content: center;
                 align-items: flex-start;
-                overflow-y: auto;
-                z-index: 9999;
+                overflow: auto;
+                border: none !important;
+                outline: none !important;
+                box-shadow: none !important;
+                padding: 0 !important;
             }
+            
+            .popup-alerta-dialog:focus {
+                outline: none !important;
+                box-shadow: none !important;
+            }
+
 
             .popup-alerta-container {
                 background-color: var(--branco);
                 max-width: 600px;
-                min-width: 340px;
-                margin: 20px;
-                border-radius: 20px;
-                padding: 20px;
+                min-width: 300px;
+                margin: 10px;
+                border-radius: 10px;
+                padding: 10px;
                 position: relative;
                 animation: fadeInUp 0.3s ease-out;
                 box-shadow: 0 10px 20px var(--sombra-base);
@@ -81,7 +92,7 @@ class Popup {
                 cursor: pointer;
                 margin-left: auto;
             }
-                
+
             .popup-alerta-fechar:hover {
                 transform: scale(1.5);
             }
@@ -118,10 +129,10 @@ class Popup {
             .popup-erro { color: var(--erro); }
             .popup-sucesso { color: var(--sucesso); }
             .popup-confirmacao { color: var(--confirmacao); }
-            .popup-padrao { 
+            .popup-padrao {
                 color: var(--base);
                 display: flex;
-                align-items: center; 
+                align-items: center;
                 justify-content: center;
                 margin-left: auto;
             }
@@ -130,24 +141,39 @@ class Popup {
                 width: 24px;
                 height: 24px;
             }
+
+            .popup-loading {
+                color: var(--base);
+                font-size: 18px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .popup-loading img {
+                width: 40px;
+                height: 40px;
+                margin-bottom: 10px;
+            }
         `;
         document.head.appendChild(style);
     }
 
     showPopup(conteudo, titulo = ' ', tipo = 'padrao', onConfirm = null, onCancel = null) {
+        this.tipo = tipo;
         this.removeOldPopup();
         this.createElements();
         this.setAttributes(tipo);
         this.appendElements();
 
         this.popupTitulo.innerHTML = '';
-
-        if(tipo != 'padrao') {
-            const icon = document.createElement('img');
-            icon.className = 'popup-alerta-icon';
-            icon.src = this.getIconSrc(tipo);
-            icon.alt = tipo;
-            this.popupTitulo.appendChild(icon);
+        if (tipo !== 'padrao') {
+        const icon = document.createElement('img');
+        icon.className = 'popup-alerta-icon';
+        icon.src = this.getIconSrc(tipo);
+        icon.alt = tipo;
+        this.popupTitulo.appendChild(icon);
         }
 
         const tituloSpan = document.createElement('span');
@@ -161,81 +187,127 @@ class Popup {
         this.popupBody.appendChild(texto);
 
         if (tipo === 'confirmacao') {
-            const btnConfirmar = document.createElement('button');
-            btnConfirmar.className = 'popup-alerta-btn popup-alerta-btn-confirmar';
-            btnConfirmar.innerText = 'Confirmar';
-            btnConfirmar.onclick = () => {
-                if (onConfirm) onConfirm();
-                this.hidePopup();
-            };
+        const btnConfirmar = document.createElement('button');
+        btnConfirmar.className = 'popup-alerta-btn popup-alerta-btn-confirmar';
+        btnConfirmar.innerText = 'Confirmar';
+        btnConfirmar.onclick = () => {
+            if (onConfirm) onConfirm();
+            this.hidePopup();
+        };
 
-            const btnCancelar = document.createElement('button');
-            btnCancelar.className = 'popup-alerta-btn popup-alerta-btn-cancelar';
-            btnCancelar.innerText = 'Cancelar';
-            btnCancelar.onclick = () => {
-                if (onCancel) onCancel();
-                this.hidePopup();
-            };
+        const btnCancelar = document.createElement('button');
+        btnCancelar.className = 'popup-alerta-btn popup-alerta-btn-cancelar';
+        btnCancelar.innerText = 'Cancelar';
+        btnCancelar.onclick = () => {
+            if (onCancel) onCancel();
+            this.hidePopup();
+        };
 
-            this.popupFooter.appendChild(btnConfirmar);
-            this.popupFooter.appendChild(btnCancelar);
+        this.popupFooter.appendChild(btnConfirmar);
+        this.popupFooter.appendChild(btnCancelar);
         }
 
-        this.overlay.style.display = "flex";
+        this.dialog.style.display = "flex";
         document.body.classList.add('no-scroll-popup-alerta');
     }
 
-    hidePopup() {
+    showLoadingPopup(mensagem = 'Carregando...') {
+        this.tipo = 'loading';
         this.removeOldPopup();
+        this.createElements();
+        this.setAttributes('loading');
+
+        const loadingIcon = document.createElement('img');
+        loadingIcon.src = '/static/img/popup-carregando.gif'; // ajuste o caminho se necessário
+        loadingIcon.alt = 'Carregando';
+
+        const loadingText = document.createElement('div');
+        loadingText.textContent = mensagem;
+
+        this.popupBody.innerHTML = '';
+        this.popupBody.appendChild(loadingIcon);
+        this.popupBody.appendChild(loadingText);
+
+        this.popupHeader.style.display = 'none';
+        this.popupFooter.style.display = 'none';
+
+        // Monta os elementos corretamente
+        this.popup.appendChild(this.popupBody);
+        this.popup.appendChild(this.popupFooter);
+        this.dialog.appendChild(this.popup);
+        document.body.appendChild(this.dialog);
+        this.dialog.showModal();
+    }
+
+
+    hidePopup() {
+        this.dialog.remove();
         document.body.classList.remove('no-scroll-popup-alerta');
     }
 
     removeOldPopup() {
-        const oldPopup = document.querySelector(".overlay-popup-alerta");
-        if (oldPopup) oldPopup.remove();
-    }
-
-    createElements() {
-        this.overlay = document.createElement("div");
-        this.popup = document.createElement("div");
-        this.popupHeader = document.createElement("div");
-        this.popupTitulo = document.createElement("div");
-        this.imgClosed = document.createElement("img");
-        this.popupBody = document.createElement("div");
-        this.popupFooter = document.createElement("div");
-    }
-
-    setAttributes(tipo) {
-        this.overlay.className = "overlay-popup-alerta";
-        this.popup.className = "popup-alerta-container";
-        this.popupHeader.className = "popup-alerta-header";
-        this.popupTitulo.className = `popup-alerta-titulo popup-${tipo}`;
-        this.imgClosed.className = "popup-alerta-fechar";
-        this.imgClosed.src = "../../static/img/popup-x.png";
-        this.imgClosed.alt = "Fechar";
-        this.imgClosed.addEventListener("click", () => this.hidePopup());
-        this.popupBody.className = "popup-alerta-body";
-        this.popupFooter.className = "popup-alerta-footer";
-    }
-
-    appendElements() {
-        this.popupHeader.appendChild(this.popupTitulo);
-        this.popupHeader.appendChild(this.imgClosed);
-        this.popup.appendChild(this.popupHeader);
-        this.popup.appendChild(this.popupBody);
-        this.popup.appendChild(this.popupFooter);
-        this.overlay.appendChild(this.popup);
-        document.body.appendChild(this.overlay);
-    }
-
-    getIconSrc(tipo) {
-        switch (tipo) {
-            case 'erro': return '../../static/img/popup-erro.png';
-            case 'sucesso': return '../../static/img/popup-sucesso.png';
-            case 'confirmacao': return '../../static/img/popup-confirmacao.png';
-            default: return '';
+        const oldPopup = document.querySelector(".popup-alerta-dialog");
+        console.log(oldPopup);
+        if (oldPopup) {
+            console.log(this.tipo, oldPopup.querySelector(".popup-padrao"));
+            if (this.tipo !== 'padrao' && oldPopup.querySelector(".popup-padrao")) {
+                return;
+            }
+            oldPopup.remove();
         }
     }
+
+  createElements() {
+    if (this.tipo !== 'padrao'){
+        this.dialog = document.createElement("dialog");
+    } else {
+        this.dialog = document.createElement("div");
+    }
+    this.dialog.style.padding = "0";
+    this.dialog.style.border = "none";
+    this.dialog.style.background = "transparent";
+    this.popup = document.createElement("div");
+    this.popupHeader = document.createElement("div");
+    this.popupTitulo = document.createElement("div");
+    this.imgClosed = document.createElement("img");
+    this.popupBody = document.createElement("div");
+    this.popupFooter = document.createElement("div");
+  }
+
+  setAttributes(tipo) {
+    this.dialog.className = tipo === 'loading' ? 'popup-alerta-dialog popup-loading' : 'popup-alerta-dialog';
+    this.popup.className = "popup-alerta-container";
+    this.popupHeader.className = "popup-alerta-header";
+    this.popupTitulo.className = `popup-alerta-titulo popup-${tipo}`;
+    this.imgClosed.className = "popup-alerta-fechar";
+    this.imgClosed.src = "../../static/img/popup-x.png";
+    this.imgClosed.alt = "Fechar";
+    this.imgClosed.addEventListener("click", () => this.hidePopup());
+    this.popupBody.className = "popup-alerta-body";
+    this.popupFooter.className = "popup-alerta-footer";
+  }
+
+  appendElements() {
+    this.popupHeader.appendChild(this.popupTitulo);
+    this.popupHeader.appendChild(this.imgClosed);
+    this.popup.appendChild(this.popupHeader);
+    this.popup.appendChild(this.popupBody);
+    this.popup.appendChild(this.popupFooter);
+    this.dialog.appendChild(this.popup);
+    document.body.appendChild(this.dialog);
+    if (this.tipo !== 'padrao'){
+        this.dialog.showModal();
+    }
+  }
+
+  getIconSrc(tipo) {
+    switch (tipo) {
+      case 'erro': return '../../static/img/popup-erro.png';
+      case 'sucesso': return '../../static/img/popup-sucesso.png';
+      case 'confirmacao': return '../../static/img/popup-confirmacao.png';
+      default: return '';
+    }
+  }
 }
 
 window.Popup = Popup;
