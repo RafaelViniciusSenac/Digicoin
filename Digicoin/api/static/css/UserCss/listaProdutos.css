@@ -36,6 +36,7 @@
 
 .ProdBarra-listaProdutos h1 {
     margin: 0px;
+    font-size: 30px;
 }
 
 .ProdBarra-listaProdutos {
@@ -43,7 +44,7 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    margin: 0 0 20px 0;
+    
 }
 
 .search-listaProdutos {
@@ -51,23 +52,23 @@
     align-items: center;
     background-color: var(--branco);
     border: black solid 2px;
-    border-radius: 20px;
+    border-radius: 15px;
     margin: 0px;
-    height: 50px;
+    height: 35px;
 }
 
 .searchBar-listaProdutos {
     border-radius: 30px;
-    width: 300px;
+    width: 200px;
     border: none;
-    padding: 10px;
-    font-size: 25px;
+    padding: 5px;
+    font-size: 15px;
 }
 
 #lupa-listaProdutos {
-    width: 40px;
+    width: 30px;
     padding-left: 10px;
-    font-size: 25px;
+    font-size: 20px;
     color: var(--laranja);
 }
 
@@ -77,27 +78,26 @@
 
 .produtos-listaProdutos {
     margin: 0 auto;
-    padding-top: 40px;
+    padding-top: 50px;
 }
 
 .produtosDigix-listaProdutos {
     display: flex;
+    align-items: center;
     justify-content: space-between;
-    padding: 0;
     text-align: left;
     width: 100%;
-}
+    margin: 15px;
+}   
 
 .produtosDigix-listaProdutos h1 {
     margin: 0px;
 }
 
 .barra-listaProdutos {
+    background-color: var(--laranja);
     width: 40px;
-    height: 0;
-    top: 273px;
-    left: 375px;
-    border: 2px var(--laranja) solid;
+    height: 2px;
 }
 
 .imagensDigix-listaProdutos,
@@ -107,10 +107,8 @@
     grid-template-rows: repeat(2, 200px);
     gap: 60px;
     margin-bottom: 50px;
-    margin-top: 40px;    
+    margin-top: 40px;
 }
-
-
 
 .imgD-listaProdutos {
     display: flex;
@@ -141,8 +139,7 @@
     height: 190px;
     object-fit: contain;
     cursor: pointer;
-}   
-
+}
 
 .dialog-listaProdutos {
     top: 50%;
@@ -177,11 +174,11 @@
 }
 
 .frente-listaProdutos .ImProduto-listaProdutos {
-    width: 230px;
-    height: 230px;
+    width: 210px;
+    height: 210px;
     object-fit: contain;
     display: block;
-    margin: 0 0 20px 0;
+    margin: 0 0 10px 0;
 }
 
 .frente-listaProdutos .preco-listaProdutos {
@@ -255,9 +252,10 @@
 }
 
 .refresh-listaProdutos {
-    margin: 10px;
+    margin: 30px auto;
     cursor: pointer;
-    font-size: 40px;
+    font-size: 20px;
+
 }
 
 .tras-listaProdutos .refresh-listaProdutos {
@@ -302,30 +300,40 @@
 
 .tras-listaProdutos .descricao-listaProdutos {
     display: flex;
-    align-items: center;
+    align-items: start;
+    flex-direction: row;
     padding: 0px 0px 0px 30px;
-    gap: 5px;
-    width: 430px;
+    width: 90%;
     height: auto;
+    gap: 10px;    
 }
 
-.descricao-listaProdutos span {
-    display: block;
+
+.tras-listaProdutos .quantidade-listaProdutos strong {
+    font-weight: bold;
+    color: var(--laranja);
+}
+
+.tras-listaProdutos .quantidade-listaProdutos span {
+    font-weight: bold;
+    color: var(--ciano);
+}
+
+.tras-listaProdutos .descricao-listaProdutos strong {
+    font-weight: bold;
+    color: var(--laranja);
+}
+
+.tras-listaProdutos .descricao-listaProdutos span {
+    margin: 0;
+    text-align: left;
+    width: 70%;
+    color: #00BCD4; /* ciano */
+    font-weight: bold;
     white-space: normal;
     word-break: break-word;
-    overflow-wrap: break-word;
 }
 
-.tras-listaProdutos .quantidade-listaProdutos p {
-    font-weight: bold;
-    color: var(--laranja);
-}
-
-.tras-listaProdutos .descricao-listaProdutos p {
-    font-weight: bold;
-    color: var(--laranja);
-    gap: 5px;
-}
 
 @media (max-width: 768px) {
 
@@ -346,7 +354,8 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        width: 100%;
+        width: 90%;
+        gap: 30px;
     }
 
     .produtos-listaProdutos {
@@ -356,12 +365,13 @@
 
     .imgD-listaProdutos {
         width: 90%;
-        background-color: white;        
+        background-color: white;
     }
 
     .search-listaProdutos {
         display: flex;
         align-items: center;
+        padding: 5px;
     }
 
     .searchBar-listaProdutos {
@@ -406,7 +416,7 @@
     .frente-listaProdutos {
         padding: 0;
         gap: 20px;
-        height: auto;
+        height: 10px;
     }
 
     .pagination-listaProdutos {
@@ -464,14 +474,13 @@
 }
 
 .pagination-listaProdutos .anterior-listaProdutos:hover,
-.proxim-listaProdutos a:hover {
+.proxima-listaProdutos:hover {
     background-color: var(--laranja);
 }
 
 
 .pagination-listaProdutos span {
     font-size: 18px;
-    font-weight: bold;
 }
 
 .paginas-listaProdutos {
@@ -479,7 +488,7 @@
     gap: 10px;
 }
 
-.botao-desativado {
+.botao-desativado-produtos {
     background-color: #ccc;
     color: #666;
     border: none;
@@ -489,5 +498,14 @@
     transition: 0.3s;
 }
 
-
-/* teste basico */
+.botao-desativado-paginacao {
+    padding: 8px 15px;
+    text-decoration: none;
+    color: white;
+    cursor: pointer;
+    background-color: var(--magenta);
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    font-size: 18px;
+}
+    
