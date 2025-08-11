@@ -172,14 +172,18 @@ def ranking(request):
 
 def listaEstoque(request):
     eventos = Campanha.objects.filter(is_active=True)
+    
+    # Get the search term from the URL (e.g., ?search=termo)
+    search_term = request.GET.get('search', '')
 
+    # Filter the products based on the search term and order them
+    estoque_list = Produto.objects.filter(is_active=True, nome__icontains=search_term).order_by("id", "nome")
 
-    estoque_list = Produto.objects.filter(is_active=True)
+    # The rest of the pagination logic remains the same
     estoque_paginator = Paginator(estoque_list, 5) 
     estoque_page = request.GET.get('estoque_page') 
-    estoque = estoque_paginator.get_page(estoque_page)  
+    estoque = estoque_paginator.get_page(estoque_page)
 
-    
     return render(request, 'AdmHtml/listaEstoque.html', {'estoque': estoque, 'eventos': eventos})
 
 def listaDeDesafios(request):                   
