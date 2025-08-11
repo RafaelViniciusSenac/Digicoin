@@ -83,9 +83,9 @@
   margin-top: 5px;
 }
 
-.itemGridCell-carrinhoCompras.col-produto {
-  min-width: 500px;
-}
+/* .itemGridCell-carrinhoCompras.col-produto {
+  min-width: 300px;
+} */
 
 .itemGridCell-carrinhoCompras img {
   width: 18px;
@@ -151,7 +151,7 @@
   border: 1px solid var(--magenta);
   background-color: var(--magenta);
   color: var(--branco);
-  padding: 10px 20px;
+  padding: 10px;
   border-radius: 20px;
   cursor: pointer;
   text-decoration: none;
