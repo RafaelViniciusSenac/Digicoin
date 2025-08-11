@@ -1,81 +1,69 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-    <link rel="stylesheet" href="{% static 'css/UserCss/desafiosCampanha.css' %}">
-    <link rel="stylesheet" href="../../components/menu/menu_colaborador/menu_colaborador.css">
-<div class = "body-desafiosCampanha">
-    {% comment %} body inicio {% endcomment %}
+<link rel="stylesheet" href="{% static 'css/UserCss/desafiosCampanha.css' %}">
+<link rel="stylesheet" href="{% static 'components/menu/menu_colaborador/menu_colaborador.css' %}">
+
+<div class="body-desafiosCampanha">
     {% include 'components/user/menuUser.html' %}
 
-    <div id="central" class="central">
+    <div class="central">
+        <div class="central1">
+            <div class="listaDesafios">
 
-        <div class="listaDesafios">
+                <a href='/home/' class="voltarBotao">
+                    <button class="voltar">
+                        <img src="{% static 'img/flechaEsquerda.png' %}" alt="">
+                        <h2>Voltar</h2>
+                    </button>
+                </a>
 
-
-            {% comment %} botao de voltar {% endcomment %}
-            <a href='/home/' class='voltarBotao' id = 'botaoVoltar'>
-            <button class="voltar"><img src="{% static 'img/flechaEsquerda.png' %}" alt="">
-                <h2>Voltar</h2>
-            </button>
-             </a>
-            {% comment %} fim do botao de voltar {% endcomment %}
-
-
-
-            <div class="titulo-desafiosCampanha">
-                <img src="{% static 'img/Vector.png' %}" alt="" class="vector">
-                <div class="textDecoratinDesafios">Campanha Ativas</div>
-                
-            </div>
-            <div class="line"></div>
-
-            <div class="cabecalhoMissoes">
-                <div class="centralizar">
-                    <h3>Nome</h3>
-                    <img src="{% static 'img/sort.png' %}" alt="" class="sort">
+                <div class="titulo-desafiosCampanha">
+                    <img src="{% static 'img/Vector.png' %}" alt="" class="vector">
+                    <div class="textDecoratinDesafios">Campanhas Ativas</div>
                 </div>
-                {% comment %} <h3 class="cabecalhoMissoesRecompensa">Recompensa $</h3> {% endcomment %}
-            </div>
 
+                <div class="line"></div>
 
+                <div class="cabecalhoMissoes">
+                    <div class="centralizar">
+                        <h3>Nome</h3>
+                        <img src="{% static 'img/sort.png' %}" alt="" class="sort">
+                    </div>
+                    {# Recompensa removida neste layout #}
+                </div>
 
-
-            {% comment %} lista de desafios {% endcomment %}
-            <div class="listaDesafios" id="listaDesafios">
-                <div class="desafios">
-                    {% for i in campanhas%}
-                    <a href="{% url 'desafiosCampanha' i.id %}" style="text-decoration: none; color: inherit;">
-                        <div class="desafiosFlex" id="desafiosFlex">
-                            <div class="alvoCampanha">
-                                <img src="{% static '/img/campanhas.png' %}" class="alvo" style="filter: brightness(0) saturate(100%);">
-                                <div class="texto-card">{{ i.nome }}</div>
+                <div class="desafios desafios1">
+                    {% for i in campanhas %}
+                        <a href="{% url 'desafiosCampanha' i.id %}" class="link-campanha">
+                            <div class="desafiosFlex">
+                                <div class="alvoCampanha">
+                                    <img src="{% static 'img/campanhas.png' %}" class="alvo" style="filter: brightness(0) saturate(100%);">
+                                    <div class="texto-card">{{ i.nome }}</div>
+                                </div>
                             </div>
-                            {% comment %} <span class="laranja">DG$<span class="azul">{{ i.descricao }}</span></span> {% endcomment %}
-                        </div>
-                    </a>
+                        </a>
                     {% endfor %}
-
                 </div>
+
+                <div class="pagination">
+                    <a 
+                        href="{% if campanha.has_previous %}?campanha_page={{ campanha.previous_page_number }}{% else %}#{% endif %}" 
+                        class="{% if not campanha.has_previous %}disabled{% endif %}">
+                        Anterior
+                    </a>
+                
+                    <span>Página {{ campanha.number }} de {{ campanha.paginator.num_pages }}</span>
+                
+                    <a 
+                        href="{% if campanha.has_next %}?campanha_page={{ campanha.next_page_number }}{% else %}#{% endif %}" 
+                        class="{% if not campanha.has_next %}disabled{% endif %}">
+                        Próxima
+                    </a>
+                </div>
+
             </div>
-            {% comment %} fim da lista de desafios {% endcomment %}
-            <div class="pagination">
-                {% if campanha.has_previous %}
-                    <a href="?campanha_page={{ campanha.previous_page_number }}">Anterior</a>
-                {% endif %}
-
-                <span>Página {{ campanha.number }} de {{ campanha.paginator.num_pages }}</span>
-
-                {% if campanha.has_next %}
-                    <a href="?campanha_page={{ campanha.next_page_number }}">Próxima</a>
-                {% endif %}
-            </div>
-
-
         </div>
     </div>
-    {% comment %} body fim {% endcomment %}
 </div>
-
-
-
 {% endblock %}
