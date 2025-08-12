@@ -1,9 +1,27 @@
+
+:root {
+    --laranja: #FC671D;
+    --magenta: #D34AF4;/* cor do botão */
+    --cinza: #faf6f7;
+    --cinza-escuro:#888;
+    --ciano: #0BC0D3;
+    --base: #2c006a;
+    --branco: #fff;
+    --preto: #000;
+    --roxo: #4D2C87;  /* fundo roxo */
+    --sombra-base:rgba(44, 0, 106, 0.4);
+    --sombra-preta:rgba(0, 0, 0, 0.4);
+    --cinzaPlaceHolder:#9E9E9E;
+    --cinzaDatas: #f1f1f1;
+  }
+
+
 .mainListaDesafios-listaDeDesafios {
     padding: 40px;
     font-family: Arial, sans-serif;
-    width: 50%;
-    margin-left: 450px;
-    padding-left: 200px
+    max-width: 800px;
+    margin-left: 350px;
+    padding-left: 200px;
 }
 
 .divPesquisa-listaDeDesafios {
@@ -189,25 +207,226 @@
 
 
 .popUpAdicionarDesafio-listaDeDesafios{
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 9999;
+    border: none;
+        border-radius: 8px;
+        padding: 0px 100px 0px 100px;
+        width: 90%;
+        max-width: 900px;
+        height: 565px;
+        max-height: 565px;
+        background-color: var(--roxo);
+        box-shadow: 0 4px 20px var(--sombra-preta);
+        color: var(--base);
+
+}
+
+.popUpEditarDesafio-listaDeDesafios {
+    border: none;
+        border-radius: 8px;
+        padding: 0px 100px 0px 100px;
+        width: 90%;
+        max-width: 900px;
+        height: 565px;
+        max-height: 565px;
+        background-color: var(--roxo);
+        box-shadow: 0 4px 20px var(--sombra-preta);
+        color: var(--base);
+}
+
+
+
+.formDesafio-cadastrarDesafio{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.form-cadastrarDesafio{
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+    flex-direction: column  ;
+}
+
+.cima-cadastrarDesafio{
+    display: flex;
+    gap: 60px;
+    align-items: center;
+}
+
+.baixo-cadastrarDesafio{ 
+    margin-bottom: 10px;
+    
+}
+
+.inputsNome-cadastrarDesafio{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.header-cadastrarDesafio{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 20px;
+      margin-left: 20px;
+      margin-right: 20px;
+      margin-bottom: 20px;
+  }
+
+  .header-cadastrarDesafio1 {
+    margin-left: -50px;
+    display: flex;
+    height: 94px;
+    width: 114px;
+}
+
+.botao-cadastrarDesafio{
+    display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.popUpEditarDesafio-listaDeDesafios {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 9999;
+.botao-cadastrarDesafio{
+    margin-right: -50px;
+    width: 10px;
+    height: 10px;
+}
+
+
+.iconeX-cadastrarDesafio:hover{
+    cursor: pointer;
+}
+
+
+
+.button-cadastrarDesafio{
+    
+    font-size: 18px;
+    border-radius: 20px;
+    cursor: pointer;
+    border: none;
+    color: var(--branco);
+    background-color: var(--magenta);
+    width: 240px;
+    height: 45px;
+    margin-right: 25px;
+    margin-bottom: 20px;
+    
+}
+
+
+.nomeDesafioDiv-cadastrarDesafio{
+    display: flex;
+    flex-direction: column;
+}
+
+.nomeDesafioDiv-cadastrarDesafio input{
+
+    border-radius: 4px;
+    border: none;
+    height: 35px;   
+    width: 300px;
+    background-color: var(--branco);
+    font-size: 18px;
+    color: var(--base);
+    margin-bottom: 30px;
+
+}
+
+.descricao-cadastrarDesafio{
+    width: 558px;
+    height: 140px;
+    border-radius: 4px;
+    border: none; 
+    background-color: var(--branco);
+    font-size: 20px;
+    color: var(--base);
+    margin-bottom: 35px;
+    resize: none;
+    
+}
+
+
+
+label{
+    color: var(--branco);
+    font-size: 15px;
+    margin-bottom: 15px;
+}
+
+.descricao-cadastrarDesafio:read-write{
+    color: var(--base);
+    padding-left: 20px;
+    padding-top: 10px;
+}
+
+.nomeDesafioDiv-cadastrarDesafio input:read-write
+{
+
+    color: var(--base);
+    padding-left: 20px;
+
+}
+.statusDesafioDiv-cadastrarDesafio {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 10px;
+    margin-bottom: 25px;
+}
+
+.linha{
+    display: flex;
+    flex-direction: column;
+}
+
+.statusDesafioDiv-cadastrarDesafio select{
+    border-radius: 4px;
+    border: none;
+    width: 320px;
+    height: 40px;   
+    background-color: var(--branco);
+    font-size: 18px;
+    color: var(--base);  
+    padding-left: 10px;
+}
+
+
+.dataDesafioDiv-cadastrarDesafio{
+    display: flex;
+    gap: 25px;
+    
+}
+
+
+.dataDesafioInterno-cadastrarDesafio{
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.dataDesafioInterno-cadastrarDesafio input{
+    display: flex;
     justify-content: center;
     align-items: center;
+    font-size: 14px;
+    height: 35px;
+    width: 125px;
+    border-radius: 4px;
+    border: none;
+    background-color: var(--cinzaDatas);
+    margin-right: 458px;
+
+   
+}
+
+.descricaoDesafioDiv-cadastrarDesafio
+{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
