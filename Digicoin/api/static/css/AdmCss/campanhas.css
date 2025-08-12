@@ -27,23 +27,23 @@ select:focus {
 }
 
 .pesquisar {
+    border: 2px solid #ccc;
+    border-radius: 20px;
+    padding: 5px 15px;
     display: flex;
     align-items: center;
-    gap: 15px;
-    border: solid 1px;
-    border-radius: 50px;
-    width: 300px;
-    padding: 5px 15px;
-    margin-bottom: 40px;
+    gap: 8px;
 }
 
 .pesquisar_campanha {
     background-color: transparent;
-    font-size: 18px;
+    border-radius: 20px; 
+    padding: 5px 15px;
+    display: flex; 
+    align-items: center;
     border: none;
-    height: 32px;
-    width: 260px;
-    font-family: "K2D", sans-serif;
+    gap: 8px;
+    
 }
 
 .lupa {
@@ -52,11 +52,200 @@ select:focus {
 }
 
 .container {
-    margin-left: 35%;
-    margin-top: 6.5em;
-    width: auto;
-    margin-right: 20.5em;
+    padding: 40px 0px 0px 0px;
+    width: 50%;
+    /* max-width: 800px; */
+    /* margin-left: 450px;
+    padding-left: 200px; */
+    margin-left: 450px;
+    padding-left: 200px;
+    overflow: hidden;
+    
+    
+    
 }
+
+
+.campanhas_pre{
+    min-width: 600px;
+}
+
+@media (max-width: 1700px) {
+  .container {
+    margin-left: 400px;
+    padding-left: 200px;
+  }
+}
+
+@media (max-width: 1650px) {
+  .container {
+    margin-left: 380px;
+    padding-left: 200px;
+  }
+}
+
+@media (max-width: 1600px) {
+  .container {
+    margin-left: 365px;
+    padding-left: 200px;
+  }
+}
+
+@media (max-width: 1550px) {
+  .container {
+    margin-left: 355px;
+    padding-left: 200px;
+  }
+}
+
+@media (max-width: 1500px) {
+  .container {
+    margin-left: 345px;
+    padding-left: 200px;
+  }
+}
+
+@media (max-width: 1450px) {
+  .container {
+    margin-left: 325px;
+    padding-left: 200px;
+  }
+}
+
+/* Telas menores que 1200px */
+@media (max-width: 1400px) {
+  .container {
+    margin-left: 320px;
+    padding-left: 200px;
+  }
+}
+
+/* Telas menores que 1200px */
+@media (max-width: 1350px) {
+  .container {
+    margin-left: 315px;
+    padding-left: 200px;
+  }
+}
+
+@media (max-width: 1300px) {
+  .container {
+    margin-left: 295px;
+    padding-left: 200px;
+
+  }
+  .campanhas_pre{
+    position: absolute;
+    z-index: 1000;
+  }
+
+
+}
+
+@media (max-width: 1250px) {
+  .container {
+    margin-left: 275px;
+    padding-left: 200px;
+  }
+  .campanhas_pre{
+    position: absolute;
+    z-index: 1000;
+  }
+}
+
+@media (max-width: 1200px) {
+  .container {
+    margin-left: 255px;
+    padding-left: 200px;
+  }
+  .campanhas_pre{
+    position: absolute;
+    z-index: 1000;
+  }
+}
+
+
+@media (max-width: 1150px) {
+  .container {
+    margin-left: 230px;
+    padding-left: 200px;
+  }
+  .campanhas_pre{
+    position: absolute;
+    z-index: 1000;
+  }
+}
+
+@media (max-width: 1100px) {
+  .container {
+    margin-left: 210px;
+    padding-left: 200px;
+  }
+  .campanhas_pre{
+    position: absolute;
+    z-index: 1000;
+  }
+}
+
+@media (max-width: 1050px) {
+  .container {
+    margin-left: 195px;
+    padding-left: 200px;
+  }
+  .campanhas_pre{
+    position: absolute;
+    z-index: 1000;
+  }
+
+}
+
+@media (max-width: 1025px) {
+  .container {
+    margin-left: 180px;
+    padding-left: 200px;
+  }
+
+  .campanhas_pre{
+    position: absolute;
+    z-index: 1000;
+  }
+}
+
+@media (max-width: 1000px) {
+  .container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 10px 10px 10px;
+    width: 100%;
+    margin-left: 0px;
+    box-sizing: border-box;
+  }
+
+  .campanhas_pre{
+    min-width: 0;
+    box-sizing: border-box;
+    position: static; /* remove o absolute */
+    z-index: auto;    /* reseta o z-index */
+  }
+  .tabela_campanha_conteudo_dado1 h2, .tabela_campanha_conteudo_dado2 h2 {
+    white-space: normal !important; /* permite quebra de linha */
+    overflow: visible !important;   /* remove o corte */
+    text-overflow: unset !important; /* desativa os '...' */
+  }
+  
+}
+
+@media (max-width: 500px) {
+  .cabecalho-campanha{
+    justify-content: flex-start !important ;
+  }
+  #coluna-termino{
+    margin-left: 28%;
+  }
+}
+
+
 
 .cabecalho {
     display: flex;
@@ -64,15 +253,22 @@ select:focus {
     justify-content: space-between;
     flex-direction: row;
     margin-bottom: 50px;
+    margin-top: 32px;
+    
 }
 
 .cabecalho_titulo {
     color: var(--preto);
-
     font-family: "K2D", sans-serif;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
+}
+
+#titulo-campanhas{
+    padding: 0;
+    padding-right: 20px;
+    margin: 0;
 }
 
 .cabecalho_btnexportar button {
@@ -108,18 +304,21 @@ select:focus {
 }
 
 .linha {
-    width: 47px;
-    height: 4px;
-    background-color: var(--laranja);
+    border-bottom: 3px solid #FC671D;
+    padding-bottom: 2px;
+    width: 67px;
+
 }
 
 .campanha {
     width: 100%;
     box-sizing: border-box;
+    
 }
 
 .tabela_campanha {
     width: 100%;
+    height: 415px;
     
 }
 
@@ -127,16 +326,18 @@ select:focus {
     display: flex;
     align-items: center;
     width: 100%;
-    height: 50px;
+    height: 60px;
     box-sizing: border-box;
     justify-content: space-between;
     gap: 20px;
     font-family: "K2D", sans-serif;
     border-left: 5px solid #CA8EFF;
     border-radius: 12px;
-    background: #fdfdfd;
-    box-shadow: 5px 5px 10px 0px rgba(77, 44, 135, 0.45);
-    padding: 10px 20px;
+    background: #fdfdfd; 
+    /*box-shadow: 5px 5px 10px 0px rgba(77, 44, 135, 0.45); */
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    padding: 15px;
+    margin-bottom: 10px;
 }
 
 .tabela_campanha_conteudo_dado1 {
@@ -186,7 +387,7 @@ select:focus {
 .tabela_campanha_cabecalho_termino {
     display: flex;
     align-items: center;
-    margin-right: 190px;
+    margin-right: 180px;
 }
 
 .campanhas_pre {
@@ -202,10 +403,6 @@ select:focus {
     height: 24px;
 }
 
-.tabela_campanha {
-    height: 500px; 
-}
-
 .cabecalho-campanha{
     display: flex;
     justify-content: space-between;
@@ -213,15 +410,16 @@ select:focus {
 
 .tr-campanha{
     display: flex;
-    margin-bottom: 30px;
+    margin-bottom: 12px;
 }
+
 
 #paginacao {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 1rem;
-    margin-top: 2rem;
+    margin-top: 1rem;
     font-family: Arial, sans-serif;
 }
 
@@ -245,7 +443,7 @@ select:focus {
     cursor: not-allowed;
 }
 
-#pagina-atual-predefinida {
+#pagina-atual-predefinida,  #pagina-atual-predefinida1{
     font-weight: bold;
     font-size: 1.1rem;
 }

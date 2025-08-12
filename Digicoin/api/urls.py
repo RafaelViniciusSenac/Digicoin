@@ -30,7 +30,8 @@ urlpatterns = [
     path('cadastrarDesafio', cadastrarDesafio, name="cadastrarDesafio"),
     path('ranking', ranking, name="ranking"),
     path('listaDeUsuarios', listaDeUsuarios, name="listaDeUsuarios"),
-    path('desafiosCampanha/', desafiosCampanha, name="desafiosCampanha"),
+    path('CampanhaAtivas/', desafiosCampanhaAtivas, name="CampanhaAtivas"),
+    path('desafiosCampanha/<int:campanha_id>/', desafiosCampanha, name="desafiosCampanha"),
     path('listaDePedidos', listaDePedidos, name='listaDePedidos'),
     path('carrinho/', carrinho, name="carrinho"),
     path('relatorio/', relatorio, name="relatorio"),
@@ -41,6 +42,8 @@ urlpatterns = [
     path('adicionarMoedas/', adicionarMoedas, name='adicionarMoedas'),
     path('listaDeDesafios/', listaDeDesafios, name='listaDeDesafios'),
     path('teste/', teste, name='teste'),
-    
+    path('api/exportar_vendas_excel/', exportar_vendas_excel, name='exportar_vendas_excel'),
+    path('api/exportar_produtos_mais_vendidos_excel/', exportar_produtos_mais_vendidos_excel, name='exportar_produtos_mais_vendidos_excel'),
+    path('api/exportar_usuarios_com_mais_moedas_excel/', exportar_usuarios_com_mais_moedas_excel, name='exportar_usuarios_com_mais_moedas_excel'),
 
 ]

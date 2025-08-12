@@ -80,21 +80,35 @@
         </div>
 
         <div class="paginacao-div">
-            {% if compras.has_previous %}
             <div class="paginacao-paginas">
                 <div>
-                    <a class="paginacao-anterior" href="?compra_page={{ compras.previous_page_number }}"><i class="fa fa-arrow-left" aria-hidden="true"></i> Anterior</a>
+                    {% if compras.has_previous %}
+                        <a class="botao-desativado-paginacao" href="?compra_page={{ compras.previous_page_number }}">
+                            <i class="fa fa-arrow-left" aria-hidden="true"></i> Anterior
+                        </a>
+                    {% else %}
+                        <span class="botao-desativado-paginacao desativado">
+                            <i class="fa fa-arrow-left" aria-hidden="true"></i> Anterior
+                        </span>
+                    {% endif %}
                 </div>
-            {% endif %}
+        
                 <span>Página {{ compras.number }} de {{ compras.paginator.num_pages }}</span>
-            {% if compras.has_next %}
+        
                 <div>
-                    <a class="paginacao-proxima" href="?compra_page={{ compras.next_page_number }}">Próxima <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                    {% if compras.has_next %}
+                        <a class="botao-desativado-paginacao" href="?compra_page={{ compras.next_page_number }}">
+                            Próxima <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                        </a>
+                    {% else %}
+                        <span class="botao-desativado-paginacao desativado">
+                            Próxima <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                        </span>
+                    {% endif %}
                 </div>
-            {% endif %}
-                
-            </div>                
+            </div>
         </div>
+        
     </div>  
 </div>
 

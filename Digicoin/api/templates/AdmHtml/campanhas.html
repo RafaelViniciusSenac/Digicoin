@@ -6,23 +6,24 @@
 {% include 'components/adm/popUpAdicionarProduto.html'%}
 
 <link rel="stylesheet" href="{% static 'css/AdmCss/campanhas.css' %}" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <div class="container" id="container-campanhas">
 
-    <div class="campo_pesquisar" id="campo-pesquisar">
-        <div class="pesquisar">
-            <img class="lupa" src="{% static 'img/pesquisa.png' %}" alt="" />
-            <input
-                class="pesquisar_campanha"
-                id="barraBusca"
-                name="termo"
-                type="search"
-                placeholder="Pesquisar Campanha"
-            />
-        </div>
-    </div>
-
+    
     <div class="campanhas_pre">
+        <div class="campo_pesquisar" id="campo-pesquisar">
+            <div class="pesquisar">
+                <img class="lupa" src="{% static 'img/pesquisa.png' %}" alt="" />
+                <input
+                    class="pesquisar_campanha"
+                    id="barraBusca"
+                    name="termo"
+                    type="search"
+                    placeholder="Pesquisar Campanha"
+                />
+            </div>
+        </div>
         <div class="cabecalho">
             <div class="cabecalho_titulo">
                 <h1 id="titulo-campanhas">Campanhas Criadas</h1>
@@ -52,11 +53,11 @@
                 </div>
             </div>
 
-            <table id="corpo-tabela-predefinida" class="tabela_campanha">
-                <tbody id="corpo-tabela">
+            <div id="corpo-tabela-predefinida" class="tabela_campanha">
+                <div id="corpo-tabela">
                     {% for campanha in campanhas %}
-                    <tr class="tr-campanha" id="linha-campanha-{{ campanha.id }}">
-                        <td class="tabela_campanha_conteudo" data-nome="{{ campanha.nome|lower }}">
+                    <div class="tr-campanha" id="linha-campanha-{{ campanha.id }}">
+                        <div class="tabela_campanha_conteudo" data-nome="{{ campanha.nome|lower }}">
                             <div class="tabela_campanha_conteudo_dado1">
                                 <div
                                     class="circle"
@@ -82,15 +83,16 @@
                                     <img src="{% static 'img/iconeDeletar.png' %}" alt="deletar">
                                 </button>
                             </div>
-                        </td>
-                    </tr>
+                        </div>
+                    </div>
                     {% endfor %}
-                </tbody>
-            </table>
+                </div>
+            </div>
+
 
             <div id="paginacao">
                 <button id="botao-anterior" onclick="mudarPagina('predefinida', -1)">Anterior</button>
-                <span id="pagina-atual-predefinida">1</span>
+                <span id="pagina-atual-predefinida1">pagina <span id="pagina-atual-predefinida">1</span> de <span id="contador-de-pagina">1</span></span>
                 <button id="botao-proxima" onclick="mudarPagina('predefinida', 1)">Próxima</button>
             </div>
         </div>
@@ -100,8 +102,13 @@
 
 <script src="{% static 'js/AdmJS/criarCampanha.js' %}"></script>
 <script>
-    const porPagina = 4;
+    {% comment %} document.querySelectorAll('*').forEach(el => el.style.outline = '1px solid red'); {% endcomment %}
+
+    const porPagina = 5;
     const paginas = { predefinida: 1, criada: 1 };
+    
+    
+    
 
     function mostrarPagina(tipo) {
         const todasLinhas = document.querySelectorAll(`#corpo-tabela-${tipo} .tabela_campanha_conteudo`);
@@ -111,6 +118,7 @@
 
         const inicio = (paginaAtual - 1) * porPagina;
         const fim = inicio + porPagina;
+    
 
         todasLinhas.forEach(l => l.parentElement.style.display = 'none');
         linhasVisiveis.slice(inicio, fim).forEach(l => l.parentElement.style.display = '');
@@ -119,21 +127,26 @@
         if (elementoPagina) {
             elementoPagina.textContent = paginaAtual;
         }
+
+
     }
 
     function mudarPagina(tipo, delta) {
-        const linhas = document.querySelectorAll(`#corpo-tabela-${tipo} tr`);
+        const linhas = document.querySelectorAll(`#corpo-tabela-${tipo} .tr-campanha`);
+
         const totalPaginas = Math.ceil(linhas.length / porPagina);
         const novaPagina = paginas[tipo] + delta;
 
         if (novaPagina >= 1 && novaPagina <= totalPaginas) {
             paginas[tipo] = novaPagina;
+            localStorage.setItem(`pagina-${tipo}`, novaPagina);
             mostrarPagina(tipo);
         }
     }
 
     function filtrarTabela(tipo, filtro) {
-        const linhas = document.querySelectorAll(`#corpo-tabela-${tipo} tr`);
+        const linhas = document.querySelectorAll(`#corpo-tabela-${tipo} .tr-campanha`);
+
         linhas.forEach(linha => {
             if (linha.textContent.toLowerCase().includes(filtro.toLowerCase())) {
                 linha.style.display = '';
@@ -150,9 +163,54 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
+        const todasLinhas = document.querySelectorAll(`#corpo-tabela-predefinida .tabela_campanha_conteudo`);
+        const linhasVisiveis = Array.from(todasLinhas).filter(l => l.style.display !== 'none');
+
+        const totalPaginas = Math.max(1, Math.ceil(linhasVisiveis.length / porPagina));
+
+        const contadorDePagina = document.getElementById('contador-de-pagina');
+        if (contadorDePagina) {
+            contadorDePagina.textContent = totalPaginas;
+        }
+
+        const paginaSalva = parseInt(localStorage.getItem('pagina-predefinida')) || 1;
+        paginas['predefinida'] = paginaSalva;
         mostrarPagina('predefinida');
+        
+
         mostrarPagina('criada');
     });
+    
+
+    document.getElementById('barraBusca').addEventListener('input', function () {
+        let termo = document.getElementById('barraBusca').value.toLowerCase();
+
+        const linhas = document.querySelectorAll('.tabela_campanha_conteudo');
+
+        linhas.forEach(linha => {
+            const nome = linha.dataset.nome.toLowerCase();
+            
+
+            if (nome.includes(termo)) {
+                this.parentElement
+                
+                linha.style.display = ''; // mostra
+                
+
+            } else {
+                console.log("esconder")
+                linha.style.display = 'none'; // esconde
+            }
+        });
+
+        paginas['predefinida'] = 1;
+        
+        
+        // Reaplica a paginação automaticamente
+        mostrarPagina('predefinida'); // ou 'criadas' se for outra tabela
+    });
+
+
 </script>
 
 {% endblock content %}

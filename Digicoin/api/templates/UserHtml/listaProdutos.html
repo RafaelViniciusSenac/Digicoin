@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
+
 {% block content %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
@@ -64,7 +65,7 @@
 
                     <i class="fa fa-refresh refresh-listaProdutos" aria-hidden="true"></i>
                 </div>
-                <div class="tras-listaProdutos">
+                {% comment %} <div class="tras-listaProdutos">
                     <div class="topo-listaProdutos">
                         <div class="NProduto-listaProdutos">{{produto.nome}}</div>
                         <button class="fechar-listaProdutos X-listaProdutos">X</button>
@@ -74,10 +75,39 @@
                         <span>{{produto.quantidade}}</span>
                     </div>
                     <div class="descricao-listaProdutos">
-                        <p>Sobre: </p>
+                        <p>Sobre:</p>
                         <span>{{produto.descricao}}</span>
                     </div>
                     <i class="fa fa-refresh refresh-listaProdutos" aria-hidden="true"></i>
+                </div> {% endcomment %}
+
+                <div class="tras-listaProdutos">
+                    <!-- Topo com nome do produto e botão fechar -->
+                    <div class="topo-listaProdutos">
+                        <h2 class="NProduto-listaProdutos">{{produto.nome}}</h2>
+                        <button class="fechar-listaProdutos X-listaProdutos" aria-label="Fechar">X</button>
+                    </div>
+                
+                    <!-- Quantidade do produto -->
+                    <div class="quantidade-listaProdutos">
+                        <p>
+                            <strong>Quantidade:</strong>
+                            <span>{{produto.quantidade}}</span>
+                        </p>
+                    </div>
+                
+                    <!-- Descrição do produto -->
+                    <div class="descricao-listaProdutos">
+                        
+                        <strong>Sobre:</strong>          
+                        <span>{{produto.descricao}}</span>
+                        
+                    </div>
+                
+                    <!-- Ícone de refresh -->
+                    <div class="refresh-container-listaProdutos">
+                        <i class="fa fa-refresh refresh-listaProdutos" aria-hidden="true"></i>
+                    </div>
                 </div>
             </div>
         </div>
@@ -85,25 +115,38 @@
     {% endfor %}
 
 
-        <div class="pagination-listaProdutos" id="paginacao-listaProdutos">
-            {% if produtos.has_previous %}
-            <div class="paginas-listaProdutos">
-                <div>
-                    <a class="anterior-listaProdutos" href="?listaProduto_page={{ produtos.previous_page_number }}"><i class="fa fa-arrow-left" aria-hidden="true"></i> Anterior</a>
-                </div>
-            {% endif %}
+    <div class="pagination-listaProdutos" id="paginacao-listaProdutos">
+        <div class="paginas-listaProdutos">
+            <!-- Botão Anterior -->
+            <div>
+                {% if produtos.has_previous %}
+                    <a class="anterior-listaProdutos" href="?listaProduto_page={{ produtos.previous_page_number }}">
+                        <i class="fa fa-arrow-left" aria-hidden="true"></i> Anterior
+                    </a>
+                {% else %}
+                    <span class="anterior-listaProdutos botao-desativado-paginacao">
+                        <i class="fa fa-arrow-left" aria-hidden="true"></i> Anterior
+                    </span>
+                {% endif %}
+            </div>
         
-            {% if produtos.has_next %}
-                <div>
-                    <a class="proxima-listaProdutos" href="?listaProduto_page={{ produtos.next_page_number }}">Próxima <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
-                </div>
-            {% endif %}
-                
-                <span>Página {{ produtos.number }} de {{ produtos.paginator.num_pages }}</span>
-            </div>                
+            <span>Página {{ produtos.number }} de {{ produtos.paginator.num_pages }}</span>
+        
+            <!-- Botão Próxima -->
+            <div>
+                {% if produtos.has_next %}
+                    <a class="proxima-listaProdutos" href="?listaProduto_page={{ produtos.next_page_number }}">
+                        Próxima <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                    </a>
+                {% else %}
+                    <span class="proxima-listaProdutos botao-desativado-paginacao">
+                        Próxima <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                    </span>
+                {% endif %}
+            </div>
         </div>
+        
     </div>
-
 
     <script src="{% static 'js/UserJs/listaProdutos.js' %}"></script>
 </div>

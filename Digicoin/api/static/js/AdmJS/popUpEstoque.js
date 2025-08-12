@@ -14,6 +14,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const buttonClose3 = document.querySelector(".buttonClose3");
 
     const produto = document.getElementById("Produto");
+    const descricao = document.getElementById("Descricao") // PROBLEMA É AQUI, VALIDAÇÃO DO ERRO DO PRODUTO É IGUAL COM A DA DESCRIÇÃO, ME AJUDE A ARRUMAR ISSO
+
+
     const quantidade = document.getElementById("Quantidade");
     quantidade.addEventListener("input", function () {
         mascaraMilhar(quantidade);
@@ -36,6 +39,69 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const campanhaLista = document.querySelector(".temaCampanhaCorpo");
 
+    function resetarFormularioProduto() {
+        const campos = [produto, descricao, quantidade, preco];
+
+        campos.forEach((input) => {
+            input.value = "";
+            const formControl = input.parentElement;
+            const small = formControl.querySelector("small");
+            const campoInput = formControl.querySelector("input");
+
+            if (small) {
+                small.classList.remove("error");
+            }
+
+            if (campoInput) {
+                campoInput.classList.remove("error");
+            }
+        });
+
+        // Limpa imagem
+        const uploadBox = document.querySelector(".UploadBox");
+        const uploadIcon = document.querySelector(".upload-icon");
+        const imagemInput = document.getElementById("imagem");
+
+        uploadBox.style.backgroundImage = "";
+        uploadBox.classList.remove("has-image", "erro-upload");
+        uploadIcon.classList.remove("erro-icon");
+        if (imagemInput) imagemInput.value = "";
+
+        // Limpa checkboxes
+        document.getElementById("Fisico").checked = false;
+        document.getElementById("Virtual").checked = false;
+        document.getElementById("Campanha").checked = false;
+
+        document.getElementById("erroFisico").classList.remove("error");
+        document.getElementById("erroVirtual").classList.remove("error");
+
+        // Reseta controle
+        controle = true;
+        btnConcluir.setAttribute("type", "button");
+    }
+
+    function resetarFormularioCampanha() {
+        const campos = [nomeCampanha, dataFim];
+
+        campos.forEach((input) => {
+            input.value = "";
+            const formControl = input.parentElement;
+            const small = formControl.querySelector("small");
+            const campoInput = formControl.querySelector("input");
+
+            if (small) {
+                small.classList.remove("error");
+            }
+
+            if (campoInput) {
+                campoInput.classList.remove("error");
+            }
+        });
+
+        // Reset geral do formulário, se quiser garantir
+        // const form = document.getElementById("CriacaoDeCampanhaForm");
+        // if (form) form.reset();
+    }
 
     // Função para exibir erros
     function ShowError(input, mensagem) {
@@ -177,8 +243,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    
-    buttonClose.addEventListener("click", () => modalPrimeiro.close());
+    buttonClose.addEventListener("click", () => {
+        modalPrimeiro.close();
+        resetarFormularioProduto();
+    });
     // Configura apenas uma vez, no carregamento
     document.getElementById("produtoForm2").addEventListener("submit", (e) => {
         if (!checkComparacao()) {
@@ -193,7 +261,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Quando clicar no botão concluir
     buttonConcluir.addEventListener("click", () => {
     
-        const camposObrigatoriosOk = checkRequired([produto, quantidade, preco]);
+        const camposObrigatoriosOk = checkRequired([produto, descricao, quantidade, preco]);
         const tipoOk = checkFisicoVirtualRequired();
         const imagemOk = temImagemOuImagemExistente();  // Chama só 1 vez
         const campanhaOk = checkCampanhaRequired();
@@ -212,7 +280,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 // Configura botões do modal (fechar e links)
             buttonClose2.addEventListener("click", () => modalSegundo.close());
             buttonLinkCampanha.addEventListener("click", () => modalTerceiro.showModal());
-            buttonClose3.addEventListener("click", () => modalTerceiro.close());
+            buttonClose3.addEventListener("click", () => {
+                modalTerceiro.close();
+                resetarFormularioCampanha();
+            });
             
         } else if (camposSemCampanha) {
             
@@ -232,6 +303,7 @@ document.addEventListener("DOMContentLoaded", function () {
         
     
         let nome = document.getElementById('Produto').value;
+        let descricao = document.getElementById('Descricao').value;
         let quantidade = document.getElementById('Quantidade').value;
         quantidade = quantidade.replace(/\./g, '');
         quantidade = parseInt(quantidade);
@@ -295,6 +367,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Criação do formData para envio com imagem
         const formData = new FormData();
         formData.append("nome", nome);
+        formData.append("descricao", descricao);
         formData.append("valor", preco);
         formData.append("quantidade", quantidade);
         formData.append("tipo", tipo);
@@ -358,28 +431,49 @@ document.addEventListener("DOMContentLoaded", function () {
 
     async function EventoCampanhas(event) {
         event.preventDefault();
-
-        let nome = document.getElementById('nomeCampanha').value;
-        let inicio = new Date(document.getElementById('dataInicio').value + "T00:00:00"); // Garante o horário correto
-        let fim = new Date(document.getElementById('dataFim').value + "T00:00:00");
-        let descricaoCampanha = document.getElementById('descricaoCampanha').value;
+        let nomeInput = document.getElementById('nomeCampanha')
+        let nome = nomeInput.value;
+        let inicio = new Date(); // pega o momento atual
+        inicio.setHours(0, 0, 0, 0);
+        // let inicio = new Date(document.getElementById('dataInicio').value + "T00:00:00"); // Garante o horário correto
+        let dataFimInput = document.getElementById('dataFim');
+        let fim = new Date(dataFimInput.value + "T00:00:00");
+        let status = document.getElementById('ativaCampanha').checked; 
+        // let descricaoCampanha = document.getElementById('descricaoCampanha').value;
         const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value
 
         const hoje = new Date()
         hoje.setHours(0, 0, 0, 0);
 
+        
+        let Valid = true;
 
-        if (!nome || dataInicio.value === "" || dataFim.value === "" || fim < inicio || inicio.getTime() < hoje.getTime()) {
-            alert("Preencha todos os campos corretamente.");
-            return;
+        // Validação do nome
+        if (nome.trim() === "") {
+            ShowError(nomeInput, "Campo obrigatório");
+            Valid = false;
+        } else {
+            ShowSucesso(nomeInput);
         }
+
+        // Validação da data
+        if (dataFimInput.value === "") {
+            ShowError(dataFimInput, "Campo obrigatório");
+            Valid = false;
+        } else if (fim < inicio) {
+            ShowError(dataFimInput, "A data final precisa ser hoje ou depois.");
+            Valid = false;
+        } else {
+            ShowSucesso(dataFimInput);
+        }
+
+        if (!Valid) return;
 
         const evento = {
             nome: nome,
-            is_active: true,
-            dataInicio: dataInicio.value,
-            dataFim: dataFim.value,
-            descricao: descricaoCampanha
+            is_active: status,
+            dataInicio: inicio.toISOString().split('T')[0],
+            dataFim: dataFim.value
         };
 
 
@@ -416,15 +510,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
             modalTerceiro.close();
             formCampanhaTerceiro.reset();
+
         
             
         }
-        let botaoElement = document.getElementById('buttonCriarCampanha');
-        if (botaoElement) {
-            let valorbutaoCamp = botaoElement.value;
-            if (valorbutaoCamp) {
-                window.location.reload();
-            }
+        let botaoElement = document.getElementsByClassName('buttonrodaPeModal');
+        if (botaoElement.length > 0) {
+            
+            window.location.reload();
+            
         }
     }
 

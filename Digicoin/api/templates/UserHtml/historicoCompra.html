@@ -40,10 +40,11 @@
                             <input type="date" id="campoData" name="data" placeholder="Pesquisar por Data" style="display:none;">
                             <select id="campoEntrega" name="entrega" placeholder="Tipo de Entrega" style="display:none;">
                                 <option value="Retirar">Retirar</option>
-                                <option value="Entrega">Entrega</option>
+                                <option value="Entrega">Entregar</option>
                             </select>
                             <select id="campoStatus" name="status" placeholder="Status da compra" style="display:none;">
                                 <option value="Pendente">Pendente</option>
+                                <option value="Andamento">Em andamento</option>
                                 <option value="Concluido">Concluido</option>
                             </select>
                             <button type="submit">Pesquisar</button>
@@ -89,6 +90,7 @@
                             <div class="historico-compra-tabela-cell entrega" data-label="Entrega">{{compra.entrega}}</div>
                         {% endif %}
                         <div class="historico-compra-tabela-cell pedido" data-label="Pedido">{{compra.pedido}}</div>
+
                     </div>
                     {% endfor %}
                 </div>

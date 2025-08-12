@@ -7,10 +7,11 @@ botaoTeste.addEventListener('click', () => modalTerceiro.showModal())
 const buttonClose3 = document.querySelector(".buttonClose3");
 buttonClose3.addEventListener("click", () => {
     document.getElementById('nomeCampanha').value = "";
-    document.getElementById('dataInicio').value = "";
+    // document.getElementById('dataInicio').value = "";
     document.getElementById('dataFim').value = "";
-    document.getElementById('descricaoCampanha').value = "";
+    // document.getElementById('descricaoCampanha').value = "";
     document.getElementById('valorEditar').value = "";
+    resetarFormularioCampanha();
     modalTerceiro.close();
 });
 
@@ -28,9 +29,11 @@ async function EditarCampanhas(idCampanha) {
 
     // Preenche os campos do formulário de edição
     document.getElementById('nomeCampanha').value = dados.nome;
-    document.getElementById('dataInicio').value = dados.dataInicio;
+    // document.getElementById('dataInicio').value = dados.dataInicio;
     document.getElementById('dataFim').value = dados.dataFim;
-    document.getElementById('descricaoCampanha').value = dados.descricao;
+    // document.getElementById('descricaoCampanha').value = dados.descricao;
+    document.getElementById('ativaCampanha').checked  = dados.is_active
+    
 
     window.campanhasSelecionadas = [dados.idCampanha];
     document.getElementById('CriacaoDeCampanha').showModal();
@@ -63,40 +66,28 @@ async function inativarCampanhas(elemento) {
         is_active: novoStatus
     };
 
-    const resultado = await apiRequest(`/api/campanha/${id}/`, 'PUT', campanhaAtualizada, { 'X-CSRFToken': csrf });
+    await apiRequest(`/api/campanha/${id}/`, 'PUT', campanhaAtualizada, { 'X-CSRFToken': csrf });
     window.location.reload();
 
 
 }
 
+function resetarFormularioCampanha() {
+    const campos = [nomeCampanha, dataFim];
 
+    campos.forEach((input) => {
+        input.value = "";
+        const formControl = input.parentElement;
+        const small = formControl.querySelector("small");
+        const campoInput = formControl.querySelector("input");
 
-document.getElementById('barraBusca').addEventListener('input', function () {
-    let termo = document.getElementById('barraBusca').value.toLowerCase();
+        if (small) {
+            small.classList.remove("error");
+        }
 
-    const linhas = document.querySelectorAll('.tabela_campanha_conteudo');
-
-    linhas.forEach(linha => {
-        const nome = linha.dataset.nome.toLowerCase();
-        
-
-        if (nome.includes(termo)) {
-            this.parentElement
-            
-            linha.style.display = ''; // mostra
-            
-
-        } else {
-            console.log("esconder")
-            linha.style.display = 'none'; // esconde
+        if (campoInput) {
+            campoInput.classList.remove("error");
         }
     });
 
-    paginas['predefinida'] = 1;
-    
-
-    // Reaplica a paginação automaticamente
-    mostrarPagina('predefinida'); // ou 'criadas' se for outra tabela
-});
-
-
+}

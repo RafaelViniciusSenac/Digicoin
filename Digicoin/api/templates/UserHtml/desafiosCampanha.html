@@ -1,79 +1,94 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-    <link rel="stylesheet" href="{% static 'css/UserCss/desafiosCampanha.css' %}">
-    <link rel="stylesheet" href="../../components/menu/menu_colaborador/menu_colaborador.css">
-<div class = "body-desafiosCampanha">
-    {% comment %} body inicio {% endcomment %}
+<link rel="stylesheet" href="{% static 'css/UserCss/desafiosCampanha.css' %}">
+<link rel="stylesheet" href="{% static 'components/menu/menu_colaborador/menu_colaborador.css' %}">
+
+<div class="body-desafiosCampanha">
     {% include 'components/user/menuUser.html' %}
 
-    <div id="central" class="central">
+    <div class="central">
+        <div class="central1">
+            <div class="listaDesafios">
 
-        <div class="listaDesafios">
+                <a href='/CampanhaAtivas/' class="voltarBotao">
+                    <button class="voltar">
+                        <img src="{% static 'img/flechaEsquerda.png' %}" alt="">
+                        <h2>Voltar</h2>
+                    </button>
+                </a>
 
-
-            {% comment %} botao de voltar {% endcomment %}
-            <a href='/home/' class='voltarBotao' id = 'botaoVoltar'>
-            <button class="voltar"><img src="{% static 'img/flechaEsquerda.png' %}" alt="">
-                <h2>Voltar</h2>
-            </button>
-             </a>
-            {% comment %} fim do botao de voltar {% endcomment %}
-
-
-
-            <div class="titulo-desafiosCampanha">
-                <img src="{% static 'img/Vector.png' %}" alt="" class="vector">
-                <div class="textDecoratinDesafios">Desafios de campanha</div>
-                
-            </div>
-            <div class="line"></div>
-
-            <div class="cabecalhoMissoes">
-                <div class="centralizar">
-                    <h3>Nome</h3>
-                    <img src="{% static 'img/sort.png' %}" alt="" class="sort">
+                <div class="titulo-desafiosCampanha">
+                    <img src="{% static 'img/Vector.png' %}" alt="" class="vector">
+                    <div class="textDecoratinDesafios">Desafios de campanha</div>
                 </div>
-                <h3 class="cabecalhoMissoesRecompensa">Recompensa $</h3>
-            </div>
 
+                <div class="line"></div>
 
-
-
-            {% comment %} lista de desafios {% endcomment %}
-            <div class="listaDesafios" id="listaDesafios">
-                <div class="desafios">
-                    {% for i in desafios%}
-                    <div class="desafiosFlex" id="desafiosFlex">
-                        <div class="alvoCampanha">
-                            <img src="{% static '/img/alvoCampanha.png' %}" class="alvo">
-                            <div class="texto-card">{{i.nome}}</div>
-                        </div>
-                        <span class="laranja">DG$<span class="azul">{{i.valor}}</span></span>
+                <div class="cabecalhoMissoes">
+                    <div class="centralizar">
+                        <h3>Nome</h3>
+                        <img src="{% static 'img/sort.png' %}" alt="" class="sort">
                     </div>
-                    {% endfor %}
+                    <h3 class="cabecalhoMissoesRecompensa">Recompensa $</h3>
+                </div>
 
+                <div class="desafios">
+                    {% for i in desafios %}
+                        <div class="desafiosFlex toggle-btn" data-id="{{ i.id }}">
+                            <div class="alvoCampanha">
+                                <img src="{% static 'img/alvoCampanha.png' %}" class="alvo">
+                                <div class="texto-card">{{ i.nome }}</div>
+                            </div>
+                            <span class="laranja">DG$<span class="azul">{{ i.valor }}</span></span>
+                        </div>
+                
+                        <div class="descricao-cascata" id="descricao-{{ i.id }}">
+                            <p><strong>Descrição:</strong> {{ i.descricao }}</p>
+                            <p><strong>Campanha:</strong> {{ i.idCampanha.nome }}</p>
+                            <div class="datas-campanhas">
+                                <p><strong>Início:</strong> {{ i.dataInicio }}</p>
+                                <p><strong>Fim:</strong> {{ i.dataFim }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div class="pagination">
+                    <a 
+                        href="{% if desafios.has_previous %}?desafio_page={{ desafios.previous_page_number }}{% else %}#{% endif %}" 
+                        class="{% if not desafios.has_previous %}disabled{% endif %}">
+                        Anterior
+                    </a>
+                
+                    <span>Página {{ desafios.number }} de {{ desafios.paginator.num_pages }}</span>
+                
+                    <a 
+                        href="{% if desafios.has_next %}?desafio_page={{ desafios.next_page_number }}{% else %}#{% endif %}" 
+                        class="{% if not desafios.has_next %}disabled{% endif %}">
+                        Próxima
+                    </a>
                 </div>
             </div>
-            {% comment %} fim da lista de desafios {% endcomment %}
-            <div class="pagination">
-                {% if desafios.has_previous %}
-                    <a href="?desafio_page={{ desafios.previous_page_number }}">Anterior</a>
-                {% endif %}
-            
-                <span>Página {{ desafios.number }} de {{ desafios.paginator.num_pages }}</span>
-            
-                {% if desafios.has_next %}
-                    <a href="?desafio_page={{ desafios.next_page_number }}">Próxima</a>
-                {% endif %}
-            </div>
-
-
         </div>
     </div>
-    {% comment %} body fim {% endcomment %}
 </div>
+<script>
+    document.querySelectorAll(".desafiosFlex").forEach((card) => {
+        card.addEventListener("click", function () {
+            const id = card.getAttribute("data-id");
+            const descricao = document.getElementById("descricao-" + id);
 
+            // Fecha todas as outras descrições abertas
+            document.querySelectorAll(".descricao-cascata.open").forEach(el => {
+                if (el !== descricao) {
+                    el.classList.remove("open");
+                }
+            });
 
-
+            // Alterna a descrição do item clicado
+            descricao.classList.toggle("open");
+        });
+    });
+</script>
 {% endblock %}
