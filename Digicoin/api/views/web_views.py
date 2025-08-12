@@ -188,45 +188,69 @@ def listaEstoque(request):
     return render(request, 'AdmHtml/listaEstoque.html', {'estoque': estoque, 'eventos': eventos})
 
 def listaDeDesafios(request):
+    # Parâmetros da requisição
     nome = request.GET.get('nome', '')
-    desafios_qs = Desafio.objects.filter(is_active=True)
-
+    pagina = request.GET.get('desafio_page', 1)
+    
+    # Query base
+    desafios_qs = Desafio.objects.filter(is_active=True).order_by('id')
+    
+    # Filtro por nome se existir
     if nome:
         desafios_qs = desafios_qs.filter(nome__icontains=nome)
-
-    desafio_paginator = Paginator(desafios_qs, 5)
-    desafio_page = request.GET.get ('desafio_page', 1)
-    desafios_page = desafio_paginator.get_page(desafio_page)
-
-    if request.headers.get('X-Requested-With') == 'XMLHttpRequest' or request.headers.get('x-requested-with') == 'XMLHttpRequest':
-        campanhas = list(Campanha.objects.filter(is_active=True).values('id', 'nome'))
-
-        desafios_vals = list(desafios_page.object_list.values('id', 'nome', 'valor', 'descricao', 'idCampanha_id', 'dataInicio', 'dataFim'))
-
-        for d in desafios_vals:
-            d['idCampanha'] = d.pop('idCampanha_id', None)
-            if d.get('dataInicio'):
-                d['dataInicio'] = d['dataInicio'].isoformat()
-            if d.get('dataFim'):
-                d['dataFim'] = d['dataFim'].isoformat()
-            d['campanhas'] = campanhas
-
+    
+    # Paginação
+    paginador = Paginator(desafios_qs, 5)
+    try:
+        pagina_atual = paginador.page(pagina)
+    except:
+        pagina_atual = paginador.page(1)
+    
+    # Se for requisição AJAX
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        # Prepara os dados dos desafios
+        desafios_data = []
+        for desafio in pagina_atual.object_list:
+            desafios_data.append({
+                'id': desafio.id,
+                'nome': desafio.nome,
+                'valor': desafio.valor,
+                'descricao': desafio.descricao,
+                'idCampanha': desafio.idCampanha.id if desafio.idCampanha else None,
+                'dataInicio': desafio.dataInicio.isoformat() if desafio.dataInicio else None,
+                'dataFim': desafio.dataFim.isoformat() if desafio.dataFim else None,
+                'campanha_nome': desafio.idCampanha.nome if desafio.idCampanha else None
+            })
+        
+        # Prepara a lista de campanhas para os selects
+        campanhas = [
+            {'id': c.id, 'nome': c.nome}
+            for c in Campanha.objects.filter(is_active=True)
+        ]
+        
+        # Resposta JSON
         response_data = {
-            'desafios': desafios_vals,
-            'pagina_atual': desafios_page.number,
-            'num_paginas': desafio_paginator.num_pages,
-            'tem_anterior': desafios_page.has_previous(),
-            'tem_proximo': desafios_page.has_next(),
+            'desafios': desafios_data,
+            'campanhas': campanhas,
+            'paginacao': {
+                'pagina_atual': pagina_atual.number,
+                'total_paginas': paginador.num_pages,
+                'tem_anterior': pagina_atual.has_previous(),
+                'tem_proximo': pagina_atual.has_next(),
+                'pagina_anterior': pagina_atual.previous_page_number() if pagina_atual.has_previous() else None,
+                'proxima_pagina': pagina_atual.next_page_number() if pagina_atual.has_next() else None,
+            }
         }
-
-        json_data = json.dumps(response_data, ensure_ascii=False)
-        return HttpResponse(json_data, content_type='application/json')
-
-    campanhas = Campanha.objects.filter(is_active=True)
-
+        
+        return HttpResponse(
+            json.dumps(response_data, ensure_ascii=False),
+            content_type='application/json'
+        )
+    
+    # Renderização normal (não-AJAX)
     return render(request, 'AdmHtml/listaDeDesafios.html', {
-        'desafios': desafios_page,
-        'campanhas': campanhas
+        'desafios': pagina_atual,
+        'campanhas': Campanha.objects.filter(is_active=True)
     })
 
 
