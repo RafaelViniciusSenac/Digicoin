@@ -7,6 +7,7 @@ from django.http import HttpResponse
 from openpyxl import Workbook
 from openpyxl.styles import Font, Alignment, PatternFill
 from datetime import datetime
+from django.http import HttpResponse
 import json
 
 def login(request):
@@ -186,26 +187,45 @@ def listaEstoque(request):
 
     return render(request, 'AdmHtml/listaEstoque.html', {'estoque': estoque, 'eventos': eventos})
 
-def listaDeDesafios(request):                   
+def listaDeDesafios(request):
     nome = request.GET.get('nome', '')
     desafios_qs = Desafio.objects.filter(is_active=True)
 
     if nome:
         desafios_qs = desafios_qs.filter(nome__icontains=nome)
 
-    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-        desafios_serializados = list(desafios_qs.values('id', 'nome', 'valor'))
-        json_data = json.dumps(desafios_serializados)
-        return HttpResponse(json_data, content_type='application/json')
-
     desafio_paginator = Paginator(desafios_qs, 5)
-    desafio_page = request.GET.get('desafio_page')
-    desafios = desafio_paginator.get_page(desafio_page)
+    desafio_page = request.GET.get ('desafio_page', 1)
+    desafios_page = desafio_paginator.get_page(desafio_page)
+
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest' or request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        campanhas = list(Campanha.objects.filter(is_active=True).values('id', 'nome'))
+
+        desafios_vals = list(desafios_page.object_list.values('id', 'nome', 'valor', 'descricao', 'idCampanha_id', 'dataInicio', 'dataFim'))
+
+        for d in desafios_vals:
+            d['idCampanha'] = d.pop('idCampanha_id', None)
+            if d.get('dataInicio'):
+                d['dataInicio'] = d['dataInicio'].isoformat()
+            if d.get('dataFim'):
+                d['dataFim'] = d['dataFim'].isoformat()
+            d['campanhas'] = campanhas
+
+        response_data = {
+            'desafios': desafios_vals,
+            'pagina_atual': desafios_page.number,
+            'num_paginas': desafio_paginator.num_pages,
+            'tem_anterior': desafios_page.has_previous(),
+            'tem_proximo': desafios_page.has_next(),
+        }
+
+        json_data = json.dumps(response_data, ensure_ascii=False)
+        return HttpResponse(json_data, content_type='application/json')
 
     campanhas = Campanha.objects.filter(is_active=True)
 
     return render(request, 'AdmHtml/listaDeDesafios.html', {
-        'desafios': desafios,
+        'desafios': desafios_page,
         'campanhas': campanhas
     })
 
