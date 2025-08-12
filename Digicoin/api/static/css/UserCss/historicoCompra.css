@@ -85,6 +85,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  flex-wrap: wrap;
 }
 
 .historico-compra-barra-pesquisa-busca-container input {
@@ -247,8 +248,14 @@
   display: flex;
   gap: 10px;
 }
+.historico-compra-barra-pesquisa-busca-container1{
+  display: flex;
+  align-items: center;
 
-
+}
+#tipoPesquisa{
+  height: 28px;
+}
 /* Media Queries para Responsividade */
 @media (max-width: 800px) {
   .historico-compra-barra-pesquisa {
@@ -309,4 +316,41 @@
     transform: translateY(-50%);
     font-weight: bold;
   }
+
+  .historico-compra-barra-pesquisa-busca-container {
+    gap: 5px;
+    flex-wrap: wrap;
+    padding: 5px 10px;
+    width: 360px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .historico-compra-barra-pesquisa-busca-container input {
+    width: 108px;
+    min-height: 25px;
+    max-height: 25px;
+}
+
+#tipoPesquisa{
+  height: 28px;
+}
+
+.historico-compra-barra-pesquisa-busca-container img {
+  width: 20px;
+  height: 20px;
+
+}
+
+.historico-compra-barra-pesquisa-busca-container button {
+  padding: 8px 10px;
+}
+
+.historico-compra-barra-pesquisa-busca-container1{
+  display: flex;
+  align-items: center;
+
+}
+
 }
