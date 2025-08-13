@@ -88,7 +88,7 @@ def historicoCompra(request):
 
     # Paginação
     compra_paginator = Paginator(compra, 5)
-    compra_page = request.GET.get('compra_page')
+    compra_page = request.GET.get('historicoCompra_page')
     compras = compra_paginator.get_page(compra_page)
 
     # Adiciona os itens e status ajustado
