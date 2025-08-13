@@ -8,12 +8,17 @@
 
 <div class="mainListaDesafios-listaDeDesafios">
 
-    <div class="divPesquisa-listaDeDesafios">
+    <form method="GET" class="form-busca ">
         <div class="barraPesquisa-listaDeDesafios">
             <img src="{% static 'img/iconeLupa.png' %}" alt="">
-            <input id="pesquisaDesafio" type="search" placeholder="Pesquisar usuário">
+            <input 
+                type="search" 
+                name="busca" 
+                value="{{ busca }}"
+                placeholder="Pesquisar desafio"
+                autocomplete="on">
         </div>
-    </div>
+    </form>   
 
     <div class="primeiraLinha-listaDeDesafios">
 
@@ -133,20 +138,29 @@
     <div class="pagination">
         {% if desafios.has_previous %}
         <div>
-            <a style="font-size: 20px; margin-right: 10px;" href="?desafio_page={{ desafios.previous_page_number }}">Anterior</a>
+            <a style="font-size: 20px; margin-right: 10px;" 
+               href="?desafio_page={{ desafios.previous_page_number }}{% if busca %}&busca={{ busca }}{% endif %}">
+               Anterior
+            </a>
         </div>
         {% endif %}
-
-        <span>Página {{ desafios.number }} de {{ desafios.paginator.num_pages }}</span>
-
+    
+        <span>
+            Página {{ desafios.number }} de {{ desafios.paginator.num_pages }}
+            {% if busca %}
+                ({{ total_resultados }} resultado{{ total_resultados|pluralize }} encontrado{{ total_resultados|pluralize }})
+            {% endif %}
+        </span>
+    
         {% if desafios.has_next %}
         <div>
-            <a style="font-size: 20px; " href="?desafio_page={{ desafios.next_page_number }}">Próxima</a>
+            <a style="font-size: 20px;" 
+               href="?desafio_page={{ desafios.next_page_number }}{% if busca %}&busca={{ busca }}{% endif %}">
+               Próxima
+            </a>
         </div>
         {% endif %}
-
     </div>
-
 </div>
 
 
