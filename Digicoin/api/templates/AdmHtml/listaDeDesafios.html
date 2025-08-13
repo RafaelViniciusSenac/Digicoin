@@ -173,7 +173,7 @@
     </div>
 
     <div class="pagination">
-        {% comment %} {% if desafios.has_previous %}
+        {% if desafios.has_previous %}
         <div>
             <a style="font-size: 20px; margin-right: 10px;" 
                href="?desafio_page={{ desafios.previous_page_number }}{% if busca %}&busca={{ busca }}{% endif %}">
