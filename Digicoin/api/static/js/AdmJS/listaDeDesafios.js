@@ -3,242 +3,264 @@ document.addEventListener('DOMContentLoaded', () => {
   const addDesafio = document.getElementById('addDesafio');
   const iconeX = document.getElementById('iconeX');
 
-  // Funcionalidade de busca - BUSCA GLOBAL (submete o formulário)
-  const barraPesquisa = document.querySelector('.barraPesquisa-listaDeDesafios input');
-  const formBusca = document.querySelector('.form-busca');
-  
-  let timeoutId;
-  let ultimaBusca = barraPesquisa ? barraPesquisa.value : '';
-
-  // MANTÉM O FOCO NO CAMPO APÓS RECARREGAR A PÁGINA
-  if (barraPesquisa) {
-    // Se há um termo de busca, foca no campo e posiciona cursor no final
-    if (barraPesquisa.value.trim() !== '') {
-      barraPesquisa.focus();
-      // Posiciona o cursor no final do texto
-      const valorLength = barraPesquisa.value.length;
-      barraPesquisa.setSelectionRange(valorLength, valorLength);
-    }
-
-    // Event listener para busca com delay (evita muitas requisições)
-    barraPesquisa.addEventListener('input', (e) => {
-      clearTimeout(timeoutId);
-      const valorAtual = e.target.value.trim();
-      
-      // Se limpou a barra de busca, volta para todos os desafios IMEDIATAMENTE
-      if (valorAtual === '' && ultimaBusca !== '') {
-        window.location.href = window.location.pathname; // Remove parâmetros de busca
-        return;
-      }
-      
-      // Se tem texto, faz a busca com delay
-      if (valorAtual !== '') {
-        timeoutId = setTimeout(() => {
-          // Salva a posição do cursor antes de submeter
-          const cursorPosition = e.target.selectionStart;
-          sessionStorage.setItem('searchCursorPosition', cursorPosition);
-          sessionStorage.setItem('maintainFocus', 'true');
-          
-          formBusca.submit(); // Submete o formulário para buscar no servidor
-        }, 500);
-      }
-      
-      ultimaBusca = valorAtual;
+  if (addDesafio && popUpAdicionarDesafio) {
+    addDesafio.addEventListener('click', () => {
+      popUpAdicionarDesafio.showModal();
     });
-
-    // Busca imediata quando pressionar Enter
-    barraPesquisa.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        clearTimeout(timeoutId);
-        
-        const valorAtual = e.target.value.trim();
-        if (valorAtual === '') {
-          // Se Enter com campo vazio, volta para todos
-          window.location.href = window.location.pathname;
-        } else {
-          // Salva que deve manter foco
-          sessionStorage.setItem('maintainFocus', 'true');
-          const cursorPosition = e.target.selectionStart;
-          sessionStorage.setItem('searchCursorPosition', cursorPosition);
-          
-          // Se tem texto, busca imediatamente
-          formBusca.submit();
-        }
-      }
-    });
-
-    // Detecta quando o usuário usa backspace ou delete para limpar
-    barraPesquisa.addEventListener('keydown', (e) => {
-      // Se pressionou backspace ou delete e o campo vai ficar vazio
-      if ((e.key === 'Backspace' || e.key === 'Delete') && e.target.value.length === 1) {
-        setTimeout(() => {
-          if (e.target.value.trim() === '') {
-            window.location.href = window.location.pathname;
-          }
-        }, 10);
-      }
-    });
-
-    // Restaura o foco após recarregar se necessário
-    if (sessionStorage.getItem('maintainFocus') === 'true') {
-      barraPesquisa.focus();
-      
-      // Restaura a posição do cursor se foi salva
-      const savedPosition = sessionStorage.getItem('searchCursorPosition');
-      if (savedPosition !== null) {
-        const position = parseInt(savedPosition);
-        const maxPosition = barraPesquisa.value.length;
-        const finalPosition = Math.min(position, maxPosition);
-        barraPesquisa.setSelectionRange(finalPosition, finalPosition);
-      } else {
-        // Se não tem posição salva, vai para o final
-        const valorLength = barraPesquisa.value.length;
-        barraPesquisa.setSelectionRange(valorLength, valorLength);
-      }
-      
-      // Limpa as flags
-      sessionStorage.removeItem('maintainFocus');
-      sessionStorage.removeItem('searchCursorPosition');
-    }
-
-    // Armazena o valor inicial para comparação
-    ultimaBusca = barraPesquisa.value;
   }
 
-  // Funcionalidade existente dos modais
-  addDesafio.addEventListener('click', () => {
-    popUpAdicionarDesafio.showModal();
-  });
-
-  iconeX.addEventListener('click', () => {
-    popUpAdicionarDesafio.close();
-  });
-
-  const botoesEditar = document.querySelectorAll('.botaoEditar-listaDeDesafios');
-  botoesEditar.forEach((botao) => {
-    botao.addEventListener('click', () => {
-      const id = botao.getAttribute('data-id');
-      const dialog = document.getElementById(`popUpEditarDesafio-${id}`);
-      if (dialog) {
-        dialog.showModal();
-      }
+  if (iconeX && popUpAdicionarDesafio) {
+    iconeX.addEventListener('click', () => {
+      popUpAdicionarDesafio.close();
     });
-  });
+  }
 
-  const iconesFechar = document.querySelectorAll('.iconeX-cadastrarDesafio');
-  iconesFechar.forEach((icone) => {
-    icone.addEventListener('click', () => {
-      const dialog = icone.closest('dialog');
-      if (dialog) {
-        dialog.close();
-      }
-    });
-  });
-});
+  // Container onde os desafios serão renderizados
+  const container = document.getElementById('listaDesafios');
+  const inputPesquisa = document.getElementById('pesquisaDesafio');
 
-// Suas funções existentes
-async function EditarDesafio(event) {
-  event.preventDefault();
-  const form = event.target;
-
-  const id = form.querySelector('#id').value;
-  const nomeDesafio = form.querySelector('#nomeDesafio').value;
-  const valorDesafio = form.querySelector('#valorDesafio').value;
-  const descricao = form.querySelector('#descricao').value;
-  const campanha = form.querySelector('#campanha').value;
-  const dataInicio = form.querySelector('#inicioDesafio').value;
-  const dataFim = form.querySelector('#fimDesafio').value;
-  const csrf = form.querySelector('[name=csrfmiddlewaretoken]').value;
-
-  if (!nomeDesafio || !valorDesafio) {
-    alert('Nome do desafio e valor do desafio devem ser preenchidos.');
+  if (!container) {
+    console.error('Container #desafios-container não encontrado!');
     return;
   }
-  if (dataFim < dataInicio) {
-    alert('A data de fim deve ser maior que a data de inicio.');
-    return;
+  if (!inputPesquisa) {
+    console.warn('Campo de pesquisa #pesquisaDesafio não encontrado!');
   }
 
-  const response = await apiRequest(
-    `/api/desafio/${id}/`,
-    'PUT',
-    {
-      nome: nomeDesafio,
-      valor: valorDesafio,
-      descricao: descricao,
-      campanha: campanha,
-    },
-    { 'X-CSRFToken': csrf },
-  );
-  console.log(response);
+  async function buscarDesafios(nome = '', pagina = 1) {
+    const params = new URLSearchParams();
+    if (nome) params.append('nome', nome);
+    if (pagina) params.append('desafio_page', pagina);
 
-  window.location.reload();
-}
+    const url = `${window.location.pathname}?${params.toString()}`;
 
-const forms = document.querySelectorAll('form[id^="formCadastrarDesafio"]');
-forms.forEach((form) => {
-  form.addEventListener('submit', EditarDesafio);
-});
+    const response = await fetch(url, {
+      headers: { 'X-Requested-With': 'XMLHttpRequest' },
+    });
 
-document.querySelectorAll('.btn-desativar-desafio').forEach((botao) => {
-  botao.addEventListener('click', async () => {
-    const desafioId = botao.getAttribute('data-id');
-    const nome = document.getElementById('nomeDesafio').innerText;
-    const valor = parseInt(document.getElementById('valor').innerText);
-    const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value;
-    
-    try {
-      const response = await apiRequest(
-        `/api/desafio/${desafioId}/`,
-        'PUT',
-        {
-          nome: nome,
-          valor: valor,
-          is_active: false,
-        },
-        {
-          'X-CSRFToken': csrf,
-        },
+    if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
+
+    const data = await response.json();
+    renderizarDesafios(data.desafios);
+  }
+
+  if (inputPesquisa) {
+    inputPesquisa.addEventListener('input', function () {
+      const nome = this.value.trim();
+      buscarDesafios(nome).catch((err) =>
+        console.error('Erro ao buscar desafios:', err),
       );
+    });
+  }
 
-      if (response) {
-        alert('Desafio desativado com sucesso!');
-        location.reload();
-      } else {
-        alert('Erro ao desativar o desafio.');
+  function renderizarDesafios(desafios) {
+    container.innerHTML = '';
+
+    if (!desafios || desafios.length === 0) {
+      container.innerHTML = '<p>Nenhum desafio encontrado.</p>';
+      return;
+    }
+
+    desafios.forEach((desafio) => {
+      const div = document.createElement('div');
+      div.className = 'desafio-listaDeDesafios';
+
+      div.innerHTML = `
+        <input type="hidden" name="id" class="idDesafio" value="${desafio.id}">
+        <div class="desafioLeft-listaDeDesafios">
+          <img src="/static/img/alvoCampanha.png" alt="">
+          <p class="nomeDesafio-listaDeDesafios">${desafio.nome}</p>
+        </div>
+        <div class="desafioRight-listaDeDesafios">
+          <p class="dg-listaDeDesafios">DG$ <span class="valor-listaDeDesafios">${
+            desafio.valor
+          }</span></p>
+          <div class="botoesEditar-listaDeDesafios">
+            <img class="botaoEditar-listaDeDesafios" data-id="${
+              desafio.id
+            }" src="/static/img/edit.png" alt="Editar">
+            <img class="btn-desativar-desafio-listaDeDesafios" data-id="${
+              desafio.id
+            }" src="/static/img/lixeira.png" alt="Desativar">
+          </div>
+        </div>
+
+        <dialog class="popUpEditarDesafio-listaDeDesafios" id="popUpEditarDesafio-${
+          desafio.id
+        }">
+          <div class='body-cadastrarDesafio'>
+            <div class="header-cadastrarDesafio">
+              <img src="/static/img/logoAdmin.png" alt="LogoAdmin">
+              <div class="botao-cadastrarDesafio">
+                <img class="iconeX-cadastrarDesafio" src="/static/img/iconeX.png" alt="">
+              </div>
+            </div>
+
+            <form method="POST" class="formDesafio-cadastrarDesafio" id="formCadastrarDesafio-${
+              desafio.id
+            }">
+              <input type="hidden" name="csrfmiddlewaretoken" value="${
+                document.querySelector('[name=csrfmiddlewaretoken]')
+                  ? document.querySelector('[name=csrfmiddlewaretoken]').value
+                  : ''
+              }">
+              <input type="hidden" name="id" value="${desafio.id}">
+
+              <div class="form-cadastrarDesafio">
+                <div class="cima-cadastrarDesafio">
+                  <div class='inputsNome-cadastrarDesafio'>
+                    <div class="nomeDesafioDiv-cadastrarDesafio">
+                      <label>Nome do desafio</label>
+                      <input type="text" name="nome" class="nomeDesafio-cadastrarDesafio" value="${
+                        desafio.nome || ''
+                      }">
+                    </div>
+                    <div class="nomeDesafioDiv-cadastrarDesafio">
+                      <label>Valor do desafio</label>
+                      <input type="number" name="valor" class="valorDesafio-cadastrarDesafio" value="${
+                        desafio.valor || ''
+                      }">
+                    </div>
+                  </div>
+                  <div class="descricaoDesafioDiv-cadastrarDesafio">
+                    <label>Descrição</label>
+                    <textarea name="descricao" class="descricao-cadastrarDesafio">${
+                      desafio.descricao || ''
+                    }</textarea>
+                  </div>
+                </div>
+                <div class="baixo-cadastrarDesafio">
+                  <div class="statusDesafioDiv-cadastrarDesafio">
+                    <label>Campanha</label>
+                    <select name="campanha" id="campanha-${desafio.id}">
+                      ${
+                        desafio.idCampanha
+                          ? `<option value="${desafio.idCampanha}">${desafio.idCampanha}</option>`
+                          : `<option value="">Sem Campanha</option>`
+                      }
+                      ${
+                        desafio.campanhas
+                          ? desafio.campanhas
+                              .map(
+                                (c) =>
+                                  `<option value="${c.id}">${c.nome}</option>`,
+                              )
+                              .join('')
+                          : ''
+                      }
+                    </select>
+                  </div>
+                  <div class="dataDesafioDiv-cadastrarDesafio">
+                    <div class="dataDesafioInterno-cadastrarDesafio">
+                      <label>Início</label>
+                      <input type="date" name="dataInicio" value="${
+                        desafio.dataInicio || ''
+                      }">
+                    </div>
+                    <div class="dataDesafioInterno-cadastrarDesafio">
+                      <label>Fim</label>
+                      <input type="date" name="dataFim" value="${
+                        desafio.dataFim || ''
+                      }">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <button type="submit" class="button-cadastrarDesafio">Concluído</button>
+            </form>
+          </div>
+        </dialog>
+      `;
+
+      // Abrir popup editar
+      const btnEditar = div.querySelector('.botaoEditar-listaDeDesafios');
+      const modal = div.querySelector('dialog');
+      const iconeX = div.querySelector('.iconeX-cadastrarDesafio');
+
+      if (btnEditar)
+        btnEditar.addEventListener('click', () => modal.showModal());
+      if (iconeX) iconeX.addEventListener('click', () => modal.close());
+
+      // Submissão do formulário editar via AJAX
+      const form = div.querySelector('.formDesafio-cadastrarDesafio');
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const fd = new FormData(form);
+        const id = fd.get('id');
+        const csrf = fd.get('csrfmiddlewaretoken');
+
+        try {
+          const res = await fetch(`/desafios/${id}/editar/`, {
+            method: 'POST',
+            headers: {
+              'X-Requested-With': 'XMLHttpRequest',
+              'X-CSRFToken': csrf,
+            },
+            body: fd,
+          });
+
+          const json = await res.json();
+
+          if (res.ok && json.success) {
+            // Atualiza UI com novos dados
+            div.querySelector('.nomeDesafio-listaDeDesafios').textContent =
+              fd.get('nome');
+            div.querySelector('.valor-listaDeDesafios').textContent =
+              fd.get('valor');
+            modal.close();
+          } else {
+            alert(json.error || 'Erro ao editar desafio.');
+          }
+        } catch (err) {
+          console.error(err);
+          alert('Erro ao editar (veja o console).');
+        }
+      });
+
+      // Botão desativar desafio dentro do item
+      const btnDesativar = div.querySelector(
+        '.btn-desativar-desafio-listaDeDesafios',
+      );
+      if (btnDesativar) {
+        btnDesativar.addEventListener('click', async () => {
+          const id = btnDesativar.getAttribute('data-id');
+          const confirmacao = confirm(
+            'Tem certeza que deseja desativar este desafio?',
+          );
+          if (!confirmacao) return;
+
+          const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]')
+            ? document.querySelector('[name=csrfmiddlewaretoken]').value
+            : '';
+
+          try {
+            const res = await fetch(`/api/desafio/${id}/`, {
+              method: 'PUT',
+              headers: {
+                'X-CSRFToken': csrfToken,
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ is_active: false }),
+            });
+
+            if (res.ok) {
+              alert('Desafio desativado com sucesso!');
+              window.location.reload();
+            } else {
+              alert('Erro ao desativar desafio.');
+            }
+          } catch (err) {
+            console.error('Erro ao desativar desafio:', err);
+            alert('Erro na requisição.');
+          }
+        });
       }
-    } catch (err) {
-      console.error('Erro ao desativar desafio:', err);
-      alert('Erro na requisição.');
-    }
-  });
-});
 
-document.querySelectorAll('.btn-desativar-desafio-listaDeDesafios').forEach((botao) => {
-  botao.addEventListener('click', async () => {
-    const id = botao.getAttribute('data-id');
-    const nomeDesafio = document.querySelector('.nomeDesafio-listaDeDesafios').textContent.trim();
-    const valorDesafio = document.querySelector('.valor-listaDeDesafios').textContent.trim();
+      container.appendChild(div);
+    });
+  }
+  
+  buscarDesafios(nomeAtual, paginaDesejada);
 
-    const confirmacao = confirm('Tem certeza que deseja desativar este desafio?');
-
-    if (!confirmacao) return;
-
-    const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value;
-
-    const response = await apiRequest(
-      `/api/desafio/${id}/`,
-      'PUT',
-      { is_active: false, nome: nomeDesafio, valor: valorDesafio },
-      { 'X-CSRFToken': csrf },
-    );
-
-    if (response) {
-      alert('Desafio desativado com sucesso!');
-      window.location.reload();
-    } else {
-      alert('Erro ao desativar: ');
-    }
-  });
 });

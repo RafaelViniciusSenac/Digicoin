@@ -116,6 +116,52 @@
                         </div>
                     </div>
                     <button type="submit" class="button-cadastrarDesafio">Concluído</button>
+                    {% csrf_token %}
+                    <input type="hidden" id="id" name="id" value="{{desafio.id}}">
+                    <div class="form-cadastrarDesafio">
+                        <div class="cima-cadastrarDesafio">
+                        <div class='inputsNome-cadastrarDesafio'>
+                            <div class="nomeDesafioDiv-cadastrarDesafio">
+                            <label for="nomeDesafio">Nome do desafio</label>
+                            <input type="text" id="nomeDesafio" name="nome" class="nomeDesafio-cadastrarDesafio" placeholder="nome do desafio" value="{{desafio.nome}}">
+                            </div>
+                            <div class="nomeDesafioDiv-cadastrarDesafio">
+                            <label for="valorDesafio">Valor do desafio</label>
+                            <input type="number" id="valorDesafio" name="valor" class="valorDesafio-cadastrarDesafio" placeholder="valor do desafio" value="{{desafio.valor}}">
+                            </div>
+                        </div>
+                        <div class="descricaoDesafioDiv-cadastrarDesafio">
+                            <label for="descricao">Descrição</label>
+                            <textarea id="descricao" name="descricao" class="descricao-cadastrarDesafio" placeholder="Digite a descrição do desafio">{{desafio.descricao}}</textarea>
+                        </div>
+                        </div>
+                        <div class="baixo-cadastrarDesafio">
+                        <div class="statusDesafioDiv-cadastrarDesafio">
+                            <label for="campanha">Status do desafio</label>
+                            <select name="campanha" id="campanha">
+                            {% if desafio.idCampanha == None %}
+                                <option value="">Sem Campanha</option>
+                            {% else %}
+                                <option value="{{desafio.idCampanha}}">{{desafio.idCampanha}}</option>
+                            {% endif %}
+                            {% for campanha in campanhas %}
+                                <option value="{{campanha.id}}">{{campanha.nome}}</option>
+                            {% endfor %}
+                            </select>
+                        </div>
+                        <div class="dataDesafioDiv-cadastrarDesafio">
+                            <div class="dataDesafioInterno-cadastrarDesafio">
+                            <label for="inicioDesafio">Início</label>
+                            <input type="date" id="inicioDesafio" name="dataInicio" value="{{ desafio.dataInicio|date:'Y-m-d' }}">
+                            </div>
+                            <div class="dataDesafioInterno-cadastrarDesafio">
+                            <label for="fimDesafio">Fim</label>
+                            <input type="date" id="fimDesafio" name="dataFim" value="{{ desafio.dataFim|date:'Y-m-d' }}">
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="button-cadastrarDesafio">Concluído</button>
                     </form>
                 </div>
             </dialog>
@@ -127,7 +173,7 @@
     </div>
 
     <div class="pagination">
-        {% if desafios.has_previous %}
+        {% comment %} {% if desafios.has_previous %}
         <div>
             <a style="font-size: 20px; margin-right: 10px;" 
                href="?desafio_page={{ desafios.previous_page_number }}{% if busca %}&busca={{ busca }}{% endif %}">
@@ -151,6 +197,7 @@
             </a>
         </div>
         {% endif %}
+
     </div>
 </div>
 
