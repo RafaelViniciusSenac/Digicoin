@@ -1,16 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const popUpAdicionarDesafio = document.getElementById(
-    'popUpAdicionarDesafio',
-  );
+  const popUpAdicionarDesafio = document.getElementById('popUpAdicionarDesafio');
   const addDesafio = document.getElementById('addDesafio');
   const iconeX = document.getElementById('iconeX');
 
   // Funcionalidade de busca - BUSCA GLOBAL (submete o formulário)
-  const barraPesquisa = document.querySelector(
-    '.barraPesquisa-listaDeDesafios input',
-  );
+  const barraPesquisa = document.querySelector('.barraPesquisa-listaDeDesafios input');
   const formBusca = document.querySelector('.form-busca');
-
+  
   let timeoutId;
   let ultimaBusca = barraPesquisa ? barraPesquisa.value : '';
 
@@ -28,13 +24,13 @@ document.addEventListener('DOMContentLoaded', () => {
     barraPesquisa.addEventListener('input', (e) => {
       clearTimeout(timeoutId);
       const valorAtual = e.target.value.trim();
-
+      
       // Se limpou a barra de busca, volta para todos os desafios IMEDIATAMENTE
       if (valorAtual === '' && ultimaBusca !== '') {
         window.location.href = window.location.pathname; // Remove parâmetros de busca
         return;
       }
-
+      
       // Se tem texto, faz a busca com delay
       if (valorAtual !== '') {
         timeoutId = setTimeout(() => {
@@ -42,11 +38,11 @@ document.addEventListener('DOMContentLoaded', () => {
           const cursorPosition = e.target.selectionStart;
           sessionStorage.setItem('searchCursorPosition', cursorPosition);
           sessionStorage.setItem('maintainFocus', 'true');
-
+          
           formBusca.submit(); // Submete o formulário para buscar no servidor
         }, 500);
       }
-
+      
       ultimaBusca = valorAtual;
     });
 
@@ -55,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (e.key === 'Enter') {
         e.preventDefault();
         clearTimeout(timeoutId);
-
+        
         const valorAtual = e.target.value.trim();
         if (valorAtual === '') {
           // Se Enter com campo vazio, volta para todos
@@ -65,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
           sessionStorage.setItem('maintainFocus', 'true');
           const cursorPosition = e.target.selectionStart;
           sessionStorage.setItem('searchCursorPosition', cursorPosition);
-
+          
           // Se tem texto, busca imediatamente
           formBusca.submit();
         }
@@ -75,10 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Detecta quando o usuário usa backspace ou delete para limpar
     barraPesquisa.addEventListener('keydown', (e) => {
       // Se pressionou backspace ou delete e o campo vai ficar vazio
-      if (
-        (e.key === 'Backspace' || e.key === 'Delete') &&
-        e.target.value.length === 1
-      ) {
+      if ((e.key === 'Backspace' || e.key === 'Delete') && e.target.value.length === 1) {
         setTimeout(() => {
           if (e.target.value.trim() === '') {
             window.location.href = window.location.pathname;
@@ -90,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Restaura o foco após recarregar se necessário
     if (sessionStorage.getItem('maintainFocus') === 'true') {
       barraPesquisa.focus();
-
+      
       // Restaura a posição do cursor se foi salva
       const savedPosition = sessionStorage.getItem('searchCursorPosition');
       if (savedPosition !== null) {
@@ -103,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const valorLength = barraPesquisa.value.length;
         barraPesquisa.setSelectionRange(valorLength, valorLength);
       }
-
+      
       // Limpa as flags
       sessionStorage.removeItem('maintainFocus');
       sessionStorage.removeItem('searchCursorPosition');
@@ -122,9 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
     popUpAdicionarDesafio.close();
   });
 
-  const botoesEditar = document.querySelectorAll(
-    '.botaoEditar-listaDeDesafios',
-  );
+  const botoesEditar = document.querySelectorAll('.botaoEditar-listaDeDesafios');
   botoesEditar.forEach((botao) => {
     botao.addEventListener('click', () => {
       const id = botao.getAttribute('data-id');
@@ -196,7 +187,7 @@ document.querySelectorAll('.btn-desativar-desafio').forEach((botao) => {
     const nome = document.getElementById('nomeDesafio').innerText;
     const valor = parseInt(document.getElementById('valor').innerText);
     const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value;
-
+    
     try {
       const response = await apiRequest(
         `/api/desafio/${desafioId}/`,
@@ -224,38 +215,30 @@ document.querySelectorAll('.btn-desativar-desafio').forEach((botao) => {
   });
 });
 
-document
-  .querySelectorAll('.btn-desativar-desafio-listaDeDesafios')
-  .forEach((botao) => {
-    botao.addEventListener('click', async () => {
-      const id = botao.getAttribute('data-id');
-      const nomeDesafio = document
-        .querySelector('.nomeDesafio-listaDeDesafios')
-        .textContent.trim();
-      const valorDesafio = document
-        .querySelector('.valor-listaDeDesafios')
-        .textContent.trim();
+document.querySelectorAll('.btn-desativar-desafio-listaDeDesafios').forEach((botao) => {
+  botao.addEventListener('click', async () => {
+    const id = botao.getAttribute('data-id');
+    const nomeDesafio = document.querySelector('.nomeDesafio-listaDeDesafios').textContent.trim();
+    const valorDesafio = document.querySelector('.valor-listaDeDesafios').textContent.trim();
 
-      const confirmacao = confirm(
-        'Tem certeza que deseja desativar este desafio?',
-      );
+    const confirmacao = confirm('Tem certeza que deseja desativar este desafio?');
 
-      if (!confirmacao) return;
+    if (!confirmacao) return;
 
-      const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
-      const response = await apiRequest(
-        `/api/desafio/${id}/`,
-        'PUT',
-        { is_active: false, nome: nomeDesafio, valor: valorDesafio },
-        { 'X-CSRFToken': csrf },
-      );
+    const response = await apiRequest(
+      `/api/desafio/${id}/`,
+      'PUT',
+      { is_active: false, nome: nomeDesafio, valor: valorDesafio },
+      { 'X-CSRFToken': csrf },
+    );
 
-      if (response) {
-        alert('Desafio desativado com sucesso!');
-        window.location.reload();
-      } else {
-        alert('Erro ao desativar: ');
-      }
-    });
+    if (response) {
+      alert('Desafio desativado com sucesso!');
+      window.location.reload();
+    } else {
+      alert('Erro ao desativar: ');
+    }
   });
+});
