@@ -19,8 +19,8 @@
 .mainListaDesafios-listaDeDesafios {
     padding: 40px;
     font-family: Arial, sans-serif;
-    max-width: 800px;
-    margin-left: 350px;
+    width: 50%;
+    margin-left: 450px;
     padding-left: 200px;
 }
 
@@ -470,11 +470,10 @@ label{
         margin-right: 40px ;
     }
 
-   
-    
-
-   
+    .form-busca{
+        width: 100%;
+        justify-content: center;
+    }
 
 
 }
-
