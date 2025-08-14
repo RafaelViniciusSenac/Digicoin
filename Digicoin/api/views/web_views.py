@@ -190,43 +190,33 @@ def listaEstoque(request):
 
 
 def listaDeDesafios(request):
-    # Obtém o termo de busca da URL
     busca = request.GET.get('busca', '').strip()
-    
-    # SEMPRE filtra todos os desafios ativos primeiro
     todos_desafios = Desafio.objects.filter(is_active=True)
-    
-    # Se há um termo de busca, filtra EM TODOS os registros
+
     if busca:
         desafios_filtrados = todos_desafios.filter(
-            Q(nome__icontains=busca) |  # Busca no nome (case insensitive)
-            Q(descricao__icontains=busca) |  # Busca na descrição  
-            Q(valor__icontains=busca)  # Busca no valor (convertido para string)
+            Q(nome__icontains=busca) |  
+            Q(descricao__icontains=busca) |  
+            Q(valor__icontains=busca)  
         ).distinct()
         total_encontrados = desafios_filtrados.count()
     else:
-        # Se não há busca, usa todos os desafios
+        
         desafios_filtrados = todos_desafios
         total_encontrados = desafios_filtrados.count()
     
-    # Ordena os desafios
     desafios_filtrados = desafios_filtrados.order_by('-id')
-    
-    # DEPOIS aplica paginação nos resultados filtrados
     desafio_paginator = Paginator(desafios_filtrados, 5)
     desafio_page = request.GET.get('desafio_page')
     desafios = desafio_paginator.get_page(desafio_page)
-
-    # Campanhas ativas
     campanhas = Campanha.objects.filter(is_active=True)
 
-    # Contexto para o template
     context = {
         'desafios': desafios,
         'campanhas': campanhas,
         'busca': busca,
         'total_resultados': total_encontrados,
-        'total_geral': todos_desafios.count()  # Total sem filtro para referência
+        'total_geral': todos_desafios.count()  
     }
 
     return render(request, 'AdmHtml/listaDeDesafios.html', context)
@@ -266,7 +256,7 @@ def desafiosCampanhaAtivas(request):
 def listaDePedidos(request):
     status_pedido = request.GET.get('status')
 
-    # Mapeia os valores da query string para os valores reais do campo 'pedido'
+    
     status_map = {
         '1': 'Concluído',
         '2': 'Pendente'

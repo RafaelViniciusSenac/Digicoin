@@ -205,15 +205,13 @@
 </div>
 
 
-<script src="{% static 'js/AdmJs/listaDeDesafios.js' %}"></script>
-
 <dialog class="popUpAdicionarDesafio-listaDeDesafios" id="popUpAdicionarDesafio">
 
     <div class='body-cadastrarDesafio'>
         <div class="header-cadastrarDesafio">
 
             <div class = "header-cadastrarDesafio1">
-                            <img src="{% static 'img/logoAdmin.png' %}" alt="LogoAdmin">
+                <img src="{% static 'img/logoAdmin.png' %}" alt="LogoAdmin">
             </div>
             <div class="botao-cadastrarDesafio">
                 
@@ -265,16 +263,7 @@
                         </div>
                     </div>
         
-                    {% comment %} <div class="dataDesafioDiv-cadastrarDesafio">
-                        <div class="dataDesafioInterno-cadastrarDesafio">
-                            <label class="dataDesafio-cadastrarDesafio" for="">Início</label>
-                            <input type="date" id="inicioDesafio-form">
-                        </div>
-                        <div class="dataDesafioInterno-cadastrarDesafio">
-                            <label class="dataDesafio-cadastrarDesafio" for="">Fim</label>
-                            <input type="date" id="fimDesafio-form">
-                        </div>
-                    </div> {% endcomment %}
+            
                 </div>
             </div>
             <button type="submit" class="button-cadastrarDesafio">Concluído</button>
@@ -283,6 +272,8 @@
      
     </div>
     
-    {% comment %} não aceita o include desta tela, por favor!!! {% endcomment %}
 </dialog>
+
+<script src="{% static 'js/AdmJs/cadastrarDesafio.js' %}"></script>
+<script src="{% static 'js/AdmJs/listaDeDesafios.js' %}"></script>
 {% endblock content %} 

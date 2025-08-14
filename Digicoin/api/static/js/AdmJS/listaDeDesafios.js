@@ -2,51 +2,40 @@ document.addEventListener('DOMContentLoaded', () => {
   const popUpAdicionarDesafio = document.getElementById('popUpAdicionarDesafio');
   const addDesafio = document.getElementById('addDesafio');
   const iconeX = document.getElementById('iconeX');
-
-  // Funcionalidade de busca - BUSCA GLOBAL (submete o formulário)
   const barraPesquisa = document.querySelector('.barraPesquisa-listaDeDesafios input');
   const formBusca = document.querySelector('.form-busca');
-  
   let timeoutId;
   let ultimaBusca = barraPesquisa ? barraPesquisa.value : '';
 
-  // MANTÉM O FOCO NO CAMPO APÓS RECARREGAR A PÁGINA
   if (barraPesquisa) {
-    // Se há um termo de busca, foca no campo e posiciona cursor no final
+
     if (barraPesquisa.value.trim() !== '') {
       barraPesquisa.focus();
-      // Posiciona o cursor no final do texto
       const valorLength = barraPesquisa.value.length;
       barraPesquisa.setSelectionRange(valorLength, valorLength);
     }
 
-    // Event listener para busca com delay (evita muitas requisições)
     barraPesquisa.addEventListener('input', (e) => {
       clearTimeout(timeoutId);
       const valorAtual = e.target.value.trim();
-      
-      // Se limpou a barra de busca, volta para todos os desafios IMEDIATAMENTE
+    
       if (valorAtual === '' && ultimaBusca !== '') {
-        window.location.href = window.location.pathname; // Remove parâmetros de busca
+        window.location.href = window.location.pathname;
         return;
       }
-      
-      // Se tem texto, faz a busca com delay
+
       if (valorAtual !== '') {
         timeoutId = setTimeout(() => {
-          // Salva a posição do cursor antes de submeter
           const cursorPosition = e.target.selectionStart;
           sessionStorage.setItem('searchCursorPosition', cursorPosition);
           sessionStorage.setItem('maintainFocus', 'true');
           
-          formBusca.submit(); // Submete o formulário para buscar no servidor
+          formBusca.submit();
         }, 500);
       }
-      
       ultimaBusca = valorAtual;
     });
 
-    // Busca imediata quando pressionar Enter
     barraPesquisa.addEventListener('keypress', (e) => {
       if (e.key === 'Enter') {
         e.preventDefault();
@@ -54,23 +43,21 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const valorAtual = e.target.value.trim();
         if (valorAtual === '') {
-          // Se Enter com campo vazio, volta para todos
           window.location.href = window.location.pathname;
+          
         } else {
-          // Salva que deve manter foco
+
           sessionStorage.setItem('maintainFocus', 'true');
           const cursorPosition = e.target.selectionStart;
           sessionStorage.setItem('searchCursorPosition', cursorPosition);
           
-          // Se tem texto, busca imediatamente
           formBusca.submit();
         }
       }
     });
 
-    // Detecta quando o usuário usa backspace ou delete para limpar
     barraPesquisa.addEventListener('keydown', (e) => {
-      // Se pressionou backspace ou delete e o campo vai ficar vazio
+
       if ((e.key === 'Backspace' || e.key === 'Delete') && e.target.value.length === 1) {
         setTimeout(() => {
           if (e.target.value.trim() === '') {
@@ -80,33 +67,28 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // Restaura o foco após recarregar se necessário
     if (sessionStorage.getItem('maintainFocus') === 'true') {
       barraPesquisa.focus();
-      
-      // Restaura a posição do cursor se foi salva
       const savedPosition = sessionStorage.getItem('searchCursorPosition');
+
       if (savedPosition !== null) {
         const position = parseInt(savedPosition);
         const maxPosition = barraPesquisa.value.length;
         const finalPosition = Math.min(position, maxPosition);
         barraPesquisa.setSelectionRange(finalPosition, finalPosition);
       } else {
-        // Se não tem posição salva, vai para o final
+
         const valorLength = barraPesquisa.value.length;
         barraPesquisa.setSelectionRange(valorLength, valorLength);
+
       }
-      
-      // Limpa as flags
+
       sessionStorage.removeItem('maintainFocus');
       sessionStorage.removeItem('searchCursorPosition');
     }
-
-    // Armazena o valor inicial para comparação
     ultimaBusca = barraPesquisa.value;
   }
 
-  // Funcionalidade existente dos modais
   addDesafio.addEventListener('click', () => {
     popUpAdicionarDesafio.showModal();
   });
@@ -137,7 +119,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-// Suas funções existentes
 async function EditarDesafio(event) {
   event.preventDefault();
   const form = event.target;
