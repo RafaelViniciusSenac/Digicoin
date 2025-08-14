@@ -1,16 +1,18 @@
 
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f8f8f8;
-    text-align: center;
+.containerMaior{
+    display: flex;
+    justify-content: center;
+    box-sizing: border-box; 
 }
 
 .container {
-    width: 90vw;
+    box-sizing: border-box;
+    max-width: 500px;
+    min-width: 500px;
     height: auto;
-    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
     background: white;
     padding: 2rem;
     border-radius: 12px;
@@ -18,7 +20,7 @@ body {
 }
 
 .perfil {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .perfil i {
@@ -31,6 +33,7 @@ body {
     gap: 20px;
     justify-content: center;
     flex-wrap: wrap;
+    margin-bottom: 10px;
 }
 
 .cartao {
@@ -39,6 +42,8 @@ body {
     padding: 20px;
     border-radius: 12px;
     width: 300px;
+    min-height: 150px;
+    max-height: 150px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 }
 
@@ -83,4 +88,27 @@ body {
 
 #valor{
     color: #00e5ff;
+}
+
+.perfilUsuario{
+    border-radius: 0;
+    /* border: 2px solid rgba(0, 0, 0, 0.5); */
+}
+
+#nomeUsuarioPopUp {
+    word-wrap: break-word; /* Quebra palavras longas, se necessário */
+    word-break: break-word; /* Suporte adicional */
+    overflow-wrap: break-word; /* Padrão moderno */
+    white-space: normal; /* Permite quebra de linha normal */
+}
+.perfil #nomeUsuarioPopUp {
+    max-width: 100%; /* Garante que não ultrapasse a div pai */
+}
+
+
+@media (max-width: 530px) {
+    .container {
+        max-width: 350px;
+        min-width: 350px;
+    }
 }
