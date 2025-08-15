@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.hashers import make_password
+from django.core.mail import send_mail
 
 class User(APIView):
     
@@ -33,6 +34,7 @@ class User(APIView):
         ra = request.data.get('ra')
         fistName = request.data.get('first_name')
         isAdm = request.data.get('is_adm')
+        
 
         if not nome or not senha:
             return Response({"error": "Todos os campos são obrigatórios!", "status": status.HTTP_400_BAD_REQUEST}, status= status.HTTP_400_BAD_REQUEST)
@@ -45,6 +47,27 @@ class User(APIView):
             is_adm = isAdm,
             ra = ra
         )
+
+        # Enviar email após cadastro #
+
+        assunto = 'Bem vindo ao Sistema Digicoin'
+        mensagem = (
+            f'Nome: {fistName}\n'
+            f'RA: {ra}\n'
+            f'Login: {nome}\n'
+            f'Senha: {senha}\n'
+            f"Altere sua senha após o primeiro acesso."
+        )
+
+        send_mail(
+            subject=assunto,
+            message=mensagem,
+            from_email='digicoinTeste@outlook.com',
+            recipient_list=[usuario.username],
+            fail_silently=False
+        )
+
+
         return Response({"message":"Usuário criado com sucesso!", "id":usuario.id, "status": status.HTTP_201_CREATED})
 
     def put(self, request, id):
