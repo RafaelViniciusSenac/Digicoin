@@ -259,24 +259,28 @@ function renderizarUsuarios(usuarios, container) {
 
 async function buscarUsuario() {
   const nome = document.getElementById('barraBusca-listaProdutos').value;
+  //buscar em web_views listaDeUsuarios
 
-  try {
-    const response = await apiRequest(
-      `/api/user/?nome=${encodeURIComponent(nome)}`,
-    );
-    console.log(response);
+  const container = document.getElementById('listaUsuarios');
+  container.innerHTML = '';
 
-    if (!response) {
-      console.log('Resposta inválida');
-      return;
-    } else {
-      const container = document.getElementById('listaUsuarios');
-      container.innerHTML = '';
-      renderizarUsuarios(response, container);
-    }
-  } catch (error) {
-    console.log('Erro ao buscar usuários:', error);
-  }
+  // try {
+  //   const response = await apiRequest(
+  //     `/api/user/?nome=${encodeURIComponent(nome)}`,
+  //   );
+  //   console.log(response);
+
+  //   if (!response) {
+  //     console.log('Resposta inválida');
+  //     return;
+  //   } else {
+  //     const container = document.getElementById('listaUsuarios');
+  //     container.innerHTML = '';
+  //     renderizarUsuarios(response, container);
+  //   }
+  // } catch (error) {
+  //   console.log('Erro ao buscar usuários:', error);
+  // }
 }
 
 document

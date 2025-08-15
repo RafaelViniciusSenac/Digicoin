@@ -51,6 +51,23 @@
     height: 30px;
 }
 
+.barraPesquisa-listaDeUsuarios button {
+    border: none;
+    background-color: var(--cinza-escuro);
+    border-radius: 20px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.barraPesquisa-listaDeUsuarios button img {
+    width: 20px;
+    height: 20px;
+}
+
+.barraPesquisa-listaDeUsuarios button:hover {
+    opacity: 0.8;
+}
+
 .primeiraLinha-listaDeUsuarios {
     display: flex;
     justify-content: space-between;

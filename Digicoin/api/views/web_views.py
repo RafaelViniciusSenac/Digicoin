@@ -222,8 +222,9 @@ def listaDeDesafios(request):
     return render(request, 'AdmHtml/listaDeDesafios.html', context)
 
 def listaDeUsuarios(request):
-    nome = request.GET.get('nome', '') 
-    user = CustomUser.objects.filter(first_name__icontains=nome, is_adm=False).order_by("first_name")
+    nome = request.GET.get('nome', '')
+    tipo_user = request.GET.get('is_adm', 'False') 
+    user = CustomUser.objects.filter(first_name__icontains=nome, is_adm=tipo_user).order_by("first_name")
     user_paginator = Paginator(user, 5)
     user_page = request.GET.get('user_page')
     usuarios = user_paginator.get_page(user_page)

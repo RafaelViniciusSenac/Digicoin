@@ -10,10 +10,13 @@
 <div class="mainListaUsuarios">
     
     <div  class="divPesquisa-listaDeUsuarios">
-        <div class="barraPesquisa-listaDeUsuarios">
-            <img src="{% static 'img/iconeLupa.png' %}" alt="Ícone de busca">
-            <input id="barraBusca-listaProdutos" type="search" placeholder="Pesquisar usuário">
-        </div>
+        <form method="GET" action="{% url 'listaDeUsuarios' %}">
+            <div class="barraPesquisa-listaDeUsuarios">
+                <img src="{% static 'img/iconeLupa.png' %}" alt="Ícone de busca">
+                <input name="nome" type="search" placeholder="Pesquisar usuário">
+                <button type="submit">Buscar</button>
+            </div>
+        </form>
     </div>
     
 
