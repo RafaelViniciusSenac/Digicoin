@@ -8,7 +8,6 @@ async function cadastrar(evento) {
     const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value
     const senha = document.getElementById("senha").value
    
-
     try {
         const response = await apiRequest("/api/user/", "POST", {nome:email, senha:senha, ra:ra, first_name:nome, is_adm:isAdmin }, {'X-CSRFToken':csrf});
 
@@ -28,4 +27,3 @@ async function cadastrar(evento) {
     }
     
 }
-

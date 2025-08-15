@@ -7,10 +7,12 @@ from django.http import HttpResponse
 from openpyxl import Workbook
 from openpyxl.styles import Font, Alignment, PatternFill
 from datetime import datetime
+from django.http import HttpResponse
+from django.db.models import Q
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 def login(request):
     return render(request, 'index.html')
-
 
 
 def home(request):
@@ -186,16 +188,38 @@ def listaEstoque(request):
 
     return render(request, 'AdmHtml/listaEstoque.html', {'estoque': estoque, 'eventos': eventos})
 
-def listaDeDesafios(request):                   
-    desafio = Desafio.objects.filter(is_active = True)
-    desafio_paginator = Paginator(desafio, 5)
+
+def listaDeDesafios(request):
+    busca = request.GET.get('busca', '').strip()
+    todos_desafios = Desafio.objects.filter(is_active=True)
+
+    if busca:
+        desafios_filtrados = todos_desafios.filter(
+            Q(nome__icontains=busca) |  
+            Q(descricao__icontains=busca) |  
+            Q(valor__icontains=busca)  
+        ).distinct()
+        total_encontrados = desafios_filtrados.count()
+    else:
+        
+        desafios_filtrados = todos_desafios
+        total_encontrados = desafios_filtrados.count()
+    
+    desafios_filtrados = desafios_filtrados.order_by('-id')
+    desafio_paginator = Paginator(desafios_filtrados, 5)
     desafio_page = request.GET.get('desafio_page')
     desafios = desafio_paginator.get_page(desafio_page)
-
     campanhas = Campanha.objects.filter(is_active=True)
 
-    return render(request, 'AdmHtml/listaDeDesafios.html', {'desafios': desafios, 'campanhas': campanhas})
+    context = {
+        'desafios': desafios,
+        'campanhas': campanhas,
+        'busca': busca,
+        'total_resultados': total_encontrados,
+        'total_geral': todos_desafios.count()  
+    }
 
+    return render(request, 'AdmHtml/listaDeDesafios.html', context)
 
 def listaDeUsuarios(request):
     nome = request.GET.get('nome', '') 
@@ -232,7 +256,7 @@ def desafiosCampanhaAtivas(request):
 def listaDePedidos(request):
     status_pedido = request.GET.get('status')
 
-    # Mapeia os valores da query string para os valores reais do campo 'pedido'
+    
     status_map = {
         '1': 'Concluído',
         '2': 'Pendente'
