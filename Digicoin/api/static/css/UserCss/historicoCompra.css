@@ -11,7 +11,6 @@
   --sombra-preta: rgba(0, 0, 0, 0.4);
 }
 
-
 .historico-compra-sort-desc {
   transform: none;
   cursor: pointer;
@@ -32,50 +31,73 @@
 .historico-compra-tela {
   width: 100%;
   display: flex;
-  align-items: center;
   justify-content: center;
-  /* Adiciona centralização horizontal */
+  gap: 30px;
+  margin: 5rem auto;
 }
 
 .historico-compra-container {
+  align-items: center;
+  justify-content: center;
   padding: 5px;
   border-radius: 10px;
   max-width: 900px;
   width: 100%;
-  /* Garante que o container ocupe toda a largura disponível */
   box-sizing: border-box;
-  /* Inclui padding e border no cálculo da largura */
 }
 
 .historico-compra-cabecalho {
   display: flex;
   flex-wrap: wrap;
+  margin-bottom: 30px;
 }
 
 .historico-compra-titulo {
   display: flex;
-  align-items: center;
   margin-left: 20px;
   font-size: 1.3em;
   padding-top: 5px;
+  width: 100px;
 }
 
 .historico-compra-titulo-icone {
   display: flex;
-  flex-direction: column;
   align-items: center;
+  white-space: nowrap;  
+}
+
+.titulo-historico {
+  display: inline-block; /* Necessário para a barra acompanhar o texto */
+  position: relative;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.titulo-historico::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 50px;
+  height: 2px; 
+  background-color: var(--laranja);
+  border-radius: 2px;
 }
 
 .historico-compra-titulo-icone img {
-  display: block;
   width: 40px;
+  height: 40px;
 }
 
 .historico-compra-cabecalho-underline {
-  width: 100%;
+  background-color: var(--laranja);
+  width: 40px;
   height: 2px;
-  background-color: red;
-  margin-top: 1px;
+}
+
+.historico-compra-titulo-icone h2 {
+  padding: 0;
+  margin: 0;
 }
 
 .historico-compra-barra-pesquisa-busca-container {
@@ -106,7 +128,6 @@
   background-color: transparent;
 }
 
-
 .historico-compra-barra-pesquisa-busca-container img {
   width: 30px;
   height: 30px;
@@ -126,7 +147,6 @@
   background-color: var(--laranja);
 }
 
-
 .historico-compra-tabela {
   display: flex;
   flex-direction: column;
@@ -139,7 +159,6 @@
 }
 
 .historico-compra-tabela-head {
-  /* background: white; */
   font-weight: bold;
   padding: 5px;
 }
@@ -149,10 +168,8 @@
   align-items: center;
   padding: 5px 5px;
   border-radius: 10px;
-  /* background-color: #fff; */
 }
 
-/* alinhar na centro na vertical */
 .historico-compra-tabela-row {
   display: flex;
   align-items: center;
@@ -162,16 +179,21 @@
   margin-right: 5px;
   border-radius: 10px;
   border-left: 6px solid #00BCD4;
-  /* Azul claro na lateral */
-  /* background-color: #fff; */
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
 }
 
+.historico-compra-tabela-rowheader,
+.historico-compra-tabela-row {
+  display: grid;
+  grid-template-columns: 300px 80px 120px 120px 100px 120px;
+  /* Larguras fixas */
+  align-items: center;
+}
+
 .historico-compra-tabela-cell {
-  text-align: center;
-  flex: 1;
   padding: 5px;
   font-size: 20px;
+  text-align: center;
 }
 
 .historico-compra-tabela-cell.itens {
@@ -179,7 +201,6 @@
 }
 
 .historico-compra-titulo-colId-nome {
-  /* diminuir tamanho da fonte */
   font-size: 0.8em;
 }
 
@@ -213,8 +234,160 @@
   cursor: pointer;
 }
 
+.pagination-historicoCompra {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 20px;
+}
 
-.pagination {
+.pagination-historicoCompra a {
+  padding: 8px 15px;
+  text-decoration: none;
+  color: white;
+  cursor: pointer;
+  background-color: var(--magenta);
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  font-size: 18px;
+}
+
+.pagination-historicoCompra .anterior-historicoCompra:hover,
+.proxima-historicoCompra:hover {
+  background-color: var(--laranja);
+}
+
+.pagination-historicoCompra span {
+  font-size: 18px;
+}
+
+.paginas-historicoCompra {
+  display: flex;
+  gap: 10px;
+}
+
+.botao-desativado-produtos {
+  background-color: #ccc;
+  color: #666;
+  border: none;
+  cursor: not-allowed;
+  opacity: 0.7;
+  pointer-events: none;
+  transition: 0.3s;
+}
+
+.botao-desativado-paginacao {
+  padding: 8px 15px;
+  text-decoration: none;
+  color: white;
+  background-color: var(--magenta);
+  border-radius: 5px;
+  font-size: 18px;
+}
+
+.historico-compra-barra-pesquisa-busca-container1 {
+  display: flex;
+  align-items: center;
+}
+
+#tipoPesquisa {
+  height: 28px;
+}
+
+@media (max-width: 800px) {
+  .historico-compra-barra-pesquisa {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .historico-compra-titulo {
+    font-size: 20px;
+  }
+
+  .historico-compra-tabela {
+    padding-top: 20px;
+  }
+
+  .historico-compra-tabela-head {
+    display: none;
+  }
+
+  .historico-compra-container {
+    min-width: 300px;
+  }
+
+  .historico-compra-tabela-rowheader,
+  .historico-compra-tabela-row,
+  .historico-compra-tabela-cell {
+    display: block;
+  }
+
+  .historico-compra-tabela-row {
+    margin-bottom: 1em;
+  }
+
+  .historico-compra-tabela-cell {
+    border: none;
+    position: relative;
+    padding-left: 30%;
+    text-align: left;
+  }
+
+  .historico-compra-tabela-cell:before {
+    content: attr(data-label);
+    position: absolute;
+    top: 50%;
+    left: 6px;
+    width: 30%;
+    padding-right: 5px;
+    white-space: nowrap;
+    transform: translateY(-50%);
+    font-weight: bold;
+  }
+
+  .historico-compra-barra-pesquisa-busca-container {
+    gap: 5px;
+    flex-wrap: wrap;
+    padding: 5px 10px;
+    width: 360px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .historico-compra-barra-pesquisa-busca-container input {
+    width: 108px;
+    min-height: 25px;
+    max-height: 25px;
+  }
+
+  #tipoPesquisa {
+    height: 28px;
+  }
+
+  .historico-compra-barra-pesquisa-busca-container img {
+    width: 20px;
+    height: 20px;
+  }
+
+  .historico-compra-barra-pesquisa-busca-container button {
+    padding: 8px 10px;
+  }
+
+  .historico-compra-barra-pesquisa-busca-container1 {
+    display: flex;
+    align-items: center;
+  }
+}
+
+
+/* .pagination {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -247,15 +420,74 @@
 .paginas {
   display: flex;
   gap: 10px;
+} */
+
+.pagination-historicoCompra {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 20px;
 }
-.historico-compra-barra-pesquisa-busca-container1{
+
+.pagination-historicoCompra a {
+  padding: 8px 15px;
+  text-decoration: none;
+  color: white;
+  cursor: pointer;
+  background-color: var(--magenta);
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  font-size: 18px;
+}
+
+.pagination-historicoCompra .anterior-historicoCompra:hover,
+.proxima-historicoCompra:hover {
+  background-color: var(--laranja);
+}
+
+
+.pagination-historicoCompra span {
+  font-size: 18px;
+}
+
+.paginas-historicoCompra {
+  display: flex;
+  gap: 10px;
+}
+
+.botao-desativado-produtos {
+  background-color: #ccc;
+  color: #666;
+  border: none;
+  cursor: not-allowed;
+  opacity: 0.7;
+  pointer-events: none;
+  transition: 0.3s;
+}
+
+.botao-desativado-paginacao {
+  padding: 8px 15px;
+  text-decoration: none;
+  color: white;
+  cursor: pointer;
+  background-color: var(--magenta);
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  font-size: 18px;
+}
+
+.historico-compra-barra-pesquisa-busca-container1 {
   display: flex;
   align-items: center;
 
 }
-#tipoPesquisa{
+
+#tipoPesquisa {
   height: 28px;
 }
+
 /* Media Queries para Responsividade */
 @media (max-width: 800px) {
   .historico-compra-barra-pesquisa {
@@ -331,26 +563,26 @@
     width: 108px;
     min-height: 25px;
     max-height: 25px;
-}
+  }
 
-#tipoPesquisa{
-  height: 28px;
-}
+  #tipoPesquisa {
+    height: 28px;
+  }
 
-.historico-compra-barra-pesquisa-busca-container img {
-  width: 20px;
-  height: 20px;
+  .historico-compra-barra-pesquisa-busca-container img {
+    width: 20px;
+    height: 20px;
 
-}
+  }
 
-.historico-compra-barra-pesquisa-busca-container button {
-  padding: 8px 10px;
-}
+  .historico-compra-barra-pesquisa-busca-container button {
+    padding: 8px 10px;
+  }
 
-.historico-compra-barra-pesquisa-busca-container1{
-  display: flex;
-  align-items: center;
+  .historico-compra-barra-pesquisa-busca-container1 {
+    display: flex;
+    align-items: center;
 
-}
+  }
 
 }
