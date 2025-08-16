@@ -7,6 +7,9 @@ from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.hashers import make_password
 from django.core.mail import send_mail
+import yagmail
+import os
+from dotenv import load_dotenv
 
 class User(APIView):
     
@@ -49,24 +52,28 @@ class User(APIView):
         )
 
         # Enviar email após cadastro #
+        load_dotenv()
 
-        assunto = 'Bem vindo ao Sistema Digicoin'
-        mensagem = (
-            f'Nome: {fistName}\n'
-            f'RA: {ra}\n'
-            f'Login: {nome}\n'
-            f'Senha: {senha}\n'
-            f"Altere sua senha após o primeiro acesso."
+        yag = yagmail.SMTP(
+            user=os.getenv("EMAIL_USER"),
+            password=os.getenv("EMAIL_PASSWORD"),
+            host=os.getenv("EMAIL_HOST"),
+            port=int(os.getenv("EMAIL_PORT")),
+            smtp_starttls=True,       
+            smtp_ssl=False    
         )
 
-        send_mail(
-            subject=assunto,
-            message=mensagem,
-            from_email='digicoinTeste@outlook.com',
-            recipient_list=[usuario.username],
-            fail_silently=False
+        yag.send(
+            to=usuario.username,
+            subject='Bem vindo ao Sistema Digicoin',
+            contents=(
+                f'Nome: {fistName}\n'
+                f'RA: {ra}\n'
+                f'Login: {nome}\n'
+                f'Senha: {senha}\n'
+                f"Altere sua senha depois do primeiro acesso."
+            )
         )
-
 
         return Response({"message":"Usuário criado com sucesso!", "id":usuario.id, "status": status.HTTP_201_CREATED})
 
