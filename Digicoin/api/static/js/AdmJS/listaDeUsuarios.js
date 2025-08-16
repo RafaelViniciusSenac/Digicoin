@@ -159,59 +159,61 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  addMoedas.addEventListener('click', () => {
-    popupAdicionarMoedas.showModal();
-    const usuariosSelecionados = getUsuariosSelecionados();
+  if (addMoedas) {  
+    addMoedas.addEventListener('click', () => {
+      popupAdicionarMoedas.showModal();
+      const usuariosSelecionados = getUsuariosSelecionados();
 
-    const formAdicionarMoedas = document.getElementById('formAdicionarMoedas');
-    const inputQuantidade = document.getElementById('saldo');
+      const formAdicionarMoedas = document.getElementById('formAdicionarMoedas');
+      const inputQuantidade = document.getElementById('saldo');
 
-    const enviarMoedas = async (operacao) => {
-      const valor = parseInt(inputQuantidade.value);
-      const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value;
-      if (isNaN(valor)) {
-        alert('Digite um valor válido!');
-        return;
-      }
-
-      try {
-        for (const usuario of usuariosSelecionados) {
-          const response = await apiRequest(
-            `/api/user/${usuario.id}`,
-            'PUT',
-            {
-              operacao: operacao,
-              saldo: valor,
-            },
-            {
-              'X-CSRFToken': csrf,
-            },
-          );
-
-          if (response.status !== 200) {
-            console.log(response.status);
-            throw new Error(`Falha ao atualizar usuário ${usuario.id}`);
-          }
+      const enviarMoedas = async (operacao) => {
+        const valor = parseInt(inputQuantidade.value);
+        const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        if (isNaN(valor)) {
+          alert('Digite um valor válido!');
+          return;
         }
-        alert('Operação realizada com sucesso!');
-        popupAdicionarMoedas.close();
-        location.reload();
-      } catch (error) {
-        console.error('Erro:', error);
-        alert(`Erro na operação: ${error.message}`);
-      }
-    };
 
-    document.getElementById('adicionar').addEventListener('click', (e) => {
-      e.preventDefault();
-      enviarMoedas('adicionar');
-    });
+        try {
+          for (const usuario of usuariosSelecionados) {
+            const response = await apiRequest(
+              `/api/user/${usuario.id}`,
+              'PUT',
+              {
+                operacao: operacao,
+                saldo: valor,
+              },
+              {
+                'X-CSRFToken': csrf,
+              },
+            );
 
-    document.getElementById('remover').addEventListener('click', (e) => {
-      e.preventDefault();
-      enviarMoedas('remover');
+            if (response.status !== 200) {
+              console.log(response.status);
+              throw new Error(`Falha ao atualizar usuário ${usuario.id}`);
+            }
+          }
+          alert('Operação realizada com sucesso!');
+          popupAdicionarMoedas.close();
+          location.reload();
+        } catch (error) {
+          console.error('Erro:', error);
+          alert(`Erro na operação: ${error.message}`);
+        }
+      };
+
+      document.getElementById('adicionar').addEventListener('click', (e) => {
+        e.preventDefault();
+        enviarMoedas('adicionar');
+      });
+
+      document.getElementById('remover').addEventListener('click', (e) => {
+        e.preventDefault();
+        enviarMoedas('remover');
+      });
     });
-  });
+  }
 
   function getUsuariosSelecionados() {
     const linhas = document.querySelectorAll('.linhaUsuario-listaDeUsuarios');
@@ -261,7 +263,6 @@ function renderizarUsuarios(usuarios, container) {
 
 function buscarUsuario() {
     const nome = document.getElementById('campoBusca').value;
-    const somenteAdmin = document.getElementById('filtroAdmin').checked;
     const container = document.querySelector('.barraPesquisa-listaDeUsuarios');
     const baseUrl = container.getAttribute('data-url');
 
@@ -271,14 +272,13 @@ function buscarUsuario() {
         params.append("nome", nome.trim());
     }
 
-    if (somenteAdmin) {
+    const checkbox = document.getElementById('filtroAdmin');
+    if (checkbox && checkbox.checked) {
         params.append("is_adm", "true");
     }
 
     window.location.href = baseUrl + "?" + params.toString();
 }
-
-
 
 document.getElementById('filtroAdmin').addEventListener('change', function () {
     buscarUsuario(); // ou qualquer outra função que você queira

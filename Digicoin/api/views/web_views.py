@@ -223,13 +223,13 @@ def listaDeDesafios(request):
 
 def listaDeUsuarios(request):
     nome = request.GET.get('nome', '')
-    tipo_user_admin = request.GET.get('is_adm', 'False')  # 'true', 'false' ou vazio
+    tipo_user = request.GET.get('is_adm', 'False')
 
     usuarios_query = CustomUser.objects.filter(first_name__icontains=nome)
 
-    if tipo_user_admin.lower() == 'true':
+    if tipo_user.lower() == 'true':
         usuarios_query = usuarios_query.filter(is_adm=True)
-    elif tipo_user_admin.lower() == 'false':
+    elif tipo_user.lower() == 'false':
         usuarios_query = usuarios_query.filter(is_adm=False)
 
     usuarios_query = usuarios_query.order_by("first_name")
@@ -237,9 +237,14 @@ def listaDeUsuarios(request):
     user_page = request.GET.get('user_page')
     usuarios = user_paginator.get_page(user_page)
 
+    # Verifica se o usuário logado é o primeiro cadastrado
+    primeiro_admin = CustomUser.objects.filter(is_adm=True).order_by('date_joined').first() 
+    pode_gerenciar_admins = request.user == primeiro_admin
+
     context = {
         'usuarios': usuarios,
-        'tipo_user_admin': tipo_user_admin.lower(),  # passa para o template
+        'tipo_user_admin': tipo_user.lower(),
+        'gerencia_admin': pode_gerenciar_admins,
     }
 
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':

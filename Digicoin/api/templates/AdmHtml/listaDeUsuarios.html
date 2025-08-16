@@ -9,10 +9,13 @@
 
 <div class="mainListaUsuarios">
     <div class="divPesquisa-listaDeUsuarios">
-        <label for="filtroAdmin">
-            <input type="checkbox" id="filtroAdmin" {% if tipo_user_admin == 'true' %}checked{% endif %}>
-            Listar Admins ({{ tipo_user_admin }})
-        </label>
+        {{ gerencia_admin }}
+        {% if gerencia_admin %}
+            <label for="filtroAdmin">
+                <input type="checkbox" id="filtroAdmin" {% if tipo_user_admin == 'true' %}checked{% endif %}>
+                Listar Admins ({{ tipo_user_admin }})
+            </label>
+        {% endif %}
         <div class="barraPesquisa-listaDeUsuarios" data-url="{% url 'listaDeUsuarios' %}">
             <img src="{% static 'img/iconeLupa.png' %}" alt="Ícone de busca">
             <input id="campoBusca" name="nome" type="search" placeholder="Pesquisar usuário">
@@ -30,7 +33,7 @@
                 {% endif %}
                 <button class="addUsuarios-listaDeUsuarios" id="addUsuarios">
                     <img src="{% static 'img/iconAdicionar.png' %}" alt="">
-                    Adicionar usuário
+                    Adicionar usuário {% if tipo_user_admin == 'true' %}Admin{% endif %}
                 </button>
             </div>
         </div>
@@ -136,12 +139,15 @@
                             </div>
             
                             <div class="action-buttons">
-                                <button type="button" class="action-button desativar"> 
-                                    Desativar usuário
-                                </button>
-                                <button type="button" class="action-button ativar" >
-                                    Ativar usuário
-                                </button>
+                                {% if usuario.is_active %}
+                                    <button type="button" class="action-button desativar"> 
+                                        Desativar usuário
+                                    </button>
+                                {% else %}
+                                    <button type="button" class="action-button ativar" >
+                                        Ativar usuário
+                                    </button>
+                                {% endif %}
                                 <button type="submit" class="action-button submit">
                                     Concluído
                                 </button>
@@ -195,12 +201,12 @@
     
         <div class="input-cadastrarUsuario">
             <label for="">RA do Usuário</label>
-            <input type="number" id="ra" class="ra" placeholder="23317444">
+            <input type="number" id="ra" class="ra" placeholder="Numero do Ra">
         </div>
     
         <div class="input-cadastrarUsuario">
             <label for="">Senha  temporária</label>
-            <input type="text" id="senha" class="senha" placeholder="Rw9!K$2@qPb">
+            <input type="text" id="senha" class="senha" placeholder="Digite a Senha">
         </div>
 
         <div class="input">
