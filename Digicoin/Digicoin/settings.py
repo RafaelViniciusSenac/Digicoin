@@ -148,3 +148,6 @@ import os
 MEDIA_URL = '/midia/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'midia')
 
+
+
+

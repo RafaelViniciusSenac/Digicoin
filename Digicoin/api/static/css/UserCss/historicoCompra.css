@@ -166,7 +166,7 @@
 .historico-compra-tabela-rowheader {
   display: flex;
   align-items: center;
-  padding: 5px 5px;
+  padding: 0 5px 0 10px;
   border-radius: 10px;
 }
 
@@ -297,6 +297,7 @@
 }
 
 @media (max-width: 800px) {
+
   .historico-compra-barra-pesquisa {
     display: flex;
     justify-content: center;
@@ -306,12 +307,20 @@
     width: 100%;
   }
 
+  .historico-compra-cabecalho {
+    gap: 20px;
+  }
+
   .historico-compra-titulo {
     font-size: 20px;
   }
 
   .historico-compra-tabela {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     padding-top: 20px;
+    padding-left: 10px;
   }
 
   .historico-compra-tabela-head {
@@ -325,7 +334,10 @@
   .historico-compra-tabela-rowheader,
   .historico-compra-tabela-row,
   .historico-compra-tabela-cell {
-    display: block;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    width: 100%;
   }
 
   .historico-compra-tabela-row {
@@ -383,6 +395,14 @@
   .historico-compra-barra-pesquisa-busca-container1 {
     display: flex;
     align-items: center;
+  }
+
+  .historico-compra-icone-itens img {
+    display: none;
+  }
+
+  .historico-compra-local-itens {
+    display: block;    
   }
 }
 
@@ -509,7 +529,9 @@
   }
 
   .historico-compra-tabela {
+    padding-right: 30px;
     padding-top: 20px;
+    margin: 0;
   }
 
   .historico-compra-tabela-head {
