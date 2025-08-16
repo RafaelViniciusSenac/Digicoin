@@ -8,50 +8,44 @@
 {% include "components/adm/menuAdm.html" %}
 
 <div class="mainListaUsuarios">
-    
-    <div  class="divPesquisa-listaDeUsuarios">
-        <form method="GET" action="{% url 'listaDeUsuarios' %}">
-            <div class="barraPesquisa-listaDeUsuarios">
-                <img src="{% static 'img/iconeLupa.png' %}" alt="Ícone de busca">
-                <input name="nome" type="search" placeholder="Pesquisar usuário">
-                <button type="submit">Buscar</button>
-            </div>
-        </form>
+    <div class="divPesquisa-listaDeUsuarios">
+        <label for="filtroAdmin">
+            <input type="checkbox" id="filtroAdmin" {% if tipo_user_admin == 'true' %}checked{% endif %}>
+            Listar Admins ({{ tipo_user_admin }})
+        </label>
+        <div class="barraPesquisa-listaDeUsuarios" data-url="{% url 'listaDeUsuarios' %}">
+            <img src="{% static 'img/iconeLupa.png' %}" alt="Ícone de busca">
+            <input id="campoBusca" name="nome" type="search" placeholder="Pesquisar usuário">
+            <button onclick="buscarUsuario()">Buscar</button>
+        </div>
     </div>
-    
-
         <div class="primeiraLinha-listaDeUsuarios">
-
             <h1><span>Usu</span>ários</h1>
-
             <div class="botoesUsuario-listaDeUsuarios">
-            
+                {% if tipo_user_admin != 'true' %}
                     <button class="addMoedas-listaDeUsuarios" id="addMoedas">
                         <img src="{% static 'img/iconAdicionar.png' %}" alt="">
                         Gerenciar digicoins
                     </button>
-          
-
-                    <button class="addUsuarios-listaDeUsuarios" id="addUsuarios">
-                        <img src="{% static 'img/iconAdicionar.png' %}" alt="">
-                        Adicionar usuário
-                    </button>
-            
+                {% endif %}
+                <button class="addUsuarios-listaDeUsuarios" id="addUsuarios">
+                    <img src="{% static 'img/iconAdicionar.png' %}" alt="">
+                    Adicionar usuário
+                </button>
             </div>
-
         </div>
-
         <div class="head-listaDeUsuarios">
             <p>Nome</p>
             <img src="{% static 'img/lista.png' %}" alt="">
         </div>
-
-        <div class="selecionar-todos-listaDeUsuarios">
-            <label>
-                <input type="checkbox" id="selecionarTodos"> 
-                Selecionar todos os usuários ativos
-            </label>
-        </div>
+        {% if tipo_user_admin != 'true' %}
+            <div class="selecionar-todos-listaDeUsuarios">
+                <label>
+                    <input type="checkbox" id="selecionarTodos"> 
+                    Selecionar todos os usuários ativos
+                </label>
+            </div>
+        {% endif %}
 
         <div id="listaUsuarios"  class="listaUsuarios">
 
@@ -61,7 +55,9 @@
             {% if usuario.is_active %}
             
             <div class="linhaUsuario-listaDeUsuarios">
-                <input type="checkbox" class="checkbox">
+                {% if tipo_user_admin != 'true' %}
+                    <input type="checkbox" class="checkbox">
+                {% endif %}
                 <div class="infoUser-listaDeUsuarios">
                     <img src="{% static 'img/userBlack.png' %}" alt="">
                     <input type="hidden" class='idUser-listaDeUsuarios' value="{{usuario.id}}">

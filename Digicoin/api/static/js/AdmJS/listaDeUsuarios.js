@@ -24,16 +24,18 @@ document.addEventListener('DOMContentLoaded', () => {
     popupAdicionarMoedas.close();
   });
 
-  const selecionarTodos = document.getElementById('selecionarTodos');
-  selecionarTodos.addEventListener('change', (e) => {
-    const checkboxes = document.querySelectorAll(
-      '.linhaUsuario-listaDeUsuarios:not(.desativado) .checkbox',
-    );
-    checkboxes.forEach((checkbox) => {
-      checkbox.checked = e.target.checked;
-      checkbox.disabled = false;
+  if(document.getElementById('selecionarTodos')){
+    const selecionarTodos = document.getElementById('selecionarTodos');
+    selecionarTodos.addEventListener('change', (e) => {
+      const checkboxes = document.querySelectorAll(
+        '.linhaUsuario-listaDeUsuarios:not(.desativado) .checkbox',
+      );
+      checkboxes.forEach((checkbox) => {
+        checkbox.checked = e.target.checked;
+        checkbox.disabled = false;
+      });
     });
-  });
+  }
 
   document
     .querySelectorAll(
@@ -257,32 +259,27 @@ function renderizarUsuarios(usuarios, container) {
   });
 }
 
-async function buscarUsuario() {
-  const nome = document.getElementById('barraBusca-listaProdutos').value;
-  //buscar em web_views listaDeUsuarios
+function buscarUsuario() {
+    const nome = document.getElementById('campoBusca').value;
+    const somenteAdmin = document.getElementById('filtroAdmin').checked;
+    const container = document.querySelector('.barraPesquisa-listaDeUsuarios');
+    const baseUrl = container.getAttribute('data-url');
 
-  const container = document.getElementById('listaUsuarios');
-  container.innerHTML = '';
+    const params = new URLSearchParams();
 
-  // try {
-  //   const response = await apiRequest(
-  //     `/api/user/?nome=${encodeURIComponent(nome)}`,
-  //   );
-  //   console.log(response);
+    if (nome.trim() !== "") {
+        params.append("nome", nome.trim());
+    }
 
-  //   if (!response) {
-  //     console.log('Resposta inválida');
-  //     return;
-  //   } else {
-  //     const container = document.getElementById('listaUsuarios');
-  //     container.innerHTML = '';
-  //     renderizarUsuarios(response, container);
-  //   }
-  // } catch (error) {
-  //   console.log('Erro ao buscar usuários:', error);
-  // }
+    if (somenteAdmin) {
+        params.append("is_adm", "true");
+    }
+
+    window.location.href = baseUrl + "?" + params.toString();
 }
 
-document
-  .getElementById('barraBusca-listaProdutos')
-  .addEventListener('input', buscarUsuario);
+
+
+document.getElementById('filtroAdmin').addEventListener('change', function () {
+    buscarUsuario(); // ou qualquer outra função que você queira
+});

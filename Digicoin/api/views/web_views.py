@@ -223,16 +223,29 @@ def listaDeDesafios(request):
 
 def listaDeUsuarios(request):
     nome = request.GET.get('nome', '')
-    tipo_user = request.GET.get('is_adm', 'False') 
-    user = CustomUser.objects.filter(first_name__icontains=nome, is_adm=tipo_user).order_by("first_name")
-    user_paginator = Paginator(user, 5)
+    tipo_user_admin = request.GET.get('is_adm', 'False')  # 'true', 'false' ou vazio
+
+    usuarios_query = CustomUser.objects.filter(first_name__icontains=nome)
+
+    if tipo_user_admin.lower() == 'true':
+        usuarios_query = usuarios_query.filter(is_adm=True)
+    elif tipo_user_admin.lower() == 'false':
+        usuarios_query = usuarios_query.filter(is_adm=False)
+
+    usuarios_query = usuarios_query.order_by("first_name")
+    user_paginator = Paginator(usuarios_query, 5)
     user_page = request.GET.get('user_page')
     usuarios = user_paginator.get_page(user_page)
 
+    context = {
+        'usuarios': usuarios,
+        'tipo_user_admin': tipo_user_admin.lower(),  # passa para o template
+    }
+
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-        return render(request, 'AdmHtml/fragments/usuarios.html', {'usuarios': usuarios})
-    
-    return render(request, 'AdmHtml/listaDeUsuarios.html', {'usuarios': usuarios})
+        return render(request, 'AdmHtml/fragments/usuarios.html', context)
+
+    return render(request, 'AdmHtml/listaDeUsuarios.html', context)
 
 
 def desafiosCampanha(request, campanha_id):
