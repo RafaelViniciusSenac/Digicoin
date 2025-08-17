@@ -1,24 +1,29 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const popupCadastrarUsuario = document.getElementById(
-    'popupCadastrarUsuario',
-  );
+  const popupCadastrarUsuario = document.getElementById('popupCadastrarUsuario');
   const addUsuarios = document.getElementById('addUsuarios');
   const fecharCadastrar = document.getElementById('fecharCadastrar');
-  const cadastrarUsuario = document.getElementById('cadastrarUsuario');
+  const botaoCadastrarUsuario = document.getElementById('cadastrarUsuario');
+  const form = document.getElementById("formUsuario");
 
   addUsuarios.addEventListener('click', () => {
+    const tipo_usuario = addUsuarios.getAttribute('data-tipo-usuario');
+    let tituloBotao = 'Cadastrar Usuário';
+    if(tipo_usuario){
+      document.getElementById('isAdmin').value = tipo_usuario;
+      tituloBotao = 'Cadastrar Usuário Admin';
+    }
+    botaoCadastrarUsuario.textContent = tituloBotao
     popupCadastrarUsuario.showModal();
   });
 
   fecharCadastrar.addEventListener('click', () => {
+    form.reset();
     popupCadastrarUsuario.close();
   });
 
   const popupAdicionarMoedas = document.getElementById('popupAdicionarMoedas');
   const addMoedas = document.getElementById('addMoedas');
-  const fecharAdicionarMoedas = document.getElementById(
-    'fecharAdicionarMoedas',
-  );
+  const fecharAdicionarMoedas = document.getElementById('fecharAdicionarMoedas');
 
   fecharAdicionarMoedas.addEventListener('click', () => {
     popupAdicionarMoedas.close();
@@ -36,9 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   }
-
-  document
-    .querySelectorAll(
+  document.querySelectorAll(
       '.linhaUsuario-listaDeUsuarios:not(.desativado) .checkbox',
     )
     .forEach((checkbox) => {
@@ -56,8 +59,27 @@ document.addEventListener('DOMContentLoaded', () => {
   for (let i = 0; i < editar.length; i++) {
     editar[i].addEventListener('click', () => {
       const id = editar[i].getAttribute('data-id');
-      const popupEditarUsuario = document.getElementById(`editarUsuario-${id}`);
-      popupEditarUsuario.showModal();
+      let tituloBotao = 'Alterar Usuário';
+      const nome = editar[i].getAttribute('data-nome');
+      const email = editar[i].getAttribute('data-email');
+      const ra = editar[i].getAttribute('data-ra');
+      let status = editar[i].getAttribute('data-status');
+      const tipo_usuario = editar[i].getAttribute('data-tipo-usuario');
+      if(tipo_usuario){
+        tituloBotao = 'Alterar Usuário Admin';
+      }
+      console.log(status);
+      botaoCadastrarUsuario.textContent = tituloBotao;
+      document.getElementById('id_usuario').value = id;
+      document.getElementById('nome').value = nome;
+      document.getElementById('email').value = email;
+      document.getElementById('ra').value = ra;
+      if (status == 'true') {
+        document.getElementById('filtroAtivarUsuario').checked = true;
+      }
+      // escondor a div de senha
+      document.getElementById('inputSenha').style.display = 'none'; 
+      popupCadastrarUsuario.showModal();
     });
   }
 
@@ -70,139 +92,55 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  document.querySelectorAll('.saldo-button').forEach((botao) => {
-    botao.addEventListener('click', (e) => {
-      const saldoControl = botao.closest('.saldo-control');
-      const inputSaldo = saldoControl.querySelector('.saldo');
-      let valorAtual = parseInt(inputSaldo.value) || 0;
-
-      if (botao.classList.contains('add')) {
-        valorAtual += 1;
-      } else if (botao.classList.contains('sub')) {
-        valorAtual = Math.max(0, valorAtual - 1);
-      }
-
-      inputSaldo.value = valorAtual;
-    });
-  });
-
-  document
-    .querySelectorAll('.action-button.desativar, .action-button.ativar')
-    .forEach((botao) => {
-      botao.addEventListener('click', (e) => {
-        const dialog = botao.closest('dialog');
-        const form = dialog.querySelector('.formEditar');
-        const statusInput = form.querySelector('input[name="is_active"]');
-
-        if (botao.classList.contains('desativar')) {
-          statusInput.value = 'false';
-        } else if (botao.classList.contains('ativar')) {
-          statusInput.value = 'true';
-        }
-
-        dialog
-          .querySelectorAll('.action-button')
-          .forEach((btn) => btn.classList.remove('active'));
-        botao.classList.add('active');
-      });
-    });
-
-  document.querySelectorAll('.formEditar').forEach((form) => {
-    form.addEventListener('submit', async function (e) {
-      e.preventDefault();
-
-      const dialog = this.closest('.editarUsuario');
-      const userId = dialog.id.split('-')[1];
-
-      const nome = this.querySelector('.nome').value;
-      const email = this.querySelector('.email').value;
-      const ra = this.querySelector('.ra').value;
-      const saldo = this.querySelector('.saldo').value;
-      const status = this.querySelector('input[name="is_active"]').value;
-      const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value;
-
-      const response = await apiRequest(
-        `/api/user/${userId}`,
-        'PUT',
-        {
-          username: email,
-          ra: ra,
-          first_name: nome,
-          saldo: saldo,
-          is_active: status,
-        },
-        {
-          'X-CSRFToken': csrf,
-        },
-      );
-
-      if (response.status == 200) {
-        console.log(response);
-
-        location.reload();
-      } else {
-        console.log('Erro ao editar usuário: ' + response);
-        alert('Erro ao editar usuário!');
-      }
-    });
-  });
-
-  const concluido = document.querySelectorAll('#concluido');
-
-  concluido.forEach((botao) => {
-    botao.addEventListener('click', (e) => {
-      const dialog = botao.closest('dialog');
-      if (dialog) {
-        dialog.close();
-      }
-      window.location.reload();
-    });
-  });
-
-  if (addMoedas) {  
+  if (addMoedas) { 
     addMoedas.addEventListener('click', () => {
       popupAdicionarMoedas.showModal();
+      // verfica se selecionarTodos esta marcado
       const usuariosSelecionados = getUsuariosSelecionados();
-
+      const selecionarTodos = document.getElementById('selecionarTodos');
+      const totalSelecionas = document.getElementById('usuariosSelecionados')
+      let paraTodos = false;
+      if (selecionarTodos.checked) {
+          paraTodos = true;
+          totalSelecionas.textContent = document.getElementById('quantidadeTotalUsuarios').value;
+      }else{
+        totalSelecionas.textContent = usuariosSelecionados.length;;
+      }
       const formAdicionarMoedas = document.getElementById('formAdicionarMoedas');
       const inputQuantidade = document.getElementById('saldo');
-
+      const popupAlert = new Popup();
       const enviarMoedas = async (operacao) => {
         const valor = parseInt(inputQuantidade.value);
         const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
         if (isNaN(valor)) {
-          alert('Digite um valor válido!');
+          popupAlert.showPopup("Digite um valor válido!","Error","erro");
           return;
         }
 
+        const payload = {
+          operacao: operacao,
+          saldo: valor,
+          paraTodos: paraTodos,
+          usuarios: paraTodos ? [] : usuariosSelecionados.map(u => u.id),
+        };
+        console.log(payload);
         try {
-          for (const usuario of usuariosSelecionados) {
-            const response = await apiRequest(
-              `/api/user/${usuario.id}`,
-              'PUT',
-              {
-                operacao: operacao,
-                saldo: valor,
-              },
-              {
-                'X-CSRFToken': csrf,
-              },
-            );
-
-            if (response.status !== 200) {
-              console.log(response.status);
-              throw new Error(`Falha ao atualizar usuário ${usuario.id}`);
-            }
+          const result = await apiRequest('/api/user/atualizar-saldos/', 'PUT', payload, {'X-CSRFToken': csrf,});
+          if (result.ok) {
+              popupAdicionarMoedas.close();
+              formAdicionarMoedas.reset();
+              popupAlert.showPopup(result.data.message,"Sucesso","sucesso");
+              popupAlert.imgClosed.addEventListener("click", () => {
+                  location.reload();
+              });
+          } else {
+              popupAlert.showPopup(`Erro: ${result.status} - ${result.data?.erro || result.error}`,"Error","erro");
           }
-          alert('Operação realizada com sucesso!');
-          popupAdicionarMoedas.close();
-          location.reload();
         } catch (error) {
           console.error('Erro:', error);
-          alert(`Erro na operação: ${error.message}`);
         }
       };
-
       document.getElementById('adicionar').addEventListener('click', (e) => {
         e.preventDefault();
         enviarMoedas('adicionar');
@@ -222,11 +160,10 @@ document.addEventListener('DOMContentLoaded', () => {
     linhas.forEach((linha) => {
       const checkbox = linha.querySelector('.checkbox');
       const inputId = linha.querySelector('.idUser-listaDeUsuarios');
-      const saldoElement = linha.querySelector('span:not(.nome):not(.status)');
+      const saldoElement = linha.querySelector('.saldo-listaDeUsuarios');
 
       if (checkbox && checkbox.checked && inputId && saldoElement) {
-        const saldo =
-          parseInt(saldoElement.textContent.replace('D$ ', '')) || 0;
+        const saldo = parseInt(saldoElement.textContent.replace('D$ ', '')) || 0;
         usuarios.push({
           id: inputId.value,
           saldo: saldo,
@@ -234,32 +171,14 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
     if (usuarios.length === 0) {
-      alert('Nenhum usuário selecionado.');
       popupAdicionarMoedas.close();
+      const popupAlert = new Popup();
+      popupAlert.showPopup("Nenhum usuário selecionado!","Error","erro");
     }
-
     return usuarios;
   }
-});
 
-function renderizarUsuarios(usuarios, container) {
-  usuarios.slice(0, 5).forEach((usuario) => {
-    const div = document.createElement('div');
-    div.className = 'linhaUsuario-listaDeUsuarios';
-    div.innerHTML = `
-            <input type="checkbox" class="checkbox">
-            <div class="infoUser-listaDeUsuarios">
-                <img src="/static/img/userBlack.png" alt="">
-                <input type="hidden" class="idUser-listaDeUsuarios" value="${usuario.id}">
-                <span class="nome-listaDeUsuarios">${usuario.first_name}</span>
-                <span>D$ ${usuario.saldo}</span>
-                <span class="status-listaDeUsuarios"></span>
-            </div>
-            <img class="iconeEditar-listaDeUsuarios" id="editar" data-id="${usuario.id}" src="/static/img/edit.png" alt="">
-        `;
-    container.appendChild(div);
-  });
-}
+});
 
 function buscarUsuario() {
     const nome = document.getElementById('campoBusca').value;

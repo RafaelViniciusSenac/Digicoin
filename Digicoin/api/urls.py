@@ -18,6 +18,7 @@ urlpatterns = [
     path('api/logout/', Logout.as_view(), name='logout'),
     path('api/cadastrarCompra/', CadastrarCompraView.as_view(), name='CadastrrarCompra'),
     path('api/GetDadosUsuarioLogado', GetDadosUsuarioLogado.as_view(), name='GetDadosUsuarioLogado'),
+    path('api/user/atualizar-saldos/', AtualizarSaldos.as_view(), name='atualizar-saldos'),
     path('api/user/historico-saldo/', HistoricoSaldoUsuarioView.as_view(), name='historico-saldo-usuario'),
     path('api/user/<int:id>/historico-saldo/', HistoricoSaldoPorIdView.as_view(), name='historico-saldo-por-id'),
     path('api/usuario/<int:id>/primeiro-acesso/', PrimeiroAcessoSenhaView.as_view(), name='primeiro_acesso_senha'),

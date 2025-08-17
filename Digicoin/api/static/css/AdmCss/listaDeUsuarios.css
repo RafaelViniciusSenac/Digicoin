@@ -16,9 +16,9 @@
   }
 
 .mainListaUsuarios {
-    padding: 40px;
+    padding: 10px;
     font-family: Arial, sans-serif;
-    width: 50%;
+    width: 40%;
     margin-left: 450px;
     padding-left: 200px;
 
@@ -34,15 +34,32 @@
 .barraPesquisa-listaDeUsuarios {
     border: 2px solid #ccc;
     border-radius: 20px;
-    padding: 5px 15px;
+    padding: 5px;
     display: flex;
     align-items: center;
-    gap: 8px;
+}
+.barraPesquisa-listaDeUsuarios label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--base);
+    font-weight: 500;
+}
+
+.barraPesquisa-listaDeUsuarios input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--base); 
+    cursor: pointer;
+    align-items: center;
 }
 
 .barraPesquisa-listaDeUsuarios input {
     border: none;
     outline: none;
+    width: 120px;
     font-size: 14px;
 }
 
@@ -243,94 +260,97 @@
     display: none;
 }
 
-
-.popupCadastrarUsuario{
-   
+dialog {
     border: none;
-        border-radius: 8px;
-        padding: 30px 100px 100px 100px;
-        width: 90%;
-        max-width: 900px;
-        background-color: var(--roxo);
-        box-shadow: 0 4px 20px var(--sombra-preta);
-        color: var(--base);
+    border-radius: 15px;
+    padding: 20px;
+    background-color: #4D2C87;
+    min-width: 300px;
+    color: var(--base);
 }
 
 .header-cadastrarUsuario{
     display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 30px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 5px;
+    margin-top: -20px;
 }
 
-.iconeX-cadastrarUsuario{
-    
-    width: 32px;
-    height: 32px;
+.headerLogo-cadastrarUsuario > img {
+    width: 100px;  
 }
 
-.iconeX-cadastrarUsuario:hover{
+.header-cadastrarUsuario .buttonClose-cadastrarUsuario {
+    background-color: transparent;
+    border: none;
+    margin-top: 16px;
+    font-size: 16px;
+    color: #FFFFFF;
+    cursor: pointer;
+}
+
+
+
+.input-cadastrarUsuario {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.input-cadastrarUsuario input[type="text"],
+.input-cadastrarUsuario input[type="email"],
+.input-cadastrarUsuario input[type="password"] {
+    border-radius: 4px;
+    border: none;
+    height: 55px;
+    background-color: var(--branco);
+    font-size: 20px;
+    color: var(--base);
+    margin-bottom: 20px;
+    padding: 0 15px;
+}
+
+.input-cadastrarUsuario label {
+    color: var(--branco);
+    font-size: 15px;
+}
+
+/* Estilo específico para o label com checkbox */
+.input-cadastrarUsuario label.filtroDesativarUsuario {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--base);
+    padding-left: 5px;
+    margin-bottom: 20px;
+}
+
+/* Estilo para o checkbox */
+.input-cadastrarUsuario input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    accent-color: var(--base); 
     cursor: pointer;
 }
 
 .button-cadastrarUsuario{
-    
+    margin-top: 20px;
+    width: 100%;
+    font-weight: bold;
     font-size: 22px;
-    border-radius: 20px;
+    border-radius: 10px;
     cursor: pointer;
     border: none;
     color: var(--branco);
     background-color: var(--magenta);
-    width: 260px;
     height: 60px;
-    
 }
 
-
-.input-cadastrarUsuario{
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    
+.button-cadastrarUsuario:hover{
+    /* deixar com mesma cor e mais escuro */
+    opacity: 0.8;
 }
-
-.input-cadastrarUsuario input{
-
-    border-radius: 4px;
-    border: none;
-    width: 800px;
-    height: 55px;   
-    background-color: var(--branco);
-    font-size: 20px;
-    color: var(--base);
-    margin-bottom: 40px;
-
-}
-
-
-
-.input-cadastrarUsuario label{
-    color: var(--branco);
-    font-size: 15px;
-
-}
-
-.input-cadastrarUsuario input:read-write
-{
-
-    color: var(--base);
-    padding-left: 20px;
-
-}
-
-.formUsuario-cadastrarUsuario{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-}
-
 
 .popupAdicionarMoedas{
     border: none;
@@ -597,7 +617,8 @@
     .mainListaUsuarios {
         margin-left: 0;
         padding: 20px;
-        padding-left: 20px;
+        padding-left: 100px;
+        width: 80%;
     }
 
     .form-columns {
@@ -616,9 +637,9 @@
 @media (max-width: 768px) {
 
     .mainListaUsuarios {
-        width: 80%;
+        width: 90%;
         margin-left: 0;
-        padding-left: 40px;
+        padding-left: 10px;
         
     }
     
@@ -927,12 +948,12 @@
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    gap: 15px;
+    gap: 5px;
     margin-top: 20px;
 }
 
 .pagination-listaDeUsuarios a {
-    padding: 8px 15px;
+    padding: 5px;
     text-decoration: none;
     color: white;
     cursor: pointer;

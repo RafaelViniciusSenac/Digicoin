@@ -10,6 +10,8 @@ from datetime import datetime
 from django.http import HttpResponse
 from django.db.models import Q
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from urllib.parse import urlencode
+
 
 def login(request):
     return render(request, 'index.html')
@@ -232,26 +234,37 @@ def listaDeUsuarios(request):
     elif tipo_user.lower() == 'false':
         usuarios_query = usuarios_query.filter(is_adm=False)
 
+    # Exclui o usuário logado da lista
+    usuarios_query = usuarios_query.exclude(id=request.user.id)
+
     usuarios_query = usuarios_query.order_by("first_name")
     user_paginator = Paginator(usuarios_query, 5)
     user_page = request.GET.get('user_page')
     usuarios = user_paginator.get_page(user_page)
+    
+    query_params = request.GET.copy()
+    query_params.pop('user_page', None)
+    query_string = urlencode(query_params)
 
-    # Verifica se o usuário logado é o primeiro cadastrado
-    primeiro_admin = CustomUser.objects.filter(is_adm=True).order_by('date_joined').first() 
+
+    primeiro_admin = CustomUser.objects.filter(is_adm=True).order_by('id').first() 
     pode_gerenciar_admins = request.user == primeiro_admin
+    quantidade_total = usuarios_query.count()
+    quantidade_ativos = usuarios_query.filter(is_active=True).count()
 
     context = {
         'usuarios': usuarios,
         'tipo_user_admin': tipo_user.lower(),
         'gerencia_admin': pode_gerenciar_admins,
+        'quantidade_total': quantidade_total,
+        'quantidade_ativos': quantidade_ativos,
+        'query_string': query_string,
     }
 
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         return render(request, 'AdmHtml/fragments/usuarios.html', context)
 
     return render(request, 'AdmHtml/listaDeUsuarios.html', context)
-
 
 def desafiosCampanha(request, campanha_id):
 

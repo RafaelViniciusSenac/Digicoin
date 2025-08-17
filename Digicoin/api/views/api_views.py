@@ -37,6 +37,7 @@ class User(APIView):
         ra = request.data.get('ra')
         fistName = request.data.get('first_name')
         isAdm = request.data.get('is_adm')
+        isActive = request.data.get('is_active')
         
 
         if not nome or not senha:
@@ -45,35 +46,35 @@ class User(APIView):
         usuario = CustomUser.objects.create(
             username = nome,
             password = make_password(senha),
-            is_active = True,
             first_name = fistName,
             is_adm = isAdm,
+            is_active = isActive,
             ra = ra
         )
 
-        # Enviar email após cadastro #
-        load_dotenv()
+        # # Enviar email após cadastro #
+        # load_dotenv()
 
-        yag = yagmail.SMTP(
-            user=os.getenv("EMAIL_USER"),
-            password=os.getenv("EMAIL_PASSWORD"),
-            host=os.getenv("EMAIL_HOST"),
-            port=int(os.getenv("EMAIL_PORT")),
-            smtp_starttls=True,       
-            smtp_ssl=False    
-        )
+        # yag = yagmail.SMTP(
+        #     user=os.getenv("EMAIL_USER"),
+        #     password=os.getenv("EMAIL_PASSWORD"),
+        #     host=os.getenv("EMAIL_HOST"),
+        #     port=int(os.getenv("EMAIL_PORT", "587")),
+        #     smtp_starttls=True,       
+        #     smtp_ssl=False    
+        # )
 
-        yag.send(
-            to=usuario.username,
-            subject='Bem vindo ao Sistema Digicoin',
-            contents=(
-                f'Nome: {fistName}\n'
-                f'RA: {ra}\n'
-                f'Login: {nome}\n'
-                f'Senha: {senha}\n'
-                f"Altere sua senha depois do primeiro acesso."
-            )
-        )
+        # yag.send(
+        #     to=usuario.username,
+        #     subject='Bem vindo ao Sistema Digicoin',
+        #     contents=(
+        #         f'Nome: {fistName}\n'
+        #         f'RA: {ra}\n'
+        #         f'Login: {nome}\n'
+        #         f'Senha: {senha}\n'
+        #         f"Altere sua senha depois do primeiro acesso."
+        #     )
+        # )
 
         return Response({"message":"Usuário criado com sucesso!", "id":usuario.id, "status": status.HTTP_201_CREATED})
 
@@ -255,4 +256,33 @@ class HistoricoSaldoPorIdView(APIView):
         serializer = UsuarioComHistoricoSerializer(usuario)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
+class AtualizarSaldos(APIView):
+    def put(self, request):
+        data = request.data
+        operacao = data.get("operacao")
+        saldo = data.get("saldo")
+        para_todos = data.get("paraTodos", False)
+        usuarios_ids = data.get("usuarios", [])
+
+        if not operacao or saldo is None:
+            return Response({"erro": "Dados incompletos."}, status=status.HTTP_400_BAD_REQUEST)
+
+        if para_todos:
+            usuarios = CustomUser.objects.filter(is_active=True, is_adm=False)
+        else:
+            usuarios = CustomUser.objects.filter(id__in=usuarios_ids, is_active=True, is_adm=False)
+
+        for usuario in usuarios:
+            if operacao == "adicionar":
+                usuario.pontuacao += saldo
+                usuario.saldo += saldo
+            elif operacao == "remover":
+                if usuario.saldo < saldo:
+                    continue  # ou trate como erro
+                usuario.pontuacao -= saldo
+                usuario.saldo -= saldo
+            usuario.save()
+        
+        return Response({"message": "Operação realizada com sucesso!"}, status=status.HTTP_200_OK)
+
 
