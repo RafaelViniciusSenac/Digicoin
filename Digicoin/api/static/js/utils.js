@@ -10,14 +10,12 @@ async function apiRequest(url, method = 'GET', body = null, headers = {}) {
             },
             body: isFormData ? body : JSON.stringify(body)
         };
-
         const response = await fetch(url, config);
-        const data = await response.json();
-        return {
-            status: response.status,
-            ok: response.ok,
-            data: data
-        };
+        if (!response.ok) {
+            throw new Error(`Erro: ${response.status} - ${response.statusText}`);
+        }
+        return await response.json();
+
     } catch (error) {
         console.error('Erro na requisição:', error);
         return {
