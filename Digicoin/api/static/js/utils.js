@@ -18,12 +18,7 @@ async function apiRequest(url, method = 'GET', body = null, headers = {}) {
 
     } catch (error) {
         console.error('Erro na requisição:', error);
-        return {
-            status: null,
-            ok: false,
-            data: null,
-            error: error.message
-        };
+        return null;
     }
 }
 
