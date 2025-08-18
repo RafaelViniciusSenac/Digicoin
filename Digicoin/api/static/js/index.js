@@ -13,9 +13,9 @@ async function Login(evento) {
             { 'X-CSRFToken': csrf }
         );
         console.log(data);
-        if (data.data.is_adm === true) {
+        if (data.is_adm === true) {
             window.location.href = '/listaDeUsuarios';
-        } else if (data.data.is_adm === false) {
+        } else if (data.is_adm === false) {
             window.location.href = '/home/';
         } else {
             
