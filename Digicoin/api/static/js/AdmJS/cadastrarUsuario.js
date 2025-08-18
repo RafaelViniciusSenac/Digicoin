@@ -59,3 +59,31 @@ async function cadastrar(evento) {
         popupAlert.showPopup("Erro inesperado ao cadastrar/editar usuário.", "Erro", "erro");
     }
 }
+
+async function cadastrarUsuariosValidados(usuarios) {
+    const lista = document.getElementById("listaUsuariosValidados");
+    const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    const popupAlert = new Popup();
+    if (usuarios.length === 0) {
+        popupAlert.showPopup("Nenhum usuário selecionado.", "Erro", "erro");
+        return;
+    }
+    try {
+        const response = await apiRequest("/api/importar_usuarios/", "POST", {usuarios: usuarios}, { 'X-CSRFToken': csrf });
+
+        if (response && (response.status === 201 || response.status === 200)) {
+            lista.innerHTML = "";
+            popupAlert.showPopup("Usuários cadastrado com sucesso!", "Sucesso", "sucesso");
+            popupAlert.imgClosed.addEventListener("click", () => {
+                location.reload();
+            });
+        } else {
+            popupAlert.showPopup("Erro ao cadastrar usuários!", "Erro", "erro");
+            console.log("Erro ao cadastrar: ", response);
+        }
+
+    } catch (error) {
+        console.log("Deu erro: ", error);
+        popupAlert.showPopup("Erro inesperado ao cadastrar usuários.", "Erro", "erro");
+    }
+}

@@ -1,3 +1,4 @@
+from openpyxl import load_workbook
 from rest_framework import viewsets, status
 from api.models import *
 from api.serializers import *
@@ -38,7 +39,6 @@ class User(APIView):
         fistName = request.data.get('first_name')
         isAdm = request.data.get('is_adm')
         isActive = request.data.get('is_active')
-        
 
         if not nome or not senha:
             return Response({"error": "Todos os campos são obrigatórios!", "status": status.HTTP_400_BAD_REQUEST}, status= status.HTTP_400_BAD_REQUEST)
@@ -285,4 +285,77 @@ class AtualizarSaldos(APIView):
         
         return Response({"message": "Operação realizada com sucesso!"}, status=status.HTTP_200_OK)
 
+class ValidarImportacaoUsuarios(APIView):
+    def post(self, request):
+        arquivo = request.FILES.get('arquivo_usuarios')
+        if not arquivo:
+            return Response({'erro': 'Nenhum arquivo enviado.'}, status=status.HTTP_400_BAD_REQUEST)
 
+        usuarios_validados = []
+        emails_existentes = set(CustomUser.objects.values_list('username', flat=True))
+
+        try:
+            if arquivo.name.endswith('.csv'):
+                import csv
+                from io import TextIOWrapper
+                decoded_file = TextIOWrapper(arquivo.file, encoding='utf-8')
+                reader = csv.DictReader(decoded_file)
+                rows = list(reader)
+            elif arquivo.name.endswith(('.xls', '.xlsx')):
+                wb = load_workbook(filename=arquivo, data_only=True)
+                sheet = wb.active
+                headers = [cell.value for cell in sheet[1]]
+                rows = [
+                    {headers[i]: cell.value for i, cell in enumerate(row)}
+                    for row in sheet.iter_rows(min_row=2)
+                ]
+            else:
+                return Response({'erro': 'Formato de arquivo inválido. Use CSV ou XLSX.'}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({'erro': f'Erro ao ler o arquivo: {str(e)}'}, status=status.HTTP_400_BAD_REQUEST)
+
+        for row in rows:
+            email = row.get('email')
+            if row.get('nome') and email and row.get('senha'):
+                if email in emails_existentes:
+                    continue
+                usuarios_validados.append({
+                    'first_name': row.get('nome'),
+                    'username': email,
+                    'senha': row.get('senha'),
+                    'ra': row.get('ra', ''),
+                    'saldo': int(row.get('saldo') or 0),
+                    'pontuacao': int(row.get('pontuacao') or 0),
+                    'is_adm': str(row.get('is_adm')).lower() == 'true',
+                    'is_active': str(row.get('is_active')).lower() != 'false',
+                })
+
+        request.session['usuarios_validados'] = usuarios_validados
+        return Response({'usuarios': usuarios_validados}, status=status.HTTP_200_OK)
+
+class InportadosUsuarios(APIView):
+    def post(self, request):
+        usuarios = request.data.get('usuarios')
+        if not usuarios:
+            return Response({'erro': 'Nenhum usuário enviado.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        cadastrados = 0
+
+        for usuario_data in usuarios:
+            try:
+                CustomUser.objects.create_user(
+                    username=usuario_data['username'],
+                    first_name=usuario_data['first_name'],
+                    password=make_password(usuario_data['senha']),
+                    ra=usuario_data['ra'],
+                    saldo=usuario_data['saldo'],
+                    pontuacao=usuario_data['pontuacao'],
+                    is_adm=usuario_data['is_adm'],
+                    is_active=usuario_data['is_active']
+                )
+                cadastrados += 1
+            except Exception as e:
+                # Ignora erros individuais e continua com os demais
+                continue
+
+        return Response({'message': f'{cadastrados} usuários cadastrados com sucesso!'}, status=status.HTTP_200_OK)

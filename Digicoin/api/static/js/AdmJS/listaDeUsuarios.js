@@ -4,9 +4,46 @@ document.addEventListener('DOMContentLoaded', () => {
   const fecharCadastrar = document.getElementById('fecharCadastrar');
   const botaoCadastrarUsuario = document.getElementById('cadastrarUsuario');
   const form = document.getElementById("formUsuario");
+  const popupAdicionarMoedas = document.getElementById('popupAdicionarMoedas');
+  const addMoedas = document.getElementById('addMoedas');
+  const fecharAdicionarMoedas = document.getElementById('fecharAdicionarMoedas');
+  const popupImportarUsuarios = document.getElementById('popupImportarUsuarios');
+  const abrirImportarUsuarios = document.getElementById('abrirImportarUsuarios');
+  const formImportarUsuarios = document.getElementById('formImportarUsuarios');
+  const fecharImportarUsuarios = document.getElementById('fecharImportarUsuarios');
+  const botaoValidarUsuarios = document.getElementById('botaoValidarImportarUsuarios');
+  const botaoCadastrarValidados = document.getElementById('botaoCadastrarUsuariosValidados');
+  const botaoNovoArquivo = document.getElementById('botaoNovoArquivo');
+
+  botaoNovoArquivo.addEventListener('click', () => {
+    fecharImportarUsuarios.click();
+    abrirImportarUsuarios.click();
+  });
+
+  abrirImportarUsuarios.addEventListener('click', () => {
+    popupImportarUsuarios.showModal();
+  });
+  fecharImportarUsuarios.addEventListener('click', () => {
+    const urlImg = formImportarUsuarios.getAttribute('data-urlimg');
+    formImportarUsuarios.reset();
+    formImportarUsuarios.style.display = 'block';
+    document.getElementById("localResultadoValidacao").style.display = "none";
+    const label = document.querySelector('.UploadBox.uploadUsuarios .default-content');
+    label.innerHTML = `
+        <img src="${urlImg}" alt="uploadIcon" class="upload-icon">
+        <hr>
+        <small>Arraste e solte o arquivo aqui</small>
+        <small>para realizar upload</small>
+        <hr>
+        <small>CSV - XLSX</small>
+    `;
+    document.querySelector('.UploadBox.uploadUsuarios').classList.remove('has-image');
+    popupImportarUsuarios.close();
+  });
 
   addUsuarios.addEventListener('click', () => {
-    const tipo_usuario = addUsuarios.getAttribute('data-tipo-usuario');
+    let tipo_usuario = addUsuarios.getAttribute('data-tipo-usuario');
+    tipo_usuario === "true" ? tipo_usuario = true : tipo_usuario = false;
     let tituloBotao = 'Cadastrar Usuário';
     if(tipo_usuario){
       document.getElementById('isAdmin').value = tipo_usuario;
@@ -20,10 +57,6 @@ document.addEventListener('DOMContentLoaded', () => {
     form.reset();
     popupCadastrarUsuario.close();
   });
-
-  const popupAdicionarMoedas = document.getElementById('popupAdicionarMoedas');
-  const addMoedas = document.getElementById('addMoedas');
-  const fecharAdicionarMoedas = document.getElementById('fecharAdicionarMoedas');
 
   fecharAdicionarMoedas.addEventListener('click', () => {
     popupAdicionarMoedas.close();
@@ -102,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
       let paraTodos = false;
       if (selecionarTodos.checked) {
           paraTodos = true;
-          totalSelecionas.textContent = document.getElementById('quantidadeTotalUsuarios').value;
+          totalSelecionas.textContent = 'para ' + document.getElementById('quantidadeTotalUsuarios').value + ' usuários';
       }else{
         totalSelecionas.textContent = usuariosSelecionados.length;;
       }
@@ -124,7 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
           paraTodos: paraTodos,
           usuarios: paraTodos ? [] : usuariosSelecionados.map(u => u.id),
         };
-        console.log(payload);
+
         try {
           const result = await apiRequest('/api/user/atualizar-saldos/', 'PUT', payload, {'X-CSRFToken': csrf,});
           if (result.ok) {
@@ -177,6 +210,61 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     return usuarios;
   }
+  botaoValidarUsuarios.addEventListener('click', () => {
+    validarArquivoUsuarios();
+  });
+
+  let listaUsuariosValidados = [];
+  async function validarArquivoUsuarios() {
+    const form = document.getElementById("formImportarUsuarios");
+    const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    const formData = new FormData(form);
+    const popupAlert = new Popup();
+    try {
+      const result = await apiRequest('/validar_importacao_usuarios/', 'POST', formData, {'X-CSRFToken': csrf,});
+      
+      if (result.ok && Array.isArray(result.data.usuarios)) {
+        listaUsuariosValidados = result.data.usuarios;
+        popupAlert.showPopup("Arquivo validado com sucesso!<br>Confere os usuários abaixo:","Sucesso","sucesso");
+        const lista = document.getElementById("listaUsuariosValidados");
+        const localQtd = document.getElementById("quantidadeUsuariosValidados");
+        lista.innerHTML = ""; // Limpa a lista anterior
+        console.log(result.data.usuarios);
+        listaUsuariosValidados.forEach(usuario => {
+          const li = document.createElement("li");
+          li.textContent = `${usuario.first_name} (${usuario.username}) - RA: ${usuario.ra}`;
+          lista.appendChild(li);
+        });
+        localQtd.textContent = 'Total de Usuarios: ' + result.data.usuarios.length;
+        //esconder o form para aparece somente o resultado
+        form.style.display = "none";
+        document.getElementById("localResultadoValidacao").style.display = "block";
+
+      } else {
+          popupAlert.showPopup(`Erro: ${result.status} - ${result.data?.erro || result.error}`,"Error","erro");
+      }
+    } catch (error) {
+      console.error('Erro:', error);
+    }
+  }
+
+  botaoCadastrarValidados.addEventListener("click", () => {
+    if (listaUsuariosValidados.length > 0) {
+        cadastrarUsuariosValidados(listaUsuariosValidados);
+    } else {
+        const popupAlert = new Popup();
+        popupAlert.showPopup("Nenhum usuário validado para cadastrar.", "Error", "erro");
+    }
+  });
+
+  document.getElementById('arquivoUsuarios').addEventListener('change', function () {
+      const label = document.querySelector('.UploadBox.uploadUsuarios .default-content');
+      if (this.files.length > 0) {
+          label.innerHTML = `<small>Arquivo selecionado:</small><strong>${this.files[0].name}</strong>`;
+          document.querySelector('.UploadBox.uploadUsuarios').classList.add('has-image');
+      }
+  });
+
 
 });
 

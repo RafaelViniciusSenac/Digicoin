@@ -1,16 +1,15 @@
 async function apiRequest(url, method = 'GET', body = null, headers = {}) {
     try {
+        const isFormData = body instanceof FormData;
+
         const config = {
             method,
-            headers: {
+            headers: isFormData ? headers : {
                 'Content-Type': 'application/json',
                 ...headers
             },
+            body: isFormData ? body : JSON.stringify(body)
         };
-
-        if (body) {
-            config.body = JSON.stringify(body);
-        }
 
         const response = await fetch(url, config);
         const data = await response.json();

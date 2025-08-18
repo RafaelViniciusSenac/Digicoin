@@ -18,10 +18,8 @@
 .mainListaUsuarios {
     padding: 10px;
     font-family: Arial, sans-serif;
-    width: 40%;
+    width: 60%;
     margin-left: 450px;
-    padding-left: 200px;
-
     
 }
 
@@ -93,7 +91,7 @@
 }
 
 .primeiraLinha-listaDeUsuarios h1 span {
-    border-bottom: 3px solid #FC671D;
+    border-bottom: 3px solid var(--laranja);
     padding-bottom: 2px;
 }
 
@@ -120,21 +118,30 @@
 }
 
 .addMoedas-listaDeUsuarios {
-    background-color: #00C4CC;
-    color: white;
+    background-color: var(--ciano);
+    color: var(--branco);
 }
 
 .addMoedas-listaDeUsuarios:hover{
-    background-color: #037b80;
+    background-color: var(--ciano);
     transition: 0.5s ease-in-out;
 }
 
 .addUsuarios-listaDeUsuarios {
-    background-color: #DA3ADC;
-    color: white;
+    background-color: var(--magenta);
+    color: var(--branco);
 }
 .addUsuarios-listaDeUsuarios:hover{
     background-color: #b42fb6;
+    transition: 0.5s ease-in-out;
+}
+
+.addUsuariosFile-listaDeUsuarios {
+    background-color: var(--laranja);
+    color: var(--branco);
+}
+.addUsuariosFile-listaDeUsuarios:hover{
+    background-color: var(--laranja);
     transition: 0.5s ease-in-out;
 }
 
@@ -263,13 +270,14 @@
 dialog {
     border: none;
     border-radius: 15px;
-    padding: 20px;
     background-color: #4D2C87;
     min-width: 300px;
     color: var(--base);
 }
 
-.header-cadastrarUsuario{
+.header-cadastrarUsuario,
+.header-adicionarMoedas,
+.header-importarUsuarios{
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -277,28 +285,51 @@ dialog {
     margin-top: -20px;
 }
 
-.headerLogo-cadastrarUsuario > img {
-    width: 100px;  
+.headerLogo-cadastrarUsuario > img,
+.headerLogo-adicionarMoedas > img,
+.headerLogo-importarUsuarios > img {
+    width: 80px;
 }
 
-.header-cadastrarUsuario .buttonClose-cadastrarUsuario {
+
+.buttonClose-cadastrarUsuario,
+.buttonClose-adicionarMoedas,
+.buttonClose-importarUsuarios {
     background-color: transparent;
     border: none;
-    margin-top: 16px;
+    margin-top: 10px;
     font-size: 16px;
     color: #FFFFFF;
     cursor: pointer;
 }
 
+.buttonClose-cadastrarUsuario img:hover,
+.buttonClose-adicionarMoedas img:hover,
+.buttonClose-importarUsuarios img:hover {
+    opacity: 0.5;
+}
 
-
-.input-cadastrarUsuario {
+.formUsuario-cadastrarUsuario,
+.formUsuario-adicionarMoedas,
+.formUsuario-ImportarUsuarios {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    margin-top: 10px;
+    align-items: center;
+}
+
+.input-cadastrarUsuario,
+.input-adicionarMoedas,
+.input-importarUsuarios {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-items: center;
 }
 
 .input-cadastrarUsuario input[type="text"],
+.input-adicionarMoedas input[type="text"],
 .input-cadastrarUsuario input[type="email"],
 .input-cadastrarUsuario input[type="password"] {
     border-radius: 4px;
@@ -311,7 +342,9 @@ dialog {
     padding: 0 15px;
 }
 
-.input-cadastrarUsuario label {
+.input-cadastrarUsuario label,
+.input-adicionarMoedas label,
+.input-importarUsuarios label {
     color: var(--branco);
     font-size: 15px;
 }
@@ -352,48 +385,28 @@ dialog {
     opacity: 0.8;
 }
 
-.popupAdicionarMoedas{
-    border: none;
-        border-radius: 8px;
-        padding: 30px 100px 100px 100px;
-        width: 90%;
-        max-width: 900px;
-        background-color: var(--roxo);
-        box-shadow: 0 4px 20px var(--sombra-preta);
-        color: var(--base);
+.titulo-adicionarMoedas {
+    margin-bottom: 10px;
+    font-size: 20px;
+    color: var(--branco);
+    font-weight: bold;
+    text-align: center;
+}
 
+.usuariosSelecionados-adicionarMoedas {
+    margin-bottom: 10px;
+    font-size: 18px;
+    color: var(--branco);
+    font-weight: bold;
+    text-align: center;
 }
 
 .popupAdicionarMoedas::backdrop {
     background-color: var(--sombra-preta);
 }
 
-.header-adicionarMoedas{
-    display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 30px;
-}
-
-.formAdicionarMoedas{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    color: white;
-}
-
-.gerenciarDigicoins-adicionarMoedas h1{
-    text-align: center;
-    
-}
-
-.quantidade-adicionarMoedas{
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    align-items: center;
-    font-size: 22px
+.usuariosSelecionados-adicionarMoedas{
+    margin-bottom: 10px;
 }
 
 .quantidadeInput-adicionarMoedas{
@@ -401,7 +414,7 @@ dialog {
     height: 50px; 
     border: none;
     width: 291px;
-    margin-bottom: 50px;
+    margin-bottom: 30px;
 }
 
 .quantidadeInput-adicionarMoedas:read-write {
@@ -448,167 +461,112 @@ dialog {
     transition: 0.5s;
 }
 
+.popupImportarUsuarios::backdrop {
+    background-color: var(--sombra-preta);
+}
+.formUsuario-ImportarUsuarios .titulo-importarUsuarios {
+    color: var(--branco);
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+    width: 100%;
+}
 
-.editarUsuario {
-        border: none;
-        border-radius: 8px;
-        padding: 30px 100px 100px 100px;
-        width: 90%;
-        max-width: 900px;
-        background-color: var(--roxo);
-        box-shadow: 0 4px 20px var(--sombra-preta);
-        color: var(--base);
-    }
+.formUsuario-ImportarUsuarios button,
+.localResultadoValidacao-importarUsuarios button {
+    background-color: var(--magenta);
+    color: var(--branco);
+    border: none;
+    border-radius: 10px;
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    align-items: center;
+    text-align: center;
+}
 
-    .editarUsuario::backdrop {
-        background-color: var(--sombra-preta);
-    }
+.formUsuario-ImportarUsuarios .UploadBox.uploadUsuarios {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    height: 100px;
+    margin-top: 5px;
+    border: 2px dashed #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    color: #666;
+    text-align: center;
+    overflow: hidden;
+    position: relative;
+    box-sizing: border-box;
+}
 
-    .dialog-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 30px;
-    }
+.formUsuario-ImportarUsuarios .UploadBox.uploadUsuarios:hover {
+    background-color: #ececec;
+}
 
-    .close-dialog {
-        background: none;
-        border: none;
-        cursor: pointer;
-        padding: 5px;
-    }
+.formUsuario-ImportarUsuarios .UploadBox.uploadUsuarios .default-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    transition: opacity 0.3s ease;
+}
 
-    .close-icon {
-        width: 32px;
-        height: 32px;
-    }
+.formUsuario-ImportarUsuarios .UploadBox.uploadUsuarios img.upload-icon-importarUsuarios {
+    width: 30px;
+    height: 30px;
+    margin-bottom: 5px;
+}
 
-    .form-columns {
-        display: flex;
-        gap: 150px;
-    }
-    .form-columns label{
-        color: white;
-    }
+.formUsuario-ImportarUsuarios input[type="file"] {
+    display: none;
+}
 
-    .form-left, .form-right {
-        flex: 1;
-    }
+.formImportarUsuarios button:hover,
+.localResultadoValidacao-importarUsuarios button:hover {
+    opacity: 0.8;
+}
+.localResultadoValidacao-importarUsuarios {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-top: 20px;
+}
 
-    .form-group {
-        margin-bottom: 25px;
-    }
+.resultadoValidacao-importarUsuarios {
+    margin-top: 20px;
+    background-color: var(--cinza);
+    padding: 15px;
+    border-radius: 10px;
+    color: var(--base);
+}
 
-    .form-label {
-        display: block;
-        margin-bottom: 8px;
-        font-size: 16px;
-        color: var(--base);
-        font-weight: 500;
-    }
+.listaUsuariosValidados {
+    list-style: none;
+    padding-left: 0;
+}
 
-    .form-input {
-        width: 100%;
-        padding: 12px 15px;
-        border: 1px solid var(--cinzaDatas);
-        border-radius: 4px;
-        font-size: 16px;
-        background-color: var(--branco);
-        color: var(--base);
-    }
-
-    .form-input:focus {
-        outline: none;
-        border-color: var(--ciano);
-    }
-
-    .saldo-group {
-        text-align: center;
-    }
-
-    .saldo-control {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-    }
-
-    .saldo-button {
-        background-color: var(--roxo);
-        border: none;
-        border-radius: 4px;
-        width: 32px;
-        height: 32px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        padding: 0;
-    }
-
-    .saldo-button:hover {
-        background-color: var(--base);
-    }
-
-    .saldo-control input {
-        width: 100px;
-        text-align: center;
-    }
-
-    .action-buttons {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-        margin-top: 30px;
-    }
-
-    .action-button {
-        padding: 14px;
-        border: none;
-        border-radius: 20px;
-        font-size: 16px;
-        font-weight: 600;
-        cursor: pointer;
-        color: var(--branco);
-        transition: background-color 0.3s;
-    }
-
-    .desativar {
-        background-color: rgba(244, 74, 176, 1);
-    }
-
-    .desativar:hover {
-        background-color: rgb(205, 36, 137);
-    }
-
-    .ativar {
-        background-color: var(--ciano);
-    }
-
-    .ativar:hover {
-        background-color: rgb(7, 122, 134);
-    }
-
-    .submit {
-        background-color: rgba(211, 74, 244, 1);
-        margin-top: 20px;
-    }
-
-    .submit:hover {
-        background-color:rgb(164, 58, 191) 
-    }
-
-
-
-
+.listaUsuariosValidados li {
+    padding: 8px;
+    border-bottom: 1px solid var(--cinzaDatas);
+}
 
     /* Responsividade */
  
     /* ========== RESPONSIVIDADE ========== */
 @media (max-width: 1200px) {
     .mainListaUsuarios {
-        margin-left: 350px;
-        padding-left: 100px;
+        margin-left: 400px;
         max-width: 100%;
     }
 }
@@ -947,7 +905,6 @@ dialog {
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-wrap: wrap;
     gap: 5px;
     margin-top: 20px;
 }
@@ -960,7 +917,7 @@ dialog {
     background-color: var(--magenta);
     border-radius: 5px;
     transition: background-color 0.3s ease;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 .pagination-listaDeUsuarios .anterior-listaProdutos:hover,
@@ -970,12 +927,11 @@ dialog {
 
 
 .pagination-listaDeUsuarios span {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: bold;
 }
 
 .pagination-listaDeUsuarios {
     display: flex;
-    gap: 10px;
 }
 

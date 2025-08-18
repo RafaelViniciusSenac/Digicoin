@@ -12,10 +12,10 @@ async function Login(evento) {
             { nome: email, senha: senha },
             { 'X-CSRFToken': csrf }
         );
-
-        if (data.is_adm === true) {
+        console.log(data);
+        if (data.data.is_adm === true) {
             window.location.href = '/listaDeUsuarios';
-        } else if (data.is_adm === false) {
+        } else if (data.data.is_adm === false) {
             window.location.href = '/home/';
         } else {
             

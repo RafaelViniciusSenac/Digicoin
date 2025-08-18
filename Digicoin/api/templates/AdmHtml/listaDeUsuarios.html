@@ -25,13 +25,19 @@
             {% if tipo_user_admin != 'true' %}
                 <button class="addMoedas-listaDeUsuarios" id="addMoedas">
                     <img src="{% static 'img/iconAdicionar.png' %}" alt="">
-                    Gerenciar digicoins
+                    Gerir digicoins
                 </button>
             {% endif %}
             <button class="addUsuarios-listaDeUsuarios" data-tipo-usuario="{{ tipo_user_admin }}" id="addUsuarios">
                 <img src="{% static 'img/iconAdicionar.png' %}" alt="">
                 Adicionar usuário {% if tipo_user_admin == 'true' %}Admin{% endif %}
             </button>
+            {% if gerencia_admin %}
+                <button class="addUsuariosFile-listaDeUsuarios" id="abrirImportarUsuarios">
+                    <img src="{% static 'img/usuario-add-file.png' %}" alt="">
+                    Importar usuários
+                </button>
+            {% endif %}
         </div>
     </div>
     <div class="head-listaDeUsuarios">
@@ -57,7 +63,7 @@
                         <input type="hidden" class="idUser-listaDeUsuarios" value="{{usuario.id}}">
                         <img src="{% static 'img/userBlack.png' %}" alt="">
                         <span class="nome-listaDeUsuarios">{{usuario.first_name}}</span>
-                        <span class="saldo-listaDeUsuarios">D$ {{usuario.saldo}}</span>
+                        <span class="saldo-listaDeUsuarios">{% if not usuario.is_adm %} D$ {{usuario.saldo}} {% endif %}</span>
                         <span class="status-listaDeUsuarios"></span>
 
                     </div>
@@ -80,13 +86,13 @@
     <div class="pagination-listaDeUsuarios">
         {% if usuarios.has_previous %}
             <div>
-                <a style="font-size: 20px; margin-right: 10px;" href="?{{ query_string }}&user_page={{ usuarios.previous_page_number }}">Anterior</a>
+                <a href="?{{ query_string }}&user_page={{ usuarios.previous_page_number }}">Anterior</a>
             </div>
         {% endif %}
         <span>Página {{ usuarios.number }} de {{ usuarios.paginator.num_pages }}</span>
         {% if usuarios.has_next %}
             <div>
-                <a style="font-size: 20px;" href="?{{ query_string }}&user_page={{ usuarios.next_page_number }}">Próxima</a>
+                <a href="?{{ query_string }}&user_page={{ usuarios.next_page_number }}">Próxima</a>
             </div>
         {% endif %}
     </div>
@@ -138,26 +144,23 @@
     </form>
 </dialog>
 <dialog id="popupAdicionarMoedas">
-    <div class="header-cadastrarUsuario">
-        <div class="headerLogo-cadastrarUsuario">
+    <div class="header-adicionarMoedas">
+        <div class="headerLogo-adicionarMoedas">
             <img src="{% static 'img/logoAdmin.png' %}" alt="LogoAdmin">
         </div>
-        <div class="headerBotao-cadastrarUsuario">
-            <button type="button" class="buttonClose-cadastrarUsuario">    
-                <img id="fecharAdicionarMoedas" class="iconeX-cadastrarUsuario" src="{% static 'img/iconeX.png' %}" alt="">
+        <div class="headerBotao-adicionarMoedas">
+            <button type="button" class="buttonClose-adicionarMoedas">    
+                <img id="fecharAdicionarMoedas" class="iconeX-adicionarMoedas" src="{% static 'img/iconeX.png' %}" alt="">
             </button>
         </div>
     </div>
-    <form class="formAdicionarMoedas" id='formAdicionarMoedas'>
+    <form class="formUsuario-AdicionarMoedas" id='formAdicionarMoedas'>
         {% csrf_token %}
-        <div class="gerenciarDigicoins-adicionarMoedas" >
-            
-            <h1>Gerenciar digicoins</h1>
-            <span class="usuariosSelecionados-adicionarMoedas" id="usuariosSelecionados"></span>    
-            <div class="quantidade-adicionarMoedas">
-                <label>Quantidade a ser adicionada ou removida</label>
-                <input class="quantidadeInput-adicionarMoedas" id='saldo' type="number" placeholder="5.000">
-            </div>
+        <div class="titulo-adicionarMoedas">Gerenciar digicoins</div>
+        <div class="usuariosSelecionados-adicionarMoedas" id="usuariosSelecionados"></div>    
+        <div class="input-adicionarMoedas">
+            <label>Quantidade a ser adicionada ou removida</label>
+            <input class="quantidadeInput-adicionarMoedas" id='saldo' type="number" placeholder="Digite a quantidade de digicoins">
         </div>
         <div class="botoes-adicionarMoedas">
             <button class="adicionar-adicionarMoedas" id='adicionar'>Adicionar</button>
@@ -165,6 +168,49 @@
         </div>
     </form>
 </dialog>
+
+<dialog id="popupImportarUsuarios">
+    <div class="header-importarUsuarios">
+        <div class="headerLogo-importarUsuarios">
+            <img src="{% static 'img/logoAdmin.png' %}" alt="LogoAdmin">
+        </div>
+        <div class="headerBotao-importarUsuarios">
+            <button type="button" class="buttonClose-importarUsuarios">    
+                <img id="fecharImportarUsuarios" class="iconeX-importarUsuarios" src="{% static 'img/iconeX.png' %}" alt="">
+            </button>
+        </div>
+    </div>
+    <form class="formUsuario-ImportarUsuarios" method="POST" enctype="multipart/form-data" id="formImportarUsuarios" data-urlimg="{% static 'img/uploadIcon.png' %}">
+        {% csrf_token %}
+        <div class="input-importarUsuarios">
+            <label for="arquivoUsuarios">Faça o upload do arquivo de usuários:</label>
+            <label for="arquivoUsuarios" class="UploadBox uploadUsuarios">
+                <div class="default-content">
+                    <img src="{% static 'img/uploadIcon.png' %}" alt="uploadIcon" class="upload-icon-importarUsuarios">
+                    <hr>
+                    <small>Arraste e solte o arquivo aqui</small>
+                    <small>para realizar upload</small>
+                    <hr>
+                    <small>CSV - XLSX</small>
+                </div>
+            </label>
+            <input type="file" id="arquivoUsuarios" name="arquivo_usuarios" accept=".csv, .xlsx">
+        </div>
+        <div class="input-importarUsuarios">
+            <button type="button" id="botaoValidarImportarUsuarios">Validar Usuários</button>
+        </div>
+    </form>
+    <div class="localResultadoValidacao-importarUsuarios" id="localResultadoValidacao" style="display:none;">
+        <div class="resultadoValidacao-importarUsuarios" id="resultadoValidacao" style="max-height: 200px; overflow-y: auto; padding-right: 10px;">
+            <h3>Dados validados:</h3>
+            <ul class="listaUsuariosValidados" id="listaUsuariosValidados"></ul>
+            <span id="quantidadeUsuariosValidados"></span>
+        </div>
+        <button type="button" id="botaoCadastrarUsuariosValidados">Cadastrar</button>
+        <button type="button" id="botaoNovoArquivo">Novo Arquivo</button>
+    </div>
+</dialog>
+
 <script src="{% static 'js/AdmJS/listaDeUsuarios.js' %}"></script>
 <script src="{% static 'js/AdmJS/cadastrarUsuario.js' %}"></script>
 <script src="{% static 'js/popup.js' %}"></script>
