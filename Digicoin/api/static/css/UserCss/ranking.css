@@ -25,10 +25,11 @@ body{
 .container-ranking{
   display: flex;
   flex-direction: column;
-  width: 40%;
+  width: 600px;
   justify-content: center;
   gap: 30px;
   margin: 5rem auto;
+  
 }
   
 .title-ranking{
@@ -134,4 +135,22 @@ body{
 .ranking > .ranking__list:first-child .usuario__dados .usuario__dados-saldo, 
 .ranking__list:first-child .usuario__dados .usuario__dados-saldo .dg{
   font-size: 20px;
+}
+
+@media (max-width: 650px) {
+  .container-ranking{
+    width: 90%;
+
+  }
+  .usuario__dados {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: start;
+    width: 100%;
+    
+  }
+  .usuario__dados-nome{
+    margin-bottom: 1px;
+  }
 }
