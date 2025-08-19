@@ -97,7 +97,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const email = editar[i].getAttribute('data-email');
       const ra = editar[i].getAttribute('data-ra');
       let status = editar[i].getAttribute('data-status');
-      const tipo_usuario = editar[i].getAttribute('data-tipo-usuario');
+      let tipo_usuario = editar[i].getAttribute('data-tipo-usuario');
+      tipo_usuario === "true" ? tipo_usuario = true : tipo_usuario = false;
       if(tipo_usuario){
         tituloBotao = 'Alterar Usuário Admin';
       }

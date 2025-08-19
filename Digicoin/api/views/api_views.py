@@ -150,7 +150,7 @@ class Login(APIView):
                 'is_adm': user.is_adm
             }, status=status.HTTP_200_OK)
         
-        return Response({'error': 'Credenciais inválidas'}, status=status.HTTP_401_UNAUTHORIZED)
+        return Response({'error': 'Credenciais inválidas',}, status=status.HTTP_401_UNAUTHORIZED)
         
 class Logout(APIView):
     def post(self, request):
