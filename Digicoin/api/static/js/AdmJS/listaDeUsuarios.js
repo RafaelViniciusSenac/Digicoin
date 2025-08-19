@@ -160,10 +160,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
           const result = await apiRequest('/api/user/atualizar-saldos/', 'PUT', payload, {'X-CSRFToken': csrf,});
-          if (result.ok) {
+          if (result.status === 200) {
               popupAdicionarMoedas.close();
               formAdicionarMoedas.reset();
-              popupAlert.showPopup(result.data.message,"Sucesso","sucesso");
+              popupAlert.showPopup(result.message,"Sucesso","sucesso");
               popupAlert.imgClosed.addEventListener("click", () => {
                   location.reload();
               });
@@ -221,27 +221,36 @@ document.addEventListener('DOMContentLoaded', () => {
     const formData = new FormData(form);
     const popupAlert = new Popup();
     try {
-      const result = await apiRequest('/validar_importacao_usuarios/', 'POST', formData, {'X-CSRFToken': csrf,});
-      
-      if (result.ok && Array.isArray(result.data.usuarios)) {
-        listaUsuariosValidados = result.data.usuarios;
+      // preciso receber a lista de usarios validados json
+      const result = await fetch('/validar_importacao_usuarios/', {
+        method: 'POST',
+        headers: {
+          'X-CSRFToken': csrf,
+        },
+        body: formData,
+      }).then(response => {
+        return response.json();
+      });
+      console.log(result.usuarios.length);
+      if (result.status === 200 && result.usuarios.length > 0) {
+        listaUsuariosValidados = result.usuarios;
         popupAlert.showPopup("Arquivo validado com sucesso!<br>Confere os usuários abaixo:","Sucesso","sucesso");
         const lista = document.getElementById("listaUsuariosValidados");
         const localQtd = document.getElementById("quantidadeUsuariosValidados");
         lista.innerHTML = ""; // Limpa a lista anterior
-        console.log(result.data.usuarios);
+        console.log(result.usuarios);
         listaUsuariosValidados.forEach(usuario => {
           const li = document.createElement("li");
           li.textContent = `${usuario.first_name} (${usuario.username}) - RA: ${usuario.ra}`;
           lista.appendChild(li);
         });
-        localQtd.textContent = 'Total de Usuarios: ' + result.data.usuarios.length;
+        localQtd.textContent = 'Total de Usuarios: ' + result.usuarios.length;
         //esconder o form para aparece somente o resultado
         form.style.display = "none";
         document.getElementById("localResultadoValidacao").style.display = "block";
 
       } else {
-          popupAlert.showPopup(`Erro: ${result.status} - ${result.data?.erro || result.error}`,"Error","erro");
+          popupAlert.showPopup(`Erro: ${result.status} - ${result.erro}`,"Error","erro");
       }
     } catch (error) {
       console.error('Erro:', error);

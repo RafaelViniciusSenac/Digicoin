@@ -265,7 +265,7 @@ class AtualizarSaldos(APIView):
         usuarios_ids = data.get("usuarios", [])
 
         if not operacao or saldo is None:
-            return Response({"erro": "Dados incompletos."}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"erro": "Dados incompletos.", "status": status.HTTP_400_BAD_REQUEST}, status=status.HTTP_400_BAD_REQUEST)
 
         if para_todos:
             usuarios = CustomUser.objects.filter(is_active=True, is_adm=False)
@@ -283,13 +283,13 @@ class AtualizarSaldos(APIView):
                 usuario.saldo -= saldo
             usuario.save()
         
-        return Response({"message": "Operação realizada com sucesso!"}, status=status.HTTP_200_OK)
+        return Response({"message": "Operação realizada com sucesso!", "status": status.HTTP_200_OK}, status=status.HTTP_200_OK)
 
 class ValidarImportacaoUsuarios(APIView):
     def post(self, request):
         arquivo = request.FILES.get('arquivo_usuarios')
         if not arquivo:
-            return Response({'erro': 'Nenhum arquivo enviado.'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'erro': 'Nenhum arquivo enviado.', 'status': status.HTTP_400_BAD_REQUEST}, status=status.HTTP_400_BAD_REQUEST)
 
         usuarios_validados = []
         emails_existentes = set(CustomUser.objects.values_list('username', flat=True))
@@ -310,9 +310,9 @@ class ValidarImportacaoUsuarios(APIView):
                     for row in sheet.iter_rows(min_row=2)
                 ]
             else:
-                return Response({'erro': 'Formato de arquivo inválido. Use CSV ou XLSX.'}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({'erro': 'Formato de arquivo inválido. Use CSV ou XLSX.', 'status': status.HTTP_400_BAD_REQUEST}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
-            return Response({'erro': f'Erro ao ler o arquivo: {str(e)}'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'erro': f'Erro ao ler o arquivo: {str(e)}', 'status': status.HTTP_400_BAD_REQUEST}, status=status.HTTP_400_BAD_REQUEST)
 
         for row in rows:
             email = row.get('email')
@@ -329,15 +329,16 @@ class ValidarImportacaoUsuarios(APIView):
                     'is_adm': str(row.get('is_adm')).lower() == 'true',
                     'is_active': str(row.get('is_active')).lower() != 'false',
                 })
-
-        request.session['usuarios_validados'] = usuarios_validados
-        return Response({'usuarios': usuarios_validados}, status=status.HTTP_200_OK)
+        if not usuarios_validados:
+            return Response({'erro': 'Nenhum usuário válido encontrado ou ja cadastrado.', 'status': status.HTTP_400_BAD_REQUEST}, status=status.HTTP_400_BAD_REQUEST)
+        
+        return Response({'usuarios': usuarios_validados, 'status': status.HTTP_200_OK}, status=status.HTTP_200_OK)
 
 class InportadosUsuarios(APIView):
     def post(self, request):
         usuarios = request.data.get('usuarios')
         if not usuarios:
-            return Response({'erro': 'Nenhum usuário enviado.'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'erro': 'Nenhum usuário enviado.', 'status': status.HTTP_400_BAD_REQUEST}, status=status.HTTP_400_BAD_REQUEST)
 
         cadastrados = 0
 
@@ -358,4 +359,4 @@ class InportadosUsuarios(APIView):
                 # Ignora erros individuais e continua com os demais
                 continue
 
-        return Response({'message': f'{cadastrados} usuários cadastrados com sucesso!'}, status=status.HTTP_200_OK)
+        return Response({'message': f'{cadastrados} usuários cadastrados com sucesso!', 'status': status.HTTP_200_OK}, status=status.HTTP_200_OK)
