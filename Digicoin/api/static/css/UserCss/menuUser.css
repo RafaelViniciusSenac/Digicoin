@@ -154,6 +154,10 @@
     background-color: white;
 }
 
+.menu-lateral-menuUser{
+    display: none;
+}
+
 
 @media (max-width: 1000px) {
     .navbar{
@@ -171,5 +175,36 @@
 
     .group{  
       display: block;
+      
     }
+
+    
+    .menu-lateral-menuUser {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 220px;
+        height: 100%;
+        background: #222;
+        padding-top: 60px;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        z-index: 1000;
+      }
+      
+      .menu-lateral-menuUser.menu-ativo {
+        display: flex;
+      }
+      
+      .menu-lateral-a-menuUser {
+        display: block;
+        padding: 15px 20px;
+        color: white;
+        text-decoration: none;
+      }
+      
+      .menu-lateral-a-menuUser:hover {
+        background: #444;
+      }
+
   }

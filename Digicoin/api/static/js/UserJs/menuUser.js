@@ -79,6 +79,13 @@ document.addEventListener("DOMContentLoaded", function(){
         perfilUsuario.showModal();
     })
 
+    const imgGroup = document.getElementById('imgGroup')
+    const menu = document.getElementById('menu-lateral-menuUser')
+
+    imgGroup.addEventListener('click', () => {
+        menu.classList.add('menu-ativo')
+        
+    })
 
 })
 
