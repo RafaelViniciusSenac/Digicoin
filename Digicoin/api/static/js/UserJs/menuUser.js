@@ -71,6 +71,18 @@ document.addEventListener("DOMContentLoaded", function(){
         window.location.href = "/"; // ou a URL da sua tela de login
     });
 
+    document.getElementById("sairMobile").addEventListener("click", async () => {
+        await fetch('/api/logout/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken'),  // importante se CSRF estiver ativo
+            }
+        });
+    
+        window.location.href = "/"; // ou a URL da sua tela de login
+    });
+
     document.getElementById("historicoCompra").addEventListener("click", () => {
         window.location.href = "/historicoCompra";
     });
@@ -126,6 +138,28 @@ function clickFora(e) {
     }
 }
 
+const dropdownMenuMobile = document.getElementById('dropdownMenuMobile')
+const imgPerfil = document.getElementById('imgPerfil')
+
+if (window.innerWidth < 1000) {
+    imgPerfil.addEventListener('click', () => {
+        if (dropdownMenuMobile.style.display === 'none') {
+            dropdownMenuMobile.style.display = 'flex'
+        } else {
+            dropdownMenuMobile.style.display = 'none'
+        }
+    })
+
+    document.addEventListener('click', (e) => {
+        if (
+            dropdownMenuMobile.style.display === 'flex' &&
+            !dropdownMenuMobile.contains(e.target) && // clique não foi dentro do menu
+            !imgPerfil.contains(e.target) // clique não foi no botão
+        ) {
+            dropdownMenuMobile.style.display = 'none'
+        }
+    })
+}
     
       
 

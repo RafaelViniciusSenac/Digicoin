@@ -198,7 +198,7 @@
         margin-top: 100px;
         width: 235px;
         top: 0;
-        position: fixed;
+        position: absolute;
         z-index: 9999;
         background-color: white;
         align-items: center;
@@ -215,9 +215,32 @@
     }
 
     .dropdownMenuMobile-menuUser{
+        
+        flex-direction: column;
+        width: 235px;
+        top: 0;
+        position: absolute;
+        margin-top: 100px;
+        right: 0;
+        border-radius: 0 0 0 5px;
+        z-index: 9999;
+        background-color: white;
+        align-items: center;
+        padding-bottom: 15px;
+    }
+    .dropdownMenuMobile-menuUser button{
+        background-color: white;
+        border: none;
         display: flex;
+        font-size: 18px;
+        align-items: center;
+        gap: 5px;
+         
+    };
+    .dropdownMenuMobile-menuUser img{
+        width: 28px;
+        height: 28px;
     }
     
-       
     
   }
