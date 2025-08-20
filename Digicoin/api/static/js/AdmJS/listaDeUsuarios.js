@@ -14,6 +14,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const botaoValidarUsuarios = document.getElementById('botaoValidarImportarUsuarios');
   const botaoCadastrarValidados = document.getElementById('botaoCadastrarUsuariosValidados');
   const botaoNovoArquivo = document.getElementById('botaoNovoArquivo');
+  const formResetarSenha = document.getElementById('formResetarSenha');
+  const botaoResetarSenha = document.getElementById('botaoResetarSenha');
+  const FecharResetarSenha = document.getElementById('fecharResetarSenha');
+  const editar = document.querySelectorAll('[id="editar"]');
+  const resetar = document.querySelectorAll('[id="resetar"]');
 
   botaoNovoArquivo.addEventListener('click', () => {
     fecharImportarUsuarios.click();
@@ -23,6 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
   abrirImportarUsuarios.addEventListener('click', () => {
     popupImportarUsuarios.showModal();
   });
+  
   fecharImportarUsuarios.addEventListener('click', () => {
     const urlImg = formImportarUsuarios.getAttribute('data-urlimg');
     formImportarUsuarios.reset();
@@ -88,7 +94,6 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
-  const editar = document.querySelectorAll('[id="editar"]');
   for (let i = 0; i < editar.length; i++) {
     editar[i].addEventListener('click', () => {
       const id = editar[i].getAttribute('data-id');
@@ -116,6 +121,24 @@ document.addEventListener('DOMContentLoaded', () => {
       popupCadastrarUsuario.showModal();
     });
   }
+
+  for (let i = 0; i < resetar.length; i++) {
+    resetar[i].addEventListener('click', () => {
+      const id = resetar[i].getAttribute('data-id');
+      let tituloBotao = 'Resetar Senha';
+      const nome = resetar[i].getAttribute('data-nome');
+      const email = resetar[i].getAttribute('data-email');
+
+      document.getElementById('id_usuario_reset').value = id;
+      document.getElementById('nome_usuario_reset').textContent = nome;
+      document.getElementById('email_usuario_reset').textContent = email;
+      popupResetarSenha.showModal();
+    });
+  }
+
+  FecharResetarSenha.addEventListener('click', () => {
+    popupResetarSenha.close();
+  });
 
   document.querySelectorAll('.close-dialog').forEach((botao) => {
     botao.addEventListener('click', (e) => {
@@ -266,6 +289,32 @@ document.addEventListener('DOMContentLoaded', () => {
         popupAlert.showPopup("Nenhum usuário validado para cadastrar.", "Error", "erro");
     }
   });
+
+  botaoResetarSenha.addEventListener('click', () => {
+    resetarSenhaDosUsuarios();
+  });
+
+  async function resetarSenhaDosUsuarios() {
+    const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    const id_usuario = parseInt(document.getElementById("id_usuario_reset").value);
+    const popupAlert = new Popup();
+    try {
+        const response = await apiRequest("/api/resetar_senha_usuario/", "POST", {id: id_usuario}, { 'X-CSRFToken': csrf });
+        console.log(response);
+        if (response && (response.status === 201 || response.status === 200)) {
+            popupAlert.showPopup("Senha resetada com sucesso<br>Nova Senha enviado para o email!", "Sucesso", "sucesso");
+            popupAlert.imgClosed.addEventListener("click", () => {
+                // location.reload();
+            });
+        } else {
+            popupAlert.showPopup("Erro ao resetar senha do usuário!", "Erro", "erro");
+            console.log("Erro ao resetar: ", response);
+        }
+    } catch (error) {
+        console.log("Deu erro: ", error);
+        popupAlert.showPopup("Erro inesperado ao resetar usuário.", "Erro", "erro");
+    }
+  }
 
   document.getElementById('arquivoUsuarios').addEventListener('change', function () {
       const label = document.querySelector('.UploadBox.uploadUsuarios .default-content');

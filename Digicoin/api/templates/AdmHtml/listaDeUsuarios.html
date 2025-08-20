@@ -67,6 +67,7 @@
                         <span class="status-listaDeUsuarios"></span>
 
                     </div>
+                    <img class="iconeResetSenha-listaDeUsuarios" id="resetar" data-id="{{usuario.id}}" data-nome="{{usuario.first_name}}" data-email="{{usuario.username}}" src="{% static 'img/reset-senha.png' %}" alt="">
                     <img class="iconeEditar-listaDeUsuarios" id="editar" data-id="{{usuario.id}}" data-nome="{{usuario.first_name}}" data-email="{{usuario.username}}" data-ra="{{usuario.ra}}" data-status="{{usuario.is_active|lower}}" data-tipo-usuario="{{usuario.is_adm|lower}}" src="{% static 'img/edit.png' %}" alt="">
                 </div>
             {% else %}
@@ -138,7 +139,7 @@
         </div>
         <input type="hidden" id="isAdmin">
         <input type="hidden" id="id_usuario">
-        <button onclick="cadastrar(event)" type="submit" id="cadastrarUsuario" class="button-cadastrarUsuario">
+        <button class="botaoSubmit-cadastrarUsuario" onclick="cadastrar(event)" type="submit" id="cadastrarUsuario">
             Cadastrar Usuário
         </button>
     </form>
@@ -169,6 +170,35 @@
     </form>
 </dialog>
 
+<dialog id="popupResetarSenha">
+    <div class="header-resetarSenha">
+        <div class="headerLogo-resetarSenha">
+            <img src="{% static 'img/logoAdmin.png' %}" alt="LogoAdmin">
+        </div>
+        <div class="headerBotao-resetarSenha">
+            <button type="button" class="buttonClose-resetarSenha">    
+                <img id="fecharResetarSenha" class="iconeX-resetarSenha" src="{% static 'img/iconeX.png' %}" alt="">
+            </button>
+        </div>
+    </div>
+    <form class="formUsuario-resetarSenha" id='formResetarSenha'>
+        {% csrf_token %}
+        <div class="titulo-resetarSenha">Resetar Senha</div>
+        <input type="hidden" id="id_usuario_reset"> 
+        <div class="input-resetarSenha">
+            <label>Nome do Usuário</label>
+            <div class="inputUsuario-resetarSenha" id="nome_usuario_reset"></div>
+        </div>   
+        <div class="input-resetarSenha">
+            <label>E-mail do Usuário</label>
+            <div class="inputUsuario-resetarSenha" id="email_usuario_reset"></div>
+        </div>
+        <div class="botoes-resetarSenha">
+            <button class="botaoSubmit-resetarSenha" id='botaoResetarSenha'>Resetar Senha</button>
+        </div>
+    </form>
+</dialog>
+
 <dialog id="popupImportarUsuarios">
     <div class="header-importarUsuarios">
         <div class="headerLogo-importarUsuarios">
@@ -183,7 +213,7 @@
     <form class="formUsuario-ImportarUsuarios" method="POST" enctype="multipart/form-data" id="formImportarUsuarios" data-urlimg="{% static 'img/uploadIcon.png' %}">
         {% csrf_token %}
         <div class="input-importarUsuarios">
-            <label for="arquivoUsuarios">Faça o upload do arquivo de usuários:</label>
+            <label for="arquivoUsuarios">Faça o upload do arquivo de usuários: <a href="{% static 'usuarios_exemplo.csv' %}">Baixar exemplo</a></label>
             <label for="arquivoUsuarios" class="UploadBox uploadUsuarios">
                 <div class="default-content">
                     <img src="{% static 'img/uploadIcon.png' %}" alt="uploadIcon" class="upload-icon-importarUsuarios">
@@ -197,7 +227,7 @@
             <input type="file" id="arquivoUsuarios" name="arquivo_usuarios" accept=".csv, .xlsx">
         </div>
         <div class="input-importarUsuarios">
-            <button type="button" id="botaoValidarImportarUsuarios">Validar Usuários</button>
+            <button class="botaoSubmit-importarUsuarios" type="button" id="botaoValidarImportarUsuarios">Validar Usuários</button>
         </div>
     </form>
     <div class="localResultadoValidacao-importarUsuarios" id="localResultadoValidacao" style="display:none;">
@@ -206,8 +236,8 @@
             <ul class="listaUsuariosValidados" id="listaUsuariosValidados"></ul>
             <span id="quantidadeUsuariosValidados"></span>
         </div>
-        <button type="button" id="botaoCadastrarUsuariosValidados">Cadastrar</button>
-        <button type="button" id="botaoNovoArquivo">Novo Arquivo</button>
+        <button class="botaoSubmit-importarUsuarios" type="button" id="botaoCadastrarUsuariosValidados">Cadastrar</button>
+        <button class="botaoSubmit-importarUsuarios" type="button" id="botaoNovoArquivo">Novo Arquivo</button>
     </div>
 </dialog>
 

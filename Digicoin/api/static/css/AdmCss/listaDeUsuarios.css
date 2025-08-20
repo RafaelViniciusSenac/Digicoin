@@ -117,32 +117,23 @@
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
+.botoesUsuario-listaDeUsuarios button:hover {
+    opacity: 0.8;
+}
+
 .addMoedas-listaDeUsuarios {
     background-color: var(--ciano);
     color: var(--branco);
-}
-
-.addMoedas-listaDeUsuarios:hover{
-    background-color: var(--ciano);
-    transition: 0.5s ease-in-out;
 }
 
 .addUsuarios-listaDeUsuarios {
     background-color: var(--magenta);
     color: var(--branco);
 }
-.addUsuarios-listaDeUsuarios:hover{
-    background-color: #b42fb6;
-    transition: 0.5s ease-in-out;
-}
 
 .addUsuariosFile-listaDeUsuarios {
     background-color: var(--laranja);
     color: var(--branco);
-}
-.addUsuariosFile-listaDeUsuarios:hover{
-    background-color: var(--laranja);
-    transition: 0.5s ease-in-out;
 }
 
 .head-listaDeUsuarios {
@@ -250,8 +241,18 @@
     font-size: 14px;
 }
 
-.iconeEditar-listaDeUsuarios {
+.iconeEditar-listaDeUsuarios,
+.iconeResetSenha-listaDeUsuarios {
+    width: 25px;
+    height: 25px;
     cursor: pointer;
+    padding: 5px;
+}
+
+.iconeEditar-listaDeUsuarios:hover,
+.iconeResetSenha-listaDeUsuarios:hover {
+    transform: scale(1.1);
+    transition: 0.3s ease-in-out;
 }
 
 .status-listaDeUsuarios{
@@ -277,7 +278,9 @@ dialog {
 
 .header-cadastrarUsuario,
 .header-adicionarMoedas,
-.header-importarUsuarios{
+.header-importarUsuarios,
+.header-resetarSenha {
+    background-color: #4D2C87;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -287,14 +290,16 @@ dialog {
 
 .headerLogo-cadastrarUsuario > img,
 .headerLogo-adicionarMoedas > img,
-.headerLogo-importarUsuarios > img {
+.headerLogo-importarUsuarios > img,
+.headerLogo-resetarSenha > img {
     width: 80px;
 }
 
 
 .buttonClose-cadastrarUsuario,
 .buttonClose-adicionarMoedas,
-.buttonClose-importarUsuarios {
+.buttonClose-importarUsuarios,
+.buttonClose-resetarSenha {
     background-color: transparent;
     border: none;
     margin-top: 10px;
@@ -305,13 +310,15 @@ dialog {
 
 .buttonClose-cadastrarUsuario img:hover,
 .buttonClose-adicionarMoedas img:hover,
-.buttonClose-importarUsuarios img:hover {
+.buttonClose-importarUsuarios img:hover,
+.buttonClose-resetarSenha img:hover {
     opacity: 0.5;
 }
 
 .formUsuario-cadastrarUsuario,
 .formUsuario-adicionarMoedas,
-.formUsuario-ImportarUsuarios {
+.formUsuario-ImportarUsuarios,
+.formUsuario-resetarSenha {
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -321,7 +328,8 @@ dialog {
 
 .input-cadastrarUsuario,
 .input-adicionarMoedas,
-.input-importarUsuarios {
+.input-importarUsuarios,
+.input-resetarSenha {
     display: flex;
     flex-direction: column;
     gap: 5px;
@@ -331,7 +339,9 @@ dialog {
 .input-cadastrarUsuario input[type="text"],
 .input-adicionarMoedas input[type="text"],
 .input-cadastrarUsuario input[type="email"],
-.input-cadastrarUsuario input[type="password"] {
+.input-cadastrarUsuario input[type="password"],
+.input-resetarSenha div {
+    width: 800px;
     border-radius: 4px;
     border: none;
     height: 55px;
@@ -340,13 +350,50 @@ dialog {
     color: var(--base);
     margin-bottom: 20px;
     padding: 0 15px;
+    max-width: 300px;
 }
 
 .input-cadastrarUsuario label,
 .input-adicionarMoedas label,
-.input-importarUsuarios label {
+.input-importarUsuarios label,
+.input-resetarSenha label {
     color: var(--branco);
     font-size: 15px;
+}
+
+.titulo-CadastrarUsuario,
+.titulo-adicionarMoedas,
+.titulo-importarUsuarios,
+.titulo-resetarSenha {
+    margin-bottom: 10px;
+    font-size: 20px;
+    color: var(--branco);
+    font-weight: bold;
+    text-align: center;
+}
+
+.botaoSubmit-cadastrarUsuario,
+.botaoSubmit-adicionarMoedas,
+.botaoSubmit-importarUsuarios,
+.botaoSubmit-resetarSenha {
+    margin-top: 20px;
+    width: 100%;
+    font-weight: bold;
+    font-size: 22px;
+    border-radius: 10px;
+    cursor: pointer;
+    border: none;
+    color: var(--branco);
+    background-color: var(--magenta);
+    height: 60px;
+}
+
+.botaoSubmit-cadastrarUsuario:hover,
+.botaoSubmit-adicionarMoedas:hover,
+.botaoSubmit-importarUsuarios:hover,
+.botaoSubmit-resetarSenha:hover {
+    /* deixar com mesma cor e mais escuro */
+    opacity: 0.8;
 }
 
 /* Estilo específico para o label com checkbox */
@@ -383,14 +430,6 @@ dialog {
 .button-cadastrarUsuario:hover{
     /* deixar com mesma cor e mais escuro */
     opacity: 0.8;
-}
-
-.titulo-adicionarMoedas {
-    margin-bottom: 10px;
-    font-size: 20px;
-    color: var(--branco);
-    font-weight: bold;
-    text-align: center;
 }
 
 .usuariosSelecionados-adicionarMoedas {
@@ -464,14 +503,15 @@ dialog {
 .popupImportarUsuarios::backdrop {
     background-color: var(--sombra-preta);
 }
-.formUsuario-ImportarUsuarios .titulo-importarUsuarios {
-    color: var(--branco);
-    font-size: 24px;
-    margin-bottom: 20px;
-    text-align: center;
-    width: 100%;
-}
 
+.input-importarUsuarios a {
+    color: var(--magenta);
+    text-decoration: none;
+}
+.input-importarUsuarios a:hover {
+    color: var(--magenta);
+    text-decoration: underline;
+}
 .formUsuario-ImportarUsuarios button,
 .localResultadoValidacao-importarUsuarios button {
     background-color: var(--magenta);
@@ -623,7 +663,7 @@ dialog {
         flex-direction: column;
         align-items: flex-start;
         gap: 10px;
-        padding: 15px;
+        padding: 10px;
     }
 
     .infoUser-listaDeUsuarios {
@@ -920,9 +960,8 @@ dialog {
     font-size: 16px;
 }
 
-.pagination-listaDeUsuarios .anterior-listaProdutos:hover,
-.proxim-listaProdutos a:hover {
-    background-color: var(--laranja);
+.pagination-listaDeUsuarios a:hover {
+    opacity: 0.8;
 }
 
 
