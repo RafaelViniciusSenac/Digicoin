@@ -25,6 +25,8 @@ document.addEventListener("DOMContentLoaded", function(){
         dropdownMenu.style.display = 'none'; // esconde o menu
     });
 
+    
+
     document.addEventListener('click', function(event) {
         const dropdownMenu = document.getElementById("dropdownMenu");
         const imgFlecha = document.getElementById('imgFlecha');
@@ -73,19 +75,59 @@ document.addEventListener("DOMContentLoaded", function(){
         window.location.href = "/historicoCompra";
     });
 
+    document.getElementById("historicoCompraMobile").addEventListener("click", () => {
+        window.location.href = "/historicoCompra";
+    });
+
+
     const perfilUsuario = document.getElementById('perfilUsuario')
 
     document.getElementById("visualizarPerfil").addEventListener("click", () => {
         perfilUsuario.showModal();
     })
 
+    document.getElementById("visualizarPerfilMobile").addEventListener("click", () => {
+        perfilUsuario.showModal();
+    })
+
     const imgGroup = document.getElementById('imgGroup')
-    const menu = document.getElementById('menu-lateral-menuUser')
+    const menuMobile = document.getElementById('menuMobile')
+    const flechaEsquerda = document.getElementById('flechaEsquerda')
 
     imgGroup.addEventListener('click', () => {
-        menu.classList.add('menu-ativo')
-        
-    })
+    menuMobile.style.display = 'flex'
+    imgGroup.style.display = 'none'
+    flechaEsquerda.style.display = 'block'
+
+
+    setTimeout(() => {
+        document.addEventListener('click', clickFora)
+    }, 0)
+})
+
+// fechar menu pelo botão flecha
+flechaEsquerda.addEventListener('click', () => {
+    fecharMenu()
+})
+
+function fecharMenu() {
+    menuMobile.style.display = 'none'
+    imgGroup.style.display = 'block'
+    flechaEsquerda.style.display = 'none'
+
+    // remove o listener de clique fora
+    document.removeEventListener('click', clickFora)
+}
+
+
+function clickFora(e) {
+    if (!menuMobile.contains(e.target) && !imgGroup.contains(e.target) && !flechaEsquerda.contains(e.target)) {
+        fecharMenu()
+    }
+}
+
+    
+      
 
 })
 
