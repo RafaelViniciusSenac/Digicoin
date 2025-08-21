@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const addUsuarios = document.getElementById('addUsuarios');
   const fecharCadastrar = document.getElementById('fecharCadastrar');
   const botaoCadastrarUsuario = document.getElementById('cadastrarUsuario');
-  const form = document.getElementById("formUsuario");
+  const formUsuario = document.getElementById("formUsuario");
   const popupAdicionarMoedas = document.getElementById('popupAdicionarMoedas');
   const addMoedas = document.getElementById('addMoedas');
   const fecharAdicionarMoedas = document.getElementById('fecharAdicionarMoedas');
@@ -14,11 +14,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const botaoValidarUsuarios = document.getElementById('botaoValidarImportarUsuarios');
   const botaoCadastrarValidados = document.getElementById('botaoCadastrarUsuariosValidados');
   const botaoNovoArquivo = document.getElementById('botaoNovoArquivo');
-  const formResetarSenha = document.getElementById('formResetarSenha');
   const botaoResetarSenha = document.getElementById('botaoResetarSenha');
+  const botaoFormUsuario = document.getElementById('cadastrarUsuario');
   const FecharResetarSenha = document.getElementById('fecharResetarSenha');
   const editar = document.querySelectorAll('[id="editar"]');
-  const resetar = document.querySelectorAll('[id="resetar"]');
+  const abrirResetarSenha = document.querySelectorAll('[id="abrirResetarSenha"]');
+  const popupResetarSenha = document.getElementById('popupResetarSenha');
 
   botaoNovoArquivo.addEventListener('click', () => {
     fecharImportarUsuarios.click();
@@ -60,9 +61,78 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   fecharCadastrar.addEventListener('click', () => {
-    form.reset();
+    formUsuario.reset();
     popupCadastrarUsuario.close();
   });
+
+  formUsuario.addEventListener('submit', (e) => {
+    e.preventDefault();
+    cadastrarEditarUsuario();
+  });
+
+  async function cadastrarEditarUsuario() {
+    const id_usuario = parseInt(document.getElementById("id_usuario").value) || 0;
+    if (!validarCamposAntesDeEnviar(id_usuario > 0 ? ["nome", "email"] : ["nome", "email", "senha"])) {
+        const popupAlert = new Popup();
+        popupAlert.showPopup("Preencha todos os campos obrigatórios!", "Erro", "erro");
+        return;
+    }
+    const form = document.getElementById("formUsuario");
+    const nome = document.getElementById("nome").value;
+    const email = document.getElementById("email").value;
+    const ra = document.getElementById("ra").value;
+    let isAdmin = document.getElementById("isAdmin").value;
+    const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    const senha = document.getElementById("senha").value;
+    const is_active = document.getElementById("filtroAtivarUsuario").checked;
+    isAdmin === "true" ? isAdmin = true : isAdmin = false;
+    let dados = {};
+    let response;
+    const popupAlert = new Popup();
+    
+    try {
+        if (id_usuario > 0) {
+            dados = {
+                nome: email,
+                first_name: nome,
+                is_active: is_active
+            };
+            if (ra !== "") {
+                dados.ra = ra;
+            }
+
+            response = await apiRequest(`/api/user/${id_usuario}`, "PUT", dados, { 'X-CSRFToken': csrf });
+        } else {
+            dados = {
+                nome: email,
+                senha: senha,
+                first_name: nome,
+                is_adm: isAdmin,
+                is_active: is_active
+            };
+            if (ra !== "") {
+                dados.ra = ra;
+            }
+            console.log(dados);
+            response = await apiRequest("/api/user/", "POST", dados, { 'X-CSRFToken': csrf });
+        }
+        console.log("Resposta da requisição: ", response);
+        if (response && (response.status === 201 || response.status === 200)) {
+            form.reset();
+            popupAlert.showPopup(id_usuario > 0 ? "Usuário editado com sucesso!" : "Usuário cadastrado com sucesso!", "Sucesso", "sucesso");
+            popupAlert.imgClosed.addEventListener("click", () => {
+                location.reload();
+            });
+        } else {
+            popupAlert.showPopup(id_usuario > 0 ? "Erro ao editar usuário!" : "Erro ao cadastrar usuário!", "Erro", "erro");
+            console.log("Erro ao cadastrar: ", response);
+        }
+
+    } catch (error) {
+        console.log("Deu erro: ", error);
+        popupAlert.showPopup("Erro inesperado ao cadastrar/editar usuário.", "Erro", "erro");
+    }
+  }
 
   fecharAdicionarMoedas.addEventListener('click', () => {
     popupAdicionarMoedas.close();
@@ -122,12 +192,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  for (let i = 0; i < resetar.length; i++) {
-    resetar[i].addEventListener('click', () => {
-      const id = resetar[i].getAttribute('data-id');
+  for (let i = 0; i < abrirResetarSenha.length; i++) {
+    abrirResetarSenha[i].addEventListener('click', () => {
+      const id = abrirResetarSenha[i].getAttribute('data-id');
       let tituloBotao = 'Resetar Senha';
-      const nome = resetar[i].getAttribute('data-nome');
-      const email = resetar[i].getAttribute('data-email');
+      const nome = abrirResetarSenha[i].getAttribute('data-nome');
+      const email = abrirResetarSenha[i].getAttribute('data-email');
 
       document.getElementById('id_usuario_reset').value = id;
       document.getElementById('nome_usuario_reset').textContent = nome;
@@ -167,6 +237,11 @@ document.addEventListener('DOMContentLoaded', () => {
       const inputQuantidade = document.getElementById('saldo');
       const popupAlert = new Popup();
       const enviarMoedas = async (operacao) => {
+        if (!validarCamposAntesDeEnviar(["saldo"])) {
+              const popupAlert = new Popup();
+              popupAlert.showPopup("Preencha o campo de quantidade!", "Erro", "erro");
+              return;
+        }
         const valor = parseInt(inputQuantidade.value);
         const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
@@ -240,7 +315,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let listaUsuariosValidados = [];
   async function validarArquivoUsuarios() {
+    if (!validarCamposAntesDeEnviar(["arquivoUsuarios"])) {
+        const popupAlert = new Popup();
+        popupAlert.showPopup("Selecione um arquivo para importar!", "Erro", "erro");
+        return;
+    }
     const form = document.getElementById("formImportarUsuarios");
+    const arquivoInput = document.getElementById("arquivoUsuarios");
+
+    // Verifica se algum arquivo foi selecionado
+    if (!arquivoInput.files || arquivoInput.files.length === 0) {
+        const popupAlert = new Popup();
+        popupAlert.showPopup("Nenhum arquivo selecionado!", "Erro", "erro");
+        return; // Impede o envio
+    }
+
     const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value;
     const formData = new FormData(form);
     const popupAlert = new Popup();
@@ -255,7 +344,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }).then(response => {
         return response.json();
       });
-      console.log(result.usuarios.length);
       if (result.status === 200 && result.usuarios.length > 0) {
         listaUsuariosValidados = result.usuarios;
         popupAlert.showPopup("Arquivo validado com sucesso!<br>Confere os usuários abaixo:","Sucesso","sucesso");
@@ -290,7 +378,36 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  botaoResetarSenha.addEventListener('click', () => {
+  async function cadastrarUsuariosValidados(usuarios) {
+    const lista = document.getElementById("listaUsuariosValidados");
+    const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    const popupAlert = new Popup();
+    if (usuarios.length === 0) {
+        popupAlert.showPopup("Nenhum usuário selecionado.", "Erro", "erro");
+        return;
+    }
+    try {
+        const response = await apiRequest("/api/importar_usuarios/", "POST", {usuarios: usuarios}, { 'X-CSRFToken': csrf });
+
+        if (response && (response.status === 201 || response.status === 200)) {
+            lista.innerHTML = "";
+            popupAlert.showPopup("Usuários cadastrado com sucesso!", "Sucesso", "sucesso");
+            popupAlert.imgClosed.addEventListener("click", () => {
+                location.reload();
+            });
+        } else {
+            popupAlert.showPopup("Erro ao cadastrar usuários!", "Erro", "erro");
+            console.log("Erro ao cadastrar: ", response);
+        }
+
+    } catch (error) {
+        console.log("Deu erro: ", error);
+        popupAlert.showPopup("Erro inesperado ao cadastrar usuários.", "Erro", "erro");
+    }
+  }
+
+  botaoResetarSenha.addEventListener('click', (e) => {
+    e.preventDefault();
     resetarSenhaDosUsuarios();
   });
 
@@ -299,17 +416,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const id_usuario = parseInt(document.getElementById("id_usuario_reset").value);
     const popupAlert = new Popup();
     try {
-        const response = await apiRequest("/api/resetar_senha_usuario/", "POST", {id: id_usuario}, { 'X-CSRFToken': csrf });
-        console.log(response);
-        if (response && (response.status === 201 || response.status === 200)) {
-            popupAlert.showPopup("Senha resetada com sucesso<br>Nova Senha enviado para o email!", "Sucesso", "sucesso");
-            popupAlert.imgClosed.addEventListener("click", () => {
-                // location.reload();
-            });
-        } else {
-            popupAlert.showPopup("Erro ao resetar senha do usuário!", "Erro", "erro");
-            console.log("Erro ao resetar: ", response);
-        }
+      const response = await apiRequest("/api/resetar_senha_usuario/", "POST", {id: id_usuario}, { 'X-CSRFToken': csrf });
+      console.log(response);
+      if (response && (response.status === 201 || response.status === 200)) {
+          popupAlert.showPopup("Senha resetada com sucesso<br>Nova Senha enviado para o email!", "Sucesso", "sucesso");
+          popupAlert.imgClosed.addEventListener("click", () => {
+              location.reload();
+          });
+      } else {
+          popupAlert.showPopup("Erro ao resetar senha do usuário!", "Erro", "erro");
+          console.log("Erro ao resetar: ", response);
+      }
     } catch (error) {
         console.log("Deu erro: ", error);
         popupAlert.showPopup("Erro inesperado ao resetar usuário.", "Erro", "erro");
@@ -349,3 +466,20 @@ function buscarUsuario() {
 document.getElementById('filtroAdmin').addEventListener('change', function () {
     buscarUsuario(); // ou qualquer outra função que você queira
 });
+
+
+function validarCamposAntesDeEnviar(campos) {
+    let valido = true;
+    campos.forEach(id => {
+        const campo = document.getElementById(id);
+        if (!campo || (campo.type === 'file' ? campo.files.length === 0 : campo.value.trim() === "")) {
+            campo.style.border = "2px solid red";
+            valido = false;
+        } else {
+            campo.style.border = "";
+        }
+    });
+    return valido;
+}
+
+

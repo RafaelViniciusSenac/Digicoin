@@ -67,7 +67,7 @@
                         <span class="status-listaDeUsuarios"></span>
 
                     </div>
-                    <img class="iconeResetSenha-listaDeUsuarios" id="resetar" data-id="{{usuario.id}}" data-nome="{{usuario.first_name}}" data-email="{{usuario.username}}" src="{% static 'img/reset-senha.png' %}" alt="">
+                    <img class="iconeResetSenha-listaDeUsuarios" id="abrirResetarSenha" data-id="{{usuario.id}}" data-nome="{{usuario.first_name}}" data-email="{{usuario.username}}" src="{% static 'img/reset-senha.png' %}" alt="">
                     <img class="iconeEditar-listaDeUsuarios" id="editar" data-id="{{usuario.id}}" data-nome="{{usuario.first_name}}" data-email="{{usuario.username}}" data-ra="{{usuario.ra}}" data-status="{{usuario.is_active|lower}}" data-tipo-usuario="{{usuario.is_adm|lower}}" src="{% static 'img/edit.png' %}" alt="">
                 </div>
             {% else %}
@@ -139,7 +139,7 @@
         </div>
         <input type="hidden" id="isAdmin">
         <input type="hidden" id="id_usuario">
-        <button class="botaoSubmit-cadastrarUsuario" onclick="cadastrar(event)" type="submit" id="cadastrarUsuario">
+        <button class="botaoSubmit-cadastrarUsuario" type="submit" id="cadastrarUsuario">
             Cadastrar Usuário
         </button>
     </form>
@@ -194,7 +194,7 @@
             <div class="inputUsuario-resetarSenha" id="email_usuario_reset"></div>
         </div>
         <div class="botoes-resetarSenha">
-            <button class="botaoSubmit-resetarSenha" id='botaoResetarSenha'>Resetar Senha</button>
+            <button class="botaoSubmit-resetarSenha" type="button" id="botaoResetarSenha">Resetar Senha</buton>
         </div>
     </form>
 </dialog>
@@ -242,6 +242,5 @@
 </dialog>
 
 <script src="{% static 'js/AdmJS/listaDeUsuarios.js' %}"></script>
-<script src="{% static 'js/AdmJS/cadastrarUsuario.js' %}"></script>
 <script src="{% static 'js/popup.js' %}"></script>
 {% endblock %}

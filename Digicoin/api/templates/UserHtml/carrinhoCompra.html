@@ -9,11 +9,9 @@
   <div class="containerPrincipal-carrinhoCompras">
     <div class="containerSecundaria-carrinhoCompras">
       <div class="titulo-carrinhoCompras">
-        <div class="icone-carrinhoCompras">
-          <img src="{% static 'img/carrinho.png' %}" alt="Carrinho">
-        </div>
         Carrinho de Compras
       </div>
+      <div class="titulo-carrinhoCompras__line"></div>
       {% csrf_token %}
       
       <div class="itemGridHeader-carrinhoCompras">

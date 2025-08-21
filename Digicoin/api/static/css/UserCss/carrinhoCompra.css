@@ -38,6 +38,12 @@
   box-sizing: border-box;
 }
 
+.titulo-carrinhoCompras__line{
+  background-color: var(--laranja);
+  width: 40px;
+  height: 2px;
+}
+
 .titulo-carrinhoCompras {
   display: flex;
   flex-direction: row;

@@ -573,6 +573,15 @@ dialog {
 .localResultadoValidacao-importarUsuarios button:hover {
     opacity: 0.8;
 }
+
+.botaoSubmit-resetarSenha a {
+    color: var(--branco);
+    text-decoration: none;
+    /* font-weight: bold;
+    font-size: 22px;
+    text-align: center; */
+}
+
 .localResultadoValidacao-importarUsuarios {
     width: 100%;
     display: flex;
