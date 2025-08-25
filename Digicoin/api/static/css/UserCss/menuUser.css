@@ -154,6 +154,21 @@
     background-color: white;
 }
 
+.menu-lateral-menuUser{
+    display: none;
+}
+
+.menuMobile-menuUser{
+    display: none;
+}
+
+.flechaEsquerda{
+    display: none;
+}
+
+.dropdownMenuMobile-menuUser{
+    display: none;
+}
 
 @media (max-width: 1000px) {
     .navbar{
@@ -168,8 +183,64 @@
     .imgFlecha{
         display: none;
     }
+    .imgFlechaCima{
+        display: none;
+    }
 
     .group{  
       display: block;
+      
     }
+
+    .menuMobile-menuUser{
+        
+        flex-direction: column;
+        margin-top: 100px;
+        width: 235px;
+        top: 0;
+        position: absolute;
+        z-index: 9999;
+        background-color: white;
+        align-items: center;
+        gap: 15px;
+        border-radius: 0 0 5px 0 ;
+        padding-bottom: 15px;
+    }
+    
+    .menuMobile-menuUser a {
+        padding: 12px 20px;
+        text-decoration: none;
+        font-size: 18px;
+        
+    }
+
+    .dropdownMenuMobile-menuUser{
+        
+        flex-direction: column;
+        width: 235px;
+        top: 0;
+        position: absolute;
+        margin-top: 100px;
+        right: 0;
+        border-radius: 0 0 0 5px;
+        z-index: 9999;
+        background-color: white;
+        align-items: center;
+        padding-bottom: 15px;
+    }
+    .dropdownMenuMobile-menuUser button{
+        background-color: white;
+        border: none;
+        display: flex;
+        font-size: 18px;
+        align-items: center;
+        gap: 5px;
+         
+    };
+    .dropdownMenuMobile-menuUser img{
+        width: 28px;
+        height: 28px;
+    }
+    
+    
   }

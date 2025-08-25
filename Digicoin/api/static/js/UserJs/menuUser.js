@@ -25,6 +25,8 @@ document.addEventListener("DOMContentLoaded", function(){
         dropdownMenu.style.display = 'none'; // esconde o menu
     });
 
+    
+
     document.addEventListener('click', function(event) {
         const dropdownMenu = document.getElementById("dropdownMenu");
         const imgFlecha = document.getElementById('imgFlecha');
@@ -69,9 +71,26 @@ document.addEventListener("DOMContentLoaded", function(){
         window.location.href = "/"; // ou a URL da sua tela de login
     });
 
+    document.getElementById("sairMobile").addEventListener("click", async () => {
+        await fetch('/api/logout/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken'),  // importante se CSRF estiver ativo
+            }
+        });
+    
+        window.location.href = "/"; // ou a URL da sua tela de login
+    });
+
     document.getElementById("historicoCompra").addEventListener("click", () => {
         window.location.href = "/historicoCompra";
     });
+
+    document.getElementById("historicoCompraMobile").addEventListener("click", () => {
+        window.location.href = "/historicoCompra";
+    });
+
 
     const perfilUsuario = document.getElementById('perfilUsuario')
 
@@ -79,6 +98,70 @@ document.addEventListener("DOMContentLoaded", function(){
         perfilUsuario.showModal();
     })
 
+    document.getElementById("visualizarPerfilMobile").addEventListener("click", () => {
+        perfilUsuario.showModal();
+    })
+
+    const imgGroup = document.getElementById('imgGroup')
+    const menuMobile = document.getElementById('menuMobile')
+    const flechaEsquerda = document.getElementById('flechaEsquerda')
+
+    imgGroup.addEventListener('click', () => {
+    menuMobile.style.display = 'flex'
+    imgGroup.style.display = 'none'
+    flechaEsquerda.style.display = 'block'
+
+
+    setTimeout(() => {
+        document.addEventListener('click', clickFora)
+    }, 0)
+})
+
+// fechar menu pelo botão flecha
+flechaEsquerda.addEventListener('click', () => {
+    fecharMenu()
+})
+
+function fecharMenu() {
+    menuMobile.style.display = 'none'
+    imgGroup.style.display = 'block'
+    flechaEsquerda.style.display = 'none'
+
+    // remove o listener de clique fora
+    document.removeEventListener('click', clickFora)
+}
+
+
+function clickFora(e) {
+    if (!menuMobile.contains(e.target) && !imgGroup.contains(e.target) && !flechaEsquerda.contains(e.target)) {
+        fecharMenu()
+    }
+}
+
+const dropdownMenuMobile = document.getElementById('dropdownMenuMobile')
+const imgPerfil = document.getElementById('imgPerfil')
+
+if (window.innerWidth < 1000) {
+    imgPerfil.addEventListener('click', () => {
+        if (dropdownMenuMobile.style.display === 'none') {
+            dropdownMenuMobile.style.display = 'flex'
+        } else {
+            dropdownMenuMobile.style.display = 'none'
+        }
+    })
+
+    document.addEventListener('click', (e) => {
+        if (
+            dropdownMenuMobile.style.display === 'flex' &&
+            !dropdownMenuMobile.contains(e.target) && // clique não foi dentro do menu
+            !imgPerfil.contains(e.target) // clique não foi no botão
+        ) {
+            dropdownMenuMobile.style.display = 'none'
+        }
+    })
+}
+    
+      
 
 })
 
