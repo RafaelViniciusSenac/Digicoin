@@ -1,0 +1,3 @@
+nome,email,senha,ra,saldo,pontuacao,is_adm,is_active
+nome-usuario,usuario@exemplo.com,senha123,123,10,10,False,True
+

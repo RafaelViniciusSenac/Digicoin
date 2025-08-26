@@ -1,3 +1,4 @@
+from openpyxl import load_workbook
 from rest_framework import viewsets, status
 from api.models import *
 from api.serializers import *
@@ -37,7 +38,7 @@ class User(APIView):
         ra = request.data.get('ra')
         fistName = request.data.get('first_name')
         isAdm = request.data.get('is_adm')
-        
+        isActive = request.data.get('is_active')
 
         if not nome or not senha:
             return Response({"error": "Todos os campos são obrigatórios!", "status": status.HTTP_400_BAD_REQUEST}, status= status.HTTP_400_BAD_REQUEST)
@@ -45,35 +46,35 @@ class User(APIView):
         usuario = CustomUser.objects.create(
             username = nome,
             password = make_password(senha),
-            is_active = True,
             first_name = fistName,
             is_adm = isAdm,
+            is_active = isActive,
             ra = ra
         )
 
-        # Enviar email após cadastro #
-        load_dotenv()
+        # # Enviar email após cadastro #
+        # load_dotenv()
 
-        yag = yagmail.SMTP(
-            user=os.getenv("EMAIL_USER"),
-            password=os.getenv("EMAIL_PASSWORD"),
-            host=os.getenv("EMAIL_HOST"),
-            port=int(os.getenv("EMAIL_PORT")),
-            smtp_starttls=True,       
-            smtp_ssl=False    
-        )
+        # yag = yagmail.SMTP(
+        #     user=os.getenv("EMAIL_USER"),
+        #     password=os.getenv("EMAIL_PASSWORD"),
+        #     host=os.getenv("EMAIL_HOST"),
+        #     port=int(os.getenv("EMAIL_PORT", "587")),
+        #     smtp_starttls=True,       
+        #     smtp_ssl=False    
+        # )
 
-        yag.send(
-            to=usuario.username,
-            subject='Bem vindo ao Sistema Digicoin',
-            contents=(
-                f'Nome: {fistName}\n'
-                f'RA: {ra}\n'
-                f'Login: {nome}\n'
-                f'Senha: {senha}\n'
-                f"Altere sua senha depois do primeiro acesso."
-            )
-        )
+        # yag.send(
+        #     to=usuario.username,
+        #     subject='Bem vindo ao Sistema Digicoin',
+        #     contents=(
+        #         f'Nome: {fistName}\n'
+        #         f'RA: {ra}\n'
+        #         f'Login: {nome}\n'
+        #         f'Senha: {senha}\n'
+        #         f"Altere sua senha depois do primeiro acesso."
+        #     )
+        # )
 
         return Response({"message":"Usuário criado com sucesso!", "id":usuario.id, "status": status.HTTP_201_CREATED})
 
@@ -149,7 +150,7 @@ class Login(APIView):
                 'is_adm': user.is_adm
             }, status=status.HTTP_200_OK)
         
-        return Response({'error': 'Credenciais inválidas'}, status=status.HTTP_401_UNAUTHORIZED)
+        return Response({'error': 'Credenciais inválidas',}, status=status.HTTP_401_UNAUTHORIZED)
         
 class Logout(APIView):
     def post(self, request):
@@ -255,4 +256,107 @@ class HistoricoSaldoPorIdView(APIView):
         serializer = UsuarioComHistoricoSerializer(usuario)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
+class AtualizarSaldos(APIView):
+    def put(self, request):
+        data = request.data
+        operacao = data.get("operacao")
+        saldo = data.get("saldo")
+        para_todos = data.get("paraTodos", False)
+        usuarios_ids = data.get("usuarios", [])
 
+        if not operacao or saldo is None:
+            return Response({"erro": "Dados incompletos.", "status": status.HTTP_400_BAD_REQUEST}, status=status.HTTP_400_BAD_REQUEST)
+
+        if para_todos:
+            usuarios = CustomUser.objects.filter(is_active=True, is_adm=False)
+        else:
+            usuarios = CustomUser.objects.filter(id__in=usuarios_ids, is_active=True, is_adm=False)
+
+        for usuario in usuarios:
+            if operacao == "adicionar":
+                usuario.pontuacao += saldo
+                usuario.saldo += saldo
+            elif operacao == "remover":
+                if usuario.saldo < saldo:
+                    continue  # ou trate como erro
+                usuario.pontuacao -= saldo
+                usuario.saldo -= saldo
+            usuario.save()
+        
+        return Response({"message": "Operação realizada com sucesso!", "status": status.HTTP_200_OK}, status=status.HTTP_200_OK)
+
+class ValidarImportacaoUsuarios(APIView):
+    def post(self, request):
+        arquivo = request.FILES.get('arquivo_usuarios')
+        if not arquivo:
+            return Response({'erro': 'Nenhum arquivo enviado.', 'status': status.HTTP_400_BAD_REQUEST}, status=status.HTTP_400_BAD_REQUEST)
+
+        usuarios_validados = []
+        emails_existentes = set(CustomUser.objects.values_list('username', flat=True))
+
+        try:
+            if arquivo.name.endswith('.csv'):
+                import csv
+                from io import TextIOWrapper
+                decoded_file = TextIOWrapper(arquivo.file, encoding='utf-8')
+                reader = csv.DictReader(decoded_file)
+                rows = list(reader)
+            elif arquivo.name.endswith(('.xls', '.xlsx')):
+                wb = load_workbook(filename=arquivo, data_only=True)
+                sheet = wb.active
+                headers = [cell.value for cell in sheet[1]]
+                rows = [
+                    {headers[i]: cell.value for i, cell in enumerate(row)}
+                    for row in sheet.iter_rows(min_row=2)
+                ]
+            else:
+                return Response({'erro': 'Formato de arquivo inválido. Use CSV ou XLSX.', 'status': status.HTTP_400_BAD_REQUEST}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({'erro': f'Erro ao ler o arquivo: {str(e)}', 'status': status.HTTP_400_BAD_REQUEST}, status=status.HTTP_400_BAD_REQUEST)
+
+        for row in rows:
+            email = row.get('email')
+            if row.get('nome') and email and row.get('senha'):
+                if email in emails_existentes:
+                    continue
+                usuarios_validados.append({
+                    'first_name': row.get('nome'),
+                    'username': email,
+                    'senha': row.get('senha'),
+                    'ra': row.get('ra', ''),
+                    'saldo': int(row.get('saldo') or 0),
+                    'pontuacao': int(row.get('pontuacao') or 0),
+                    'is_adm': str(row.get('is_adm')).lower() == 'true',
+                    'is_active': str(row.get('is_active')).lower() != 'false',
+                })
+        if not usuarios_validados:
+            return Response({'erro': 'Nenhum usuário válido encontrado ou ja cadastrado.', 'status': status.HTTP_400_BAD_REQUEST}, status=status.HTTP_400_BAD_REQUEST)
+        
+        return Response({'usuarios': usuarios_validados, 'status': status.HTTP_200_OK}, status=status.HTTP_200_OK)
+
+class InportadosUsuarios(APIView):
+    def post(self, request):
+        usuarios = request.data.get('usuarios')
+        if not usuarios:
+            return Response({'erro': 'Nenhum usuário enviado.', 'status': status.HTTP_400_BAD_REQUEST}, status=status.HTTP_400_BAD_REQUEST)
+
+        cadastrados = 0
+
+        for usuario_data in usuarios:
+            try:
+                CustomUser.objects.create_user(
+                    username=usuario_data['username'],
+                    first_name=usuario_data['first_name'],
+                    password=make_password(usuario_data['senha']),
+                    ra=usuario_data['ra'],
+                    saldo=usuario_data['saldo'],
+                    pontuacao=usuario_data['pontuacao'],
+                    is_adm=usuario_data['is_adm'],
+                    is_active=usuario_data['is_active']
+                )
+                cadastrados += 1
+            except Exception as e:
+                # Ignora erros individuais e continua com os demais
+                continue
+
+        return Response({'message': f'{cadastrados} usuários cadastrados com sucesso!', 'status': status.HTTP_200_OK}, status=status.HTTP_200_OK)
