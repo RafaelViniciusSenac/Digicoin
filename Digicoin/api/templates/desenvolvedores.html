@@ -1,0 +1,19 @@
+{% extends 'base.html'%}
+{% load static%}
+{%block content%}
+
+<div>Teste</div>
+
+{%for i in dev %}
+
+{% if i.professor == True %}
+<h1>Professor: {{i.nome}} </div>
+{% else %}
+
+<h1>Aluno: {{i.nome}} </div>
+
+{% endif %}
+
+{%endfor%}
+
+{% endblock %}

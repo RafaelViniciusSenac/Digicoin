@@ -547,3 +547,7 @@ def exportar_usuarios_com_mais_moedas_excel(request):
     
     return response
 
+
+def desenvolvedores(request):
+    dev = Desenvolvedores.objects.all()
+    return render(request, 'desenvolvedores.html', {'dev': dev})
