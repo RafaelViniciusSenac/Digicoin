@@ -549,5 +549,6 @@ def exportar_usuarios_com_mais_moedas_excel(request):
 
 
 def desenvolvedores(request):
-    dev = Desenvolvedores.objects.all()
-    return render(request, 'desenvolvedores.html', {'dev': dev})
+    devs = Desenvolvedores.objects.filter(professor=False)
+    professores = Desenvolvedores.objects.filter(professor=True)
+    return render(request, 'desenvolvedores.html', {'devs': devs, 'professores': professores})
