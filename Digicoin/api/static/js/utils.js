@@ -1,4 +1,7 @@
 async function apiRequest(url, method = 'GET', body = null, headers = {}) {
+    const loadingPopup = new Popup();
+    loadingPopup.showLoadingPopup('Carregando...');
+    
     try {
         const config = {
             method,
@@ -14,10 +17,12 @@ async function apiRequest(url, method = 'GET', body = null, headers = {}) {
         if (!response.ok) {
             throw new Error(`Erro: ${response.status} - ${response.statusText}`);
         }
+        loadingPopup.hidePopup();
         return await response.json();
 
     } catch (error) {
         console.error('Erro na requisição:', error);
+        loadingPopup.hidePopup();
         return null;
     }
 }

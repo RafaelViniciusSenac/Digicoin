@@ -290,6 +290,16 @@ document.addEventListener("DOMContentLoaded", function () {
             controle = false
             btnConcluir.setAttribute("type", "submit");
             document.getElementById("produtoForm").addEventListener("submit", handleSubmit);
+        }else{
+            
+            const popup = new Popup();
+            popup.showPopup(
+                'Preencha todos os campos obrigatórios antes de continuar.',
+                'Campos obrigatórios',
+                'erro'
+            );
+            return;
+
         } 
     });
 
@@ -381,7 +391,8 @@ document.addEventListener("DOMContentLoaded", function () {
         
         
         let response;
-    
+        const loadingPopup = new Popup();
+        loadingPopup.showLoadingPopup('Carregando...');
         if (editarValor2) {
             // Atualização via PUT — mas precisa ver se seu back aceita multipart no PUT
             response = await fetch(`/api/produto/${editarValor2}/`, {
@@ -422,7 +433,24 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         }
     
-        window.location.reload()
+        loadingPopup.hidePopup();
+        const popup = new Popup();
+        if (response.status == 200 || response.status == 201) {
+            popup.showPopup(
+                'Produto cadastrado com sucesso!',
+                'Sucesso',
+                'sucesso'
+            );
+        } else {
+            popup.showPopup(
+                'Erro ao cadastrar o produto.',
+                'Erro',
+                'erro'
+            );
+        }
+        popup.imgClosed.addEventListener("click", () => {
+            window.location.reload()            
+        })
     }
 
         
@@ -467,7 +495,16 @@ document.addEventListener("DOMContentLoaded", function () {
             ShowSucesso(dataFimInput);
         }
 
-        if (!Valid) return;
+        if (!Valid) {
+            
+            const popup = new Popup();
+            popup.showPopup(
+                'Preencha todos os campos obrigatórios antes de continuar.',
+                'Campos obrigatórios',
+                'erro'
+            );
+            return;
+        }
 
         const evento = {
             nome: nome,
@@ -487,9 +524,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
             response = await apiRequest(`/api/campanha/${valorCampanhaId}/`, 'PUT', evento, { 'X-CSRFToken': csrf });
             window.location.reload();
-
-
-
 
         } else {
             const response = await apiRequest('/api/campanha/', 'POST', evento, { 'X-CSRFToken': csrf });
