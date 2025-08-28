@@ -9,6 +9,7 @@ router.register('produto', ProdutoViewSet)
 router.register('desafio', DesafioViewSet)
 router.register('compra', CompraViewSet)
 router.register('itensCompra', ItensCompraViewSet)
+router.register('desenvolvedores', DesenvolvedoresViewSet)
 
 urlpatterns = [
     path('api/', include(router.urls)),
@@ -48,4 +49,5 @@ urlpatterns = [
     path('api/exportar_usuarios_com_mais_moedas_excel/', exportar_usuarios_com_mais_moedas_excel, name='exportar_usuarios_com_mais_moedas_excel'),
     path('validar_importacao_usuarios/', ValidarImportacaoUsuarios.as_view(), name='validar_importacao_usuarios'),
     path('api/importar_usuarios/', InportadosUsuarios.as_view(), name='importar_usuarios'),
+    path('desenvolvedores/', desenvolvedores, name='desenvolvedores'),
 ]

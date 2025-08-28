@@ -47,3 +47,8 @@ class UsuarioComHistoricoSerializer(serializers.ModelSerializer):
     def get_ultimas_alteracoes(self, obj):
         queryset = obj.historico_saldo.all()[:5]
         return HistoricoSaldoSerializer(queryset, many=True).data
+
+class DesenvolvedoresSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Desenvolvedores
+        fields = '__all__'

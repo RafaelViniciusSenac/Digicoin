@@ -360,3 +360,7 @@ class InportadosUsuarios(APIView):
                 continue
 
         return Response({'message': f'{cadastrados} usuários cadastrados com sucesso!', 'status': status.HTTP_200_OK}, status=status.HTTP_200_OK)
+
+class DesenvolvedoresViewSet(viewsets.ModelViewSet):
+    queryset = Desenvolvedores.objects.all()
+    serializer_class = DesenvolvedoresSerializer
