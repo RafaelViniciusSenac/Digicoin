@@ -333,6 +333,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value;
     const formData = new FormData(form);
     const popupAlert = new Popup();
+    const loadingPopup = new Popup();
+    loadingPopup.showLoadingPopup('Carregando...');
     try {
       // preciso receber a lista de usarios validados json
       const result = await fetch('/validar_importacao_usuarios/', {
@@ -345,6 +347,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return response.json();
       });
       if (result.status === 200 && result.usuarios.length > 0) {
+        loadingPopup.hidePopup();
         listaUsuariosValidados = result.usuarios;
         popupAlert.showPopup("Arquivo validado com sucesso!<br>Confere os usuários abaixo:","Sucesso","sucesso");
         const lista = document.getElementById("listaUsuariosValidados");
@@ -362,10 +365,12 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById("localResultadoValidacao").style.display = "block";
 
       } else {
-          popupAlert.showPopup(`Erro: ${result.status} - ${result.erro}`,"Error","erro");
+        loadingPopup.hidePopup();
+        popupAlert.showPopup(`Erro: ${result.status} - ${result.erro}`,"Error","erro");
       }
     } catch (error) {
       console.error('Erro:', error);
+      loadingPopup.hidePopup();
     }
   }
 

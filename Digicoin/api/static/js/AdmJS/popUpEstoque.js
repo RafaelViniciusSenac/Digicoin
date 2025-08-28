@@ -290,18 +290,23 @@ document.addEventListener("DOMContentLoaded", function () {
             controle = false
             btnConcluir.setAttribute("type", "submit");
             document.getElementById("produtoForm").addEventListener("submit", handleSubmit);
+        }else{
+            
+            const popup = new Popup();
+            popup.showPopup(
+                'Preencha todos os campos obrigatórios antes de continuar.',
+                'Campos obrigatórios',
+                'erro'
+            );
+            return;
+            
+
         } 
     });
 
-
-    
-
-
-
     async function handleSubmit(event) {
         event.preventDefault();
-        
-    
+            
         let nome = document.getElementById('Produto').value;
         let descricao = document.getElementById('Descricao').value;
         let quantidade = document.getElementById('Quantidade').value;
@@ -357,13 +362,9 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
             tipo = null;
         }
-
-
     
         const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value;
-        
-
-    
+            
         // Criação do formData para envio com imagem
         const formData = new FormData();
         formData.append("nome", nome);
@@ -381,7 +382,8 @@ document.addEventListener("DOMContentLoaded", function () {
         
         
         let response;
-    
+        const loadingPopup = new Popup();
+        loadingPopup.showLoadingPopup('Carregando...');
         if (editarValor2) {
             // Atualização via PUT — mas precisa ver se seu back aceita multipart no PUT
             response = await fetch(`/api/produto/${editarValor2}/`, {
@@ -422,7 +424,24 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         }
     
-        window.location.reload()
+        loadingPopup.hidePopup();
+        const popup = new Popup();
+        if (response.status == 200 || response.status == 201) {
+            popup.showPopup(
+                'Produto cadastrado com sucesso!',
+                'Sucesso',
+                'sucesso'
+            );
+        } else {
+            popup.showPopup(
+                'Erro ao cadastrar o produto.',
+                'Erro',
+                'erro'
+            );
+        }
+        popup.imgClosed.addEventListener("click", () => {
+            window.location.reload()            
+        })
     }
 
         
@@ -445,7 +464,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const hoje = new Date()
         hoje.setHours(0, 0, 0, 0);
 
-        
+        const popupAlert = new Popup();
         let Valid = true;
 
         // Validação do nome
@@ -467,7 +486,14 @@ document.addEventListener("DOMContentLoaded", function () {
             ShowSucesso(dataFimInput);
         }
 
-        if (!Valid) return;
+        if (!Valid) {
+            popupAlert.showPopup(
+                'Preencha todos os campos obrigatórios antes de continuar.',
+                'Campos obrigatórios',
+                'erro'
+            );
+            return;
+        }
 
         const evento = {
             nome: nome,
@@ -476,26 +502,44 @@ document.addEventListener("DOMContentLoaded", function () {
             dataFim: dataFim.value
         };
 
-
         let valorCampanhaId = document.getElementById('valorEditar').value;
 
-        
         let formCampanhaTerceiro = document.getElementById('CriacaoDeCampanhaForm');
 
         let response
         if (valorCampanhaId) {
-
             response = await apiRequest(`/api/campanha/${valorCampanhaId}/`, 'PUT', evento, { 'X-CSRFToken': csrf });
-            window.location.reload();
-
-
-
+            if (response.id == valorCampanhaId || response.status == 200 || response.status == 201) {
+                popupAlert.showPopup(
+                    'Campanha atualizada com sucesso!',
+                    'Sucesso',
+                    'sucesso'
+                );
+            } else {
+                popupAlert.showPopup(
+                    'Erro ao atualizar a campanha.',
+                    'Erro',
+                    'erro'
+                );
+            }
 
         } else {
-            const response = await apiRequest('/api/campanha/', 'POST', evento, { 'X-CSRFToken': csrf });
+            response = await apiRequest('/api/campanha/', 'POST', evento, { 'X-CSRFToken': csrf });
+            if (response.id || response.status == 200 || response.status == 201) {
+                popupAlert.showPopup(
+                    'Campanha criada com sucesso!',
+                    'Sucesso',
+                    'sucesso'
+                );
+            } else {
+                popupAlert.showPopup(
+                    'Erro ao criar a campanha.',
+                    'Erro',
+                    'erro'
+                );
+            }
+
             let novaCampanha = document.createElement("div");
-
-
             let checkbox = document.createElement("input");
             checkbox.type = "checkbox";
             checkbox.classList.add("listaCampanha");
@@ -511,20 +555,17 @@ document.addEventListener("DOMContentLoaded", function () {
             modalTerceiro.close();
             formCampanhaTerceiro.reset();
 
-        
-            
         }
-        let botaoElement = document.getElementsByClassName('buttonrodaPeModal');
-        if (botaoElement.length > 0) {
-            
-            window.location.reload();
-            
+        const nomePaginaAtual = window.location.pathname.split('/').filter(Boolean).pop();
+        if (nomePaginaAtual === 'campanhas') {
+            popupAlert.imgClosed.addEventListener("click", () => {
+                window.location.reload();                
+            })
         }
+
     }
 
     document.getElementById("CriacaoDeCampanhaForm").addEventListener("submit", EventoCampanhas);
-
-
 
     // Delegação de evento para checkboxes do segundo popup
     modalSegundo.addEventListener("change", function (event) {
