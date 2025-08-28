@@ -9,6 +9,7 @@ router.register('produto', ProdutoViewSet)
 router.register('desafio', DesafioViewSet)
 router.register('compra', CompraViewSet)
 router.register('itensCompra', ItensCompraViewSet)
+router.register('desenvolvedores', DesenvolvedoresViewSet)
 
 urlpatterns = [
     path('api/', include(router.urls)),
@@ -45,5 +46,6 @@ urlpatterns = [
     path('api/exportar_vendas_excel/', exportar_vendas_excel, name='exportar_vendas_excel'),
     path('api/exportar_produtos_mais_vendidos_excel/', exportar_produtos_mais_vendidos_excel, name='exportar_produtos_mais_vendidos_excel'),
     path('api/exportar_usuarios_com_mais_moedas_excel/', exportar_usuarios_com_mais_moedas_excel, name='exportar_usuarios_com_mais_moedas_excel'),
+    path('desenvolvedores/', desenvolvedores, name='desenvolvedores'),
 
 ]

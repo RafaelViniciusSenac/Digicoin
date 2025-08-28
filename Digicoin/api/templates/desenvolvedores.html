@@ -1,0 +1,24 @@
+{% extends 'base.html'%}
+{% load static%}
+{%block content%}
+
+
+<h1>Professores</h1>
+{%for professor in professores%}
+
+<div>
+    <h1>{{professor.nome}}</h1>
+</div>
+
+{%endfor%}
+
+<h1>Desenvolvedores</h1>
+{%for dev in devs%}
+
+<div>
+    <h1>{{dev.nome}}</h1>
+</div>
+
+{%endfor%}
+
+{% endblock %}
