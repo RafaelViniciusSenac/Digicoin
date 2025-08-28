@@ -104,3 +104,13 @@ class ItensCompra(models.Model):
     qtdProduto = models.IntegerField(null=False, blank=False)
     idProduto = models.ForeignKey(Produto, on_delete=models.CASCADE, null=False, blank=False)
     idCompra = models.ForeignKey(Compra, on_delete=models.CASCADE, null=False, blank=False) 
+
+class Desenvolvedores(models.Model):
+    nome = models.CharField(max_length=100, null=False, blank=False)
+    img = models.ImageField(upload_to='desenvolvedores/', null=True, blank=True)
+    linkLinkedIn = models.CharField(max_length=100, null=True, blank=True)
+    linkGitHub = models.CharField(max_length=100, null=True, blank=True)
+    professor = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.nome
