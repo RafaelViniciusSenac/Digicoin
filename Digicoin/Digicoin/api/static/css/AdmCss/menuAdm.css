@@ -1,0 +1,77 @@
+*{
+    margin: 0;
+}
+
+.menuAdmin{
+    background-color: #2c006a;
+    width: 350px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    position: fixed;
+}
+
+.logoAdmin{
+    
+    width: 196px;
+    height: 115.25px;
+    padding: 19.19px 20.16px 12.48px 10.04px;
+
+}
+
+.botoesMenu{
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+
+}
+
+.botoesMenu button{
+    border: none;
+    background-color: rgba(252, 103, 29, 1);
+    box-shadow: 2px 2px 10px 0px rgba(252, 103, 29, 0.45);
+    width: 300px;
+    height: 56px;
+    border-radius: 25px;
+    font-weight: 800;
+    color: white;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    padding-left: 30px;
+    transition-duration: 0.4s;
+}
+
+.sair{
+    border: none;
+    width: 300px;
+    height: 65px;
+    border-radius: 25px;
+    background-color: rgba(211, 74, 244, 1);
+    font-weight: 800;
+    color: white;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    padding-left: 30px;
+    margin-bottom: 50px;
+    transition-duration: 0.4s;
+}
+
+.sair:hover{
+    cursor: pointer;
+    background-color: rgba(210, 74, 244, 0.884);
+}
+
+.iconeMenu{
+    margin-right: 30px;
+}
+
+.botoesMenu button:hover{
+    cursor: pointer;
+    background-color: rgba(252, 103, 29, 0.89);
+}

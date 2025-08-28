@@ -43,12 +43,7 @@ async function EditarCampanhas(idCampanha) {
 }   
 
 async function inativarCampanhas(elemento) {
-    const confirmado = await confirmarAcao('Tem certeza que deseja inativar esta campanha?', 'Inativar campanha');
 
-    if (!confirmado) {
-        console.log('Ação cancelada pelo usuário.');
-        return;
-    }
 
     const id = elemento
    

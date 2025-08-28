@@ -9,9 +9,11 @@
   <div class="containerPrincipal-carrinhoCompras">
     <div class="containerSecundaria-carrinhoCompras">
       <div class="titulo-carrinhoCompras">
+        <div class="icone-carrinhoCompras">
+          <img src="{% static 'img/carrinho.png' %}" alt="Carrinho">
+        </div>
         Carrinho de Compras
       </div>
-      <div class="titulo-carrinhoCompras__line"></div>
       {% csrf_token %}
       
       <div class="itemGridHeader-carrinhoCompras">
@@ -25,7 +27,7 @@
       </div>
       <div class="valorTotal-carrinhoCompras">
         <h4>Total de Digicoins: <span id="valorTotal">0</span></h4>
-        <a href="{% url 'listaProdutos' %}" class="checkoutButton-carrinhoCompras">Continuar Compra</a>
+        <a href="{% url 'listaProdutos' %}" class="checkoutButton-carrinhoCompras">Continuar Comprando</a>
         <button id="botaoFinalizarPedido" class="checkoutButton-carrinhoCompras">Finalizar Pedido</button>
       </div>
     </div>

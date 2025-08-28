@@ -1,7 +1,4 @@
 async function apiRequest(url, method = 'GET', body = null, headers = {}) {
-    const loadingPopup = new Popup();
-    loadingPopup.showLoadingPopup('Carregando...');
-    
     try {
         const config = {
             method,
@@ -10,23 +7,22 @@ async function apiRequest(url, method = 'GET', body = null, headers = {}) {
                 ...headers
             },
         };
+
         if (body) {
             config.body = JSON.stringify(body);
         }
+
         const response = await fetch(url, config);
         if (!response.ok) {
             throw new Error(`Erro: ${response.status} - ${response.statusText}`);
         }
-        loadingPopup.hidePopup();
-        return await response.json();
 
+        return await response.json();
     } catch (error) {
         console.error('Erro na requisição:', error);
-        loadingPopup.hidePopup();
         return null;
     }
 }
-
 
 function buscarEndereco(cepField, ruaField, bairroField, cidadeField, estadoField) {
     let cep = document.getElementById(cepField).value.replace(/\D/g, '');
