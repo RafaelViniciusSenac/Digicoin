@@ -100,8 +100,6 @@ class Popup {
             .popup-alerta-body {
                 text-align: center;
                 margin: 20px 0;
-                font-size: 18px;
-                color: var(--base);
             }
 
             .popup-alerta-footer {
@@ -123,19 +121,11 @@ class Popup {
                 color: var(--branco);
             }
 
-            .popup-alerta-btn-confirmar:hover {
-                opacity: 0.8;
-            }
-
             .popup-alerta-btn-cancelar {
                 background-color: var(--erro);
                 color: var(--branco);
             }
 
-            .popup-alerta-btn-cancelar:hover {
-                opacity: 0.8;
-            }   
-                
             .popup-erro { color: var(--erro); }
             .popup-sucesso { color: var(--sucesso); }
             .popup-confirmacao { color: var(--confirmacao); }
@@ -179,11 +169,11 @@ class Popup {
 
         this.popupTitulo.innerHTML = '';
         if (tipo !== 'padrao') {
-            const icon = document.createElement('img');
-            icon.className = 'popup-alerta-icon';
-            icon.src = this.getIconSrc(tipo);
-            icon.alt = tipo;
-            this.popupTitulo.appendChild(icon);
+        const icon = document.createElement('img');
+        icon.className = 'popup-alerta-icon';
+        icon.src = this.getIconSrc(tipo);
+        icon.alt = tipo;
+        this.popupTitulo.appendChild(icon);
         }
 
         const tituloSpan = document.createElement('span');
@@ -197,24 +187,24 @@ class Popup {
         this.popupBody.appendChild(texto);
 
         if (tipo === 'confirmacao') {
-            const btnConfirmar = document.createElement('button');
-            btnConfirmar.className = 'popup-alerta-btn popup-alerta-btn-confirmar';
-            btnConfirmar.innerText = 'Confirmar';
-            btnConfirmar.onclick = () => {
-                if (onConfirm) onConfirm();
-                this.hidePopup();
-            };
+        const btnConfirmar = document.createElement('button');
+        btnConfirmar.className = 'popup-alerta-btn popup-alerta-btn-confirmar';
+        btnConfirmar.innerText = 'Confirmar';
+        btnConfirmar.onclick = () => {
+            if (onConfirm) onConfirm();
+            this.hidePopup();
+        };
 
-            const btnCancelar = document.createElement('button');
-            btnCancelar.className = 'popup-alerta-btn popup-alerta-btn-cancelar';
-            btnCancelar.innerText = 'Cancelar';
-            btnCancelar.onclick = () => {
-                if (onCancel) onCancel();
-                this.hidePopup();
-            };
+        const btnCancelar = document.createElement('button');
+        btnCancelar.className = 'popup-alerta-btn popup-alerta-btn-cancelar';
+        btnCancelar.innerText = 'Cancelar';
+        btnCancelar.onclick = () => {
+            if (onCancel) onCancel();
+            this.hidePopup();
+        };
 
-            this.popupFooter.appendChild(btnConfirmar);
-            this.popupFooter.appendChild(btnCancelar);
+        this.popupFooter.appendChild(btnConfirmar);
+        this.popupFooter.appendChild(btnCancelar);
         }
 
         this.dialog.style.display = "flex";
@@ -319,18 +309,5 @@ class Popup {
     }
   }
 }
-
-window.confirmarAcao = function(mensagem, titulo = 'Confirmação') {
-    return new Promise((resolve, reject) => {
-        const popup = new Popup();
-        popup.showPopup(
-            mensagem,
-            titulo,
-            'confirmacao',
-            () => resolve(true),   // Confirmar
-            () => resolve(false)   // Cancelar
-        );
-    });
-};
 
 window.Popup = Popup;

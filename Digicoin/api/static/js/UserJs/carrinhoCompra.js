@@ -78,24 +78,30 @@ class Grid {
   }
 }
 
-function limparDuplicadosListaProdutos() {
-  const storedData = JSON.parse(localStorage.getItem('listaProdutos')) || {};
-  const grid = storedData.listaGrid || [];
-
-  const uniqueGrid = grid.filter((item, index, self) =>
-    item?.id && index === self.findIndex((t) => t.id === item.id)
-  );
-
-  storedData.listaGrid = uniqueGrid;
-  localStorage.setItem('listaProdutos', JSON.stringify(storedData));
-}
-
 document.addEventListener("DOMContentLoaded", () => {
   // limpa a lista de produtos
-  limparDuplicadosListaProdutos();
+  // localStorage.removeItem('listaProdutos');
   const storedData = JSON.parse(localStorage.getItem('listaProdutos')) || {};
-  const grid = storedData.listaGrid || []; // pega a lista de produtos
-  console.log(grid);
+  const grid = storedData.listaGrid || [];
+  //adiciona um produto exemplo a lista de produtos
+  // grid.push({
+  //   id: 1 + grid.length,
+  //   idProduto: 1 + grid.length,
+  //   nomeProduto: "Produto 1",
+  //   valorProduto: 10,
+  //   qtd: 1,
+  //   fisicoProduto: true
+  // });
+  //   grid.push({
+  //   id: 1 + grid.length,
+  //   idProduto: 1 + grid.length,
+  //   nomeProduto: "Esse é mue primeiro Produto 2",
+  //   valorProduto: 20,
+  //   qtd: 1,
+  //   fisicoProduto: true
+  // });
+  localStorage.setItem('listaProdutos', JSON.stringify({ listaGrid: grid }));
+
   const config = {
     idGrid: "itensGrid",
     idSortBotao: "btOrdenar",
