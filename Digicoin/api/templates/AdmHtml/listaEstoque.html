@@ -8,75 +8,72 @@
 {% include 'components/adm/popUpAdicionarProduto.html' %}
 {% include 'components/adm/menuAdm.html' %}
 
-<div class="principal-listaEstoque">
-    <main class="menucentro-listaEstoque">
-        <div class="estoque-container-listaEstoque">
-            <div class="barra-pesquisa-listaEstoque">
-                <form method="GET" action="." class="search-container-listaEstoque">
-                    <img src="{% static 'img/iconeLupa.png' %}" alt="Lupa">
-                    <input type="search" name="search" id="barra-pesquisa-listaEstoque" placeholder="Pesquisar produto" value="{{ request.GET.search }}">
-                </form>
+<main class="menucentro-listaEstoque">
+    <div class="principal-listaEstoque">
+        <div class="barra-pesquisa-listaEstoque">
+            <form method="GET" action="." class="search-container-listaEstoque">
+                <img src="{% static 'img/iconeLupa.png' %}" alt="Lupa">
+                <input type="search" name="search" id="barra-pesquisa-listaEstoque" placeholder="Pesquisar produto" value="{{ request.GET.search }}">
+            </form>
+        </div>
+        <div class="cabecalho-listaEstoque">
+            <h2><span class="traco-listaEstoque">Est</span>oque</h2>
+            <button type="button" class="btn-adicionar-listaEstoque buttonOpen">
+                <img src="{% static 'img/iconAdicionar.png' %}" alt=""> Adicionar Produto
+            </button>
+        </div>
+        <div class="tabela-listaEstoque">
+            <div class="tabela-head-listaEstoque">
+                <div class="tabela-rowheader-listaEstoque">
+                    <div class="tabela-cell-listaEstoque nome">
+                        Nome <img class="sort-icon" src="{% static 'img/imgRanking/sort.png' %}" alt="Sort">
+                    </div>
+                    <div class="tabela-cell-listaEstoque quantidade">Quantidade</div>
+                    <div class="tabela-cell-listaEstoque acoes"></div>
+                </div>
             </div>
-            <div class="cabecalho-listaEstoque">
-                <h2><span class="traco-listaEstoque">Est</span>oque</h2>
-                <button type="button" class="btn-adicionar-listaEstoque buttonOpen">
-                    <img src="{% static 'img/iconAdicionar.png' %}" alt=""> Adicionar Produto
-                </button>
-            </div>
-            <div class="tabela-listaEstoque">
-                <div class="tabela-head-listaEstoque">
-                    <div class="tabela-rowheader-listaEstoque">
-                        <div class="tabela-cell-listaEstoque nome">
-                            Nome <img class="sort-icon" src="{% static 'img/imgRanking/sort.png' %}" alt="Sort">
-                        </div>
-                        <div class="tabela-cell-listaEstoque quantidade">Quantidade</div>
-                        <div class="tabela-cell-listaEstoque acoes"></div>
+            <div class="tabela-body-listaEstoque" id="tabela-body">
+                {% csrf_token %}
+                {% for item in estoque %}
+                <div class="tabela-row-listaEstoque" data-nome="{{ item.nome|lower }}">
+                    <div class="tabela-cell-listaEstoque nome">
+                        <img class="icone" src="{% static 'img/produto.png' %}" alt="produto">
+                        {{ item.nome }}
+                    </div>
+                    <div class="tabela-cell-listaEstoque quantidade">{{ item.quantidade }}</div>
+                    <div class="tabela-cell-listaEstoque acoes">
+                        <button type="button" class="editar-listaEstoque" onclick="Editar({{ item.id }})">
+                            <img src="{% static 'img/edit.png' %}" alt="editar">
+                        </button>
+                        <button type="button" class="deletar-listaEstoque" onclick="inativar({{ item.id }})">
+                            <img src="{% static 'img/iconeDeletar.png' %}" alt="deletar">
+                        </button>
                     </div>
                 </div>
-                <div class="tabela-body-listaEstoque" id="tabela-body">
-                    {% csrf_token %}
-                    {% for item in estoque %}
-                    <div class="tabela-row-listaEstoque" data-nome="{{ item.nome|lower }}">
-                        <div class="tabela-cell-listaEstoque nome">
-                            <img class="icone" src="{% static 'img/produto.png' %}" alt="produto">
-                            {{ item.nome }}
-                        </div>
-                        <div class="tabela-cell-listaEstoque quantidade">{{ item.quantidade }}</div>
-                        <div class="tabela-cell-listaEstoque acoes">
-                            <button type="button" class="editar-listaEstoque" onclick="Editar({{ item.id }})">
-                                <img src="{% static 'img/iconeEditar.png' %}" alt="editar">
-                            </button>
-                            <button type="button" class="deletar-listaEstoque" onclick="inativar({{ item.id }})">
-                                <img src="{% static 'img/iconeDeletar.png' %}" alt="deletar">
-                            </button>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-            </div>
-            <div class="pagination">
-                {% if estoque.has_previous %}
-                <div class="paginas">
-                    <a class="anterior" href="?estoque_page={{ estoque.previous_page_number }}&search={{ request.GET.search }}">
-                        <i class="fa fa-arrow-left" aria-hidden="true"></i> Anterior
-                    </a>
-                </div>
-                {% endif %}
-                
-                <span>Página {{ estoque.number }} de {{ estoque.paginator.num_pages }}</span>
-                
-                {% if estoque.has_next %}
-                <div class="paginas">
-                    <a class="proxima" href="?estoque_page={{ estoque.next_page_number }}&search={{ request.GET.search }}">
-                        Próxima <i class="fa fa-arrow-right" aria-hidden="true"></i>
-                    </a>
-                </div>
-                {% endif %}
+                {% endfor %}
             </div>
         </div>
-    </main>
-</div>
-
+        <div class="pagination">
+            {% if estoque.has_previous %}
+            <div class="paginas">
+                <a class="anterior" href="?estoque_page={{ estoque.previous_page_number }}&search={{ request.GET.search }}">
+                    <i class="fa fa-arrow-left" aria-hidden="true"></i> Anterior
+                </a>
+            </div>
+            {% endif %}
+            
+            <span>Página {{ estoque.number }} de {{ estoque.paginator.num_pages }}</span>
+            
+            {% if estoque.has_next %}
+            <div class="paginas">
+                <a class="proxima" href="?estoque_page={{ estoque.next_page_number }}&search={{ request.GET.search }}">
+                    Próxima <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</main>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const searchInput = document.getElementById('barra-pesquisa-listaEstoque');
@@ -92,7 +89,7 @@
             clearTimeout(timeout);
             timeout = setTimeout(() => {
                 form.submit();
-            }, 500);
+            }, 1000);
         });
     });
 </script>
