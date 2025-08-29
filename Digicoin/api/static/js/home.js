@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (response.status == 200) {
             popupAlerta.showPopup(data.mensagem, 'Sucesso', 'sucesso')
             //atualiza quando clikar no botao fechar do popup
-            popUpPrimeiroAcesso.addEventListener('close', () => {
+            popUpPrimeiroAcesso.imgClosed.addEventListener("click", () => {
                 window.location.href = '/'
             })
         } else {
