@@ -6,9 +6,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if(primeiroAcesso == 'True'){
         popUpPrimeiroAcesso.showModal()
     }
-    const popupAlerta = new Popup()
     async function primeiroAcessoSenha(event){
         event.preventDefault();
+        const popupAlerta = new Popup()
         const senha = document.getElementById('senha').value;
         const confirmarSenha = document.getElementById('confirmarSenha').value;
         const userId = document.getElementById('userId').value;

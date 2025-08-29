@@ -1,5 +1,6 @@
 async function apiRequest(url, method = 'GET', body = null, headers = {}) {
     const popupLoading = new Popup();
+    popupLoading.showLoadingPopup('Carregando...');
     try {
         const config = {
             method,
@@ -16,6 +17,7 @@ async function apiRequest(url, method = 'GET', body = null, headers = {}) {
         if (!response.ok) {
             throw new Error(`Erro: ${response.status} - ${response.statusText}`);
         }
+        console.log(response);
         return await response.json();
 
     } catch (error) {
