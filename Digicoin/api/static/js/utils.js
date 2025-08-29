@@ -1,6 +1,7 @@
 async function apiRequest(url, method = 'GET', body = null, headers = {}) {
-    const popupLoading = new Popup();
-    popupLoading.showLoadingPopup('Carregando...');
+    const loadingPopup = new Popup();
+    loadingPopup.showLoadingPopup('Carregando...');
+    
     try {
         const config = {
             method,
@@ -13,15 +14,15 @@ async function apiRequest(url, method = 'GET', body = null, headers = {}) {
             config.body = JSON.stringify(body);
         }
         const response = await fetch(url, config);
-        popupLoading.hidePopup();
         if (!response.ok) {
             throw new Error(`Erro: ${response.status} - ${response.statusText}`);
         }
-        console.log(response);
+        loadingPopup.hidePopup();
         return await response.json();
 
     } catch (error) {
         console.error('Erro na requisição:', error);
+        loadingPopup.hidePopup();
         return null;
     }
 }
