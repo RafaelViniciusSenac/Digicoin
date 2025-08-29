@@ -12,20 +12,19 @@ async function Login(evento) {
             { nome: email, senha: senha },
             { 'X-CSRFToken': csrf }
         );
-
+        if (data === null) {
+            const popup = new Popup();
+            popup.showPopup("Email ou senha inválidos.","Error","erro"); // Exibe a mensagem de erro, (mensagem, titulo, tipo)
+            return;
+        }
         if (data.is_adm === true) {
             window.location.href = '/listaDeUsuarios';
         } else if (data.is_adm === false) {
             window.location.href = '/home/';
-        } else {
-            
-            const popup = new Popup();
-            popup.showPopup("Usuário sem permissão.","Error","erro"); // Exibe a mensagem de erro, (mensagem, titulo, tipo)
         }
 
     } catch (error) {
         console.error('Erro ao logar:', error);
-
         const popup = new Popup();
         popup.showPopup("Email ou senha inválidos.","Error,","erro"); // Exibe a mensagem de erro, (mensagem, titulo, tipo)
     }
