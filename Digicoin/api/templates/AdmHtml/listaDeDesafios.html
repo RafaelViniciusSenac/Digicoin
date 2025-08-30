@@ -6,162 +6,161 @@
 
 {% include 'components/adm/menuAdm.html' %}
 
-<main class="mainCentro-listaDeDesafios">
-    <div class="mainListaDesafios-listaDeDesafios">
-        <form method="GET" class="form-busca">
-            <div class="barraPesquisa-listaDeDesafios">
-                <img src="{% static 'img/iconeLupa.png' %}" alt="">
-                <input 
-                    type="search" 
-                    name="busca" 
-                    value="{{ busca }}"
-                    placeholder="Pesquisar desafio"
-                    autocomplete="on">
-            </div>
-        </form>   
+<div class="mainListaDesafios-listaDeDesafios">
+    <form method="GET" class="form-busca">
+        <div class="barraPesquisa-listaDeDesafios">
+            <img src="{% static 'img/iconeLupa.png' %}" alt="">
+            <input 
+                type="search" 
+                name="busca" 
+                value="{{ busca }}"
+                placeholder="Pesquisar desafio"
+                autocomplete="on">
+        </div>
+    </form>   
 
-        <div class="primeiraLinha-listaDeDesafios">
+    <div class="primeiraLinha-listaDeDesafios">
 
-            <h1><span>Des</span>afios</h1>
+        <h1><span>Des</span>afios</h1>
 
-            <div class="botoesDesafio-listaDeDesafios">
-                <button class="addDesafio-listaDeDesafios" id="addDesafio">
-                    <img src="{% static 'img/iconAdicionar.png' %}" alt="">
-                    Adicionar desafio
-                </button>
-            </div>
-
+        <div class="botoesDesafio-listaDeDesafios">
+            <button class="addDesafio-listaDeDesafios" id="addDesafio">
+                <img src="{% static 'img/iconAdicionar.png' %}" alt="">
+                Adicionar desafio
+            </button>
         </div>
 
-        <div class="head-listaDeDesafios">
-            <div class="headNome-listaDeDesafios">
-                <p>Nome</p>
-                <img src=" {% static 'img/lista.png' %}" alt="">
-            </div>
-            <p class='recompensa-listaDeDesafios'>Recompensa $</p>
+    </div>
+
+    <div class="head-listaDeDesafios">
+        <div class="headNome-listaDeDesafios">
+            <p>Nome</p>
+            <img src=" {% static 'img/lista.png' %}" alt="">
         </div>
+        <p class='recompensa-listaDeDesafios'>Recompensa $</p>
+    </div>
 
-        <div id="listaDesafios" class="listaDesafios-listaDeDesafios">
-            {% for desafio in desafios %}
+    <div id="listaDesafios" class="listaDesafios-listaDeDesafios">
+        {% for desafio in desafios %}
 
-            <div class='desafio-listaDeDesafios'>
-                <input type="hidden" class="idDesafio" value="{{desafio.id}}">
-                <div class="desafioLeft-listaDeDesafios">
-                    <img src="{% static 'img/alvoCampanha.png' %}" alt="">
-                    <p id="nomeDesafio" class='nomeDesafio-listaDeDesafios'>{{ desafio.nome }}</p>
+        <div class='desafio-listaDeDesafios'>
+            <input type="hidden" class="idDesafio" value="{{desafio.id}}">
+            <div class="desafioLeft-listaDeDesafios">
+                <img src="{% static 'img/alvoCampanha.png' %}" alt="">
+                <p id="nomeDesafio" class='nomeDesafio-listaDeDesafios'>{{ desafio.nome }}</p>
+            </div>
+
+            <div class="desafioRight-listaDeDesafios">
+                <p class="dg-listaDeDesafios">DG$ <span id="valor" class="valor-listaDeDesafios">{{desafio.valor}}</span></p>
+                <div class="botoesEditar-listaDeDesafios">
+                    <img class="botaoEditar-listaDeDesafios" data-id="{{desafio.id}}" src="{% static 'img/edit.png' %}" alt="">
+                    <img src="{% static 'img/lixeira.png' %}" alt="Desativar" class="btn-desativar-desafio-listaDeDesafios" data-id="{{ desafio.id }}">
                 </div>
+            </div>
 
-                <div class="desafioRight-listaDeDesafios">
-                    <p class="dg-listaDeDesafios">DG$ <span id="valor" class="valor-listaDeDesafios">{{desafio.valor}}</span></p>
-                    <div class="botoesEditar-listaDeDesafios">
-                        <img class="botaoEditar-listaDeDesafios" data-id="{{desafio.id}}" src="{% static 'img/edit.png' %}" alt="">
-                        <img src="{% static 'img/lixeira.png' %}" alt="Desativar" class="btn-desativar-desafio-listaDeDesafios" data-id="{{ desafio.id }}">
+            <dialog class="popUpEditarDesafio-listaDeDesafios" id="popUpEditarDesafio-{{desafio.id}}">
+                <div class='body-cadastrarDesafio'>
+                    <div class="header-cadastrarDesafio">
+                        <div class = "header-cadastrarDesafio1">
+                            <img src="{% static 'img/logoAdmin.png' %}" alt="LogoAdmin">
+                        </div>
+                        
+                        <div class="botao-cadastrarDesafio">
+
+                            <img class="iconeX-cadastrarDesafio" id='iconeX' src="{% static 'img/iconeX.png' %}" alt="">
+                        </div>
                     </div>
-                </div>
 
-                <dialog class="popUpEditarDesafio-listaDeDesafios" id="popUpEditarDesafio-{{desafio.id}}">
-                    <div class='body-cadastrarDesafio'>
-                        <div class="header-cadastrarDesafio">
-                            <div class = "header-cadastrarDesafio1">
-                                <img src="{% static 'img/logoAdmin.png' %}" alt="LogoAdmin">
+                    <form method="POST" id="formCadastrarDesafio" class="formDesafio-cadastrarDesafio">
+
+                        {% csrf_token %}
+                        <div class="form-cadastrarDesafio">
+                            <div class="cima-cadastrarDesafio">
+                                <input type="hidden" id="id" value="{{desafio.id}}">
+                                <div class='inputsNome-cadastrarDesafio'>
+                                    <div class="nomeDesafioDiv-cadastrarDesafio">
+                                        <label for="">Nome do desafio</label>
+                                        <input type="text" id="nomeDesafio" class="nomeDesafio-cadastrarDesafio" placeholder="nome do desafio" value="{{desafio.nome}}">
+                                    </div>
+                                    <div class="nomeDesafioDiv-cadastrarDesafio">
+                                        <label for="">Valor do desafio</label>
+                                        <input type="number" id="valorDesafio" class="valorDesafio-cadastrarDesafio" placeholder="valor do desafio" value="{{desafio.valor}}">
+                                    </div>
+                                </div>
+
+                                <div class="descricaoDesafioDiv-cadastrarDesafio">
+                                    <label for="">Descrição</label>
+                                    <textarea id="descricao" class="descricao-cadastrarDesafio" placeholder="Digite a descrição do desafio">{{desafio.descricao}}</textarea>
+                                </div>
                             </div>
-                            
-                            <div class="botao-cadastrarDesafio">
+                            <div class="baixo-cadastrarDesafio">
+                                <div class="statusDesafioDiv-cadastrarDesafio">
+                                    <div class="linha">
+                                    <label for="">Status do desafio</label>
+                                    <select name="campanha" id="campanha">
+                                        {% if desafio.idCampanha == None %}
+                                        <option value="">
+                                            Sem Campanha
+                                        </option>
+                                        {% else %}
+                                        <option value="{{desafio.idCampanha}}">
+                                            {{desafio.idCampanha}}
+                                        </option>
+                                        {% endif %}
 
-                                <img class="iconeX-cadastrarDesafio" id='iconeX' src="{% static 'img/iconeX.png' %}" alt="">
+                                        {% for campanha in campanhas %}
+                                        <option value="{{campanha.id}}">{{campanha.nome}}</option>
+                                        {% endfor %}
+                                    </select>
+                                    </div>
+                                    <div class="dataDesafioInterno-cadastrarDesafio">
+                                        <label class="dataDesafio-cadastrarDesafio" for="">Fim</label>
+                                        <input type="date" id="fimDesafio" value="{{ desafio.dataFim|date:'Y-m-d' }}">
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                        <button type="submit" class="button-cadastrarDesafio">Concluído</button>
 
-                        <form method="POST" id="formCadastrarDesafio" class="formDesafio-cadastrarDesafio">
-
-                            {% csrf_token %}
-                            <div class="form-cadastrarDesafio">
-                                <div class="cima-cadastrarDesafio">
-                                    <input type="hidden" id="id" value="{{desafio.id}}">
-                                    <div class='inputsNome-cadastrarDesafio'>
-                                        <div class="nomeDesafioDiv-cadastrarDesafio">
-                                            <label for="">Nome do desafio</label>
-                                            <input type="text" id="nomeDesafio" class="nomeDesafio-cadastrarDesafio" placeholder="nome do desafio" value="{{desafio.nome}}">
-                                        </div>
-                                        <div class="nomeDesafioDiv-cadastrarDesafio">
-                                            <label for="">Valor do desafio</label>
-                                            <input type="number" id="valorDesafio" class="valorDesafio-cadastrarDesafio" placeholder="valor do desafio" value="{{desafio.valor}}">
-                                        </div>
-                                    </div>
-
-                                    <div class="descricaoDesafioDiv-cadastrarDesafio">
-                                        <label for="">Descrição</label>
-                                        <textarea id="descricao" class="descricao-cadastrarDesafio" placeholder="Digite a descrição do desafio">{{desafio.descricao}}</textarea>
-                                    </div>
-                                </div>
-                                <div class="baixo-cadastrarDesafio">
-                                    <div class="statusDesafioDiv-cadastrarDesafio">
-                                        <div class="linha">
-                                        <label for="">Status do desafio</label>
-                                        <select name="campanha" id="campanha">
-                                            {% if desafio.idCampanha == None %}
-                                            <option value="">
-                                                Sem Campanha
-                                            </option>
-                                            {% else %}
-                                            <option value="{{desafio.idCampanha}}">
-                                                {{desafio.idCampanha}}
-                                            </option>
-                                            {% endif %}
-
-                                            {% for campanha in campanhas %}
-                                            <option value="{{campanha.id}}">{{campanha.nome}}</option>
-                                            {% endfor %}
-                                        </select>
-                                        </div>
-                                        <div class="dataDesafioInterno-cadastrarDesafio">
-                                            <label class="dataDesafio-cadastrarDesafio" for="">Fim</label>
-                                            <input type="date" id="fimDesafio" value="{{ desafio.dataFim|date:'Y-m-d' }}">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <button type="submit" class="button-cadastrarDesafio">Concluído</button>
-
-                        </form>
-                    </div>
-                </dialog>
-
-            </div>
-
-            {% endfor %}
+                    </form>
+                </div>
+            </dialog>
 
         </div>
 
-        <div class="pagination">
-            {% if desafios.has_previous %}
-            <div>
-                <a style="font-size: 20px; margin-right: 10px;" 
-                href="?desafio_page={{ desafios.previous_page_number }}{% if busca %}&busca={{ busca }}{% endif %}">
-                Anterior
-                </a>
-            </div>
-            {% endif %}
-        
-            <span>
-                Página {{ desafios.number }} de {{ desafios.paginator.num_pages }}
-                {% if busca %}
-                    ({{ total_resultados }} resultado{{ total_resultados|pluralize }} encontrado{{ total_resultados|pluralize }})
-                {% endif %}
-            </span>
-        
-            {% if desafios.has_next %}
-            <div>
-                <a style="font-size: 20px;" 
-                href="?desafio_page={{ desafios.next_page_number }}{% if busca %}&busca={{ busca }}{% endif %}">
-                Próxima
-                </a>
-            </div>
-            {% endif %}
+        {% endfor %}
 
-        </div>
     </div>
-</main>
+
+    <div class="pagination">
+        {% if desafios.has_previous %}
+        <div>
+            <a style="font-size: 20px; margin-right: 10px;" 
+               href="?desafio_page={{ desafios.previous_page_number }}{% if busca %}&busca={{ busca }}{% endif %}">
+               Anterior
+            </a>
+        </div>
+        {% endif %}
+    
+        <span>
+            Página {{ desafios.number }} de {{ desafios.paginator.num_pages }}
+            {% if busca %}
+                ({{ total_resultados }} resultado{{ total_resultados|pluralize }} encontrado{{ total_resultados|pluralize }})
+            {% endif %}
+        </span>
+    
+        {% if desafios.has_next %}
+        <div>
+            <a style="font-size: 20px;" 
+               href="?desafio_page={{ desafios.next_page_number }}{% if busca %}&busca={{ busca }}{% endif %}">
+               Próxima
+            </a>
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+
 
 <dialog class="popUpAdicionarDesafio-listaDeDesafios" id="popUpAdicionarDesafio">
 

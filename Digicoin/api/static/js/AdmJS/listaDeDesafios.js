@@ -129,16 +129,16 @@ async function EditarDesafio(event) {
   const valorDesafio = form.querySelector('#valorDesafio').value;
   const descricao = form.querySelector('#descricao').value;
   const campanha = form.querySelector('#campanha').value;
-  const dataInicio = form.querySelector('#inicioDesafio').value;
+  // const dataInicio = form.querySelector('#inicioDesafio').value;
   const dataFim = form.querySelector('#fimDesafio').value;
   const csrf = form.querySelector('[name=csrfmiddlewaretoken]').value;
 
   if (!nomeDesafio || !valorDesafio) {
-    popupAlert.show('Atenção', 'Nome do desafio e valor do desafio devem ser preenchidos.');
+    popupAlert.showPopup('Atenção', 'Nome do desafio e valor do desafio devem ser preenchidos.');
     return;
   }
   if (dataFim < dataInicio) {
-    popupAlert.show('Atenção', 'A data de fim deve ser maior que a data de inicio.');
+    popupAlert.showPopup('Atenção', 'A data de fim deve ser maior que a data de inicio.');
     return;
   }
 
@@ -154,9 +154,9 @@ async function EditarDesafio(event) {
     { 'X-CSRFToken': csrf },
   );
   if (response.status === 200 || response.status === 201) {
-      popupAlert.show('Sucesso', 'Desafio editado com sucesso!');
+      popupAlert.showPopup('Sucesso', 'Desafio editado com sucesso!');
   }else{
-      popupAlert.show('Erro', 'Erro ao editar desafio.');
+      popupAlert.showPopup('Erro', 'Erro ao editar desafio.');
   }
   popupAlert.imgClosed.addEventListener('click', () => {
     window.location.reload();

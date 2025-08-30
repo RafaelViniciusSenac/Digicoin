@@ -14,15 +14,14 @@
     --cinzaPlaceHolder:#9E9E9E;
     --cinzaDatas: #f1f1f1;
   }
-.mainCentroListaUsuarios {
-    display: flex;
-    justify-content: center;
-}
+
 
 .mainListaDesafios-listaDeDesafios {
-    width: 60%;
+    padding: 40px;
+    font-family: Arial, sans-serif;
+    width: 50%;
     margin-left: 450px;
-    margin-top: 30px;
+    padding-left: 200px;
 }
 
 .divPesquisa-listaDeDesafios {
