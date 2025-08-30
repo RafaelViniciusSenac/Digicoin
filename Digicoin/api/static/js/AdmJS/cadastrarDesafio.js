@@ -1,5 +1,6 @@
 async function CadastrarDesafio(event) {
   event.preventDefault();
+  const popupAlert = new Popup();
   const nome = document.getElementById('nomeDesafio-form').value;
   const valor = document.getElementById('valorDesafio-form').value;
   const descricao = document.getElementById('descricao-form').value;
@@ -8,7 +9,7 @@ async function CadastrarDesafio(event) {
   const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
   if (!nome || !valor || !dataFim) {
-    alert('Preencha todos os campos corretamente.');
+    popupAlert.show('Atenção', 'Preencha todos os campos corretamente.');
     return;
   } else {
     const response = await apiRequest(
@@ -23,14 +24,23 @@ async function CadastrarDesafio(event) {
       },
       { 'X-CSRFToken': csrf },
     );
+    if (response.status == 201 || response.status == 200) {
+      popupAlert.show('Atenção', 'Desafio cadastrado com sucesso.');
+    }else{
+      popupAlert.show('Atenção', 'Erro ao cadastrar desafio.');
+      return;
+    }
+
     console.log(response);
     document.getElementById('nomeDesafio-form').value = '';
     document.getElementById('valorDesafio-form').value = '';
     document.getElementById('descricao-form').value = '';
     document.getElementById('fimDesafio-form').value = '';
     document.getElementById('campanha-form').value = '';
-    alert('Desafio cadastrado com sucesso!');
-    window.location.reload();
+    
+    popupAlert.imgClosed.addEventListener('click', () => {
+      window.location.reload();
+    })
   }
 }
 const criarCampanhaForm = document.getElementById('formDesafio');

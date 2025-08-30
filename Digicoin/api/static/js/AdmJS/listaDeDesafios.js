@@ -121,6 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function EditarDesafio(event) {
   event.preventDefault();
+  const popupAlert = new Popup();
   const form = event.target;
 
   const id = form.querySelector('#id').value;
@@ -133,11 +134,11 @@ async function EditarDesafio(event) {
   const csrf = form.querySelector('[name=csrfmiddlewaretoken]').value;
 
   if (!nomeDesafio || !valorDesafio) {
-    alert('Nome do desafio e valor do desafio devem ser preenchidos.');
+    popupAlert.show('Atenção', 'Nome do desafio e valor do desafio devem ser preenchidos.');
     return;
   }
   if (dataFim < dataInicio) {
-    alert('A data de fim deve ser maior que a data de inicio.');
+    popupAlert.show('Atenção', 'A data de fim deve ser maior que a data de inicio.');
     return;
   }
 
@@ -152,9 +153,14 @@ async function EditarDesafio(event) {
     },
     { 'X-CSRFToken': csrf },
   );
-  console.log(response);
-
-  window.location.reload();
+  if (response.status === 200 || response.status === 201) {
+      popupAlert.show('Sucesso', 'Desafio editado com sucesso!');
+  }else{
+      popupAlert.show('Erro', 'Erro ao editar desafio.');
+  }
+  popupAlert.imgClosed.addEventListener('click', () => {
+    window.location.reload();
+  })
 }
 
 const forms = document.querySelectorAll('form[id^="formCadastrarDesafio"]');
@@ -198,11 +204,13 @@ document.querySelectorAll('.btn-desativar-desafio').forEach((botao) => {
 
 document.querySelectorAll('.btn-desativar-desafio-listaDeDesafios').forEach((botao) => {
   botao.addEventListener('click', async () => {
+    const popupAlert = new Popup();
     const id = botao.getAttribute('data-id');
     const nomeDesafio = document.querySelector('.nomeDesafio-listaDeDesafios').textContent.trim();
     const valorDesafio = document.querySelector('.valor-listaDeDesafios').textContent.trim();
 
-    const confirmacao = confirm('Tem certeza que deseja desativar este desafio?');
+    
+    const confirmacao = await confirmarAcao('Tem certeza que deseja desativar este desafio?', 'Desativar desafio');//confirm('Tem certeza que deseja desativar este desafio?');
 
     if (!confirmacao) return;
 
@@ -216,10 +224,12 @@ document.querySelectorAll('.btn-desativar-desafio-listaDeDesafios').forEach((bot
     );
 
     if (response) {
-      alert('Desafio desativado com sucesso!');
-      window.location.reload();
+      popupAlert.showPopup('Desafio desativado com sucesso!', 'Sucesso', 'sucesso');
+      popupAlert.imgClosed.addEventListener('click', () => {
+        window.location.reload();
+      })
     } else {
-      alert('Erro ao desativar: ');
+      popupAlert.showPopup('Erro ao desativar o desafio.', 'Erro', 'erro');
     }
   });
 });

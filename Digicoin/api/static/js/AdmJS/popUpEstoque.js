@@ -358,6 +358,7 @@ document.addEventListener("DOMContentLoaded", function () {
         
         
         let response;
+        let tipoAlteracao;
         const loadingPopup = new Popup();
         loadingPopup.showLoadingPopup('Carregando...');
         if (editarValor2) {
@@ -370,7 +371,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 },
                 body: formData
             });
-            
+            tipoAlteracao = "atualizado";
             editarValor2 = null
 
         } else if (editarValor) {
@@ -384,10 +385,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 },
                 body: formData
             });
+            tipoAlteracao = "atualizado";
             editarValor = null
-        
-        
-        
         }else {
             // Cadastro via POST com FormData e imagem
             response = await fetch('/api/produto/', {
@@ -398,19 +397,20 @@ document.addEventListener("DOMContentLoaded", function () {
                 },
                 body: formData
             });
+            tipoAlteracao = "cadastrado"
         }
     
         loadingPopup.hidePopup();
         const popup = new Popup();
         if (response.status == 200 || response.status == 201) {
             popup.showPopup(
-                'Produto cadastrado com sucesso!',
+                'Produto ' + tipoAlteracao + ' com sucesso!',
                 'Sucesso',
                 'sucesso'
             );
         } else {
             popup.showPopup(
-                'Erro ao cadastrar o produto.',
+                'Erro ao cadastrar ou atualizar o produto.',
                 'Erro',
                 'erro'
             );
