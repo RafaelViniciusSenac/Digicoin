@@ -122,12 +122,13 @@ function preencherPopupConcluir(campanhasSelecionadas = []) {
 }
 
 async function inativar (elemento) {
+    const confirmado = await confirmarAcao('Tem certeza que deseja inativar este produto?', 'Inativar produto');
 
-    const confirmar = window.confirm('Tem certeza que deseja inativar este produto?');
-
-    if(!confirmar){
-        return
+    if (!confirmado) {
+        console.log('Ação cancelada pelo usuário.');
+        return;
     }
+
 
     const id = elemento
 

@@ -1,12 +1,10 @@
 // Selecionando os elementos do popup e formulário
 document.addEventListener("DOMContentLoaded", function () {
 
-
     const modalPrimeiro = document.querySelector("#popupEditarProduto");
     const modalSegundo = document.querySelector("#popupConcluir");
     const modalTerceiro = document.querySelector("#CriacaoDeCampanha");
 
-    
     const buttonClose = document.querySelector(".buttonClose");
     const buttonConcluir = document.querySelector(".buttonConcluir");
     const buttonClose2 = document.querySelector(".buttonClose2");
@@ -140,7 +138,6 @@ document.addEventListener("DOMContentLoaded", function () {
         return isValid;
     }
 
-
     // Função para validar o checkbox de Campanha
     function checkCampanhaRequired() {
         if (!campanhaCheckbox.checked) {
@@ -151,7 +148,6 @@ document.addEventListener("DOMContentLoaded", function () {
             return true;
         }
     }
-
 
     // Função para validar Físico e Virtual
     function checkFisicoVirtualRequired() {
@@ -170,15 +166,12 @@ document.addEventListener("DOMContentLoaded", function () {
             return false;
         } else {
             
-            erroFisico.classList.remove('error');
-
-            
+            erroFisico.classList.remove('error');  
             erroVirtual.classList.remove('error');
 
             return true;
         }
     }
-
 
     document.getElementById('Fisico').addEventListener('change', function () {
         if (this.checked) {
@@ -197,10 +190,8 @@ document.addEventListener("DOMContentLoaded", function () {
     function temImagemOuImagemExistente() {
         const uploadBox = document.querySelector(".UploadBox");
         const imgPopUp = document.getElementById('imagem');
-         const uploadIcon = document.querySelector(".upload-icon")
+        const uploadIcon = document.querySelector(".upload-icon")
 
-        
-    
         if (uploadBox.classList.contains("has-image") || (imgPopUp.files && imgPopUp.files.length > 0)) {
             uploadBox.classList.remove("erro-upload");
             uploadIcon.classList.remove("erro-icon"); 
@@ -213,7 +204,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }  
     }
     
-    
     function checkComparacao() {
         const checkboxes = document.getElementsByClassName('listaCampanha');
 
@@ -225,9 +215,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         return false;  // nenhum marcado
     }
-
-
-        
 
     // Eventos para abrir e fechar popups
     let controle = true
@@ -242,7 +229,6 @@ document.addEventListener("DOMContentLoaded", function () {
         btnConcluir.setAttribute("type", "submit");
     }
 
-
     buttonClose.addEventListener("click", () => {
         modalPrimeiro.close();
         resetarFormularioProduto();
@@ -256,8 +242,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-
-
     // Quando clicar no botão concluir
     buttonConcluir.addEventListener("click", () => {
     
@@ -269,7 +253,6 @@ document.addEventListener("DOMContentLoaded", function () {
         const camposComCampanha = camposObrigatoriosOk && tipoOk && imagemOk && campanhaOk;
         const camposSemCampanha = camposObrigatoriosOk && tipoOk && imagemOk;
 
-        
         if (camposComCampanha) {
             // Caso 1 → controle true → abre modal
             
@@ -290,18 +273,22 @@ document.addEventListener("DOMContentLoaded", function () {
             controle = false
             btnConcluir.setAttribute("type", "submit");
             document.getElementById("produtoForm").addEventListener("submit", handleSubmit);
+        }else{
+            
+            const popup = new Popup();
+            popup.showPopup(
+                'Preencha todos os campos obrigatórios antes de continuar.',
+                'Campos obrigatórios',
+                'erro'
+            );
+            return;
+
         } 
     });
-
-
-    
-
-
 
     async function handleSubmit(event) {
         event.preventDefault();
         
-    
         let nome = document.getElementById('Produto').value;
         let descricao = document.getElementById('Descricao').value;
         let quantidade = document.getElementById('Quantidade').value;
@@ -319,19 +306,15 @@ document.addEventListener("DOMContentLoaded", function () {
         let editarValor = null
         editarValor = document.getElementById("valorEditar").value;
            
-        
         let editarValor2 = null
         editarValor2 = document.getElementById("valorEditar2").value;
         
-    
-
         if (editarValor != null){
             idCampanha = editarValor
         }else if (editarValor2 != null){
             idCampanha = editarValor2
         }
 
-    
         if (controle){
             let checkboxes = document.getElementsByClassName('listaCampanha');
         
@@ -344,8 +327,6 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
 
-
-    
         let fisico = document.getElementById("Fisico");
         let virtual = document.getElementById("Virtual");
         let tipo = "";
@@ -358,11 +339,7 @@ document.addEventListener("DOMContentLoaded", function () {
             tipo = null;
         }
 
-
-    
         const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value;
-        
-
     
         // Criação do formData para envio com imagem
         const formData = new FormData();
@@ -381,7 +358,9 @@ document.addEventListener("DOMContentLoaded", function () {
         
         
         let response;
-    
+        let tipoAlteracao;
+        const loadingPopup = new Popup();
+        loadingPopup.showLoadingPopup('Carregando...');
         if (editarValor2) {
             // Atualização via PUT — mas precisa ver se seu back aceita multipart no PUT
             response = await fetch(`/api/produto/${editarValor2}/`, {
@@ -392,7 +371,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 },
                 body: formData
             });
-            
+            tipoAlteracao = "atualizado";
             editarValor2 = null
 
         } else if (editarValor) {
@@ -406,10 +385,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 },
                 body: formData
             });
+            tipoAlteracao = "atualizado";
             editarValor = null
-        
-        
-        
         }else {
             // Cadastro via POST com FormData e imagem
             response = await fetch('/api/produto/', {
@@ -420,17 +397,31 @@ document.addEventListener("DOMContentLoaded", function () {
                 },
                 body: formData
             });
+            tipoAlteracao = "cadastrado"
         }
     
-        window.location.reload()
+        loadingPopup.hidePopup();
+        const popup = new Popup();
+        if (response.status == 200 || response.status == 201) {
+            popup.showPopup(
+                'Produto ' + tipoAlteracao + ' com sucesso!',
+                'Sucesso',
+                'sucesso'
+            );
+        } else {
+            popup.showPopup(
+                'Erro ao cadastrar ou atualizar o produto.',
+                'Erro',
+                'erro'
+            );
+        }
+        popup.imgClosed.addEventListener("click", () => {
+            window.location.reload()            
+        })
     }
-
-        
-   
-    
-
     async function EventoCampanhas(event) {
         event.preventDefault();
+        const popupAlert = new Popup();
         let nomeInput = document.getElementById('nomeCampanha')
         let nome = nomeInput.value;
         let inicio = new Date(); // pega o momento atual
@@ -467,7 +458,14 @@ document.addEventListener("DOMContentLoaded", function () {
             ShowSucesso(dataFimInput);
         }
 
-        if (!Valid) return;
+        if (!Valid) {
+            popupAlert.showPopup(
+                'Preencha todos os campos obrigatórios antes de continuar.',
+                'Campos obrigatórios',
+                'erro'
+            );
+            return;
+        }
 
         const evento = {
             nome: nome,
@@ -484,18 +482,39 @@ document.addEventListener("DOMContentLoaded", function () {
 
         let response
         if (valorCampanhaId) {
-
             response = await apiRequest(`/api/campanha/${valorCampanhaId}/`, 'PUT', evento, { 'X-CSRFToken': csrf });
-            window.location.reload();
-
-
-
-
+            if (response.status == 200 || response.status == 201) {
+                popupAlert.showPopup(
+                    'Campanha alterada com sucesso!',
+                    'Sucesso',
+                    'sucesso'
+                );
+            } else {
+                popupAlert.showPopup(
+                    'Erro ao alterar a campanha.',
+                    'Erro',
+                    'erro'
+                );
+            }
+            popupAlert.imgClosed.addEventListener("click", () => {
+                window.location.reload();
+            })
         } else {
             const response = await apiRequest('/api/campanha/', 'POST', evento, { 'X-CSRFToken': csrf });
+            if (response.status == 200 || response.status == 201) {
+                popupAlert.showPopup(
+                    'Campanha criada com sucesso!',
+                    'Sucesso',
+                    'sucesso'
+                );
+            } else {
+                popupAlert.showPopup(
+                    'Erro ao criar a campanha.',
+                    'Erro',
+                    'erro'
+                );
+            }
             let novaCampanha = document.createElement("div");
-
-
             let checkbox = document.createElement("input");
             checkbox.type = "checkbox";
             checkbox.classList.add("listaCampanha");
@@ -510,15 +529,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
             modalTerceiro.close();
             formCampanhaTerceiro.reset();
-
-        
-            
         }
-        let botaoElement = document.getElementsByClassName('buttonrodaPeModal');
-        if (botaoElement.length > 0) {
-            
-            window.location.reload();
-            
+        if (window.location.pathname.includes("listaEstoque")) {
+            popupAlert.imgClosed.addEventListener("click", () => {
+                window.location.reload();
+            })
         }
     }
 
@@ -574,4 +589,3 @@ function bloqueiaCaracteresIndesejados(event) {
         return false;
     }
 }
-

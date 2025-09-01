@@ -1,0 +1,3 @@
+nome;email;senha;ra;saldo;pontuacao;is_adm;is_active
+usuario1;usuario1@exemplo.com;senha1;RA001;10;5;False;True
+

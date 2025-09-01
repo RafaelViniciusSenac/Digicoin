@@ -18,12 +18,17 @@ buttonClose3.addEventListener("click", () => {
 
 
 async function EditarCampanhas(idCampanha) {
+    const popupAlert = new Popup();
     const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
     // Requisição para buscar os dados da campanha
     const dados = await apiRequest(`/api/campanha/${idCampanha}/`, 'GET', null, {
         'X-CSRFToken': csrf
     });
+    if (!dados) {
+        popupAlert.showPopup('Erro ao buscar dados da campanha.', 'Erro', 'erro');
+        return;
+    }
     
    
 
@@ -43,21 +48,16 @@ async function EditarCampanhas(idCampanha) {
 }   
 
 async function inativarCampanhas(elemento) {
-
-
+    const popupAlert = new Popup();
     const id = elemento
-   
-
     const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value
-
     const campanha = await apiRequest(`/api/campanha/${id}/`, 'GET', null, { 'X-CSRFToken': csrf });
- 
-
+    if (!campanha) {
+        popupAlert.showPopup('Erro ao buscar dados da campanha.', 'Erro', 'erro');
+        return;
+    }
     const status = campanha.is_active;
-
-
     const novoStatus = !status
-
     const campanhaAtualizada = {
         nome: campanha.nome,
         dataInicio: campanha.dataInicio,
@@ -65,11 +65,26 @@ async function inativarCampanhas(elemento) {
         descricao: campanha.descricao,
         is_active: novoStatus
     };
+    const textStatusCampanhaAcao = status ? 'Inativar' : 'ativar';
+    if (status){
 
-    await apiRequest(`/api/campanha/${id}/`, 'PUT', campanhaAtualizada, { 'X-CSRFToken': csrf });
-    window.location.reload();
+    }
+    const confirmado = await confirmarAcao('Tem certeza que deseja '+ textStatusCampanhaAcao +' esta campanha?', 'Inativar campanha');
 
-
+    if (!confirmado) {
+        console.log('Ação cancelada pelo usuário.');
+        return;
+    }
+    const response = await apiRequest(`/api/campanha/${id}/`, 'PUT', campanhaAtualizada, { 'X-CSRFToken': csrf });
+    console.log(response);
+    if (response) {
+        popupAlert.showPopup('Campanha inativada com sucesso.', 'Sucesso', 'sucesso');
+    } else {
+        popupAlert.showPopup('Erro ao inativar campanha.', 'Erro', 'erro');
+    }
+    popupAlert.imgClosed.addEventListener('click', () => {
+        window.location.reload();
+    })
 }
 
 function resetarFormularioCampanha() {

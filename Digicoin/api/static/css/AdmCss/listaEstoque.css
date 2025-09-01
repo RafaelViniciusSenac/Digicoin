@@ -17,9 +17,9 @@
 }
 
 .principal-listaEstoque{
-    margin-left: 300px;
-    font-family: Arial, sans-serif;
-    font-size: 16px;
+    margin-left: 450px;
+    width: 60%;
+    margin-top:30px;
 }
 
 .imagemsort{
@@ -40,6 +40,7 @@
 .barra-pesquisa-listaEstoque{
     display: flex;
     justify-content: end;
+    margin-bottom: 10px;
 
 }
 .estoque-container-listaEstoque {
@@ -53,7 +54,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 10px 0 40px;
+    margin-bottom: 10px;
     font-size: 1.35em;
 }
 
@@ -79,8 +80,7 @@
 
 .imagemedicao, .imagemdelete{
     display: flex;
-    height: 25px;
-    width: 25px;
+    height: 35px;
 }
 
 .btn-adicionar-listaEstoque {
@@ -149,7 +149,6 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    max-width: 900px;
     margin: auto;
     border-radius: 10px;
     overflow: hidden;
@@ -200,13 +199,13 @@
 }
 
 .icone {
-    width: 20px;
+    width: 25px;
     height: auto;
     margin-right: 10px;
 }
 
 .sort-icon {
-    width: 12px;
+    width: 25px;
     margin-left: 5px;
     cursor: pointer;
 }
@@ -224,8 +223,8 @@ button {
 }
 
 .editar-listaEstoque img, .deletar-listaEstoque img {
-    width: 20px;
-    height: 20px;
+    width: 25px;
+    height: 25px;
 }
 
 .pagination {
@@ -262,16 +261,18 @@ button {
     gap: 10px;
 }
 
-@media (max-width: 1000px){
-    .menucentro-listaEstoque{
-        display: flex;
-        justify-content: center;
-        align-items: center;
+@media (max-width: 1200px) {
+    .principal-listaEstoque {
+        margin-left: 400px;
+        max-width: 100%;
     }
+}
 
-    .principal-listaEstoque{
-        margin-left: 0px;
-        
+@media (max-width: 1000px){
+    .principal-listaEstoque {
+        margin-left: 0;
+        padding: 20px;
+        width: 80%;
     }
     .estoque-container-listaEstoque{
         width: 100%;
@@ -285,4 +286,27 @@ button {
         
     }
 
+}
+
+@media (max-width: 768px) {
+
+    .principal-listaEstoque {
+        margin-left: 0;
+        padding: 20px;
+        width: 100%;
+    }
+    .estoque-container-listaEstoque{
+        width: 90%;
+        margin-left: 0;
+        padding-left: 10px;
+        
+    }
+
+    .cabecalho-listaEstoque{
+        display: flex;
+        flex-direction: row;
+        padding: 0px 10px 0px 10px;
+        margin-top: 10px;
+        
+    }
 }

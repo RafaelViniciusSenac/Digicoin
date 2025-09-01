@@ -75,6 +75,7 @@
         });
 
         document.getElementById("exportButton").addEventListener("click", function() {
+            const popupAlert = new Popup();
             var vendasChecked = document.getElementById("vendasCheckbox").checked;
             var produtosMaisVendidosChecked = document.getElementById("produtosMaisVendidosCheckbox").checked;
             var usuariosMaisMoedasChecked = document.getElementById("usuariosMaisMoedasCheckbox").checked;
@@ -86,7 +87,7 @@
             } else if (usuariosMaisMoedasChecked) {
                 window.location.href = "/api/exportar_usuarios_com_mais_moedas_excel/";
             } else {
-                alert("Por favor, selecione uma opção para exportar.");
+                popupAlert.showPopup("Por favor, selecione uma opção para exportar.", "Erro", "erro");
             }
         });
     });
