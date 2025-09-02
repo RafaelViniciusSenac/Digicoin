@@ -551,3 +551,10 @@ def desenvolvedores(request):
     devs = Desenvolvedores.objects.filter(professor=False)
     professores = Desenvolvedores.objects.filter(professor=True)
     return render(request, 'desenvolvedores.html', {'devs': devs, 'professores': professores})
+
+
+def AddUsuarioAdm(request):
+    if CustomUser.objects.exists():
+        return redirect('login')  # ou redirecionar para outra página
+
+    return render(request, 'AddUsuarioAdm.html')

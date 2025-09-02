@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const abrirResetarSenha = document.querySelectorAll('[id="abrirResetarSenha"]');
   const popupResetarSenha = document.getElementById('popupResetarSenha');
   const campoBusca = document.getElementById('campoBusca');
+  const filtroAdmin = document.getElementById('filtroAdmin')
   
   if (campoBusca) {
       let timeout = null;
@@ -31,55 +32,66 @@ document.addEventListener('DOMContentLoaded', () => {
           }, 1000); // espera 500ms após o último caractere digitado
       });
   }
+  if(botaoNovoArquivo){
+    botaoNovoArquivo.addEventListener('click', () => {
+      fecharImportarUsuarios.click();
+      abrirImportarUsuarios.click();
+    });
+  }
 
-  botaoNovoArquivo.addEventListener('click', () => {
-    fecharImportarUsuarios.click();
-    abrirImportarUsuarios.click();
-  });
+  if(abrirImportarUsuarios){
+    abrirImportarUsuarios.addEventListener('click', () => {
+      popupImportarUsuarios.showModal();
+    });
+  }
 
-  abrirImportarUsuarios.addEventListener('click', () => {
-    popupImportarUsuarios.showModal();
-  });
-  
-  fecharImportarUsuarios.addEventListener('click', () => {
-    const urlImg = formImportarUsuarios.getAttribute('data-urlimg');
-    formImportarUsuarios.reset();
-    formImportarUsuarios.style.display = 'block';
-    document.getElementById("localResultadoValidacao").style.display = "none";
-    const label = document.querySelector('.UploadBox.uploadUsuarios .default-content');
-    label.innerHTML = `
-        <img src="${urlImg}" alt="uploadIcon" class="upload-icon">
-        <hr>
-        <small>Arraste e solte o arquivo aqui</small>
-        <small>para realizar upload</small>
-        <hr>
-        <small>CSV - XLSX</small>
-    `;
-    document.querySelector('.UploadBox.uploadUsuarios').classList.remove('has-image');
-    popupImportarUsuarios.close();
-  });
+  if(fecharImportarUsuarios){
+    fecharImportarUsuarios.addEventListener('click', () => {
+      const urlImg = formImportarUsuarios.getAttribute('data-urlimg');
+      formImportarUsuarios.reset();
+      formImportarUsuarios.style.display = 'block';
+      document.getElementById("localResultadoValidacao").style.display = "none";
+      const label = document.querySelector('.UploadBox.uploadUsuarios .default-content');
+      label.innerHTML = `
+          <img src="${urlImg}" alt="uploadIcon" class="upload-icon">
+          <hr>
+          <small>Arraste e solte o arquivo aqui</small>
+          <small>para realizar upload</small>
+          <hr>
+          <small>CSV - XLSX</small>
+      `;
+      document.querySelector('.UploadBox.uploadUsuarios').classList.remove('has-image');
+      popupImportarUsuarios.close();
+    });
+  }
 
-  addUsuarios.addEventListener('click', () => {
-    let tipo_usuario = addUsuarios.getAttribute('data-tipo-usuario');
-    tipo_usuario === "true" ? tipo_usuario = true : tipo_usuario = false;
-    let tituloBotao = 'Cadastrar Usuário';
-    if(tipo_usuario){
-      document.getElementById('isAdmin').value = tipo_usuario;
-      tituloBotao = 'Cadastrar Usuário Admin';
-    }
-    botaoCadastrarUsuario.textContent = tituloBotao
-    popupCadastrarUsuario.showModal();
-  });
+  if(addUsuarios){
+    addUsuarios.addEventListener('click', () => {
+      let tipo_usuario = addUsuarios.getAttribute('data-tipo-usuario');
+      tipo_usuario === "true" ? tipo_usuario = true : tipo_usuario = false;
+      let tituloBotao = 'Cadastrar Usuário';
+      if(tipo_usuario){
+        document.getElementById('isAdmin').value = tipo_usuario;
+        tituloBotao = 'Cadastrar Usuário Admin';
+      }
+      botaoCadastrarUsuario.textContent = tituloBotao
+      popupCadastrarUsuario.showModal();
+    });
+  }
 
-  fecharCadastrar.addEventListener('click', () => {
-    formUsuario.reset();
-    popupCadastrarUsuario.close();
-  });
+  if(fecharCadastrar){
+    fecharCadastrar.addEventListener('click', () => {
+      formUsuario.reset();
+      popupCadastrarUsuario.close();
+    });
+  }
 
-  formUsuario.addEventListener('submit', (e) => {
-    e.preventDefault();
-    cadastrarEditarUsuario();
-  });
+  if(formUsuario){
+    formUsuario.addEventListener('submit', (e) => {
+      e.preventDefault();
+      cadastrarEditarUsuario();
+    });
+  }
 
   async function cadastrarEditarUsuario() {
     const id_usuario = parseInt(document.getElementById("id_usuario").value) || 0;
@@ -145,9 +157,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  fecharAdicionarMoedas.addEventListener('click', () => {
-    popupAdicionarMoedas.close();
-  });
+  if(fecharAdicionarMoedas){
+    fecharAdicionarMoedas.addEventListener('click', () => {
+      popupAdicionarMoedas.close();
+    });
+  }
 
   if(document.getElementById('selecionarTodos')){
     const selecionarTodos = document.getElementById('selecionarTodos');
@@ -217,10 +231,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  FecharResetarSenha.addEventListener('click', () => {
-    popupResetarSenha.close();
-  });
-
+  if(FecharResetarSenha){
+    FecharResetarSenha.addEventListener('click', () => {
+      popupResetarSenha.close();
+    });
+  }
   document.querySelectorAll('.close-dialog').forEach((botao) => {
     botao.addEventListener('click', (e) => {
       const dialog = botao.closest('dialog');
@@ -320,9 +335,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     return usuarios;
   }
-  botaoValidarUsuarios.addEventListener('click', () => {
-    validarArquivoUsuarios();
-  });
+  if(botaoValidarUsuarios){
+    botaoValidarUsuarios.addEventListener('click', () => {
+      validarArquivoUsuarios();
+    });
+  }
 
   let listaUsuariosValidados = [];
   async function validarArquivoUsuarios() {
@@ -385,14 +402,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  botaoCadastrarValidados.addEventListener("click", () => {
-    if (listaUsuariosValidados.length > 0) {
-        cadastrarUsuariosValidados(listaUsuariosValidados);
-    } else {
-        const popupAlert = new Popup();
-        popupAlert.showPopup("Nenhum usuário validado para cadastrar.", "Error", "erro");
-    }
-  });
+  if(botaoCadastrarValidados){
+    botaoCadastrarValidados.addEventListener("click", () => {
+      if (listaUsuariosValidados.length > 0) {
+          cadastrarUsuariosValidados(listaUsuariosValidados);
+      } else {
+          const popupAlert = new Popup();
+          popupAlert.showPopup("Nenhum usuário validado para cadastrar.", "Error", "erro");
+      }
+    });
+  }
 
   async function cadastrarUsuariosValidados(usuarios) {
     const lista = document.getElementById("listaUsuariosValidados");
@@ -421,12 +440,13 @@ document.addEventListener('DOMContentLoaded', () => {
         popupAlert.showPopup("Erro inesperado ao cadastrar usuários.", "Erro", "erro");
     }
   }
-
-  botaoResetarSenha.addEventListener('click', (e) => {
-    e.preventDefault();
-    resetarSenhaDosUsuarios();
-  });
-
+  if(botaoResetarSenha){
+    botaoResetarSenha.addEventListener('click', (e) => {
+      e.preventDefault();
+      resetarSenhaDosUsuarios();
+    });
+  }
+  
   async function resetarSenhaDosUsuarios() {
     const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value;
     const id_usuario = parseInt(document.getElementById("id_usuario_reset").value);
@@ -457,6 +477,11 @@ document.addEventListener('DOMContentLoaded', () => {
       }
   });
 
+  if(filtroAdmin){
+    filtroAdmin.addEventListener('change', function () {
+        buscarUsuario(); // ou qualquer outra função que você queira
+    });
+  }
 
 });
 
@@ -478,11 +503,6 @@ function buscarUsuario() {
 
     window.location.href = baseUrl + "?" + params.toString();
 }
-
-document.getElementById('filtroAdmin').addEventListener('change', function () {
-    buscarUsuario(); // ou qualquer outra função que você queira
-});
-
 
 function validarCamposAntesDeEnviar(campos) {
     let valido = true;

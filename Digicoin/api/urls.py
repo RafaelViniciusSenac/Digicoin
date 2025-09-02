@@ -49,5 +49,5 @@ urlpatterns = [
     path('validar_importacao_usuarios/', ValidarImportacaoUsuarios.as_view(), name='validar_importacao_usuarios'),
     path('api/importar_usuarios/', InportadosUsuarios.as_view(), name='importar_usuarios'),    
     path('desenvolvedores/', desenvolvedores, name='desenvolvedores'),
-
+    path('AddUsuarioAdm/', AddUsuarioAdm, name='AddUsuarioAdm'),
 ]
