@@ -134,8 +134,10 @@ hr {
         margin-top: 100px;
         width: 235px;
         top: 0;
-        position: fixed; /* ou fixed / relative / sticky, dependendo do contexto */
+        position: absolute;
         z-index: 9999;
+        height: 650px;
+        border-radius: 0 0 5px 0;
         
     }
 
