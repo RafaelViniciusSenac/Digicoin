@@ -3,245 +3,250 @@
 {% block content %}
 
 <link rel="stylesheet" href="{% static 'css/AdmCss/listaDeUsuarios.css'%}">
+
+
 {% include "components/adm/menuAdm.html" %}
-<main class="mainCentroListaUsuarios">
-    <div class="mainListaUsuarios">
-        <input type="hidden" id="quantidadeTotalUsuarios" value="{{ quantidade_total }}">
-        <input type="hidden" id="quantidadeUsuariosAtivos" value="{{ quantidade_ativos }}">
-        <div class="divPesquisa-listaDeUsuarios">
-            <div class="barraPesquisa-listaDeUsuarios" data-url="{% url 'listaDeUsuarios' %}">
-                {% if gerencia_admin %}
-                    <label for="filtroAdmin">
-                        <input type="checkbox" id="filtroAdmin" {% if tipo_user_admin == 'true' %}checked{% endif %}>
-                        Admin
-                    </label>
-                {% endif %}
-                <img src="{% static 'img/iconeLupa.png' %}" alt="Ícone de busca">
-                <input id="campoBusca" name="nome" type="search" placeholder="Pesquisar nome">
-            </div>
+
+<div class="mainListaUsuarios">
+    
+    <div  class="divPesquisa-listaDeUsuarios">
+        <div class="barraPesquisa-listaDeUsuarios">
+            <img src="{% static 'img/iconeLupa.png' %}" alt="Ícone de busca">
+            <input id="barraBusca-listaProdutos" type="search" placeholder="Pesquisar usuário">
         </div>
+    </div>
+    
+
         <div class="primeiraLinha-listaDeUsuarios">
+
             <h1><span>Usu</span>ários</h1>
+
             <div class="botoesUsuario-listaDeUsuarios">
-                {% if tipo_user_admin != 'true' %}
+            
                     <button class="addMoedas-listaDeUsuarios" id="addMoedas">
                         <img src="{% static 'img/iconAdicionar.png' %}" alt="">
-                        Gerir digicoins
+                        Gerenciar digicoins
                     </button>
-                {% endif %}
-                <button class="addUsuarios-listaDeUsuarios" data-tipo-usuario="{{ tipo_user_admin }}" id="addUsuarios">
-                    <img src="{% static 'img/iconAdicionar.png' %}" alt="">
-                    Adicionar usuário {% if tipo_user_admin == 'true' %}Admin{% endif %}
-                </button>
-                {% if gerencia_admin %}
-                    <button class="addUsuariosFile-listaDeUsuarios" id="abrirImportarUsuarios">
-                        <img src="{% static 'img/usuario-add-file.png' %}" alt="">
-                        Importar usuários
+          
+
+                    <button class="addUsuarios-listaDeUsuarios" id="addUsuarios">
+                        <img src="{% static 'img/iconAdicionar.png' %}" alt="">
+                        Adicionar usuário
                     </button>
-                {% endif %}
+            
             </div>
+
         </div>
+
         <div class="head-listaDeUsuarios">
             <p>Nome</p>
             <img src="{% static 'img/lista.png' %}" alt="">
         </div>
-        {% if tipo_user_admin != 'true' %}
-            <div class="selecionar-todos-listaDeUsuarios">
-                <label>
-                    <input type="checkbox" id="selecionarTodos"> 
-                    Selecionar todos os <span id="quantidadeSelecionados">{{quantidade_ativos}}</span> usuários ativos
-                </label>
-            </div>
-        {% endif %}
-        <div id="listaUsuarios"  class="listaUsuarios">
-            {% for usuario in usuarios %}
-                {% if usuario.is_active %}
-                    <div class="linhaUsuario-listaDeUsuarios">
-                        {% if tipo_user_admin != 'true' %}
-                            <input type="checkbox" class="checkbox">
-                        {% endif %}
-                        <div class="infoUser-listaDeUsuarios">
-                            <input type="hidden" class="idUser-listaDeUsuarios" value="{{usuario.id}}">
-                            <img src="{% static 'img/userBlack.png' %}" alt="">
-                            <span class="nome-listaDeUsuarios">{{usuario.first_name}}</span>
-                            <span class="saldo-listaDeUsuarios">{% if not usuario.is_adm %} D$ {{usuario.saldo}} {% endif %}</span>
-                            <span class="status-listaDeUsuarios"></span>
 
-                        </div>
-                        <img class="iconeResetSenha-listaDeUsuarios" id="abrirResetarSenha" data-id="{{usuario.id}}" data-nome="{{usuario.first_name}}" data-email="{{usuario.username}}" src="{% static 'img/reset-senha.png' %}" alt="">
-                        <img class="iconeEditar-listaDeUsuarios" id="editar" data-id="{{usuario.id}}" data-nome="{{usuario.first_name}}" data-email="{{usuario.username}}" data-ra="{{usuario.ra}}" data-status="{{usuario.is_active|lower}}" data-tipo-usuario="{{usuario.is_adm|lower}}" src="{% static 'img/edit.png' %}" alt="">
+        <div class="selecionar-todos-listaDeUsuarios">
+            <label>
+                <input type="checkbox" id="selecionarTodos"> 
+                Selecionar todos os usuários ativos
+            </label>
+        </div>
+
+        <div id="listaUsuarios"  class="listaUsuarios">
+
+            {% for usuario in usuarios %}
+
+            
+            {% if usuario.is_active %}
+            
+            <div class="linhaUsuario-listaDeUsuarios">
+                <input type="checkbox" class="checkbox">
+                <div class="infoUser-listaDeUsuarios">
+                    <img src="{% static 'img/userBlack.png' %}" alt="">
+                    <input type="hidden" class='idUser-listaDeUsuarios' value="{{usuario.id}}">
+                    <span class="nome-listaDeUsuarios">{{usuario.first_name}}</span>
+                    <span>D$ {{usuario.saldo}} </span>
+                    <span class="status-listaDeUsuarios"></span>
+                    
+                </div>
+                <img class="iconeEditar-listaDeUsuarios" id="editar"
+                data-id="{{usuario.id}}"  src="{% static 'img/edit.png' %}" alt="">
+            </div>
+    
+
+            {% else %}
+
+                <div class="linhaUsuario-listaDeUsuarios desativado-listaDeUsuarios">
+                    <input type="checkbox" class="checkbox" disabled>
+                    <div class="infoUser-listaDeUsuarios">
+                        <input type="text" class="idUser-listaDeUsuarios" value="{{usuario.id}}">
+                        <img src="{% static 'img/userBlack.png' %}" alt="">
+                        <span class="nome-listaDeUsuarios">{{usuario.first_name}}</span>
+                        <span class="status-listaDeUsuarios">Desativado</span>
                     </div>
-                {% else %}
-                    <div class="linhaUsuario-listaDeUsuarios desativado-listaDeUsuarios">
-                        <input type="checkbox" class="checkbox" disabled>
-                        <div class="infoUser-listaDeUsuarios">
-                            <input type="hidden" class="idUser-listaDeUsuarios" value="{{usuario.id}}">
-                            <img src="{% static 'img/userBlack.png' %}" alt="">
-                            <span class="nome-listaDeUsuarios">{{usuario.first_name}}</span>
-                            <span class="status-listaDeUsuarios">Desativado</span>
+                    <img class="iconeEditar-listaDeUsuarios" id="editar" data-id="{{usuario.id}}"  src="{% static 'img/edit.png' %}" alt="">
+                </div>
+
+
+            {% endif %}
+
+            <dialog id="editarUsuario-{{usuario.id}}" class="editarUsuario">
+                <div class="dialog-header">
+                    <img src="{% static 'img/logoAdmin.png' %}" alt="LogoAdmin" class="dialog-logo">
+                    <button class="close-dialog">
+                        <img src="{% static 'img/iconeX.png' %}" alt="Fechar" class="close-icon">
+                    </button>
+                </div>
+            
+                <form class="formEditar">
+                    {% csrf_token %}
+                    <input type="hidden" class="idUser" value="{{usuario.id}}">
+                    <input type="hidden" name="is_active" value="{{usuario.is_active|lower}}">
+                    <div class="form-columns">
+                        <div class="form-left">
+                            <div class="form-group">
+                                <label for="nome-{{usuario.id}}" class="form-label">Nome do Usuário</label>
+                                <input type="text" id="nome-{{usuario.id}}" class="form-input nome" value="{{usuario.first_name}}">
+                            </div>
+            
+                            <div class="form-group">
+                                <label for="email-{{usuario.id}}" class="form-label">Email</label>
+                                <input type="email" id="email-{{usuario.id}}" class="form-input email" value="{{usuario.username}}">
+                            </div>
+            
+                            <div class="form-group">
+                                <label for="ra-{{usuario.id}}" class="form-label">RA do Usuário</label>
+                                <input type="number" id="ra-{{usuario.id}}" class="form-input ra" value="{{usuario.ra}}">
+                            </div>
                         </div>
-                        <img class="iconeEditar-listaDeUsuarios" id="editar" data-id="{{usuario.id}}" data-nome="{{usuario.first_name}}" data-email="{{usuario.username}}" data-ra="{{usuario.ra}}" data-status="{{usuario.is_active|lower}}" data-tipo-usuario="{{usuario.is_adm|lower}}"  src="{% static 'img/edit.png' %}" alt="">
+            
+                        <div class="form-right">
+                            <div class="form-group saldo-group">
+                                <label class="form-label">Gerenciar Saldo</label>
+                                <div class="saldo-control">
+
+                                    <button type="button" class="saldo-button add">
+                                        <img src="{% static 'img/iconMais.png' %}" alt="Aumentar saldo">
+                                    </button>
+                                    
+                                    <input type="number" class="form-input saldo" value="{{usuario.saldo}}">
+                                    
+                                    <button type="button" class="saldo-button sub">
+                                        <img src="{% static 'img/iconMenos.png' %}" alt="Reduzir saldo">
+                                    </button>
+
+                                </div>
+                            </div>
+            
+                            <div class="action-buttons">
+                                <button type="button" class="action-button desativar"> 
+                                    Desativar usuário
+                                </button>
+                                <button type="button" class="action-button ativar" >
+                                    Ativar usuário
+                                </button>
+                                <button type="submit" class="action-button submit">
+                                    Concluído
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                {% endif %}
+                </form>
+            </dialog>
+            
+           
             {% endfor%} 
         </div>
         <div class="pagination-listaDeUsuarios">
             {% if usuarios.has_previous %}
                 <div>
-                    <a href="?{{ query_string }}&user_page={{ usuarios.previous_page_number }}">Anterior</a>
+                    <a style="font-size: 20px; margin-right: 10px;" href="?user_page={{ usuarios.previous_page_number }}">Anterior</a>
                 </div>
             {% endif %}
-            <span>Página {{ usuarios.number }} de {{ usuarios.paginator.num_pages }}</span>
+        
             {% if usuarios.has_next %}
                 <div>
-                    <a href="?{{ query_string }}&user_page={{ usuarios.next_page_number }}">Próxima</a>
+                    <a style="font-size: 20px; " href="?user_page={{ usuarios.next_page_number }}">Próxima</a>
                 </div>
             {% endif %}
+            
+            <span>Página {{ usuarios.number }} de {{ usuarios.paginator.num_pages }}</span>
         </div>
-    </div>
-</main>
-<dialog id="popupCadastrarUsuario">
+        
+</div>
+
+<dialog id="popupCadastrarUsuario" class="popupCadastrarUsuario">
+    
     <div class="header-cadastrarUsuario">
-        <div class="headerLogo-cadastrarUsuario">
-            <img src="{% static 'img/logoAdmin.png' %}" alt="LogoAdmin">
-        </div>
-        <div class="headerBotao-cadastrarUsuario">
-            <button type="button" class="buttonClose-cadastrarUsuario">    
-                <img id="fecharCadastrar" class="iconeX-cadastrarUsuario" src="{% static 'img/iconeX.png' %}" alt="">
-            </button>
-        </div>
+        <img src="{% static 'img/logoAdmin.png' %}" alt="LogoAdmin">
+        <img id="fecharCadastrar" class="iconeX-cadastrarUsuario" src="{% static 'img/iconeX.png' %}" alt="">
+    
     </div>
+    
     <form method="POST" class="formUsuario-cadastrarUsuario" id="formUsuario">
+    
         {% csrf_token %}
         <div class="input-cadastrarUsuario">
-            <label for="nome">Nome do Usuário</label>
-            <input type="text" id="nome" name="nome" placeholder="Digite o nome do usuário">
+            <label for="">Nome do Usuário</label>
+            <input type="text" id="nome" class="nome" placeholder="Digite o nome do usuário" >
         </div>
-
+    
         <div class="input-cadastrarUsuario">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" placeholder="Digite seu email">
+            <label for="">Email</label>
+            <input type="email" id="email" class="email" placeholder="Digite seu email" >
         </div>
-
+    
         <div class="input-cadastrarUsuario">
-            <label for="ra">RA do Usuário</label>
-            <input type="text" id="ra" name="ra" placeholder="Número do RA">
+            <label for="">RA do Usuário</label>
+            <input type="number" id="ra" class="ra" placeholder="23317444">
+        </div>
+    
+        <div class="input-cadastrarUsuario">
+            <label for="">Senha  temporária</label>
+            <input type="text" id="senha" class="senha" placeholder="Rw9!K$2@qPb">
         </div>
 
-        <div class="input-cadastrarUsuario" id="inputSenha">
-            <label for="senha">Senha temporária</label>
-            <input type="password" id="senha" name="senha" placeholder="Digite a Senha">
-        </div>
+        <div class="input">
+            <label for="">Admin</label>
+            <input type="checkbox" id="isAdmin"  >
+        </div> 
+    
+        <button onclick="cadastrar(event)" type="submit" id="cadastrarUsuario" class="button-cadastrarUsuario">Concluído</button>
+    
+    </form>
 
-        <div class="input-cadastrarUsuario" id="inputDesativar">
-            <label for="filtroDesativarUsuario">
-                <input class="filtroDesativarUsuario" type="checkbox" id="filtroAtivarUsuario" checked>
-                Ativar Usuário
-            </label>
-        </div>
-        <input type="hidden" id="isAdmin">
-        <input type="hidden" id="id_usuario">
-        <button class="botaoSubmit-cadastrarUsuario" type="submit" id="cadastrarUsuario">
-            Cadastrar Usuário
-        </button>
-    </form>
-</dialog>
-<dialog id="popupAdicionarMoedas">
-    <div class="header-adicionarMoedas">
-        <div class="headerLogo-adicionarMoedas">
-            <img src="{% static 'img/logoAdmin.png' %}" alt="LogoAdmin">
-        </div>
-        <div class="headerBotao-adicionarMoedas">
-            <button type="button" class="buttonClose-adicionarMoedas">    
-                <img id="fecharAdicionarMoedas" class="iconeX-adicionarMoedas" src="{% static 'img/iconeX.png' %}" alt="">
-            </button>
-        </div>
-    </div>
-    <form class="formUsuario-AdicionarMoedas" id='formAdicionarMoedas'>
-        {% csrf_token %}
-        <div class="titulo-adicionarMoedas">Gerenciar digicoins</div>
-        <div class="usuariosSelecionados-adicionarMoedas" id="usuariosSelecionados"></div>    
-        <div class="input-adicionarMoedas">
-            <label>Quantidade a ser adicionada ou removida</label>
-            <input class="quantidadeInput-adicionarMoedas" id='saldo' type="number" placeholder="Digite a quantidade de digicoins">
-        </div>
-        <div class="botoes-adicionarMoedas">
-            <button class="adicionar-adicionarMoedas" id='adicionar'>Adicionar</button>
-            <button class="remover-adicionarMoedas" id='remover'>Remover</button>
-        </div>
-    </form>
 </dialog>
 
-<dialog id="popupResetarSenha">
-    <div class="header-resetarSenha">
-        <div class="headerLogo-resetarSenha">
+<dialog id="popupAdicionarMoedas" class="popupAdicionarMoedas">
+    
+    
+        <div class="header-adicionarMoedas">
             <img src="{% static 'img/logoAdmin.png' %}" alt="LogoAdmin">
+            <img class="iconeX-adicionarMoedas" id='fecharAdicionarMoedas' src="{% static 'img/iconeX.png' %}" alt="">
         </div>
-        <div class="headerBotao-resetarSenha">
-            <button type="button" class="buttonClose-resetarSenha">    
-                <img id="fecharResetarSenha" class="iconeX-resetarSenha" src="{% static 'img/iconeX.png' %}" alt="">
-            </button>
-        </div>
-    </div>
-    <form class="formUsuario-resetarSenha" id='formResetarSenha'>
-        {% csrf_token %}
-        <div class="titulo-resetarSenha">Resetar Senha</div>
-        <input type="hidden" id="id_usuario_reset"> 
-        <div class="input-resetarSenha">
-            <label>Nome do Usuário</label>
-            <div class="inputUsuario-resetarSenha" id="nome_usuario_reset"></div>
-        </div>   
-        <div class="input-resetarSenha">
-            <label>E-mail do Usuário</label>
-            <div class="inputUsuario-resetarSenha" id="email_usuario_reset"></div>
-        </div>
-        <div class="botoes-resetarSenha">
-            <button class="botaoSubmit-resetarSenha" type="button" id="botaoResetarSenha">Resetar Senha</buton>
-        </div>
-    </form>
-</dialog>
-
-<dialog id="popupImportarUsuarios">
-    <div class="header-importarUsuarios">
-        <div class="headerLogo-importarUsuarios">
-            <img src="{% static 'img/logoAdmin.png' %}" alt="LogoAdmin">
-        </div>
-        <div class="headerBotao-importarUsuarios">
-            <button type="button" class="buttonClose-importarUsuarios">    
-                <img id="fecharImportarUsuarios" class="iconeX-importarUsuarios" src="{% static 'img/iconeX.png' %}" alt="">
-            </button>
-        </div>
-    </div>
-    <form class="formUsuario-ImportarUsuarios" method="POST" enctype="multipart/form-data" id="formImportarUsuarios" data-urlimg="{% static 'img/uploadIcon.png' %}">
-        {% csrf_token %}
-        <div class="input-importarUsuarios">
-            <label for="arquivoUsuarios">Faça o upload do arquivo de usuários: <a href="{% static 'usuarios_exemplo.csv' %}">Baixar exemplo</a></label>
-            <label for="arquivoUsuarios" class="UploadBox uploadUsuarios">
-                <div class="default-content">
-                    <img src="{% static 'img/uploadIcon.png' %}" alt="uploadIcon" class="upload-icon-importarUsuarios">
-                    <hr>
-                    <small>Arraste e solte o arquivo aqui</small>
-                    <small>para realizar upload</small>
-                    <hr>
-                    <small>CSV - XLSX</small>
+    
+        <form class="formAdicionarMoedas" id='formAdicionarMoedas'>
+           {% csrf_token %}
+            <div class="gerenciarDigicoins-adicionarMoedas" >
+                
+                <h1>Gerenciar digicoins</h1>    
+                <div class="quantidade-adicionarMoedas">
+                <label>Quantidade a ser adicionada ou removida</label>
+                <input class="quantidadeInput-adicionarMoedas" id='saldo' type="number" placeholder="5.000">
                 </div>
-            </label>
-            <input type="file" id="arquivoUsuarios" name="arquivo_usuarios" accept=".csv, .xlsx">
-        </div>
-        <div class="input-importarUsuarios">
-            <button class="botaoSubmit-importarUsuarios" type="button" id="botaoValidarImportarUsuarios">Validar Dados</button>
-        </div>
-    </form>
-    <div class="localResultadoValidacao-importarUsuarios" id="localResultadoValidacao" style="display:none;">
-        <div class="resultadoValidacao-importarUsuarios" id="resultadoValidacao" style="max-height: 200px; overflow-y: auto; padding-right: 10px;">
-            <h3>Dados validados:</h3>
-            <ul class="listaUsuariosValidados" id="listaUsuariosValidados"></ul>
-            <span id="quantidadeUsuariosValidados"></span>
-        </div>
-        <button class="botaoSubmit-importarUsuarios" type="button" id="botaoCadastrarUsuariosValidados">Cadastrar</button>
-        <button class="botaoSubmit-importarUsuarios" type="button" id="botaoNovoArquivo">Novo Arquivo</button>
-    </div>
+            </div>
+            <div class="botoes-adicionarMoedas">
+                <button class="adicionar-adicionarMoedas" id='adicionar'>Adicionar</button>
+                <button class="remover-adicionarMoedas" id='remover'>Remover</button>
+            </div>
+    
+        </form>
+        
+    
+    
+    
+
 </dialog>
+
 
 <script src="{% static 'js/AdmJS/listaDeUsuarios.js' %}"></script>
+<script src="{% static 'js/AdmJS/cadastrarUsuario.js' %}"></script>
 {% endblock %}
