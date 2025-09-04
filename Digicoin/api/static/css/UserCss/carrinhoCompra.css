@@ -156,11 +156,13 @@
   cursor: pointer;
   text-decoration: none;
   font-size: 18px;
+  transition: background-color 0.3s ease;
+  border: none;
 }
 
 .checkoutButton-carrinhoCompras:hover {
-  background-color: var(--branco);
-  color: var(--preto);
+  background-color: var(--laranja);
+  color: var(--branco);
 }
 
 .checkoutButton-carrinhoCompras:disabled {
