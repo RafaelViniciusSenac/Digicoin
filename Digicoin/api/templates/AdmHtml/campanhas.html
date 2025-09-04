@@ -6,6 +6,8 @@
 {% include 'components/adm/popUpAdicionarProduto.html'%}
 
 <link rel="stylesheet" href="{% static 'css/AdmCss/campanhas.css' %}" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <div class="container" id="container-campanhas">
@@ -67,7 +69,7 @@
                                 <h2 id="nome-campanha-{{ campanha.id }}">{{ campanha.nome }}</h2>
                             </div>
                             <div class="tabela_campanha_conteudo_dado2">
-                                <h2 id="data-fim-campanha-{{ campanha.id }}">{{ campanha.dataFim }}</h2>
+                                <h2 id="data-fim-campanha-{{ campanha.id }}">{{ campanha.dataFim|date:"d/m/Y" }}</h2>
                                 <button
                                     class="button-campanha"
                                     onclick="EditarCampanhas({{campanha.id}})"
@@ -75,13 +77,13 @@
                                 >
                                     <img src="{% static 'img/edit.png' %}" alt="botao editar" />
                                 </button>
-                                <button
+                                {% comment %} <button
                                     class="button-campanha"
                                     onclick="inativarCampanhas({{campanha.id}})"
                                     id="excluir-campanha-{{ campanha.id }}"
                                 >
                                     <img src="{% static 'img/iconeDeletar.png' %}" alt="deletar">
-                                </button>
+                                </button> {% endcomment %}
                             </div>
                         </div>
                     </div>
@@ -91,9 +93,18 @@
 
 
             <div id="paginacao">
-                <button id="botao-anterior" onclick="mudarPagina('predefinida', -1)">Anterior</button>
-                <span id="pagina-atual-predefinida1">pagina <span id="pagina-atual-predefinida">1</span> de <span id="contador-de-pagina">1</span></span>
-                <button id="botao-proxima" onclick="mudarPagina('predefinida', 1)">Próxima</button>
+                <button id="botao-anterior" onclick="mudarPagina('predefinida', -1)">
+                    <i class="fa fa-arrow-left"></i> Anterior
+                </button>
+            
+                <span>
+                    Página <span id="pagina-atual-predefinida">1</span> 
+                    de <span id="contador-de-pagina">5</span>
+                </span>
+            
+                <button id="botao-proxima" onclick="mudarPagina('predefinida', 1)" >
+                    Próxima <i class="fa fa-arrow-right"></i>
+                </button>
             </div>
         </div>
     </div>
@@ -115,20 +126,30 @@
         const linhasVisiveis = Array.from(todasLinhas).filter(l => l.style.display !== 'none');
         const totalPaginas = Math.ceil(linhasVisiveis.length / porPagina);
         const paginaAtual = paginas[tipo];
-
+    
         const inicio = (paginaAtual - 1) * porPagina;
         const fim = inicio + porPagina;
     
-
         todasLinhas.forEach(l => l.parentElement.style.display = 'none');
         linhasVisiveis.slice(inicio, fim).forEach(l => l.parentElement.style.display = '');
-
+    
+        // Atualiza número da página
         const elementoPagina = document.getElementById(`pagina-atual-${tipo}`);
         if (elementoPagina) {
             elementoPagina.textContent = paginaAtual;
         }
-
-
+    
+        // Mostrar/ocultar botões de paginação
+        const botaoAnterior = document.getElementById(`botao-anterior`);
+        const botaoProxima = document.getElementById(`botao-proxima`);
+    
+        if (botaoAnterior) {
+            botaoAnterior.style.display = (paginaAtual === 1) ? 'none' : 'inline-block';
+        }
+    
+        if (botaoProxima) {
+            botaoProxima.style.display = (paginaAtual === totalPaginas) ? 'none' : 'inline-block';
+        }
     }
 
     function mudarPagina(tipo, delta) {
