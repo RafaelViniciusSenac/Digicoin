@@ -6,18 +6,18 @@ document.addEventListener('DOMContentLoaded', () => {
     if(primeiroAcesso == 'True'){
         popUpPrimeiroAcesso.showModal()
     }
+
     async function primeiroAcessoSenha(event){
         event.preventDefault();
-        const popupAlerta = new Popup()
         const senha = document.getElementById('senha').value;
         const confirmarSenha = document.getElementById('confirmarSenha').value;
         const userId = document.getElementById('userId').value;
     
         if(senha != confirmarSenha){
-            popupAlerta.showPopup('As senhas devem ser iguais', 'Erro', 'erro')
+            alert('As senhas devem ser iguais');
             return;
         }
-        popupAlerta.showLoadingPopup('Atualizando senha...')
+    
         const response = await fetch(`/api/usuario/${userId}/primeiro-acesso/`, {
             method: "POST",
             headers: {
@@ -28,15 +28,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     
         const data = await response.json();
-        popupAlerta.hidePopup();
         if (response.status == 200) {
-            popupAlerta.showPopup(data.mensagem, 'Sucesso', 'sucesso')
-            //atualiza quando clikar no botao fechar do popup
-            popupAlerta.imgClosed.addEventListener("click", () => {
-                window.location.href = '/'
-            })
+            alert(data.mensagem);
+            window.location.href = '/' 
         } else {
-            popupAlerta.showPopup(data.erro || "Erro ao atualizar a senha.", 'Erro', 'erro')
+            alert(data.erro || "Erro ao atualizar a senha.");
         }
     }
 
