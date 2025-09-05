@@ -146,7 +146,7 @@ def cadastrarDesafio(request):
 
 @login_required
 def ranking(request):
-    top_usuarios = CustomUser.objects.order_by('-saldo')[:7]
+    top_usuarios = CustomUser.objects.filter(is_adm=False).order_by('-saldo')[:7]
     
     usuario_logado = request.user
     
