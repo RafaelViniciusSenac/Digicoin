@@ -514,12 +514,16 @@ document.addEventListener("DOMContentLoaded", function () {
         
             
         }
-        let botaoElement = document.getElementsByClassName('buttonrodaPeModal');
-        if (botaoElement.length > 0) {
-            
+        
+        if (window.location.href.includes("campanhas")) {
             window.location.reload();
-            
         }
+
+
+        
+        // if (window.location.href.includes("campanhas")) { isso funciona 
+        //     window.location.reload();
+        // }
     }
 
     document.getElementById("CriacaoDeCampanhaForm").addEventListener("submit", EventoCampanhas);
