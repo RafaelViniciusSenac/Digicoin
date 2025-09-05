@@ -8,17 +8,16 @@
 
 <div class="mainListaDesafios-listaDeDesafios">
 
-    <form method="GET" class="form-busca">
+    <div class="form-busca">
         <div class="barraPesquisa-listaDeDesafios">
             <img src="{% static 'img/iconeLupa.png' %}" alt="">
             <input 
                 type="search" 
-                name="busca" 
-                value="{{ busca }}"
+                id="barraBuscaDesafios"
                 placeholder="Pesquisar desafio"
-                autocomplete="on">
+                autocomplete="off">
         </div>
-    </form>   
+    </div> 
 
     <div class="primeiraLinha-listaDeDesafios">
 
@@ -44,7 +43,7 @@
     <div id="listaDesafios" class="listaDesafios-listaDeDesafios">
         {% for desafio in desafios %}
 
-        <div class='desafio-listaDeDesafios'>
+        <div class='desafio-listaDeDesafios linha-desafio' data-nome="{{ desafio.nome|lower }}">
             <input type="hidden" class="idDesafio" value="{{desafio.id}}">
             <div class="desafioLeft-listaDeDesafios">
                 <img src="{% static 'img/alvoCampanha.png' %}" alt="">
@@ -234,4 +233,32 @@
 
 <script src="{% static 'js/AdmJs/cadastrarDesafio.js' %}"></script>
 <script src="{% static 'js/AdmJs/listaDeDesafios.js' %}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const formBusca = document.querySelector('.form-busca');
+        const inputBusca = document.getElementById('barraBuscaDesafios');
+    
+        if (formBusca && inputBusca) {
+            // Evita que o form seja submetido ao apertar Enter
+            formBusca.addEventListener('submit', (e) => e.preventDefault());
+    
+            inputBusca.addEventListener('input', function () {
+                let termo = this.value.toLowerCase().trim();
+                const linhas = document.querySelectorAll('.linha-desafio');
+    
+                linhas.forEach(linha => {
+                    const nome = linha.dataset.nome.toLowerCase();
+                    linha.style.display = (termo === "" || nome.includes(termo)) ? '' : 'none';
+                });
+    
+                // garante que o input continue focado sempre
+                this.focus();
+            });
+        }
+    });
+    
+    
+</script>
+
+
 {% endblock content %} 
