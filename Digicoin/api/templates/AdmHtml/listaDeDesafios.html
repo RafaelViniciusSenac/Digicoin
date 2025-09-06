@@ -3,6 +3,7 @@
 {% block content %}
 
 <link rel="stylesheet" href="{% static 'css/AdmCss/listaDeDesafios.css'%}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 {% include 'components/adm/menuAdm.html' %}
 
@@ -135,9 +136,9 @@
     <div class="pagination">
         {% if desafios.has_previous %}
         <div>
-            <a style="font-size: 20px; margin-right: 10px;" 
+            <a 
                href="?desafio_page={{ desafios.previous_page_number }}{% if busca %}&busca={{ busca }}{% endif %}">
-               Anterior
+               <i class="fa fa-arrow-left" aria-hidden="true"></i>
             </a>
         </div>
         {% endif %}
@@ -151,9 +152,9 @@
     
         {% if desafios.has_next %}
         <div>
-            <a style="font-size: 20px;" 
+            <a
                href="?desafio_page={{ desafios.next_page_number }}{% if busca %}&busca={{ busca }}{% endif %}">
-               Próxima
+               <i class="fa fa-arrow-right" aria-hidden="true"></i>
             </a>
         </div>
         {% endif %}
