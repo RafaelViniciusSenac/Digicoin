@@ -460,16 +460,17 @@
     background-color: white;
 }
 
-.pagination-listaProdutos {
+.pagination {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
     gap: 15px;
     margin-top: 20px;
+    padding-bottom: 40px;
 }
 
-.pagination-listaProdutos a {
+.pagination a {
     padding: 8px 15px;
     text-decoration: none;
     color: white;
@@ -480,17 +481,16 @@
     font-size: 18px;
 }
 
-.pagination-listaProdutos .anterior-listaProdutos:hover,
-.proxima-listaProdutos:hover {
+.pagination .anterior:hover, .proxima:hover {
     background-color: var(--laranja);
 }
 
-
-.pagination-listaProdutos span {
-    font-size: 18px;
+.pagination span {
+    font-size: 18px;    
+    font-weight: bold;
 }
 
-.paginas-listaProdutos {
+.paginas{
     display: flex;
     gap: 10px;
 }
