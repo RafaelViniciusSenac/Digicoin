@@ -42,16 +42,11 @@
             <div class="linha-listaDePedidos" onclick="toggleItens('{{ compra.id }}')" style="cursor: pointer;">
                 <div class="nome-listaDePedidos">
                     <img class="iconedigix-listaDePedidos" src="{% static 'img/digixlogo.png'%}" alt="icone">
-                    {% if compra.entrega == 'Entrega' and compra.pedido == 'Pendente' and compra.obsEntrega != 'False' %}
-                        <p>ID: {{ compra.id }} - Usuario: {{ compra.idUsuario.first_name }} - {{ compra.pedido }} (Em andamento) </p>   
-                    {% else %}
-                        <p>ID: {{ compra.id }} - Usuario: {{ compra.idUsuario.first_name }} - {{ compra.pedido }} </p>
-                    {% endif %}
-                    
+                    <p>{{ compra.idUsuario.first_name }} - {{ compra.pedido }}</p>
                 </div>
-            
                 <img class="caminhao-listaDePedidos" src="{% static 'img/truck.png'%}" alt="icone">
             </div>
+            
             
             <div id="itens-{{ compra.id }}" class="itensCompra-listaDePedidos" style="display: none;">
                 <strong>Itens da Compra:</strong>
@@ -84,11 +79,11 @@
                 <div>
                     {% if compras.has_previous %}
                         <a class="botao-desativado-paginacao" href="?compra_page={{ compras.previous_page_number }}">
-                            <i class="fa fa-arrow-left" aria-hidden="true"></i> Anterior
+                            <i class="fa fa-arrow-left" aria-hidden="true"></i> 
                         </a>
                     {% else %}
                         <span class="botao-desativado-paginacao desativado">
-                            <i class="fa fa-arrow-left" aria-hidden="true"></i> Anterior
+                            <i class="fa fa-arrow-left" aria-hidden="true"></i> 
                         </span>
                     {% endif %}
                 </div>
@@ -98,11 +93,11 @@
                 <div>
                     {% if compras.has_next %}
                         <a class="botao-desativado-paginacao" href="?compra_page={{ compras.next_page_number }}">
-                            Próxima <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                             <i class="fa fa-arrow-right" aria-hidden="true"></i>
                         </a>
                     {% else %}
                         <span class="botao-desativado-paginacao desativado">
-                            Próxima <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                             <i class="fa fa-arrow-right" aria-hidden="true"></i>
                         </span>
                     {% endif %}
                 </div>
