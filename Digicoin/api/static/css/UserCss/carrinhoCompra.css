@@ -83,10 +83,6 @@
   margin-top: 5px;
 }
 
-.itemGridCell-carrinhoCompras.col-produto {
-  min-width: 500px;
-}
-
 .itemGridCell-carrinhoCompras img {
   width: 18px;
   margin-right: 5px;
@@ -156,6 +152,7 @@
   cursor: pointer;
   text-decoration: none;
   font-size: 18px;
+  margin-top: 15px;
 }
 
 .checkoutButton-carrinhoCompras:hover {
