@@ -1,11 +1,8 @@
 .principal-listaDePedidos {
-   
     padding: 40px; 
     max-width: 800px; 
     margin-left: 450px; 
     padding-left: 200px;
-
-
 }
 
 .detalhe-listaDePedidos {
@@ -40,7 +37,6 @@
     margin-bottom: 20px;
     width: 100%;
     gap: 15px;
-    
 }
 
 .iconedigix-listaDePedidos {
@@ -56,16 +52,12 @@
     background-color: white; 
     border-left: 5px solid #CA8EFF; 
     border-radius: 12px; 
-    padding: 0 15px 0 15px; 
+    padding: 0 15px; 
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; 
     justify-content: space-between; 
     margin-bottom: 10px; 
     width: 100%;
-    
-
 }
-
-
 
 .nome-listaDePedidos {
     display: flex;
@@ -95,11 +87,20 @@
     font-size: 14px;
     border-radius: 10px;
     margin-left: 10px;
-    display: flex;
     align-items: center;
     gap: 10px;
     cursor: pointer;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.btn-itens-compra {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    gap: 10px;
+
 }
 
 a {
@@ -146,18 +147,73 @@ a {
     align-items: center;
 }
 
+
 .itensCompra-listaDePedidos {
-    background-color: #f8f8f8;
-    padding: 15px 20px;    
-    border-left: 5px solid orange;
-    border-radius: 10px;
-    box-shadow: rgba(44, 0, 106, 0.1) 0px 4px 6px;
-    font-size: 18px;
+    background-color: #ffffff;
+    padding: 20px;    
+    border-left: 5px solid #fc671d;
+    border-radius: 12px;
+    box-shadow: rgba(44, 0, 106, 0.12) 0px 4px 8px;
+    font-size: 16px;
     width: 95%;
+    margin-top: 15px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+
+.itensCompra-listaDePedidos:hover {
+    transform: translateY(-2px);
+    box-shadow: rgba(0, 0, 0, 0.18) 0px 6px 12px;
+}
+
 .descricaoItensCompra-listaDePedidos {
-    list-style: disc;
-    padding-left: 20px;
+    margin: 10px 0;
+    padding: 12px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    border: 1px solid #eee;
+}
+
+.infoItensCompra-listaDePedidos {
+    padding: 8px 0;
+    border-bottom: 1px dashed #ddd;
+    font-size: 15px;
+    color: #333;
+}
+
+.infoItensCompra-listaDePedidos:last-child {
+    border-bottom: none;
+}
+
+.obsEntrega {
+    width: 100%;
+    padding: 10px;
+    margin-top: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.obsEntrega:focus {
+    border-color: #00C4CC;
+}
+
+#botaoConcluir {
+    background: #CA8EFF;;
+    color: white;
+    border: none;
+    padding: 8px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+#botaoConcluir:hover {
+    background: #037b80;
+    transform: scale(1.05);
 }
 
 .botao-desativado-paginacao {
@@ -216,9 +272,7 @@ a {
 @media screen and (max-width: 1000px) {
     .principal-listaDePedidos {
         margin-left: 0;
-        padding: 0;
-        padding-right: 40px;
-        padding-left: 40px;
+        padding: 0 40px;
         max-width: 95%;
     }
 
@@ -226,6 +280,7 @@ a {
         flex-direction: column;
         align-items: flex-start;
         gap: 10px;
+        margin-top: 20px;
     }
 
     .butoes-listaDePedidos {
@@ -239,27 +294,21 @@ a {
 }
 
 @media screen and (max-width: 768px) {
-
-    .principal-listaDePedidos{
-        padding-top: 0px;
-        padding: 0;
-        padding-left: 20px;
-        padding-right: 20px;
+    .principal-listaDePedidos {
+        padding: 0 20px;
         height: 100vh;
-        
-    
     }
-    .Titulo-listaDePedidos{
-        margin-top: 0px;
+
+    .Titulo-listaDePedidos {
+        margin-top: 0;
         margin-bottom: 5px;
     }
 
-    .Titulo-listaDePedidos p{
+    .Titulo-listaDePedidos p {
         margin-top: 10px;
-        margin-bottom: 0px;
+        margin-bottom: 0;
     }
 
-    /* Centraliza e ajusta botões */
     .butoes-listaDePedidos {
         flex-direction: column;
         align-items: center;
@@ -273,11 +322,13 @@ a {
 
     .butoes-listaDePedidos a {
         width: 100%;
-        margin-left: 0px;
+        margin-left: 0;
     }
     
-    .buttonPedidos1-listaDePedidos, .buttonPedidos-listaDePedidos, .buttonPedidos2-listaDePedidos{
-        margin-left: 0px;
+    .buttonPedidos1-listaDePedidos,
+    .buttonPedidos-listaDePedidos,
+    .buttonPedidos2-listaDePedidos {
+        margin-left: 0;
     }
 
     .butoes-listaDePedidos button {
@@ -286,7 +337,6 @@ a {
         font-size: 16px;
     }
 
-    /* Cards ocupando toda a largura */
     .Produto-listaDePedidos {
         width: 100%;
         gap: 12px;
@@ -303,7 +353,6 @@ a {
         gap: 10px;
     }
 
-    /* Alinhamento da imagem e texto no card */
     .nome-listaDePedidos {
         display: flex;
         align-items: center;
@@ -321,19 +370,17 @@ a {
         height: auto;
     }
 
-    /* Texto menor para caber melhor */
     .nome-listaDePedidos p {
         font-size: 14px;
         line-height: 1.2;
     }
 
-    .butoes-listaDePedidos button{
-        margin-left: 0px;
+    .butoes-listaDePedidos button {
+        margin-left: 0;
     }
 }
 
-
-@media (min-width: 1001px) and ( max-width: 1200px) {
+@media (min-width: 1001px) and (max-width: 1200px) {
     .principal-listaDePedidos {
         margin-left: 350px;
         padding-left: 100px;
