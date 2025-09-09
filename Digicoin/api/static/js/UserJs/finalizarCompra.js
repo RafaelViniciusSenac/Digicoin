@@ -8,6 +8,10 @@ function desativarEnderecoForm(acao) {
         });
         enderecoForm.classList.remove('form-endereco-ativo-carrinhoCompras');
         enderecoForm.classList.add('form-endereco-desativado-carrinhoCompras');
+        const camposObrigatorios = enderecoForm.querySelectorAll('.required');
+        camposObrigatorios.forEach(campo => {
+            campo.classList.remove('campo-invalido-carrinhoCompras');
+        });
     } else {
         const camposForms = enderecoForm.querySelectorAll('input, select');
         [].forEach.call(camposForms, function (el) {
@@ -80,7 +84,6 @@ function validarFormulario(form) {
     const tipoEntrega = form.querySelector('input[name="entrega"]:checked').value;
 
     const camposObrigatorios = form.querySelectorAll('.required');
-    console.log(camposObrigatorios);
     camposObrigatorios.forEach(campo => {
         campo.classList.remove('campo-invalido-carrinhoCompras');
 

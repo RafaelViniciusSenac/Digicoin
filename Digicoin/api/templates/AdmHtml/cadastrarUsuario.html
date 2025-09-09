@@ -1,48 +1,63 @@
-
-{% extends "base.html" %}
-{% load static %}
-{% block content %}
-<link rel="stylesheet" href="{% static 'css/AdmCss/cadastrarUsuario.css'%}">
-
+{% extends "base.html" %} {% load static %} {% block content %}
+<link rel="stylesheet" href="{% static 'css/AdmCss/cadastrarUsuario.css'%}" />
 
 <div class="body-cadastrarUsuario">
-    <div class="header-cadastrarUsuario">
-        <img src="{% static 'img/logoAdmin.png' %}" alt="LogoAdmin">
-        <img id="fecharCadastrar" class="iconeX-cadastrarUsuario" src="{% static 'img/iconeX.png' %}" alt="">
-    
-    </div>
-    
-    <form method="POST" class="formUsuario-cadastrarUsuario" id="formUsuario">
-    
-        {% csrf_token %}
-        <div class="input-cadastrarUsuario">
-            <label for="">Nome do Usuário</label>
-            <input type="text" id="nome" class="nome" placeholder="Digite o nome do usuário" >
-        </div>
-    
-        <div class="input-cadastrarUsuario">
-            <label for="">Email</label>
-            <input type="email" id="email" class="email" placeholder="Digite seu email" >
-        </div>
-    
-        <div class="input-cadastrarUsuario">
-            <label for="">RA do Usuário</label>
-            <input type="number" id="ra" class="ra" placeholder="23317444">
-        </div>
-    
-        <div class="input-cadastrarUsuario">
-            <label for="">Senha  temporária</label>
-            <input type="text" id="senha" class="senha" placeholder="Rw9!K$2@qPb">
-        </div>
+  <div class="header-cadastrarUsuario">
+    <img src="{% static 'img/logoAdmin.png' %}" alt="LogoAdmin" />
+    <img
+      id="fecharCadastrar"
+      class="iconeX-cadastrarUsuario"
+      src="{% static 'img/iconeX.png' %}"
+      alt=""
+    />
+  </div>
 
-        <div class="input">
-            <label for="">Admin</label>
-            <input type="checkbox" id="isAdmin"  >
-        </div>
-    
-        <button onclick="cadastrar(event)" type="submit" id="cadastrarUsuario" class="button-cadastrarUsuario">Concluído</button>
-    
-    </form>
+  <form method="POST" class="formUsuario-cadastrarUsuario" id="formUsuario">
+    {% csrf_token %}
+    <div class="input-cadastrarUsuario">
+      <label for="">Nome do Usuário</label>
+      <input
+        type="text"
+        id="nome"
+        class="nome"
+        placeholder="Digite o nome do usuário"
+      />
+    </div>
+
+    <div class="input-cadastrarUsuario">
+      <label for="">Email</label>
+      <input
+        type="email"
+        id="email"
+        class="email"
+        placeholder="Digite seu email"
+      />
+    </div>
+
+    <div class="input-cadastrarUsuario">
+      <label for="">RA do Usuário</label>
+      <input type="number" id="ra" class="ra" placeholder="23317444" />
+    </div>
+
+    <div class="input-cadastrarUsuario">
+      <label for="">Senha temporária</label>
+      <input type="text" id="senha" class="senha" placeholder="Rw9!K$2@qPb" />
+    </div>
+
+    <div class="input">
+      <label for="">Admin</label>
+      <input type="checkbox" id="isAdmin" />
+    </div>
+
+    <button
+      onclick="cadastrar(event)"
+      type="submit"
+      id="cadastrarUsuario"
+      class="button-cadastrarUsuario"
+    >
+      Concluído
+    </button>
+  </form>
 </div>
 
 <script src="{% static 'js/AdmJS/cadastrarUsuario.js' %}"></script>

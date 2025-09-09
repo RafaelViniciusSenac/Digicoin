@@ -4,7 +4,7 @@
 
 <link rel="stylesheet" href="{% static 'css/AdmCss/listaDePedidos.css'%}">
 <link rel="stylesheet" href="{% static 'css/AdmCss/paginacao.css'%}">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 {% include 'components/adm/menuAdm.html' %}
 
@@ -54,14 +54,13 @@
                     {% for item in pedidos %}
                         {% if item.idCompra.id == compra.id %}
                             <div class='infoItensCompra-listaDePedidos'>
-                                {{ item.idProduto.nome }} - Quantidade: {{ item.qtdProduto }}
+                                {{ item.qtdProduto }} un. {{ item.idProduto.nome }} 
                             </div>
                         {% endif %}
                     {% endfor %}
                 </div>
                 <strong>Tipo: <span>{{ compra.entrega }}</span>
                 {% if compra.pedido == 'Pendente' %}
-                    <span>Observação: {{ compra.obsEntrega }}</span>
                     {% if compra.entrega == 'Retirar' or compra.obsEntrega != 'False' %}
                         <button id="botaoConcluir">Concluir Pedido</button>
                     {% elif compra.entrega == 'Entrega' and compra.obsEntrega == 'False' %}
@@ -74,7 +73,7 @@
             {% endfor %}
         </div>
 
-        <div class="paginacao-div">
+        {% comment %} <div class="paginacao-div">
             <div class="paginacao-paginas">
                 <div>
                     {% if compras.has_previous %}
@@ -101,7 +100,28 @@
                         </span>
                     {% endif %}
                 </div>
+            </div> {% endcomment %}
+
+            <div class="pagination">
+                {% if compras.has_previous %}
+                <div class="paginas">
+                    <a class="anterior" href="?compra_page={{ compras.previous_page_number }}&search={{ request.GET.search }}">
+                        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                    </a>
+                </div>
+                {% endif %}
+                
+                <span>Página {{ compras.number }} de {{ compras.paginator.num_pages }}</span>
+                
+                {% if compras.has_next %}
+                <div class="paginas">
+                    <a class="proxima" href="?compra_page={{ compras.next_page_number }}&search={{ request.GET.search }}">
+                         <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                    </a>
+                </div>
+                {% endif %}
             </div>
+        
         </div>
         
     </div>  

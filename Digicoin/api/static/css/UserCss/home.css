@@ -41,6 +41,7 @@ body{
     height: 200px;
 }
 
+
 .desafiosCampanha{
 
     width: 1000px;
@@ -57,7 +58,7 @@ body{
 .line{
     width: 40px;
     position: relative;
-    left: 20px;
+    left: 10px;
     width: 40px;
     height: 0;
     border: 1px solid var(--laranja);
@@ -89,7 +90,13 @@ body{
 
 }
 
+.decoration{
+    color: var(--laranja);
+}
 
+.valorDesafio{
+    color: var(--ciano);
+}
 
 .outrosColocados{
     background: rgb(77,44,135);
@@ -119,6 +126,10 @@ body{
     height: 40px;
 }
 
+
+.numero1{
+    padding: 0px;
+}
 
 .primeiro{
     margin-top: 15px;
@@ -179,7 +190,9 @@ body{
     height: 40px;
 }
 
-
+.desafios{
+    padding: 0px;
+}
 
 .circulo {
     margin-left: 10px;
@@ -205,7 +218,7 @@ body{
 .textDecoratinDesafios{
     display: flex;
     margin: 0;
-    margin-left: 20px;
+    margin-left: 10px;
 }
 
 
@@ -220,7 +233,7 @@ body{
     line-height: 60px;
     border-radius: 10px;
     margin-top: 15px;
-    box-shadow: 10px 4px 8px var(--sombra-base);/* Desloca a sombra 10px para a direita */
+    box-shadow: 10px 4px 8px var(--sombra-base);
     transition: 0.4s;
     padding: 10px 20px;
  }
@@ -272,11 +285,8 @@ body{
     justify-content: center;
 }
     
-/* .formPrimeiroAcesso{
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-} */
+
+
 .senhaPrimeiroAcesso{
     font-size: 18px;
     display: flex;
@@ -284,9 +294,7 @@ body{
     align-items: start;
     margin-bottom: 20px;
 }
-/* .senhaPrimeiroAcesso label{ */
-   
-/* } */
+
     
 .confirmarSenhaPrimeiroAcesso{
     font-size: 18px;
@@ -295,10 +303,7 @@ body{
     align-items: start;
     margin-bottom: 20px;
 }
-/* .confirmarSenhaPrimeiroAcesso label{ */
-   
 
-/* } */
 
 .logoPrimeiroAcesso img{
     
@@ -315,6 +320,12 @@ body{
     background-color: #FDFDFD;
     
 }
+
+.nomeDesafio-Home{
+    max-width: 220px;
+    overflow: hidden;
+}
+
 
 #senha{
     margin-bottom: 0px;
@@ -341,11 +352,7 @@ body{
     justify-content: center;
 }
     
-/* .formPrimeiroAcesso{
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-} */
+
 .senhaPrimeiroAcesso{
     font-size: 18px;
     display: flex;
@@ -353,9 +360,7 @@ body{
     align-items: start;
     margin-bottom: 20px;
 }
-/* .senhaPrimeiroAcesso label{ */
-   
-/* } */
+
     
 .confirmarSenhaPrimeiroAcesso{
     font-size: 18px;
@@ -364,7 +369,7 @@ body{
     align-items: start;
     margin-bottom: 20px;
 }
-/* .confirmarSenhaPrimeiroAcesso label{ */
+
    
 
 }
@@ -378,6 +383,12 @@ body{
 }
 
 @media (min-width: 0px) and (max-width: 1270px) {
+
+    .nomeDesafio-Home{
+        max-width: 220px;
+        overflow: hidden;
+    }
+    
 
     .botaoCampanha{
         margin-top: 40px;
@@ -505,4 +516,10 @@ body{
     .datas-campanhas {
         flex-direction: column;
     }
+
+    .nomeDesafio-Home{
+        max-width: 220px;
+        overflow: hidden;
+    }
+    
 }
