@@ -258,7 +258,7 @@ function renderizarUsuarios(usuarios, container) {
 }
 
 async function buscarUsuario() {
-  const nome = document.getElementById('barraBusca-listaProdutos').value;
+  const nome = document.getElementById('barraBusca-listaDeUsuarios').value;
 
   try {
     const response = await apiRequest(
@@ -270,15 +270,19 @@ async function buscarUsuario() {
       console.log('Resposta inválida');
       return;
     } else {
+      // sempre remove admins da lista
+      const usuariosFiltrados = response.filter(user => !user.is_adm);
+
       const container = document.getElementById('listaUsuarios');
       container.innerHTML = '';
-      renderizarUsuarios(response, container);
+      renderizarUsuarios(usuariosFiltrados, container);
     }
   } catch (error) {
     console.log('Erro ao buscar usuários:', error);
   }
 }
 
+
 document
-  .getElementById('barraBusca-listaProdutos')
+  .getElementById('barraBusca-listaDeUsuarios')
   .addEventListener('input', buscarUsuario);
