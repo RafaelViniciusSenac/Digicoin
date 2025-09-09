@@ -97,7 +97,7 @@
                     <i class="fa fa-arrow-left"></i> 
                 </button>
             
-                <span style="font-weight: bold;">
+                <span class="spanFont">
                     Página <span id="pagina-atual-predefinida">1</span> 
                     de <span id="contador-de-pagina">5</span>
                 </span>
@@ -118,16 +118,16 @@
     const porPagina = 5;
     const paginas = { predefinida: 1, criada: 1 };
     
-    
-    
 
     function mostrarPagina(tipo) {
         const todasLinhas = document.querySelectorAll(`#corpo-tabela-${tipo} .tabela_campanha_conteudo`);
         const linhasVisiveis = Array.from(todasLinhas).filter(l => l.style.display !== 'none');
+
         const totalPaginas = Math.ceil(linhasVisiveis.length / porPagina);
         const paginaAtual = paginas[tipo];
     
         const inicio = (paginaAtual - 1) * porPagina;
+        
         const fim = inicio + porPagina;
     
         todasLinhas.forEach(l => l.parentElement.style.display = 'none');
@@ -146,17 +146,45 @@
         if (botaoAnterior) {
             botaoAnterior.style.display = (paginaAtual === 1) ? 'none' : 'inline-block';
         }
-    
+        
+
         if (botaoProxima) {
             botaoProxima.style.display = (paginaAtual === totalPaginas) ? 'none' : 'inline-block';
         }
+
+
+        function atualizarBotoes() {
+            const paginaAtual = document.getElementById("pagina-atual-predefinida")?.textContent.trim();
+            const totalPaginas = document.getElementById("contador-de-pagina")?.textContent.trim();
+
+            if (!paginaAtual || !totalPaginas) return;
+
+            if (paginaAtual === "1" && totalPaginas === "1") {
+                botaoAnterior.style.display = "none";
+                botaoProxima.style.display = "none";
+            } else {
+                botaoAnterior.style.display = (paginaAtual === "1") ? "none" : "inline-block";
+                botaoProxima.style.display = (paginaAtual === totalPaginas) ? "none" : "inline-block";
+            }
+        }
+
+        // Executa quando a página carrega
+        atualizarBotoes();
+
+        // Caso o texto do span mude dinamicamente
+        const observer = new MutationObserver(atualizarBotoes);
+        observer.observe(document.getElementById("pagina-atual-predefinida"), { childList: true });
+        observer.observe(document.getElementById("contador-de-pagina"), { childList: true });
+        
     }
 
     function mudarPagina(tipo, delta) {
         const linhas = document.querySelectorAll(`#corpo-tabela-${tipo} .tr-campanha`);
 
         const totalPaginas = Math.ceil(linhas.length / porPagina);
+        console.log(totalPaginas)
         const novaPagina = paginas[tipo] + delta;
+        console.log(novaPagina)
 
         if (novaPagina >= 1 && novaPagina <= totalPaginas) {
             paginas[tipo] = novaPagina;
