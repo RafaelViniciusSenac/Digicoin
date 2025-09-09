@@ -59,7 +59,9 @@
                         {% endif %}
                     {% endfor %}
                 </div>
-                <strong>Tipo: <span>{{ compra.entrega }}</span>
+                
+                <strong class="btn-itens-compra">Tipo: <span>{{ compra.entrega }}</span>
+                
                 {% if compra.pedido == 'Pendente' %}
                     {% if compra.entrega == 'Retirar' or compra.obsEntrega != 'False' %}
                         <button id="botaoConcluir">Concluir Pedido</button>
