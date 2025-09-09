@@ -54,14 +54,13 @@
                     {% for item in pedidos %}
                         {% if item.idCompra.id == compra.id %}
                             <div class='infoItensCompra-listaDePedidos'>
-                                {{ item.idProduto.nome }} - Quantidade: {{ item.qtdProduto }}
+                               {{ item.qtdProduto }} un. {{ item.idProduto.nome }}  
                             </div>
                         {% endif %}
                     {% endfor %}
                 </div>
                 <strong>Tipo: <span>{{ compra.entrega }}</span>
                 {% if compra.pedido == 'Pendente' %}
-                    <span>Observação: {{ compra.obsEntrega }}</span>
                     {% if compra.entrega == 'Retirar' or compra.obsEntrega != 'False' %}
                         <button id="botaoConcluir">Concluir Pedido</button>
                     {% elif compra.entrega == 'Entrega' and compra.obsEntrega == 'False' %}
