@@ -24,33 +24,22 @@
                     <div class="historico-compra-cabecalho-underline"></div>
                 </div>
                 <div class="historico-compra-barra-pesquisa">
-                    <form method="GET" action="{% url 'historicoCompra' %}">
+                    <form method="GET" action="{% url 'historicoCompra' %}" class="search-container-listaEstoque">
                         <div class="historico-compra-barra-pesquisa-busca-container">
-                            <div class="historico-compra-barra-pesquisa-busca-container1">
+                          <div class="historico-compra-barra-pesquisa-busca-container1">
                             <img src="{% static 'img/iconeLupa.png' %}" alt="/Lupa">
-                            <select id="tipoPesquisa" name="tipoPesquisa" onchange="mostrarCampoPesquisa()">
-                                <option value="">Tipo</option>
-                                <option value="nome">Nome do Item</option>
-                                <option value="data">Data de Compra</option>
-                                <option value="entrega">Tipo de entrega</option>
-                                <option value="status">Status da compra</option>
-                            </select>
-                            </div>
-                            <input type="text" id="campoNome" name="nome" placeholder="Nome" style="display:none;">
-                            <input type="date" id="campoData" name="data" placeholder="Pesquisar por Data" style="display:none;">
-                            <select id="campoEntrega" name="entrega" placeholder="Tipo de Entrega" style="display:none;">
-                                <option value="Retirar">Retirar</option>
-                                <option value="Entrega">Entregar</option>
-                            </select>
-                            <select id="campoStatus" name="status" placeholder="Status da compra" style="display:none;">
-                                <option value="Pendente">Pendente</option>
-                                <option value="Andamento">Em andamento</option>
-                                <option value="Concluido">Concluido</option>
-                            </select>
-                            <button type="submit">Pesquisar</button>
+                            <input
+                              type="text"
+                              id="campoNome"
+                              name="nome"
+                              placeholder="Pesquisar Produto"
+                              value="{{ request.GET.nome|default:'' }}"
+                            />
+                          </div>
                         </div>
-                    </form>
-                </div>  
+                      </form>
+                      
+                </div>
             </div>        
 
 
