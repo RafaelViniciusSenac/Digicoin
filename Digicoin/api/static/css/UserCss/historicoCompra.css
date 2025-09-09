@@ -112,7 +112,7 @@
 }
 
 .historico-compra-barra-pesquisa-busca-container input {
-  border: 1px solid #ccc;
+  border: none;
   border-radius: 10px;
   outline: none;
   font-size: 14px;
