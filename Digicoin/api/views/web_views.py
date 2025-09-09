@@ -40,36 +40,20 @@ def home(request):
 
 def historicoCompra(request):
     eventos = Campanha.objects.filter(is_active=True)
-    
-    tipo_pesquisa = request.GET.get('tipoPesquisa')
-    nome_query = request.GET.get('nome')
-    data_query = request.GET.get('data')
-    entrega_query = request.GET.get('entrega')
-    status_query = request.GET.get('status')
+
+    nome_query = request.GET.get('nome', '').strip()
     sort_by = request.GET.get('sort_by', 'dataCompra')
     order = request.GET.get('order', 'desc')
-    
+
     # Filtra compras do usuário logado
     compra = Compra.objects.filter(idUsuario=request.user.id)
-    
-    # Filtros de pesquisa
-    if tipo_pesquisa == 'nome' and nome_query:
+
+    # Filtro: somente por nome do produto (quando informado)
+    if nome_query:
         compra_ids = ItensCompra.objects.filter(
             idProduto__nome__icontains=nome_query
         ).values_list('idCompra_id', flat=True)
         compra = compra.filter(id__in=compra_ids)
-
-    elif tipo_pesquisa == 'data' and data_query:
-        compra = compra.filter(dataCompra__date=data_query)
-
-    elif tipo_pesquisa == 'entrega' and entrega_query:
-        compra = compra.filter(entrega=entrega_query)
-
-    elif tipo_pesquisa == 'status' and status_query:
-        if status_query == 'Andamento':
-            compra = compra.filter(entrega='Entrega', pedido='Pendente').exclude(obsEntrega='False')
-        else:
-            compra = compra.filter(pedido=status_query)
 
     # Ordenação
     if order == 'asc':
