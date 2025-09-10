@@ -103,16 +103,25 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
-// Busca de produtos
-document.getElementById('barraBusca-listaProdutos').addEventListener('keyup', function () {
-    const termo = this.value.toLowerCase();
-    const produtos = document.querySelectorAll('.imgD-listaProdutos');
+document.addEventListener("DOMContentLoaded", () => {
+    const barraBusca = document.getElementById("barraBusca-listaProdutos");
+    const container = document.querySelector(".imagensDigix-listaProdutos");
+    const form = barraBusca.closest("form");
 
-    produtos.forEach(function (produto) {
-        const nome = produto.getAttribute('data-nome');
-        produto.style.display = nome.includes(termo) ? '' : 'none';
+    barraBusca.addEventListener("input", () => {
+        const termo = barraBusca.value;
+
+        fetch(`${form.action}?search=${encodeURIComponent(termo)}`, {
+            headers: { "X-Requested-With": "XMLHttpRequest" }
+        })
+        .then(res => res.json())
+        .then(data => container.innerHTML = data.html)
+        .catch(err => console.error("Erro na busca:", err));
     });
+
+    form.addEventListener("submit", e => e.preventDefault());
 });
+
 
 function onClickAdicionarProduto(event) {
     const button = event.currentTarget;
