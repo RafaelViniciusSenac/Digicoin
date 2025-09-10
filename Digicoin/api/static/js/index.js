@@ -18,16 +18,12 @@ async function Login(evento) {
         } else if (data.is_adm === false) {
             window.location.href = '/home/';
         } else {
-            
-            const popup = new Popup();
-            popup.showPopup("Usuário sem permissão.","Error","erro"); // Exibe a mensagem de erro, (mensagem, titulo, tipo)
+            showPopup("Usuário sem permissão.","Error","erro"); // Exibe a mensagem de erro, (mensagem, titulo, tipo)
         }
 
     } catch (error) {
         console.error('Erro ao logar:', error);
-
-        const popup = new Popup();
-        popup.showPopup("Email ou senha inválidos.","Error,","erro"); // Exibe a mensagem de erro, (mensagem, titulo, tipo)
+        showPopup("Email ou senha inválidos.","Error,","erro"); // Exibe a mensagem de erro, (mensagem, titulo, tipo)
     }
 }
 
