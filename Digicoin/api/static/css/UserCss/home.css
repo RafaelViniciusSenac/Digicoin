@@ -11,8 +11,6 @@
     --sombra-base:rgba(44, 0, 106, 0.4);
     --sombra-preta:rgba(0, 0, 0, 0.4);
   }
-  
-
 
 body{
     margin: 0;
@@ -22,9 +20,7 @@ body{
 }
 
 *{
-   
     list-style-type: none;
-    
 }
 
 .containerPage{
@@ -41,7 +37,6 @@ body{
     height: 200px;
 }
 
-
 .desafiosCampanha{
 
     width: 1000px;
@@ -52,9 +47,7 @@ body{
     cursor: pointer;
     border: none;
 }
-      
-
-
+  
 .line{
     width: 40px;
     position: relative;
@@ -260,6 +253,12 @@ body{
     
 }
 
+.formPrimeiroAcesso{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 #senha{
     margin-bottom: 0px;
     padding: 8px;
@@ -276,8 +275,13 @@ body{
     color: #fff;
     border-radius: 10px;
     margin-top: 20px;
+    cursor: pointer;
 }
     
+.concluirPrimeiroAcesso:hover{
+    /* escurecer o botao */
+    opacity: 0.8;
+}
 
 
 .labelPopUpPrimeiroAcesso{
