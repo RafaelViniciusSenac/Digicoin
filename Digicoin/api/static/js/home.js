@@ -12,12 +12,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const senha = document.getElementById('senha').value;
         const confirmarSenha = document.getElementById('confirmarSenha').value;
         const userId = document.getElementById('userId').value;
-    
+        const alertPopup = new Popup();
         if(senha != confirmarSenha){
-            alert('As senhas devem ser iguais');
+            alertPopup.showPopup('As senhas devem ser iguais', 'Erro', 'erro');
+            // alterar cor dos campos de senha e confirmar senha para vermelho
+            document.getElementById('senha').style.borderColor = 'red';
+            document.getElementById('confirmarSenha').style.borderColor = 'red';
             return;
         }
-    
+        const loadingPopup = new Popup();
+        loadingPopup.showLoadingPopup('Atualizando...');
         const response = await fetch(`/api/usuario/${userId}/primeiro-acesso/`, {
             method: "POST",
             headers: {
@@ -28,11 +32,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     
         const data = await response.json();
+        loadingPopup.hidePopup();
         if (response.status == 200) {
-            alert(data.mensagem);
-            window.location.href = '/' 
+            alertPopup.showPopup('Senha atualizada com sucesso', 'Sucesso', 'sucesso');
+            // redirecionar apos clicar no botao fechar do popup alertPopup
+            alertPopup.imgClosed.addEventListener("click", () => {
+                window.location.href = '/'
+            });
         } else {
-            alert(data.erro || "Erro ao atualizar a senha.");
+            alertPopup.showPopup(data.erro || 'Erro ao atualizar a senha', 'Erro', 'erro');
         }
     }
 
