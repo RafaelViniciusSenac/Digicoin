@@ -259,3 +259,14 @@ class HistoricoSaldoPorIdView(APIView):
 class DesenvolvedoresViewSet(viewsets.ModelViewSet):
     queryset = Desenvolvedores.objects.all()
     serializer_class = DesenvolvedoresSerializer
+    
+    
+class NonAdminActiveUsersAPIView(APIView):
+
+    def get(self, request, *args, **kwargs):
+        users = User.objects.filter(
+            is_active=True,
+            is_staff=False  # <-- ajuste para is_superuser=False se preferir
+        ).values('id', 'first_name', 'email', 'username')
+
+        return Response(list(users), status=status.HTTP_200_OK)

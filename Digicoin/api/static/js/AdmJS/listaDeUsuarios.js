@@ -25,30 +25,58 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   const selecionarTodos = document.getElementById('selecionarTodos');
-  selecionarTodos.addEventListener('change', (e) => {
-    const checkboxes = document.querySelectorAll(
-      '.linhaUsuario-listaDeUsuarios:not(.desativado) .checkbox',
+  const listaUsuarios = document.getElementById('listaUsuarios');
+
+  selecionarTodos?.addEventListener('change', (e) => {
+    const checked = e.target.checked;
+    console.log('Selecionar Todos clicado, checked:', checked);
+
+    const checkboxes = listaUsuarios.querySelectorAll(
+      '.linhaUsuario-listaDeUsuarios:not(.desativado-listaDeUsuarios) .checkbox',
     );
-    checkboxes.forEach((checkbox) => {
-      checkbox.checked = e.target.checked;
-      checkbox.disabled = false;
-    });
+    console.log('Checkboxes visíveis na página atual:', checkboxes.length);
+
+    checkboxes.forEach((cb) => (cb.checked = checked));
   });
 
-  document
-    .querySelectorAll(
-      '.linhaUsuario-listaDeUsuarios:not(.desativado) .checkbox',
+  listaUsuarios.addEventListener('change', (e) => {
+    if (
+      !e.target.matches(
+        '.linhaUsuario-listaDeUsuarios:not(.desativado-listaDeUsuarios) .checkbox',
+      )
     )
-    .forEach((checkbox) => {
-      checkbox.addEventListener('change', () => {
-        const allChecked = [
-          ...document.querySelectorAll(
-            '.linhaUsuario-listaDeUsuarios:not(.desativado) .checkbox',
-          ),
-        ].every((checkbox) => checkbox.checked);
-        selecionarTodos.checked = allChecked;
-      });
-    });
+      return;
+
+    const checkboxes = listaUsuarios.querySelectorAll(
+      '.linhaUsuario-listaDeUsuarios:not(.desativado-listaDeUsuarios) .checkbox',
+    );
+    const allChecked = Array.from(checkboxes).every((cb) => cb.checked);
+
+    console.log('Checkbox individual mudou, todos marcados?', allChecked);
+    selecionarTodos.checked = allChecked;
+  });
+
+  function getUsuariosSelecionados() {
+    if (selecionarTodos.checked) {
+      console.log('getUsuariosSelecionados: todosAtivos = true');
+      return { todosAtivos: true, ids: [] };
+    }
+
+    const checkboxes = listaUsuarios.querySelectorAll(
+      '.linhaUsuario-listaDeUsuarios:not(.desativado-listaDeUsuarios) .checkbox',
+    );
+    const idsSelecionados = Array.from(checkboxes)
+      .filter((cb) => cb.checked)
+      .map((cb) => {
+        const linha = cb.closest('.linhaUsuario-listaDeUsuarios');
+        const inputId = linha.querySelector('.idUser-listaDeUsuarios');
+        return inputId ? parseInt(inputId.value, 10) : null;
+      })
+      .filter((id) => id !== null);
+
+    console.log('getUsuariosSelecionados: idsSelecionados =', idsSelecionados);
+    return { todosAtivos: false, ids: idsSelecionados };
+  }
 
   const editar = document.querySelectorAll('[id="editar"]');
   for (let i = 0; i < editar.length; i++) {
@@ -271,7 +299,7 @@ async function buscarUsuario() {
       return;
     } else {
       // sempre remove admins da lista
-      const usuariosFiltrados = response.filter(user => !user.is_adm);
+      const usuariosFiltrados = response.filter((user) => !user.is_adm);
 
       const container = document.getElementById('listaUsuarios');
       container.innerHTML = '';
@@ -281,7 +309,6 @@ async function buscarUsuario() {
     console.log('Erro ao buscar usuários:', error);
   }
 }
-
 
 document
   .getElementById('barraBusca-listaDeUsuarios')

@@ -47,5 +47,5 @@ urlpatterns = [
     path('api/exportar_produtos_mais_vendidos_excel/', exportar_produtos_mais_vendidos_excel, name='exportar_produtos_mais_vendidos_excel'),
     path('api/exportar_usuarios_com_mais_moedas_excel/', exportar_usuarios_com_mais_moedas_excel, name='exportar_usuarios_com_mais_moedas_excel'),
     path('desenvolvedores/', desenvolvedores, name='desenvolvedores'),
-
+     path('api/usuarios/ativos-nao-admin/', NonAdminActiveUsersAPIView.NonAdminActiveUsersAPIView.as_view(), name='ativos_nao_admin'),
 ]
