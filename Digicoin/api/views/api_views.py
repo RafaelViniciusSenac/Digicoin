@@ -172,6 +172,25 @@ class CampanhaViewSet(viewsets.ModelViewSet):
     queryset = Campanha.objects.all()
     serializer_class = CampanhaSerializer
 
+    def perform_create(self, serializer):
+        campanha = serializer.save()
+
+        # Filtra quem deve receber (aqui: todos usuários ativos)
+        users = CustomUser.objects.filter(is_active=True)
+
+        # Monta objetos Notificacao (não gravados ainda)
+        notifs = [
+            Notificacao(
+                titulo=f"Nova campanha!",
+                mensagem=f"A campanha de {campanha.nome} começou!",  # corta se for muito grande
+                idUsuario=u
+            )
+            for u in users
+        ]
+
+        # Cria em massa no DB
+        Notificacao.objects.bulk_create(notifs)
+
 class ProdutoViewSet(viewsets.ModelViewSet):
     queryset = Produto.objects.all()
     serializer_class = ProdutoSerializer
@@ -179,6 +198,22 @@ class ProdutoViewSet(viewsets.ModelViewSet):
 class DesafioViewSet(viewsets.ModelViewSet):
     queryset = Desafio.objects.all()
     serializer_class = DesafioSerializer
+
+    def perform_create(self, serializer):
+        desafio = serializer.save()
+
+        users = CustomUser.objects.filter(is_active=True)
+
+        notifs = [
+            Notificacao(
+                titulo=f"Novo desafio!",
+                mensagem=f"O desafio de {desafio.nome} começou!",
+                idUsuario=u
+            )
+            for u in users
+        ]
+
+        Notificacao.objects.bulk_create(notifs)
 
 class CompraViewSet(viewsets.ModelViewSet):
 
@@ -259,3 +294,7 @@ class HistoricoSaldoPorIdView(APIView):
 class DesenvolvedoresViewSet(viewsets.ModelViewSet):
     queryset = Desenvolvedores.objects.all()
     serializer_class = DesenvolvedoresSerializer
+
+class NotificacaoViewSet(viewsets.ModelViewSet):
+    queryset = Notificacao.objects.all()
+    serializer_class = NotificacaoSerializer
