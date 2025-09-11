@@ -47,19 +47,19 @@
                 </div>
 
                 <div class="pagination">
-                    <a 
-                        href="{% if campanha.has_previous %}?campanha_page={{ campanha.previous_page_number }}{% else %}#{% endif %}" 
-                        class="{% if not campanha.has_previous %}disabled{% endif %}">
-                        Anterior
-                    </a>
+                    {% if campanha.has_previous %}
+                        <a href="?campanha_page={{ campanha.previous_page_number }}">
+                            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                        </a>
+                    {% endif %}
                 
                     <span>Página {{ campanha.number }} de {{ campanha.paginator.num_pages }}</span>
                 
-                    <a 
-                        href="{% if campanha.has_next %}?campanha_page={{ campanha.next_page_number }}{% else %}#{% endif %}" 
-                        class="{% if not campanha.has_next %}disabled{% endif %}">
-                        Próxima
-                    </a>
+                    {% if campanha.has_next %}
+                        <a href="?campanha_page={{ campanha.next_page_number }}">
+                            <i class="fa fa-arrow-right" aria-hidden="true"> </i>
+                        </a>
+                    {% endif %}
                 </div>
 
             </div>
