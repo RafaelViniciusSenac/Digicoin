@@ -1,13 +1,36 @@
 document.addEventListener("DOMContentLoaded", function(){
+    
     async function GetUserLogado(){
         const response = await apiRequest('/api/GetDadosUsuarioLogado')
         const nomeUsuario = document.getElementById('nomeUsuario')
         const saldo = document.getElementById('saldo')
         nomeUsuario.innerHTML = response.first_name
         saldo.innerHTML = response.saldo
+        
+        localStorage.setItem('userId', response.id) 
     }
     
     GetUserLogado()
+    
+    async function GetNotificacao(userId){
+        const response = await apiRequest(`/api/notificacao/?user_id=${userId}`)
+        console.log(response) 
+       
+    }
+    const userId = localStorage.getItem('userId')
+    GetNotificacao(userId)
+    
+    const imgSino = document.getElementById('imgSino-menuUser')
+    const notificacoes = document.getElementById('notificacoes-menuUser')
+
+    imgSino.addEventListener('click', () => {
+        if (notificacoes.style.display === 'block') {
+            notificacoes.style.display = 'none'
+        }
+        else
+            notificacoes.style.display = 'block'
+            
+    })
 
     const dropdownMenu = document.getElementById("dropdownMenu");
     const imgFlecha = document.getElementById('imgFlecha')

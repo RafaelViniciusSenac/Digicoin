@@ -298,3 +298,10 @@ class DesenvolvedoresViewSet(viewsets.ModelViewSet):
 class NotificacaoViewSet(viewsets.ModelViewSet):
     queryset = Notificacao.objects.all()
     serializer_class = NotificacaoSerializer
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        user_id = self.request.query_params.get('user_id')
+        if user_id:
+            qs = qs.filter(idUsuario_id=user_id)
+        return qs
