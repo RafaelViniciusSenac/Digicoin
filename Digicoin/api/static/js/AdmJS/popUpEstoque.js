@@ -476,26 +476,17 @@ document.addEventListener("DOMContentLoaded", function () {
             dataFim: dataFim.value
         };
 
-
         let valorCampanhaId = document.getElementById('valorEditar').value;
-
         
         let formCampanhaTerceiro = document.getElementById('CriacaoDeCampanhaForm');
 
         let response
         if (valorCampanhaId) {
-
             response = await apiRequest(`/api/campanha/${valorCampanhaId}/`, 'PUT', evento, { 'X-CSRFToken': csrf });
             window.location.reload();
-
-
-
-
         } else {
             const response = await apiRequest('/api/campanha/', 'POST', evento, { 'X-CSRFToken': csrf });
             let novaCampanha = document.createElement("div");
-
-
             let checkbox = document.createElement("input");
             checkbox.type = "checkbox";
             checkbox.classList.add("listaCampanha");
@@ -511,24 +502,23 @@ document.addEventListener("DOMContentLoaded", function () {
             modalTerceiro.close();
             formCampanhaTerceiro.reset();
 
-        
-            
         }
         
         if (window.location.href.includes("campanhas")) {
-            window.location.reload();
+            // alert popup de sucesso na pagina campanhas
+            const alertPopup = new Popup();
+            alertPopup.showPopup("Campanha criada com sucesso!", "Sucesso", "sucesso");
+            alertPopup.imgClosed.addEventListener("click", () => {
+                window.location.reload();
+            })
         }
 
-
-        
         // if (window.location.href.includes("campanhas")) { isso funciona 
         //     window.location.reload();
         // }
     }
 
     document.getElementById("CriacaoDeCampanhaForm").addEventListener("submit", EventoCampanhas);
-
-
 
     // Delegação de evento para checkboxes do segundo popup
     modalSegundo.addEventListener("change", function (event) {
