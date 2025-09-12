@@ -10,6 +10,8 @@ from datetime import datetime
 from django.http import HttpResponse
 from django.db.models import Q
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.http import JsonResponse
+from django.core.paginator import Paginator
 
 def login(request):
     return render(request, 'index.html')
@@ -111,17 +113,35 @@ def listaProdutos(request):
     user = CustomUser.objects.filter(id=userId).first()
     quantidade_moedas = user.saldo if user else 0
 
-    listaProtudos_list = Produto.objects.filter(is_active=True)
-    listaProdutos_paginator = Paginator(listaProtudos_list, 8) 
-    listaProdutos_page = request.GET.get('listaProduto_page') 
-    listaProduto = listaProdutos_paginator.get_page(listaProdutos_page)
-    
+    search = request.GET.get("search", "")
+    listaProdutos_list = Produto.objects.filter(is_active=True)
+    if search:
+        listaProdutos_list = listaProdutos_list.filter(nome__icontains=search)
+
+    paginator = Paginator(listaProdutos_list, 8)
+    page_number = request.GET.get("listaProduto_page")
+    page_obj = paginator.get_page(page_number)
+
+    # Construindo HTML dos produtos direto no Python
+    html = ""
+    for produto in page_obj:
+        img_tag = f"<img class='imagensP-listaProdutos' src='{produto.img1.url}' alt='{produto.nome}'>" if produto.img1 else ""
+        html += f"""
+        <div class='imgD-listaProdutos' data-nome='{produto.nome.lower()}'>
+            <button id='imgbotao' data-valor='{produto.id}'>{img_tag}</button>
+        </div>
+        """
+
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        return JsonResponse({"html": html})
+
     context = {
-        "produtos": listaProduto,
-        "quantidade_moedas": quantidade_moedas
+        "produtos": page_obj,
+        "quantidade_moedas": quantidade_moedas,
+        "search": search
     }
-    
-    return render(request, 'UserHtml/listaProdutos.html', context)
+    return render(request, "UserHtml/listaProdutos.html", context)
+
 
 def cadastrarDesafio(request):
     campanhas = Campanha.objects.filter(is_active=True)
