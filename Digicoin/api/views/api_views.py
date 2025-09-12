@@ -10,6 +10,8 @@ from django.core.mail import send_mail
 import yagmail
 import os
 from dotenv import load_dotenv
+from rest_framework.permissions import IsAdminUser
+from django.db.models import F
 
 class User(APIView):
     
@@ -263,10 +265,9 @@ class DesenvolvedoresViewSet(viewsets.ModelViewSet):
     
 class NonAdminActiveUsersAPIView(APIView):
 
-    def get(self, request, *args, **kwargs):
-        users = User.objects.filter(
+    def get(self, request):
+        users = CustomUser.objects.filter(
             is_active=True,
-            is_staff=False  # <-- ajuste para is_superuser=False se preferir
-        ).values('id', 'first_name', 'email', 'username')
-
+            is_adm=False
+        ).values('id', 'first_name', 'email', 'username', 'saldo')
         return Response(list(users), status=status.HTTP_200_OK)
