@@ -14,22 +14,29 @@ document.addEventListener("DOMContentLoaded", function(){
     
     async function GetNotificacao(userId){
         const response = await apiRequest(`/api/notificacao/?user_id=${userId}`)
-        console.log(response) 
+        const notificacoes = document.getElementById('notificacoes-menuUser')
+        console.log(response)
+        response.results.forEach(info => notificacoes.innerHTML += `
+                    <div class="notificacao" id="notificacao-menuUser">
+                        <h2>${info.titulo}</h2>
+                        <p>${info.mensagem}</p>
+                    </div>
+                        `)
        
     }
     const userId = localStorage.getItem('userId')
     GetNotificacao(userId)
-    
-    const imgSino = document.getElementById('imgSino-menuUser')
+   
+    const notificacaoOff = document.getElementById('notificacaoOff')
     const notificacoes = document.getElementById('notificacoes-menuUser')
 
-    imgSino.addEventListener('click', () => {
+    notificacaoOff.addEventListener('click', () => {
         if (notificacoes.style.display === 'block') {
             notificacoes.style.display = 'none'
         }
         else
             notificacoes.style.display = 'block'
-            
+             
     })
 
     const dropdownMenu = document.getElementById("dropdownMenu");

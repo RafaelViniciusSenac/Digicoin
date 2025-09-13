@@ -304,4 +304,4 @@ class NotificacaoViewSet(viewsets.ModelViewSet):
         user_id = self.request.query_params.get('user_id')
         if user_id:
             qs = qs.filter(idUsuario_id=user_id)
-        return qs
+        return qs[:3]
