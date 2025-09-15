@@ -128,16 +128,11 @@ async function EditarDesafio(event) {
   const valorDesafio = form.querySelector('#valorDesafio').value;
   const descricao = form.querySelector('#descricao').value;
   const campanha = form.querySelector('#campanha').value;
-  const dataInicio = form.querySelector('#inicioDesafio').value;
   const dataFim = form.querySelector('#fimDesafio').value;
   const csrf = form.querySelector('[name=csrfmiddlewaretoken]').value;
 
   if (!nomeDesafio || !valorDesafio) {
     alert('Nome do desafio e valor do desafio devem ser preenchidos.');
-    return;
-  }
-  if (dataFim < dataInicio) {
-    alert('A data de fim deve ser maior que a data de inicio.');
     return;
   }
 
@@ -149,6 +144,7 @@ async function EditarDesafio(event) {
       valor: valorDesafio,
       descricao: descricao,
       campanha: campanha,
+      dataFim: dataFim,
     },
     { 'X-CSRFToken': csrf },
   );

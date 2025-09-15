@@ -45,29 +45,27 @@
                 
                         <div class="descricao-cascata" id="descricao-{{ i.id }}">
                             <p><strong>Descrição:</strong> {{ i.descricao }}</p>
-                            <p><strong>Campanha:</strong> {{ i.idCampanha.nome }}</p>
                             <div class="datas-campanhas">
-                                <p><strong>Início:</strong> {{ i.dataInicio }}</p>
-                                <p><strong>Fim:</strong> {{ i.dataFim }}</p>
+                                <p><strong>Fim:</strong> {{ i.dataFim|date:"d/m/Y" }}</p>
                             </div>
                         </div>
                     {% endfor %}
                 </div>
 
                 <div class="pagination">
-                    <a 
-                        href="{% if desafios.has_previous %}?desafio_page={{ desafios.previous_page_number }}{% else %}#{% endif %}" 
-                        class="{% if not desafios.has_previous %}disabled{% endif %}">
-                        Anterior
-                    </a>
+                    {% if desafios.has_previous %}
+                        <a href="?desafio_page={{ desafios.previous_page_number }}">
+                            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                        </a>
+                    {% endif %}
                 
                     <span>Página {{ desafios.number }} de {{ desafios.paginator.num_pages }}</span>
                 
-                    <a 
-                        href="{% if desafios.has_next %}?desafio_page={{ desafios.next_page_number }}{% else %}#{% endif %}" 
-                        class="{% if not desafios.has_next %}disabled{% endif %}">
-                        Próxima
-                    </a>
+                    {% if desafios.has_next %}
+                        <a href="?desafio_page={{ desafios.next_page_number }}">
+                            <i class="fa fa-arrow-right" aria-hidden="true"> </i>
+                        </a>
+                    {% endif %}
                 </div>
             </div>
         </div>

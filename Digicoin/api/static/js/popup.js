@@ -12,6 +12,7 @@ if (window.Popup === undefined) {
             this.popupFooter = null;
             this.dialog = null;
             this.tipo = '';
+            this.loadingTimeoutId = null;
         }
 
         injectCSS() {
@@ -230,7 +231,7 @@ if (window.Popup === undefined) {
             this.setAttributes('loading');
 
             const loadingIcon = document.createElement('img');
-            loadingIcon.src = '/static/img/popup-carregando.gif'; // ajuste o caminho se necessário
+            loadingIcon.src = '/static/img/popup-carregando.gif';
             loadingIcon.alt = 'Carregando';
 
             const loadingText = document.createElement('div');
@@ -243,16 +244,30 @@ if (window.Popup === undefined) {
             this.popupHeader.style.display = 'none';
             this.popupFooter.style.display = 'none';
 
-            // Monta os elementos corretamente
             this.popup.appendChild(this.popupBody);
             this.popup.appendChild(this.popupFooter);
             this.dialog.appendChild(this.popup);
             document.body.appendChild(this.dialog);
             this.dialog.showModal();
+
+            // Salva o timeoutId para poder cancelar depois
+            this.loadingTimeoutId = setTimeout(() => {
+                if (this.tipo === 'loading') {
+                    this.hidePopup();
+                    this.showPopup(
+                        'Não foi possível carregar os dados. Tente novamente mais tarde.',
+                        'Erro',
+                        'erro'
+                    );
+                }
+            }, 10000);
         }
-
-
+        
         hidePopup() {
+            if (this.loadingTimeoutId) {
+                clearTimeout(this.loadingTimeoutId);
+                this.loadingTimeoutId = null;
+            }
             this.dialog.remove();
             document.body.classList.remove('no-scroll-popup-alerta');
         }
@@ -336,6 +351,11 @@ if (window.Popup === undefined) {
     window.showPopup = function(mensagem, titulo = ' ', tipo = 'padrao', onConfirm = null, onCancel = null) {
         const popup = new Popup();
         popup.showPopup(mensagem, titulo, tipo, onConfirm, onCancel);
+    };
+
+    window.showLoadingPopup = function(mensagem = 'Carregando...') {
+        const popup = new Popup();
+        popup.showLoadingPopup(mensagem);
     };
 
     window.Popup = Popup;
