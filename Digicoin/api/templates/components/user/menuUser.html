@@ -5,7 +5,6 @@
 <div class="menu">
 
 
-
         <div class="group">
             <img src="{% static 'img/group.png'%}" alt="" class="imgGroup" id="imgGroup">
             <img src="{% static 'img/flechaEsquerda.png' %}" alt="" class="flechaEsquerda" id="flechaEsquerda">
@@ -28,14 +27,18 @@
             <img src="{% static 'img/icone.png'%}" alt="" class="imgPerfil" id="imgPerfil">
             
             <div class="usuario">
-                <p id='nomeUsuario'>Fulano</p>
+                <p id='nomeUsuario'></p>
                 <p class="digicoin">DG$ <spam class="valor" id='saldo'>9999</spam> </p>
             </div>
 
             <div class="flechaDropdownContainer">
-                <img src="{% static 'img/sino.png'%}" alt="" class="imgSino">
+                <img src="{% static 'img/sino.png'%}" data-sino-desativo="{% static 'img/sino.png'%}"  data-sino-ativo="{% static 'img/sino-ativo.png'%}"  alt="" class="imgSino" id="notificacaoOff">
                 <img src="{% static 'img/flecha.png'%}" alt="" class="imgFlecha" id='imgFlecha'>
                 <img src="{% static 'img/flechaCima.png'%}" alt="" class="imgFlechaCima" id='imgFlechaCima'>
+
+                <div class="notificacoes-menuUser" id="notificacoes-menuUser"> 
+                    
+                </div>
 
                 <div class="dropdownMenu" id="dropdownMenu">
                     <button id="visualizarPerfil" class="visualizarPerfil">
