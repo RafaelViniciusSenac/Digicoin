@@ -15,13 +15,23 @@ document.addEventListener("DOMContentLoaded", function(){
     async function GetNotificacao(userId){
         const response = await apiRequest(`/api/notificacao/?user_id=${userId}`)
         const notificacoes = document.getElementById('notificacoes-menuUser')
-        console.log(response)
-        response.results.forEach(info => notificacoes.innerHTML += `
+        
+        if (response.results && response.results.length > 0) {
+            
+            const sino = document.getElementById('notificacaoOff');
+            sino.src = sino.dataset.sinoAtivo;
+    
+            // renderiza notificações
+            notificacoes.innerHTML = ''; // limpa antes de inserir
+            response.results.forEach(info => {
+                notificacoes.innerHTML += `
                     <div class="notificacao" id="notificacao-menuUser">
                         <h2>${info.titulo}</h2>
                         <p>${info.mensagem}</p>
                     </div>
-                        `)
+                `;
+            });
+        }
        
     }
     const userId = localStorage.getItem('userId')
@@ -33,6 +43,8 @@ document.addEventListener("DOMContentLoaded", function(){
     notificacaoOff.addEventListener('click', () => {
         if (notificacoes.style.display === 'block') {
             notificacoes.style.display = 'none'
+            const sino = document.getElementById('notificacaoOff');
+            sino.src = sino.dataset.sinoDesativo;
         }
         else
             notificacoes.style.display = 'block'
