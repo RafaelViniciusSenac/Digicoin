@@ -122,8 +122,7 @@ function preencherPopupConcluir(campanhasSelecionadas = []) {
 }
 
 async function inativar (elemento) {
-
-    const confirmar = window.confirm('Tem certeza que deseja inativar este produto?');
+    const confirmar = await confirmarAcao('Tem certeza que deseja inativar este produto?', 'Inativar Produto');
 
     if(!confirmar){
         return
