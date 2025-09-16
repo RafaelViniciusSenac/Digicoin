@@ -88,6 +88,43 @@
     align-items: center; /* mantém só o necessário para as flechas e o menu */
 }
 
+.notificacoes-menuUser{
+    position: absolute;
+    top: 100%; /* colado logo abaixo da flecha */
+    left: 0; /* alinha com a flecha */
+    background-color: white;
+    border: 2px solid rgba(44, 0, 106, 1);
+    border-radius: 5px;
+    display: none;
+    flex-direction: column;
+    z-index: 1000;
+    width: 250px; 
+  
+}
+
+.notificacao{
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.notificacao h2{
+    margin: 0;
+    font-size: 20px;
+    color: #FC671D;
+}
+
+.notificacao p{
+    margin: 0;
+    font-size: 18px;
+    
+}
+
+.notificacaoOn{
+    display: none;
+    
+}
 
 .dropdownMenu {
     position: absolute;
@@ -128,7 +165,8 @@
 }
 
 .imgSino{
-    margin-right: 10px;
+    padding: 10px;
+    
 } 
 
 .perfilUsuario{

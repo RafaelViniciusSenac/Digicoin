@@ -14,16 +14,25 @@ class CustomUser(AbstractUser):
 
 
     def save(self, *args, **kwargs):
-        # Ao salvar, detecta mudança de saldo
         if self.pk:
             original = CustomUser.objects.get(pk=self.pk)
             if original.saldo != self.saldo:
+                delta = self.saldo - original.saldo
+
+            
                 HistoricoSaldo.objects.create(
                     usuario=self,
                     saldo_anterior=original.saldo,
                     saldo_novo=self.saldo,
-                    diferenca=self.saldo - original.saldo,
+                    diferenca=delta,
                     data_alteracao=timezone.now()
+                )
+
+             
+                Notificacao.objects.create(
+                    titulo="Saldo atualizado",
+                    mensagem=f"Seu saldo atual é de D$ {self.saldo}",
+                    idUsuario=self
                 )
         super().save(*args, **kwargs)
 
@@ -114,3 +123,15 @@ class Desenvolvedores(models.Model):
 
     def __str__(self):
         return self.nome
+
+class Notificacao(models.Model):
+    titulo = models.CharField(max_length=100, null=False, blank=False)
+    mensagem = models.TextField(null=True, blank=True)
+    idUsuario = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True, blank=True)
+    dataCriacao = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-dataCriacao']
+    
+    def __str__(self):
+        return self.titulo

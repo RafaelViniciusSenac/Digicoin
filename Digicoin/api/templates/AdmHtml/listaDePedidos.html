@@ -61,15 +61,29 @@
                 </div>
                 
                 <strong class="btn-itens-compra">Tipo: <span>{{ compra.entrega }}</span>
+
                 
                 {% if compra.pedido == 'Pendente' %}
                     {% if compra.entrega == 'Retirar' or compra.obsEntrega != 'False' %}
                         <button id="botaoConcluir">Concluir Pedido</button>
+                        {% if compra.entrega == 'Entrega'   %}
+                        <p class="endereco">{{ compra.rua }}, {{compra.numero}} - {{ compra.bairro }}, {{compra.cidade}} - {{compra.estado}}, {{compra.cep}} </p>
+                        {% endif %}
                     {% elif compra.entrega == 'Entrega' and compra.obsEntrega == 'False' %}
-                        <input type="text" class="obsEntrega" placeholder="Observação">
+   
+                        <input type="text" class="obsEntrega" placeholder="Observação*">
                         <button id="botaoConcluir">Enviar Produto</button>
+                        {% if compra.entrega == 'Entrega'   %}
+                        <p class="endereco">{{ compra.rua }}, {{compra.numero}} - {{ compra.bairro }}, {{compra.cidade}} - {{compra.estado}}, {{compra.cep}} </p>
+                        {% endif %}
                     {% endif %}
-                {% endif %}                
+                {% else %}
+                {% if compra.entrega == 'Entrega'   %}
+                <p class="endereco">- {{ compra.rua }}, {{compra.numero}} - {{ compra.bairro }}, {{compra.cidade}} - {{compra.estado}}, {{compra.cep}} </p>
+                {% endif %}
+                {% endif %}
+
+                
                 </strong>
             </div>
             {% endfor %}

@@ -1,13 +1,55 @@
 document.addEventListener("DOMContentLoaded", function(){
+    
     async function GetUserLogado(){
         const response = await apiRequest('/api/GetDadosUsuarioLogado')
         const nomeUsuario = document.getElementById('nomeUsuario')
         const saldo = document.getElementById('saldo')
         nomeUsuario.innerHTML = response.first_name
         saldo.innerHTML = response.saldo
+        
+        localStorage.setItem('userId', response.id) 
     }
     
     GetUserLogado()
+    
+    async function GetNotificacao(userId){
+        const response = await apiRequest(`/api/notificacao/?user_id=${userId}`)
+        const notificacoes = document.getElementById('notificacoes-menuUser')
+        
+        if (response.results && response.results.length > 0) {
+            
+            const sino = document.getElementById('notificacaoOff');
+            sino.src = sino.dataset.sinoAtivo;
+    
+            // renderiza notificações
+            notificacoes.innerHTML = ''; // limpa antes de inserir
+            response.results.forEach(info => {
+                notificacoes.innerHTML += `
+                    <div class="notificacao" id="notificacao-menuUser">
+                        <h2>${info.titulo}</h2>
+                        <p>${info.mensagem}</p>
+                    </div>
+                `;
+            });
+        }
+       
+    }
+    const userId = localStorage.getItem('userId')
+    GetNotificacao(userId)
+   
+    const notificacaoOff = document.getElementById('notificacaoOff')
+    const notificacoes = document.getElementById('notificacoes-menuUser')
+
+    notificacaoOff.addEventListener('click', () => {
+        if (notificacoes.style.display === 'block') {
+            notificacoes.style.display = 'none'
+            const sino = document.getElementById('notificacaoOff');
+            sino.src = sino.dataset.sinoDesativo;
+        }
+        else
+            notificacoes.style.display = 'block'
+             
+    })
 
     const dropdownMenu = document.getElementById("dropdownMenu");
     const imgFlecha = document.getElementById('imgFlecha')

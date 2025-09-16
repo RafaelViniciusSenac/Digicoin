@@ -52,3 +52,8 @@ class DesenvolvedoresSerializer(serializers.ModelSerializer):
     class Meta:
         model = Desenvolvedores
         fields = '__all__'
+    
+class NotificacaoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Notificacao
+        fields = '__all__'
