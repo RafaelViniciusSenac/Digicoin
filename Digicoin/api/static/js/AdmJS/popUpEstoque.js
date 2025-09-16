@@ -1,11 +1,8 @@
 // Selecionando os elementos do popup e formulário
 document.addEventListener("DOMContentLoaded", function () {
-
-
     const modalPrimeiro = document.querySelector("#popupEditarProduto");
     const modalSegundo = document.querySelector("#popupConcluir");
     const modalTerceiro = document.querySelector("#CriacaoDeCampanha");
-
     
     const buttonClose = document.querySelector(".buttonClose");
     const buttonConcluir = document.querySelector(".buttonConcluir");
@@ -15,7 +12,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const produto = document.getElementById("Produto");
     const descricao = document.getElementById("Descricao") // PROBLEMA É AQUI, VALIDAÇÃO DO ERRO DO PRODUTO É IGUAL COM A DA DESCRIÇÃO, ME AJUDE A ARRUMAR ISSO
-
 
     const quantidade = document.getElementById("Quantidade");
     quantidade.addEventListener("input", function () {
@@ -197,10 +193,8 @@ document.addEventListener("DOMContentLoaded", function () {
     function temImagemOuImagemExistente() {
         const uploadBox = document.querySelector(".UploadBox");
         const imgPopUp = document.getElementById('imagem');
-         const uploadIcon = document.querySelector(".upload-icon")
+        const uploadIcon = document.querySelector(".upload-icon");
 
-        
-    
         if (uploadBox.classList.contains("has-image") || (imgPopUp.files && imgPopUp.files.length > 0)) {
             uploadBox.classList.remove("erro-upload");
             uploadIcon.classList.remove("erro-icon"); 
@@ -357,13 +351,9 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
             tipo = null;
         }
-
-
-    
+   
         const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value;
-        
-
-    
+ 
         // Criação do formData para envio com imagem
         const formData = new FormData();
         formData.append("nome", nome);
@@ -378,12 +368,13 @@ document.addEventListener("DOMContentLoaded", function () {
             formData.append("img1", imagemFile);
         }
         
-        
-        
         let response;
-    
+        let textPopupAlerta;
+        const loadingPopup = new Popup();
         if (editarValor2) {
             // Atualização via PUT — mas precisa ver se seu back aceita multipart no PUT
+            loadingPopup.showLoadingPopup('Atualizando dados...');
+            textPopupAlerta = 'atualizar'
             response = await fetch(`/api/produto/${editarValor2}/`, {
                 method: 'PUT',
                 headers: {
@@ -398,6 +389,8 @@ document.addEventListener("DOMContentLoaded", function () {
         } else if (editarValor) {
             
             // Atualização via PUT — mas precisa ver se seu back aceita multipart no PUT
+            loadingPopup.showLoadingPopup('Atualizando dados...');
+            textPopupAlerta = 'atualizar'
             response = await fetch(`/api/produto/${editarValor}/`, {
                 method: 'PUT',
                 headers: {
@@ -412,6 +405,8 @@ document.addEventListener("DOMContentLoaded", function () {
         
         }else {
             // Cadastro via POST com FormData e imagem
+            loadingPopup.showLoadingPopup('Cadastrando produto...');
+            textPopupAlerta = 'cadastrar'
             response = await fetch('/api/produto/', {
                 method: 'POST',
                 headers: {
@@ -420,9 +415,18 @@ document.addEventListener("DOMContentLoaded", function () {
                 },
                 body: formData
             });
+
         }
-    
-        window.location.reload()
+        loadingPopup.hidePopup();
+        const popupAlert = new Popup();
+        if (!response.ok) {
+            popupAlert.showPopup("Erro ao "+textPopupAlerta+" produto", "Erro", "erro");
+        } else {
+            popupAlert.showPopup("Sucesso ao "+textPopupAlerta+" produto", "Sucesso", "sucesso");
+            popupAlert.imgClosed.addEventListener("click", () => {
+                window.location.reload();
+            });
+        }
     }
 
         
@@ -441,6 +445,8 @@ document.addEventListener("DOMContentLoaded", function () {
         let status = document.getElementById('ativaCampanha').checked; 
         // let descricaoCampanha = document.getElementById('descricaoCampanha').value;
         const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value
+
+        const alertPopup = new Popup();
 
         const hoje = new Date()
         hoje.setHours(0, 0, 0, 0);
@@ -481,11 +487,13 @@ document.addEventListener("DOMContentLoaded", function () {
         let formCampanhaTerceiro = document.getElementById('CriacaoDeCampanhaForm');
 
         let response
+        let textPopupAlert = ""
         if (valorCampanhaId) {
+            textPopupAlert = "Campanha alterada com sucesso!"
             response = await apiRequest(`/api/campanha/${valorCampanhaId}/`, 'PUT', evento, { 'X-CSRFToken': csrf });
-            window.location.reload();
         } else {
-            const response = await apiRequest('/api/campanha/', 'POST', evento, { 'X-CSRFToken': csrf });
+            textPopupAlert = "Campanha cadastrada com sucesso!"
+            response = await apiRequest('/api/campanha/', 'POST', evento, { 'X-CSRFToken': csrf });
             let novaCampanha = document.createElement("div");
             let checkbox = document.createElement("input");
             checkbox.type = "checkbox";
@@ -506,11 +514,13 @@ document.addEventListener("DOMContentLoaded", function () {
         
         if (window.location.href.includes("campanhas")) {
             // alert popup de sucesso na pagina campanhas
-            const alertPopup = new Popup();
-            alertPopup.showPopup("Campanha criada com sucesso!", "Sucesso", "sucesso");
+            alertPopup.showPopup(textPopupAlert, "Sucesso", "sucesso");
             alertPopup.imgClosed.addEventListener("click", () => {
                 window.location.reload();
             })
+        }else{
+            // alert popup de sucesso na pagina adm
+            alertPopup.showPopup(textPopupAlert, "Sucesso", "sucesso");
         }
 
         // if (window.location.href.includes("campanhas")) { isso funciona 
