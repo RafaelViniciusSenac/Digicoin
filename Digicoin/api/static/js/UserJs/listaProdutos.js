@@ -1,72 +1,96 @@
-
 document.addEventListener("DOMContentLoaded", function () {
-    const produtos = document.getElementsByClassName("imgD-listaProdutos");
-    const listaProdutos = JSON.parse(localStorage.getItem('listaProdutos')) || { listaGrid: [] };
-    let quantidadeMoedasCarrinho = 0;
-    listaProdutos.listaGrid.forEach(item => {
-        quantidadeMoedasCarrinho += item.valorProduto;
-    })
-    const quantidadeMoedas = document.getElementById("quantidadeMoedas").value - quantidadeMoedasCarrinho;
+    // ==========================
+    // Barra de pesquisa
+    // ==========================
+    const searchInput = document.getElementById('barraBusca-listaProdutos');
+    if (searchInput) {
+        const form = searchInput.closest('form');
+        let timeout = null;
 
-    for (let i = 0; i < produtos.length; i++) {
-        produtos[i].children[0].addEventListener("click", function () {
-            const idProduto = produtos[i].children[0].dataset.valor;
+        // Quando o usuário muda (ex: pressiona Enter, sai do input)
+        searchInput.addEventListener('change', function () {
+            clearTimeout(timeout);
+            form.submit();
+        });
+
+        // Quando o usuário digita
+        searchInput.addEventListener('input', function () {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+                form.submit();
+            }, 400); // tempo de espera
+        });
+    }
+
+    // ==========================
+    // Sistema de produtos/carrinho
+    // ==========================
+    const container = document.querySelector(".imagensDigix-listaProdutos");
+
+    if (container) {
+        container.addEventListener("click", function (e) {
+            const botao = e.target.closest("button[data-valor]"); // botão da imagem do produto
+            if (!botao) return;
+
+            const idProduto = botao.dataset.valor;
             const dialog = document.getElementById(`modal-${idProduto}`);
             const flipCard = document.getElementById(`flip-${idProduto}`);
-            const refresh = flipCard.querySelector(".frente-listaProdutos .refresh-listaProdutos");
-            const refresh2 = flipCard.querySelector(".tras-listaProdutos .refresh-listaProdutos");
+            const refresh = flipCard?.querySelector(".frente-listaProdutos .refresh-listaProdutos");
+            const refresh2 = flipCard?.querySelector(".tras-listaProdutos .refresh-listaProdutos");
             const fecharBtns = dialog.querySelectorAll(".fechar-listaProdutos");
             const adiquirirBtn = dialog.querySelector(".Adquirir-listaProdutos");
             const msgErrorAddProduto = dialog.querySelector(".msgErrorAddProduto-listaProdutos");
-            const valorProduto = parseInt(document.querySelector(`input[name="valorProduto[${idProduto}]"]`)?.value || 0)
+            const valorProduto = parseInt(document.querySelector(`input[name="valorProduto[${idProduto}]"]`)?.value || 0);
+
+            const listaProdutos = JSON.parse(localStorage.getItem('listaProdutos')) || { listaGrid: [] };
+            let quantidadeMoedasCarrinho = 0;
+            listaProdutos.listaGrid.forEach(item => {
+                quantidadeMoedasCarrinho += item.valorProduto;
+            });
+
+            const quantidadeMoedas = document.getElementById("quantidadeMoedas").value - quantidadeMoedasCarrinho;
+
             let produtoExistente = listaProdutos.listaGrid.find(item => item.idProduto === parseInt(idProduto));
             let msgError = "Saldo insuficiente.";
-            if(produtoExistente) {
-                msgError = "Produto já existente no carrinho.";
-            }
+            if (produtoExistente) msgError = "Produto já existente no carrinho.";
 
             if (quantidadeMoedas < valorProduto || produtoExistente) {
                 adiquirirBtn.disabled = true;
                 adiquirirBtn.style.opacity = 0.5;
                 msgErrorAddProduto.style.display = "block";
                 msgErrorAddProduto.innerHTML = msgError;
-            }else {
+            } else {
                 adiquirirBtn.disabled = false;
                 adiquirirBtn.style.opacity = 1;
                 msgErrorAddProduto.style.display = "none";
             }
-            adiquirirBtn.addEventListener("click", () => {
-                if (quantidadeMoedas < valorProduto) {
-                    return;
-                }
-                const idProdutoAdd = adiquirirBtn.dataset.valor;
-                const tipoQuantidade = document.querySelector(`input[name="quantidadeProduto[${idProdutoAdd}]"]`)?.value || "";
-                
-                if (tipoQuantidade <= 0) {
-                    return;
-                }
-                
-                const tipo = document.querySelector(`input[name="tipoProduto[${idProdutoAdd}]"]`)?.value || "";
+
+            adiquirirBtn.onclick = function () {
+                if (quantidadeMoedas < valorProduto) return;
+
+                const tipoQuantidade = document.querySelector(`input[name="quantidadeProduto[${idProduto}]"]`)?.value || "";
+                if (tipoQuantidade <= 0) return;
+
+                const tipo = document.querySelector(`input[name="tipoProduto[${idProduto}]"]`)?.value || "";
                 let fisicoPrduto = (tipo == "Físico");
 
                 const produto = {
-                    id: parseInt(idProdutoAdd),
-                    idProduto: parseInt(idProdutoAdd),
-                    nomeProduto: document.querySelector(`input[name="nomeProduto[${idProdutoAdd}]"]`)?.value || "",
+                    id: parseInt(idProduto),
+                    idProduto: parseInt(idProduto),
+                    nomeProduto: document.querySelector(`input[name="nomeProduto[${idProduto}]"]`)?.value || "",
                     valorProduto: valorProduto,
                     qtdProduto: 1,
                     fisicoProduto: fisicoPrduto
                 };
 
                 if (!produtoExistente) {
-                    //soma a quantidade de moedas de toda a listaProdutos do localstorage
                     listaProdutos.listaGrid.push(produto);
                     localStorage.setItem('listaProdutos', JSON.stringify(listaProdutos));
                 }
+
                 dialog.close();
-                //redirecionar para o carrinho
                 window.location.href = "carrinho";
-            });
+            };
 
             dialog.showModal();
 
@@ -79,7 +103,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 refresh2?.addEventListener("click", () => {
                     flipCard.classList.remove("virado");
                     flipCard.classList.toggle("virado2");
-                    refresh2.click();
                 });
 
                 fecharBtns.forEach((btn) => {
@@ -102,55 +125,3 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 });
-
-document.addEventListener("DOMContentLoaded", () => {
-    const barraBusca = document.getElementById("barraBusca-listaProdutos");
-    const container = document.querySelector(".imagensDigix-listaProdutos");
-    const form = barraBusca.closest("form");
-
-    barraBusca.addEventListener("input", () => {
-        const termo = barraBusca.value;
-
-        fetch(`${form.action}?search=${encodeURIComponent(termo)}`, {
-            headers: { "X-Requested-With": "XMLHttpRequest" }
-        })
-        .then(res => res.json())
-        .then(data => container.innerHTML = data.html)
-        .catch(err => console.error("Erro na busca:", err));
-    });
-
-    form.addEventListener("submit", e => e.preventDefault());
-});
-
-
-function onClickAdicionarProduto(event) {
-    const button = event.currentTarget;
-    const produtoId = button.getAttribute("data-valor");
-
-    const quantidadeSpan = document.querySelector(`#flip-${produtoId} .quantidade-listaProdutos span`);
-    const quantidade = parseInt(quantidadeSpan.textContent);
-
-    if (quantidade <= 0) {
-        alert("Produto indisponível!");
-    } else {
-        adicionarAoCarrinho(produtoId);
-    }
-}
-
-document.addEventListener("DOMContentLoaded", function () {
-    document.querySelectorAll(".Adquirir-listaProdutos").forEach(button => {
-        const produtoId = button.getAttribute("data-valor");
-        const quantidadeSpan = document.querySelector(`#flip-${produtoId} .quantidade-listaProdutos span`);
-        const quantidade = parseInt(quantidadeSpan.textContent);
-
-        if (quantidade <= 0) {
-            button.disabled = true;
-            button.classList.add("botao-desativado-produtos");
-        }
-
-        button.addEventListener("click", onClickAdicionarProduto);
-    });
-});
-
-
-
