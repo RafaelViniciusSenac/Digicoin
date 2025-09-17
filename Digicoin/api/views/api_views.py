@@ -10,6 +10,8 @@ from django.core.mail import send_mail
 import yagmail
 import os
 from dotenv import load_dotenv
+from rest_framework.permissions import IsAdminUser
+from django.db.models import F
 
 class User(APIView):
     

@@ -25,30 +25,129 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   const selecionarTodos = document.getElementById('selecionarTodos');
-  selecionarTodos.addEventListener('change', (e) => {
-    const checkboxes = document.querySelectorAll(
-      '.linhaUsuario-listaDeUsuarios:not(.desativado) .checkbox',
-    );
-    checkboxes.forEach((checkbox) => {
-      checkbox.checked = e.target.checked;
-      checkbox.disabled = false;
-    });
+  const listaUsuarios = document.getElementById('listaUsuarios');
+  let usuariosSelecionadosCache = []; 
+
+  selecionarTodos?.addEventListener('change', async (e) => {
+    const checked = e.target.checked;
+
+    if (checked) {
+      try {
+        const res = await fetch('/api/usuarios/ativos-nao-admin/');
+        if (!res.ok) throw new Error('Erro ao buscar usuários ativos');
+
+        const data = await res.json();
+        console.log('Todos os usuários ativos do back-end:', data);
+
+        usuariosSelecionadosCache = data.map(usuario => ({
+          id: parseInt(usuario.id || usuario.user_id || usuario.id_usuario, 10)
+        })).filter(u => !isNaN(u.id));
+
+        if (usuariosSelecionadosCache.length === 0) {
+          throw new Error('Nenhum ID válido encontrado nos dados da API');
+        }
+
+        // alert(`Todos os ${usuariosSelecionadosCache.length} usuários ativos foram selecionados!`);
+
+        listaUsuarios
+          .querySelectorAll('.linhaUsuario-listaDeUsuarios:not(.desativado-listaDeUsuarios) .checkbox')
+          .forEach((cb) => (cb.checked = true));
+
+      } catch (err) {
+        // console.error('❌ Erro ao buscar todos os usuários:', err);
+        // alert('Erro ao selecionar todos os usuários.');
+        selecionarTodos.checked = false;
+        usuariosSelecionadosCache = [];
+      }
+    } else {
+      // Desmarca tudo
+      usuariosSelecionadosCache = [];
+      listaUsuarios
+        .querySelectorAll('.linhaUsuario-listaDeUsuarios:not(.desativado-listaDeUsuarios) .checkbox')
+        .forEach((cb) => (cb.checked = false));
+    }
   });
 
-  document
-    .querySelectorAll(
-      '.linhaUsuario-listaDeUsuarios:not(.desativado) .checkbox',
+
+  function getUsuariosSelecionados() {
+    if (selecionarTodos.checked && usuariosSelecionadosCache.length > 0) {
+      // console.log('✅ Usuários selecionados do cache (API):', usuariosSelecionadosCache);
+      return usuariosSelecionadosCache; // Já está no formato { id: number }
+    }
+
+    // Seleção manual via checkboxes
+    const selecionados = Array.from(
+      listaUsuarios.querySelectorAll('.linhaUsuario-listaDeUsuarios:not(.desativado-listaDeUsuarios) .checkbox')
     )
-    .forEach((checkbox) => {
-      checkbox.addEventListener('change', () => {
-        const allChecked = [
-          ...document.querySelectorAll(
-            '.linhaUsuario-listaDeUsuarios:not(.desativado) .checkbox',
-          ),
-        ].every((checkbox) => checkbox.checked);
-        selecionarTodos.checked = allChecked;
-      });
+      .filter((cb) => cb.checked)
+      .map((cb) => {
+        const linha = cb.closest('.linhaUsuario-listaDeUsuarios');
+        const inputId = linha.querySelector('.idUser-listaDeUsuarios');
+        const userId = inputId ? parseInt(inputId.value, 10) : null;
+        return userId ? { id: userId } : null;
+      })
+      .filter(Boolean); // Remove nulos
+
+    // console.log('✅ Usuários selecionados do DOM:', selecionados);
+    return selecionados;
+  }
+
+  addMoedas.addEventListener('click', () => {
+    popupAdicionarMoedas.showModal();
+    const usuariosSelecionados = getUsuariosSelecionados();
+    const inputQuantidade = document.getElementById('saldo');
+    const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+    if (usuariosSelecionados.length === 0) {
+      alert('Nenhum usuário selecionado!');
+      return;
+    }
+
+    const enviarMoedas = async (operacao) => {
+      const valor = parseInt(inputQuantidade.value);
+      if (isNaN(valor)) {
+        alert('Digite um valor válido!');
+        return;
+      }
+
+      try {
+        const promessas = usuariosSelecionadosCache.map(async (usuario) => {
+          
+          const response = await apiRequest(
+            `/api/user/${usuario.id}`,
+            'PUT',
+            { operacao, saldo: valor },
+            { 'X-CSRFToken': csrf }
+          );
+
+          if (response.status !== 200) {
+            throw new Error(`Falha ao atualizar usuário ${usuario.id}: ${response.status}`);
+          }
+
+          return response;
+        });
+
+        const resultados = await Promise.all(promessas);
+        alert(`Operação realizada com sucesso para ${resultados.length} usuários!`);
+        popupAdicionarMoedas.close();
+        location.reload();
+      } catch (error) {
+        console.error('Erro:', error);
+        alert(`Erro na operação: ${error.message}`);
+      }
+    };
+
+    // Botões dentro do popup
+    document.getElementById('adicionar').addEventListener('click', (e) => {
+      e.preventDefault();
+      enviarMoedas('adicionar');
     });
+
+    document.getElementById('remover').addEventListener('click', (e) => {
+      e.preventDefault();
+      enviarMoedas('remover');
+    });
+  });
 
   const editar = document.querySelectorAll('[id="editar"]');
   for (let i = 0; i < editar.length; i++) {
@@ -157,59 +256,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  addMoedas.addEventListener('click', () => {
-    popupAdicionarMoedas.showModal();
-    const usuariosSelecionados = getUsuariosSelecionados();
 
-    const formAdicionarMoedas = document.getElementById('formAdicionarMoedas');
-    const inputQuantidade = document.getElementById('saldo');
-
-    const enviarMoedas = async (operacao) => {
-      const valor = parseInt(inputQuantidade.value);
-      const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value;
-      if (isNaN(valor)) {
-        alert('Digite um valor válido!');
-        return;
-      }
-
-      try {
-        for (const usuario of usuariosSelecionados) {
-          const response = await apiRequest(
-            `/api/user/${usuario.id}`,
-            'PUT',
-            {
-              operacao: operacao,
-              saldo: valor,
-            },
-            {
-              'X-CSRFToken': csrf,
-            },
-          );
-
-          if (response.status !== 200) {
-            console.log(response.status);
-            throw new Error(`Falha ao atualizar usuário ${usuario.id}`);
-          }
-        }
-        alert('Operação realizada com sucesso!');
-        popupAdicionarMoedas.close();
-        location.reload();
-      } catch (error) {
-        console.error('Erro:', error);
-        alert(`Erro na operação: ${error.message}`);
-      }
-    };
-
-    document.getElementById('adicionar').addEventListener('click', (e) => {
-      e.preventDefault();
-      enviarMoedas('adicionar');
-    });
-
-    document.getElementById('remover').addEventListener('click', (e) => {
-      e.preventDefault();
-      enviarMoedas('remover');
-    });
-  });
 
   function getUsuariosSelecionados() {
     const linhas = document.querySelectorAll('.linhaUsuario-listaDeUsuarios');
@@ -258,7 +305,7 @@ function renderizarUsuarios(usuarios, container) {
 }
 
 async function buscarUsuario() {
-  const nome = document.getElementById('barraBusca-listaProdutos').value;
+  const nome = document.getElementById('barraBusca-listaDeUsuarios').value;
 
   try {
     const response = await apiRequest(
@@ -270,9 +317,12 @@ async function buscarUsuario() {
       console.log('Resposta inválida');
       return;
     } else {
+      // sempre remove admins da lista
+      const usuariosFiltrados = response.filter((user) => !user.is_adm);
+
       const container = document.getElementById('listaUsuarios');
       container.innerHTML = '';
-      renderizarUsuarios(response, container);
+      renderizarUsuarios(usuariosFiltrados, container);
     }
   } catch (error) {
     console.log('Erro ao buscar usuários:', error);
@@ -280,5 +330,6 @@ async function buscarUsuario() {
 }
 
 document
-  .getElementById('barraBusca-listaProdutos')
+  .getElementById('barraBusca-listaDeUsuarios')
   .addEventListener('input', buscarUsuario);
+

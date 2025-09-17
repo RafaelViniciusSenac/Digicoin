@@ -231,6 +231,7 @@ def listaDeUsuarios(request):
     user_paginator = Paginator(user, 5)
     user_page = request.GET.get('user_page')
     usuarios = user_paginator.get_page(user_page)
+    
 
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         return render(request, 'AdmHtml/fragments/usuarios.html', {'usuarios': usuarios})
