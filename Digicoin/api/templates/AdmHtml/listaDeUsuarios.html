@@ -3,7 +3,6 @@
 {% block content %}
 
 <link rel="stylesheet" href="{% static 'css/AdmCss/listaDeUsuarios.css'%}">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 
 {% include "components/adm/menuAdm.html" %}
@@ -13,7 +12,7 @@
     <div  class="divPesquisa-listaDeUsuarios">
         <div class="barraPesquisa-listaDeUsuarios">
             <img src="{% static 'img/iconeLupa.png' %}" alt="Ícone de busca">
-            <input id="barraBusca-listaDeUsuarios" type="search" placeholder="Pesquisar usuário" >
+            <input id="barraBusca-listaProdutos" type="search" placeholder="Pesquisar usuário">
         </div>
     </div>
     
@@ -120,24 +119,10 @@
                         </div>
             
                         <div class="form-right">
-                            <div class="form-group saldo-group">
-                                <label class="form-label">Gerenciar Saldo</label>
-                                <div class="saldo-control">
-
-                                    <button type="button" class="saldo-button add">
-                                        <img src="{% static 'img/iconMais.png' %}" alt="Aumentar saldo">
-                                    </button>
-                                    
-                                    <input type="number" class="form-input saldo" value="{{usuario.saldo}}">
-                                    
-                                    <button type="button" class="saldo-button sub">
-                                        <img src="{% static 'img/iconMenos.png' %}" alt="Reduzir saldo">
-                                    </button>
-
-                                </div>
-                            </div>
-            
                             <div class="action-buttons">
+                                <button type="button" class="action-button alterarSenha" data-id="{{usuario.id}}" >
+                                    Alterar senha
+                                </button>
                                 <button type="button" class="action-button desativar"> 
                                     Desativar usuário
                                 </button>
@@ -159,25 +144,18 @@
         <div class="pagination-listaDeUsuarios">
             {% if usuarios.has_previous %}
                 <div>
-                    <a style="font-size: 20px; margin-right: 10px;" href="?user_page={{ usuarios.previous_page_number }}"> 
-                        <i class="fa fa-arrow-left" aria-hidden="true"></i> 
-                    </a>
+                    <a style="font-size: 20px; margin-right: 10px;" href="?user_page={{ usuarios.previous_page_number }}">Anterior</a>
                 </div>
             {% endif %}
-
-            <span>Página {{ usuarios.number }} de {{ usuarios.paginator.num_pages }}</span>
         
             {% if usuarios.has_next %}
                 <div>
-                    <a style="font-size: 20px; " href="?user_page={{ usuarios.next_page_number }}">
-                        <i class="fa fa-arrow-right" aria-hidden="true"></i>
-                    </a>
+                    <a style="font-size: 20px; " href="?user_page={{ usuarios.next_page_number }}">Próxima</a>
                 </div>
             {% endif %}
             
-            
+            <span>Página {{ usuarios.number }} de {{ usuarios.paginator.num_pages }}</span>
         </div>
-
         
 </div>
 

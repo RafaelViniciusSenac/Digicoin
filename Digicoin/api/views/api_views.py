@@ -10,8 +10,11 @@ from django.core.mail import send_mail
 import yagmail
 import os
 from dotenv import load_dotenv
-from rest_framework.permissions import IsAdminUser
-from django.db.models import F
+from django.contrib.auth import get_user_model
+import random
+import string
+from django.conf import settings
+
 
 class User(APIView):
     
@@ -21,14 +24,17 @@ class User(APIView):
             serializer = UserSerializer(usuario)
             return Response(serializer.data, status=status.HTTP_200_OK)
 
-        nome = request.query_params.get("nome")
-        
-        if nome:
-            usuario = CustomUser.objects.filter(first_name__icontains=nome)[:5]
-        else:
-            usuario = CustomUser.objects.all()[:5]
+        # 👇 SEMPRE começa filtrando NÃO ADMINS
+        queryset = CustomUser.objects.filter(is_adm=False)
 
-        serializer = UserSerializer(usuario, many=True)
+        nome = request.query_params.get("nome")
+        if nome:
+            queryset = queryset.filter(first_name__icontains=nome)
+
+        # 👇 Só depois aplica limite de 5
+        usuarios = queryset[:5]
+
+        serializer = UserSerializer(usuarios, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
@@ -308,3 +314,56 @@ class NotificacaoViewSet(viewsets.ModelViewSet):
             qs = qs.filter(idUsuario_id=user_id)
             qs = qs[:3]
         return qs
+    
+class NonAdminActiveUsersAPIView(APIView):
+
+    def get(self, request):
+        users = CustomUser.objects.filter(
+            is_active=True,
+            is_adm=False
+        ).values('id', 'first_name', 'email', 'username', 'saldo')
+        return Response(list(users), status=status.HTTP_200_OK)
+   
+
+load_dotenv()
+
+CustomUser = get_user_model() 
+    
+class ResetUserPasswordView(APIView):
+
+    def post(self, request, user_id):
+        if not request.user.is_authenticated or not request.user.is_adm:
+            return Response({'error': 'Acesso negado'}, status=status.HTTP_403_FORBIDDEN)
+
+        try:
+            usuario = CustomUser.objects.get(id=user_id)
+        except CustomUser.DoesNotExist:
+            return Response({'error': 'Usuário não encontrado'}, status=status.HTTP_404_NOT_FOUND)
+
+        nova_senha = ''.join(random.choices(string.ascii_letters + string.digits, k=10))
+
+        usuario.set_password(nova_senha)
+        usuario.save()
+
+        try:
+            send_mail(
+                subject='[Digicoin] Sua senha foi redefinida',
+                message=(
+                    f'Olá {usuario.first_name},\n\n'
+                    f'Sua senha foi redefinida pelo administrador.\n'
+                    f'Nova senha: {nova_senha}\n\n'
+                    f'Por favor, altere sua senha após o primeiro acesso.\n\n'
+                    f'Atenciosamente,\nEquipe Digicoin'
+                ),
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[usuario.username], 
+                fail_silently=False,
+            )
+        except Exception as e:
+            return Response({'error': f'Erro ao enviar e-mail: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        return Response({
+            'message': 'Senha redefinida e e-mail enviado com sucesso!',
+            'user_id': usuario.id,
+            'email_enviado_para': usuario.username
+        }, status=status.HTTP_200_OK)

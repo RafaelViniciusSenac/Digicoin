@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const selecionarTodos = document.getElementById('selecionarTodos');
   const listaUsuarios = document.getElementById('listaUsuarios');
-  let usuariosSelecionadosCache = []; 
+  let usuariosSelecionadosCache = [];
 
   selecionarTodos?.addEventListener('change', async (e) => {
     const checked = e.target.checked;
@@ -39,9 +39,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const data = await res.json();
         console.log('Todos os usuários ativos do back-end:', data);
 
-        usuariosSelecionadosCache = data.map(usuario => ({
-          id: parseInt(usuario.id || usuario.user_id || usuario.id_usuario, 10)
-        })).filter(u => !isNaN(u.id));
+        usuariosSelecionadosCache = data
+          .map((usuario) => ({
+            id: parseInt(
+              usuario.id || usuario.user_id || usuario.id_usuario,
+              10,
+            ),
+          }))
+          .filter((u) => !isNaN(u.id));
 
         if (usuariosSelecionadosCache.length === 0) {
           throw new Error('Nenhum ID válido encontrado nos dados da API');
@@ -50,9 +55,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // alert(`Todos os ${usuariosSelecionadosCache.length} usuários ativos foram selecionados!`);
 
         listaUsuarios
-          .querySelectorAll('.linhaUsuario-listaDeUsuarios:not(.desativado-listaDeUsuarios) .checkbox')
+          .querySelectorAll(
+            '.linhaUsuario-listaDeUsuarios:not(.desativado-listaDeUsuarios) .checkbox',
+          )
           .forEach((cb) => (cb.checked = true));
-
       } catch (err) {
         // console.error('❌ Erro ao buscar todos os usuários:', err);
         // alert('Erro ao selecionar todos os usuários.');
@@ -63,11 +69,12 @@ document.addEventListener('DOMContentLoaded', () => {
       // Desmarca tudo
       usuariosSelecionadosCache = [];
       listaUsuarios
-        .querySelectorAll('.linhaUsuario-listaDeUsuarios:not(.desativado-listaDeUsuarios) .checkbox')
+        .querySelectorAll(
+          '.linhaUsuario-listaDeUsuarios:not(.desativado-listaDeUsuarios) .checkbox',
+        )
         .forEach((cb) => (cb.checked = false));
     }
   });
-
 
   function getUsuariosSelecionados() {
     if (selecionarTodos.checked && usuariosSelecionadosCache.length > 0) {
@@ -77,7 +84,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Seleção manual via checkboxes
     const selecionados = Array.from(
-      listaUsuarios.querySelectorAll('.linhaUsuario-listaDeUsuarios:not(.desativado-listaDeUsuarios) .checkbox')
+      listaUsuarios.querySelectorAll(
+        '.linhaUsuario-listaDeUsuarios:not(.desativado-listaDeUsuarios) .checkbox',
+      ),
     )
       .filter((cb) => cb.checked)
       .map((cb) => {
@@ -112,23 +121,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
       try {
         const promessas = usuariosSelecionadosCache.map(async (usuario) => {
-          
           const response = await apiRequest(
             `/api/user/${usuario.id}`,
             'PUT',
             { operacao, saldo: valor },
-            { 'X-CSRFToken': csrf }
+            { 'X-CSRFToken': csrf },
           );
 
           if (response.status !== 200) {
-            throw new Error(`Falha ao atualizar usuário ${usuario.id}: ${response.status}`);
+            throw new Error(
+              `Falha ao atualizar usuário ${usuario.id}: ${response.status}`,
+            );
           }
 
           return response;
         });
 
         const resultados = await Promise.all(promessas);
-        alert(`Operação realizada com sucesso para ${resultados.length} usuários!`);
+        alert(
+          `Operação realizada com sucesso para ${resultados.length} usuários!`,
+        );
         popupAdicionarMoedas.close();
         location.reload();
       } catch (error) {
@@ -214,7 +226,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const nome = this.querySelector('.nome').value;
       const email = this.querySelector('.email').value;
       const ra = this.querySelector('.ra').value;
-      const saldo = this.querySelector('.saldo').value;
       const status = this.querySelector('input[name="is_active"]').value;
       const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
@@ -225,8 +236,7 @@ document.addEventListener('DOMContentLoaded', () => {
           username: email,
           ra: ra,
           first_name: nome,
-          saldo: saldo,
-          is_active: status,
+          is_active: status
         },
         {
           'X-CSRFToken': csrf,
@@ -256,8 +266,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-
-
   function getUsuariosSelecionados() {
     const linhas = document.querySelectorAll('.linhaUsuario-listaDeUsuarios');
     const usuarios = [];
@@ -286,50 +294,107 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function renderizarUsuarios(usuarios, container) {
+  container.innerHTML = ''; // Limpa antes de renderizar
   usuarios.slice(0, 5).forEach((usuario) => {
     const div = document.createElement('div');
     div.className = 'linhaUsuario-listaDeUsuarios';
     div.innerHTML = `
-            <input type="checkbox" class="checkbox">
-            <div class="infoUser-listaDeUsuarios">
-                <img src="/static/img/userBlack.png" alt="">
-                <input type="hidden" class="idUser-listaDeUsuarios" value="${usuario.id}">
-                <span class="nome-listaDeUsuarios">${usuario.first_name}</span>
-                <span>D$ ${usuario.saldo}</span>
-                <span class="status-listaDeUsuarios"></span>
-            </div>
-            <img class="iconeEditar-listaDeUsuarios" id="editar" data-id="${usuario.id}" src="/static/img/edit.png" alt="">
-        `;
+      <input type="checkbox" class="checkbox">
+      <div class="infoUser-listaDeUsuarios">
+        <img src="/static/img/userBlack.png" alt="">
+        <input type="hidden" class="idUser-listaDeUsuarios" value="${usuario.id}">
+        <span class="nome-listaDeUsuarios">${usuario.first_name}</span>
+        <span>D$ ${usuario.saldo}</span>
+        <span class="status-listaDeUsuarios"></span>
+      </div>
+      <img class="iconeEditar-listaDeUsuarios" id="editar" data-id="${usuario.id}" src="/static/img/edit.png" alt="">
+    `;
     container.appendChild(div);
   });
 }
 
 async function buscarUsuario() {
-  const nome = document.getElementById('barraBusca-listaDeUsuarios').value;
+  const searchInput = document.getElementById('barraBusca-listaProdutos');
+  const nome = searchInput.value;
 
   try {
     const response = await apiRequest(
-      `/api/user/?nome=${encodeURIComponent(nome)}`,
+      `/api/user/?nome=${encodeURIComponent(nome)}`
     );
-    console.log(response);
 
-    if (!response) {
-      console.log('Resposta inválida');
+    if (!response || !Array.isArray(response)) {
+      console.log('Resposta inválida ou vazia');
       return;
-    } else {
-      // sempre remove admins da lista
-      const usuariosFiltrados = response.filter((user) => !user.is_adm);
-
-      const container = document.getElementById('listaUsuarios');
-      container.innerHTML = '';
-      renderizarUsuarios(usuariosFiltrados, container);
     }
+
+    const container = document.getElementById('listaUsuarios');
+    renderizarUsuarios(response, container);
+
+    searchInput.focus();
+
   } catch (error) {
     console.log('Erro ao buscar usuários:', error);
+
+    searchInput.focus();
   }
 }
 
-document
-  .getElementById('barraBusca-listaDeUsuarios')
-  .addEventListener('input', buscarUsuario);
+document.addEventListener('DOMContentLoaded', function () {
+  const searchInput = document.getElementById('barraBusca-listaProdutos');
+  let timeout = null;
 
+  searchInput.addEventListener('input', function () {
+    clearTimeout(timeout); 
+    timeout = setTimeout(() => {
+      buscarUsuario(); 
+    }, 600); 
+  });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('.alterarSenha').forEach(button => {
+      button.addEventListener('click', async function () {
+          const userId = this.getAttribute('data-id');
+          const confirmar = confirm("Tem certeza? O usuário receberá um e-mail com a nova senha.");
+
+          if (!confirmar) return;
+
+          try {
+              const response = await fetch(`/api/reset-password/${userId}/`, {
+                  method: 'POST',
+                  headers: {
+                      'X-CSRFToken': getCookie('csrftoken'),
+                      'Content-Type': 'application/json',
+                  },
+                  credentials: 'same-origin' 
+              });
+
+              const data = await response.json();
+
+              if (response.ok) {
+                  alert(data.message);
+              } else {
+                  alert('Erro: ' + (data.error || 'Erro desconhecido'));
+              }
+          } catch (error) {
+              console.error('Erro:', error);
+              alert('Erro ao conectar com o servidor.');
+          }
+      });
+  });
+});
+
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+      const cookies = document.cookie.split(';');
+      for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i].trim();
+          if (cookie.substring(0, name.length + 1) === (name + '=')) {
+              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break;
+          }
+      }
+  }
+  return cookieValue;
+}

@@ -49,5 +49,6 @@ urlpatterns = [
     path('api/exportar_usuarios_com_mais_moedas_excel/', exportar_usuarios_com_mais_moedas_excel, name='exportar_usuarios_com_mais_moedas_excel'),
     path('api/desenvolvedores/', Desenvolvedores, name='desenvolvedores'),
     path('api/notificacao/', Notificacao, name='notificacoes'),
-
+    path('api/usuarios/ativos-nao-admin/', NonAdminActiveUsersAPIView.as_view(), name='ativos_nao_admin'),
+    path('reset-password/<int:user_id>/', ResetUserPasswordView.as_view(), name='reset-password'),
 ]
