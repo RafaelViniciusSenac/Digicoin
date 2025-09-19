@@ -536,6 +536,14 @@
         transition: background-color 0.3s;
     }
 
+    .alterarSenha{
+        background-color: var(--laranja);
+    }
+
+    .alterarSenha:hover {
+        background-color: rgb(204, 103, 29);
+    }
+
     .desativar {
         background-color: rgba(244, 74, 176, 1);
     }
