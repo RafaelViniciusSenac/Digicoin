@@ -138,18 +138,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         const resultados = await Promise.all(promessas);
-        alert(
-          `Operação realizada com sucesso para ${resultados.length} usuários!`,
-        );
+        // alert(
+        //   `Operação realizada com sucesso para ${resultados.length} usuários!`,
+        // );
         popupAdicionarMoedas.close();
         location.reload();
       } catch (error) {
         console.error('Erro:', error);
-        alert(`Erro na operação: ${error.message}`);
+        // alert(`Erro na operação: ${error.message}`);
       }
     };
 
-    // Botões dentro do popup
     document.getElementById('adicionar').addEventListener('click', (e) => {
       e.preventDefault();
       enviarMoedas('adicionar');
@@ -198,7 +197,8 @@ document.addEventListener('DOMContentLoaded', () => {
   document
     .querySelectorAll('.action-button.desativar, .action-button.ativar')
     .forEach((botao) => {
-      botao.addEventListener('click', (e) => {
+      
+      botao.addEventListener('click', () => {
         const dialog = botao.closest('dialog');
         const form = dialog.querySelector('.formEditar');
         const statusInput = form.querySelector('input[name="is_active"]');
@@ -221,7 +221,16 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
 
       const dialog = this.closest('.editarUsuario');
-      const userId = dialog.id.split('-')[1];
+      if (!dialog) {
+        console.error('Dialog não encontrado!');
+        return;
+      }
+      const userId = dialog.getAttribute('data-id');
+      if (!userId) {
+        console.error('ID do usuário não encontrado no dialog!');
+        alert('Erro: ID do usuário não encontrado.');
+        return;
+      }
 
       const nome = this.querySelector('.nome').value;
       const email = this.querySelector('.email').value;
@@ -236,20 +245,20 @@ document.addEventListener('DOMContentLoaded', () => {
           username: email,
           ra: ra,
           first_name: nome,
-          is_active: status
+          is_active: status,
         },
         {
           'X-CSRFToken': csrf,
         },
       );
 
-      if (response.status == 200) {
+      if (response.status == 200 ) {
         console.log(response);
-
+        alert('Usuário editado com sucesso!');
         location.reload();
       } else {
-        console.log('Erro ao editar usuário: ' + response);
-        alert('Erro ao editar usuário!');
+        alert('Erro ao editar usuário: ' + (response?.error || 'Erro desconhecido'));
+        
       }
     });
   });
@@ -293,23 +302,233 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+async function alterarSenha(usuarioId) {
+  const confirmar = confirm(
+    'Tem certeza? O usuário receberá um e-mail com a nova senha.',
+  );
+  if (!confirmar) return;
+
+  try {
+    const csrf =
+      document.querySelector('[name=csrfmiddlewaretoken]')?.value || '';
+    const response = await apiRequest(
+      `/api/reset-password/${usuarioId}/`,
+      'POST',
+      {},
+      { 'X-CSRFToken': csrf },
+    );
+
+    if (response.status === 200) {
+      alert(
+        response.message || 'Senha redefinida e e-mail enviado com sucesso!',
+      );
+    } else {
+      alert('Erro: ' + (response.error || 'Erro desconhecido'));
+    }
+  } catch (error) {
+    console.error('Erro ao alterar senha:', error);
+    alert('Erro ao conectar com o servidor.');
+  }
+}
+
+// 👇 Função para salvar edição de usuário
+async function salvarEdicaoUsuario(usuarioId, formData) {
+  try {
+    const csrf =
+      document.querySelector('[name=csrfmiddlewaretoken]')?.value || '';
+    const response = await apiRequest(
+      `/api/user/${usuarioId}`,
+      'PUT',
+      formData,
+      { 'X-CSRFToken': csrf },
+    );
+
+    if (response.status === 200) {
+      alert('Usuário atualizado com sucesso!');
+      return true;
+    } else {
+      alert('Erro ao atualizar usuário.');
+      return false;
+    }
+  } catch (error) {
+    console.error('Erro ao salvar edição:', error);
+    alert('Erro ao conectar com o servidor.');
+    return false;
+  }
+}
+
+
+function configurarPopupEdicao(popup, usuario) {
+  
+  popup.querySelector('.close-dialog')?.addEventListener('click', () => {
+    popup.close();
+  });
+
+  popup.addEventListener('click', (e) => {
+    if (e.target === popup) popup.close();
+  });
+
+
+  const ativarBtn = popup.querySelector('.ativar');
+  const desativarBtn = popup.querySelector('.desativar');
+  const statusInput = popup.querySelector('input[name="is_active"]');
+
+  if (ativarBtn && desativarBtn && statusInput) {
+    ativarBtn.addEventListener('click', () => {
+      statusInput.value = 'true';
+      ativarBtn.classList.add('active');
+      desativarBtn.classList.remove('active');
+    });
+
+    desativarBtn.addEventListener('click', () => {
+      statusInput.value = 'false';
+      desativarBtn.classList.add('active');
+      ativarBtn.classList.remove('active');
+    });
+  }
+
+
+  const btnAlterarSenha = popup.querySelector('.alterarSenha');
+  if (btnAlterarSenha) {
+    btnAlterarSenha.addEventListener('click', () => alterarSenha(usuario.id));
+  }
+
+
+  const form = popup.querySelector('.formEditar');
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const nome = form.querySelector('.nome')?.value;
+      const email = form.querySelector('.email')?.value;
+      const ra = form.querySelector('.ra')?.value;
+      const is_active = form.querySelector('input[name="is_active"]')?.value;
+
+      const sucesso = await salvarEdicaoUsuario(usuario.id, {
+        username: email,
+        ra: ra,
+        first_name: nome,
+        is_active: is_active,
+      });
+
+      if (sucesso) {
+        popup.close();
+        buscarUsuario(); 
+      }
+    });
+  }
+}
+
 function renderizarUsuarios(usuarios, container) {
-  container.innerHTML = ''; // Limpa antes de renderizar
+  container.innerHTML = '';
+  const popupContainer = document.body;
+
+  usuarios.forEach((usuario) => {
+    const popupExistente = document.getElementById(
+      `editarUsuario-${usuario.id}`,
+    );
+    if (popupExistente) popupExistente.remove();
+  });
+
   usuarios.slice(0, 5).forEach((usuario) => {
+
     const div = document.createElement('div');
     div.className = 'linhaUsuario-listaDeUsuarios';
+    if (!usuario.is_active) div.classList.add('desativado-listaDeUsuarios');
+
     div.innerHTML = `
-      <input type="checkbox" class="checkbox">
+      <input type="checkbox" class="checkbox" ${
+        !usuario.is_active ? 'disabled' : ''
+      }>
       <div class="infoUser-listaDeUsuarios">
         <img src="/static/img/userBlack.png" alt="">
-        <input type="hidden" class="idUser-listaDeUsuarios" value="${usuario.id}">
+        <input type="hidden" class="idUser-listaDeUsuarios" value="${
+          usuario.id
+        }">
         <span class="nome-listaDeUsuarios">${usuario.first_name}</span>
         <span>D$ ${usuario.saldo}</span>
-        <span class="status-listaDeUsuarios"></span>
+        <span class="status-listaDeUsuarios">${
+          usuario.is_active ? 'Ativo' : 'Desativado'
+        }</span>
       </div>
-      <img class="iconeEditar-listaDeUsuarios" id="editar" data-id="${usuario.id}" src="/static/img/edit.png" alt="">
+      <img class="iconeEditar-listaDeUsuarios" data-id="${
+        usuario.id
+      }" src="/static/img/edit.png" alt="Editar">
     `;
+
+    
+    const iconeEditar = div.querySelector('.iconeEditar-listaDeUsuarios');
+    iconeEditar.addEventListener('click', () => {
+      const popup = document.getElementById(`editarUsuario-${usuario.id}`);
+      if (popup) popup.showModal();
+    });
+
     container.appendChild(div);
+
+
+    const popupHTML = `
+      <dialog id="editarUsuario-${usuario.id}" data-id="${usuario.id}" class="editarUsuario">
+        <div class="dialog-header">
+          <img src="/static/img/logoAdmin.png" alt="LogoAdmin" class="dialog-logo" />
+          <button class="close-dialog">
+            <img src="/static/img/iconeX.png" alt="Fechar" class="close-icon" />
+          </button>
+        </div>
+        <form class="formEditar">
+          <input type="hidden" name="csrfmiddlewaretoken" value="${
+            document.querySelector('[name=csrfmiddlewaretoken]')?.value || ''
+          }">
+          <input type="hidden" class="idUser" value="${usuario.id}" />
+          <input type="hidden" name="is_active" value="${
+            usuario.is_active ? 'true' : 'false'
+          }" />
+          <div class="form-columns">
+            <div class="form-left">
+              <div class="form-group">
+                <label for="nome-${
+                  usuario.id
+                }" class="form-label">Nome do Usuário</label>
+                <input type="text" id="nome-${
+                  usuario.id
+                }" class="form-input nome" value="${usuario.first_name}" />
+              </div>
+              <div class="form-group">
+                <label for="email-${
+                  usuario.id
+                }" class="form-label">Email</label>
+                <input type="email" id="email-${
+                  usuario.id
+                }" class="form-input email" value="${usuario.username}" />
+              </div>
+              <div class="form-group">
+                <label for="ra-${
+                  usuario.id
+                }" class="form-label">RA do Usuário</label>
+                <input type="number" id="ra-${
+                  usuario.id
+                }" class="form-input ra" value="${usuario.ra || ''}" />
+              </div>
+            </div>
+            <div class="form-right">
+              <div class="action-buttons">
+                <button type="button" class="action-button alterarSenha" data-id="${
+                  usuario.id
+                }">Alterar senha</button>
+                <button type="button" class="action-button desativar">Desativar usuário</button>
+                <button type="button" class="action-button ativar">Ativar usuário</button>
+                <button type="submit" class="action-button submit">Concluído</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </dialog>
+    `;
+
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = popupHTML;
+    const popupElement = tempDiv.firstElementChild;
+    popupContainer.appendChild(popupElement);
+
+    configurarPopupEdicao(popupElement, usuario);
   });
 }
 
@@ -319,7 +538,7 @@ async function buscarUsuario() {
 
   try {
     const response = await apiRequest(
-      `/api/user/?nome=${encodeURIComponent(nome)}`
+      `/api/user/?nome=${encodeURIComponent(nome)}`,
     );
 
     if (!response || !Array.isArray(response)) {
@@ -331,7 +550,6 @@ async function buscarUsuario() {
     renderizarUsuarios(response, container);
 
     searchInput.focus();
-
   } catch (error) {
     console.log('Erro ao buscar usuários:', error);
 
@@ -344,57 +562,9 @@ document.addEventListener('DOMContentLoaded', function () {
   let timeout = null;
 
   searchInput.addEventListener('input', function () {
-    clearTimeout(timeout); 
+    clearTimeout(timeout);
     timeout = setTimeout(() => {
-      buscarUsuario(); 
-    }, 600); 
+      buscarUsuario();
+    }, 600);
   });
 });
-
-document.addEventListener('DOMContentLoaded', function () {
-  document.querySelectorAll('.alterarSenha').forEach(button => {
-      button.addEventListener('click', async function () {
-          const userId = this.getAttribute('data-id');
-          const confirmar = confirm("Tem certeza? O usuário receberá um e-mail com a nova senha.");
-
-          if (!confirmar) return;
-
-          try {
-              const response = await fetch(`/api/reset-password/${userId}/`, {
-                  method: 'POST',
-                  headers: {
-                      'X-CSRFToken': getCookie('csrftoken'),
-                      'Content-Type': 'application/json',
-                  },
-                  credentials: 'same-origin' 
-              });
-
-              const data = await response.json();
-
-              if (response.ok) {
-                  alert(data.message);
-              } else {
-                  alert('Erro: ' + (data.error || 'Erro desconhecido'));
-              }
-          } catch (error) {
-              console.error('Erro:', error);
-              alert('Erro ao conectar com o servidor.');
-          }
-      });
-  });
-});
-
-function getCookie(name) {
-  let cookieValue = null;
-  if (document.cookie && document.cookie !== '') {
-      const cookies = document.cookie.split(';');
-      for (let i = 0; i < cookies.length; i++) {
-          const cookie = cookies[i].trim();
-          if (cookie.substring(0, name.length + 1) === (name + '=')) {
-              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-              break;
-          }
-      }
-  }
-  return cookieValue;
-}

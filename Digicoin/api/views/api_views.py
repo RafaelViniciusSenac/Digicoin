@@ -346,24 +346,40 @@ class ResetUserPasswordView(APIView):
         usuario.save()
 
         try:
-            send_mail(
+            yag = yagmail.SMTP(
+            user=os.getenv("EMAIL_USER"),
+            password=os.getenv("EMAIL_PASSWORD"),
+            host=os.getenv("EMAIL_HOST"),
+            port=int(os.getenv("EMAIL_PORT", 587)),
+            smtp_starttls=True,
+            smtp_ssl=False
+        )
+
+            yag.send(
+                to=usuario.username,  # ou usuario.email, se for o caso
                 subject='[Digicoin] Sua senha foi redefinida',
-                message=(
+                contents=(
                     f'Olá {usuario.first_name},\n\n'
-                    f'Sua senha foi redefinida pelo administrador.\n'
-                    f'Nova senha: {nova_senha}\n\n'
-                    f'Por favor, altere sua senha após o primeiro acesso.\n\n'
+                    f'Você é uma rata\n'
+                    f'Por Favor vamos fazer cookies\n\n'
+                    f'Se declare para o vitor tmb \n\n'
                     f'Atenciosamente,\nEquipe Digicoin'
-                ),
-                from_email=settings.DEFAULT_FROM_EMAIL,
-                recipient_list=[usuario.username], 
-                fail_silently=False,
+                )
             )
+
         except Exception as e:
             return Response({'error': f'Erro ao enviar e-mail: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         return Response({
-            'message': 'Senha redefinida e e-mail enviado com sucesso!',
-            'user_id': usuario.id,
-            'email_enviado_para': usuario.username
-        }, status=status.HTTP_200_OK)
+                    'message': 'Senha redefinida e e-mail enviado com sucesso!',
+                    'user_id': usuario.id,
+                    'email_enviado_para': usuario.username
+                }, status=status.HTTP_200_OK)
+        
+        
+        
+# f'Olá {usuario.first_name},\n\n'
+#                     f'Sua senha foi redefinida pelo administrador.\n'
+#                     f'Nova senha: {nova_senha}\n\n'
+#                     f'Por favor, altere sua senha após o primeiro acesso.\n\n'
+#                     f'Atenciosamente,\nEquipe Digicoin'
