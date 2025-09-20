@@ -25,7 +25,7 @@
                 <div class="usuario__classificacao">{{ forloop.counter }}</div>
                 <div class="usuario__dados">
                     <div class="usuario__dados-nome">{{ user.first_name }}</div>
-                    <div class="usuario__dados-saldo"><div class="dg">Pontuação</div> {{ user.saldo }}</div>
+                    <div class="usuario__dados-saldo"><div class="dg">Pontuação</div> {{ user.pontuacao }}</div>
                 </div>
             </article>
         {% endfor %}
@@ -34,7 +34,7 @@
                 <div class="usuario__classificacao">{{ usuario_logado.posicao }}</div>
                 <div class="usuario__dados">
                     <div class="usuario__dados-nome">{{ usuario_logado.first_name }}</div>
-                    <div class="usuario__dados-saldo"><div class="dg">Pontuação</div> {{ usuario_logado.saldo }}</div>
+                    <div class="usuario__dados-saldo"><div class="dg">Pontuação</div> {{ usuario_logado.pontuacao }}</div>
                 </div>
             </article>
         {% endif %}

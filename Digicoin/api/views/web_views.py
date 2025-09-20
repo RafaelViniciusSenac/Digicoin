@@ -18,7 +18,7 @@ def login(request):
 
 
 def home(request):
-    users = CustomUser.objects.filter(is_adm=False).order_by("-saldo")[:5]
+    users = CustomUser.objects.filter(is_adm=False).order_by("-pontuacao")[:5]
 
     userId = request.session.get('_auth_user_id')
     user = CustomUser.objects.filter(id=userId).first()
@@ -150,7 +150,7 @@ def cadastrarDesafio(request):
 
 @login_required
 def ranking(request):
-    top_usuarios = CustomUser.objects.filter(is_adm=False).order_by('-saldo')[:7]
+    top_usuarios = CustomUser.objects.filter(is_adm=False).order_by('-pontuacao')[:7]
     
     usuario_logado = request.user
     
@@ -241,7 +241,7 @@ def listaDeUsuarios(request):
 
 def desafiosCampanha(request, campanha_id):
 
-    desafio = Desafio.objects.filter(idCampanha=campanha_id)
+    desafio = Desafio.objects.filter(idCampanha=campanha_id, is_active=True)
     desafio_paginator = Paginator(desafio, 5)
     desafio_page = request.GET.get('desafio_page')
     desafios = desafio_paginator.get_page(desafio_page)
