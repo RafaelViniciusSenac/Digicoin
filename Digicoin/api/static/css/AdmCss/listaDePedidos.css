@@ -393,3 +393,40 @@ a {
         max-width: 100%;
     }
 }
+
+.campo_pesquisar {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.pesquisar {
+    border: 2px solid #ccc;
+    border-radius: 20px;
+    padding: 5px 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+
+.lupa {
+    width: 30px;
+    height: 30px;
+}
+
+.pesquisar_campanha {
+    background-color: transparent;
+    border-radius: 20px; 
+    padding: 5px 15px;
+    display: flex; 
+    align-items: center;
+    border: none;
+    gap: 8px;
+    
+}
+
+textarea:focus,
+input:focus,
+select:focus {
+    outline: 0;
+}
