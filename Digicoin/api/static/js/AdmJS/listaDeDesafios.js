@@ -127,7 +127,7 @@ async function EditarDesafio(event) {
   const nomeDesafio = form.querySelector('#nomeDesafio').value;
   const valorDesafio = form.querySelector('#valorDesafio').value;
   const descricao = form.querySelector('#descricao').value;
-  const campanha = form.querySelector('#campanha').value;
+  const campanha = form.querySelector('#campanha').value; 
   const dataFim = form.querySelector('#fimDesafio').value;
   const csrf = form.querySelector('[name=csrfmiddlewaretoken]').value;
 
@@ -143,7 +143,7 @@ async function EditarDesafio(event) {
       nome: nomeDesafio,
       valor: valorDesafio,
       descricao: descricao,
-      campanha: campanha,
+      idCampanha: campanha,
       dataFim: dataFim,
     },
     { 'X-CSRFToken': csrf },
@@ -152,6 +152,10 @@ async function EditarDesafio(event) {
 
   window.location.reload();
 }
+
+
+
+
 
 const forms = document.querySelectorAll('form[id^="formCadastrarDesafio"]');
 forms.forEach((form) => {
