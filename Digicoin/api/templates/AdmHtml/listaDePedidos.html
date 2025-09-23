@@ -10,18 +10,21 @@
 
 <div class="principal-listaDePedidos">
     <div class="detalhe-listaDePedidos">
+        <form method="get">
         <div class="campo_pesquisar" id="campo-pesquisar">
             <div class="pesquisar">
                 <img class="lupa" src="{% static 'img/pesquisa.png' %}" alt="" />
-                <input
-                    class="pesquisar_campanha"
-                    id="barraBusca"
-                    name="termo"
-                    type="search"
-                    placeholder="Pesquisar Campanha"
-                />
+                    <input
+                        type="search"
+                        id="barraBusca"
+                        name="search"
+                        value="{{ search|default:'' }}"
+                        placeholder="Pesquisar Campanha"
+                    />
+                    
+                </div>
             </div>
-        </div>
+        </form>
         <div class="cabecalho-listaDePedidos">
             <h1 class="Titulo-listaDePedidos">
                 <p class="underline-listaDePedidos">Ped</p> <p>idos</p>
@@ -51,7 +54,7 @@
         <div class="Produto-listaDePedidos">
             {% csrf_token %}
             {% for compra in compras %}
-            <div class="linha-listaDePedidos" onclick="toggleItens('{{ compra.id }}')" style="cursor: pointer;">
+            <div class="linha-listaDePedidos" onclick="toggleItens('{{ compra.id }}')" style="cursor: pointer;" data-nome="{{ compra.idUsuario.first_name }}" >
                 <div class="nome-listaDePedidos">
                     <img class="iconedigix-listaDePedidos" src="{% static 'img/digixlogo.png'%}" alt="icone">
                     <p>{{ compra.idUsuario.first_name }} - {{ compra.pedido }}</p>
@@ -133,7 +136,8 @@
             <div class="pagination">
                 {% if compras.has_previous %}
                 <div class="paginas">
-                    <a class="anterior" href="?compra_page={{ compras.previous_page_number }}&search={{ request.GET.search }}">
+                    <a class="anterior" 
+                       href="?compra_page={{ compras.previous_page_number }}&search={{ search }}&status={{ request.GET.status }}">
                         <i class="fa fa-arrow-left" aria-hidden="true"></i>
                     </a>
                 </div>
@@ -143,18 +147,52 @@
                 
                 {% if compras.has_next %}
                 <div class="paginas">
-                    <a class="proxima" href="?compra_page={{ compras.next_page_number }}&search={{ request.GET.search }}">
+                    <a class="proxima" 
+                       href="?compra_page={{ compras.next_page_number }}&search={{ search }}&status={{ request.GET.status }}">
                          <i class="fa fa-arrow-right" aria-hidden="true"></i>
                     </a>
                 </div>
                 {% endif %}
             </div>
+            
         
         </div>
         
     </div>  
 </div>
+<script>
+    function aplicarFiltro(termo) {
+        termo = termo.toLowerCase().trim();
+        const linhas = document.querySelectorAll(".linha-listaDePedidos");
+        let count = 0;
+    
+        linhas.forEach(linha => {
+            const nome = linha.dataset.nome.toLowerCase();
+            if (termo === "" || nome.includes(termo)) {
+                linha.style.display = "";
+                count++;
+            } else {
+                linha.style.display = "none";
+            }
+        });
+    
+        // se filtrou, esconde paginação
+        const paginacao = document.querySelector(".pagination");
+        if (paginacao) {
+            paginacao.style.display = (termo === "") ? "" : "none";
+        }
+    }
+    
+    // Listener para chamar aplicarFiltro a cada caractere digitado
+    const barraBusca = document.getElementById("barraBusca");
+    barraBusca.addEventListener("input", function() {
+        form.submit(); quero que submite do form seja forçado
+        aplicarFiltro(this.value); // filtra instantaneamente
+    });
+</script>
+    
 
+    
 <script src="{% static 'js/AdmJs/listaDePedidos.js' %}"></script>
 
 {% endblock content %}

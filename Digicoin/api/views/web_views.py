@@ -260,8 +260,8 @@ def desafiosCampanhaAtivas(request):
 
 def listaDePedidos(request):
     status_pedido = request.GET.get('status')
+    search = request.GET.get('search', '').strip()
 
-    
     status_map = {
         '1': 'Concluído',
         '2': 'Pendente'
@@ -275,18 +275,24 @@ def listaDePedidos(request):
     else:
         compras_queryset = Compra.objects.all().order_by('-id')
 
-    # Pagina apenas as compras
+    # Filtro por nome do usuário (caso tenha search)
+    if search:
+        compras_queryset = compras_queryset.filter(idUsuario__first_name__icontains=search)
+
+    # Pagina apenas as compras já filtradas
     compra_paginator = Paginator(compras_queryset, 5)
     compra_page = request.GET.get('compra_page')
     compras = compra_paginator.get_page(compra_page)
 
-    # Busca todos os itens relacionados às compras paginadas
+    # Busca os itens relacionados às compras paginadas
     pedidos = ItensCompra.objects.select_related('idProduto', 'idCompra').filter(idCompra__in=compras)
 
     return render(request, 'AdmHtml/listaDePedidos.html', {
         'compras': compras,
-        'pedidos': pedidos
+        'pedidos': pedidos,
+        'search': search,  # <-- passa o termo pro template
     })
+
 
 
 def carrinho(request):
