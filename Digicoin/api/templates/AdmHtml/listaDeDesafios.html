@@ -205,16 +205,23 @@
                         <div class="linha">
                         <label for="">Status do desafio</label>
                         <select name="campanha" id="campanha-form">
-                            {% if desafio.idCampanha == None %}
-                            <option value="">Sem Campanha</option>
+                            {% if desafio.idCampanha %}
+                                <option value="{{ desafio.idCampanha.id }}" selected>
+                                    {{ desafio.idCampanha.id }} - {{ desafio.idCampanha.nome }}
+                                </option>
                             {% else %}
-                            <option value="{{ desafio.idCampanha }}">{{ desafio.idCampanha }}</option>
+                                <option value="">Sem Campanha</option>
                             {% endif %}
-        
+
                             {% for campanha in campanhas %}
-                            <option value="{{ campanha.id }}">{{ campanha.nome }}</option>
+                                <option value="{{ campanha.id }}">
+                                    {{ campanha.id }} - {{ campanha.nome }}
+                                </option>
                             {% endfor %}
+
+                            
                         </select>
+                        
                         </div>
                         <div class="dataDesafioInterno-cadastrarDesafio">
                             <label class="dataDesafio-cadastrarDesafio" for="">Fim</label>
@@ -232,6 +239,7 @@
     </div>
     
 </dialog>
+
 
 <script src="{% static 'js/AdmJs/cadastrarDesafio.js' %}"></script>
 <script src="{% static 'js/AdmJs/listaDeDesafios.js' %}"></script>
