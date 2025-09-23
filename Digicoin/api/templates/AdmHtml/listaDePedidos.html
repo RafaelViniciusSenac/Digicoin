@@ -161,38 +161,103 @@
     </div>  
 </div>
 <script>
+document.addEventListener('DOMContentLoaded', () => {
+    const barraBusca = document.getElementById("barraBusca");
+    const formBusca = barraBusca.closest('form');
+
+    if (barraBusca) {
+        // Mantém o foco e cursor se já houver texto
+        if (barraBusca.value.trim() !== '') {
+            barraBusca.focus();
+            barraBusca.setSelectionRange(barraBusca.value.length, barraBusca.value.length);
+        }
+
+        // Submit apenas ao pressionar Enter
+        barraBusca.addEventListener("keypress", (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault(); // previne reload padrão
+                sessionStorage.setItem('maintainFocus', 'true');
+                sessionStorage.setItem('searchCursorPosition', e.target.selectionStart);
+                formBusca.submit();
+            }
+        });
+
+        // Mantém foco e cursor após reload/paginação
+        if (sessionStorage.getItem('maintainFocus') === 'true') {
+            barraBusca.focus();
+            const savedPosition = sessionStorage.getItem('searchCursorPosition');
+            if (savedPosition !== null) {
+                barraBusca.setSelectionRange(
+                    Math.min(parseInt(savedPosition), barraBusca.value.length), 
+                    Math.min(parseInt(savedPosition), barraBusca.value.length)
+                );
+            }
+            sessionStorage.removeItem('maintainFocus');
+            sessionStorage.removeItem('searchCursorPosition');
+        }
+    }
+});
+</script>
+
+{% comment %} <script>
+document.addEventListener('DOMContentLoaded', () => {
+    const barraBusca = document.getElementById("barraBusca");
+    const formBusca = barraBusca.closest('form');
+
     function aplicarFiltro(termo) {
         termo = termo.toLowerCase().trim();
         const linhas = document.querySelectorAll(".linha-listaDePedidos");
-        let count = 0;
-    
         linhas.forEach(linha => {
             const nome = linha.dataset.nome.toLowerCase();
-            if (termo === "" || nome.includes(termo)) {
-                linha.style.display = "";
-                count++;
-            } else {
-                linha.style.display = "none";
-            }
+            linha.style.display = (termo === "" || nome.includes(termo)) ? "" : "none";
         });
-    
-        // se filtrou, esconde paginação
         const paginacao = document.querySelector(".pagination");
         if (paginacao) {
             paginacao.style.display = (termo === "") ? "" : "none";
         }
     }
-    
-    // Listener para chamar aplicarFiltro a cada caractere digitado
-    const barraBusca = document.getElementById("barraBusca");
-    barraBusca.addEventListener("input", function() {
-        form.submit(); quero que submite do form seja forçado
-        aplicarFiltro(this.value); // filtra instantaneamente
-    });
-</script>
-    
 
-    
+    if (barraBusca) {
+        // Aplica filtro local imediatamente
+        aplicarFiltro(barraBusca.value);
+
+        barraBusca.addEventListener("input", (e) => {
+            const valorAtual = e.target.value.trim();
+            aplicarFiltro(valorAtual);  // filtro local
+
+            // envia GET imediato para servidor
+            sessionStorage.setItem('maintainFocus', 'true');
+            const cursorPosition = e.target.selectionStart;
+            sessionStorage.setItem('searchCursorPosition', cursorPosition);
+            formBusca.submit();
+        });
+
+        barraBusca.addEventListener("keypress", (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                const cursorPosition = e.target.selectionStart;
+                sessionStorage.setItem('searchCursorPosition', cursorPosition);
+                sessionStorage.setItem('maintainFocus', 'true');
+                formBusca.submit();
+            }
+        });
+
+        // mantém foco e cursor após reload
+        if (sessionStorage.getItem('maintainFocus') === 'true') {
+            barraBusca.focus();
+            const savedPosition = sessionStorage.getItem('searchCursorPosition');
+            if (savedPosition !== null) {
+                const pos = parseInt(savedPosition);
+                barraBusca.setSelectionRange(pos, pos);
+            }
+            sessionStorage.removeItem('maintainFocus');
+            sessionStorage.removeItem('searchCursorPosition');
+        }
+    }
+});
+</script> {% endcomment %}
+
+
 <script src="{% static 'js/AdmJs/listaDePedidos.js' %}"></script>
 
 {% endblock content %}

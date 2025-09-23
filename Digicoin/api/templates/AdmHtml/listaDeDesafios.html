@@ -8,17 +8,20 @@
 {% include 'components/adm/menuAdm.html' %}
 
 <div class="mainListaDesafios-listaDeDesafios">
-
-    <div class="form-busca">
+    <form method="get" class="form-busca">
         <div class="barraPesquisa-listaDeDesafios">
             <img src="{% static 'img/iconeLupa.png' %}" alt="">
-            <input 
-                type="search" 
-                id="barraBuscaDesafios"
-                placeholder="Pesquisar desafio"
-                autocomplete="off">
+            <input
+                type="search"
+                id="barraBusca"
+                name="search"
+                value="{{ search|default:'' }}"
+                placeholder="Pesquisar Desafio"
+            />
         </div>
-    </div> 
+    </form>
+
+
 
     <div class="primeiraLinha-listaDeDesafios">
 
@@ -136,30 +139,29 @@
     <div class="pagination">
         {% if desafios.has_previous %}
         <div>
-            <a 
-               href="?desafio_page={{ desafios.previous_page_number }}{% if busca %}&busca={{ busca }}{% endif %}">
-               <i class="fa fa-arrow-left" aria-hidden="true"></i>
-            </a>
-        </div>
-        {% endif %}
-    
-        <span>
-            Página {{ desafios.number }} de {{ desafios.paginator.num_pages }}
-            {% if busca %}
-                ({{ total_resultados }} resultado{{ total_resultados|pluralize }} encontrado{{ total_resultados|pluralize }})
-            {% endif %}
-        </span>
-    
-        {% if desafios.has_next %}
-        <div>
-            <a
-               href="?desafio_page={{ desafios.next_page_number }}{% if busca %}&busca={{ busca }}{% endif %}">
-               <i class="fa fa-arrow-right" aria-hidden="true"></i>
+            <a href="?desafio_page={{ desafios.previous_page_number }}{% if search %}&search={{ search|urlencode }}{% endif %}">
+                <i class="fa fa-arrow-left" aria-hidden="true"></i>
             </a>
         </div>
         {% endif %}
 
+        <span>
+            Página {{ desafios.number }} de {{ desafios.paginator.num_pages }}
+            {% if search %}
+                ({{ desafios.paginator.count }} resultado{{ desafios.paginator.count|pluralize }} encontrado{{ desafios.paginator.count|pluralize }})
+            {% endif %}
+        </span>
+
+        {% if desafios.has_next %}
+        <div>
+            <a href="?desafio_page={{ desafios.next_page_number }}{% if search %}&search={{ search|urlencode }}{% endif %}">
+                <i class="fa fa-arrow-right" aria-hidden="true"></i>
+            </a>
+        </div>
+        {% endif %}
     </div>
+
+
 </div>
 
 <dialog class="popUpAdicionarDesafio-listaDeDesafios" id="popUpAdicionarDesafio">
@@ -233,31 +235,33 @@
 
 <script src="{% static 'js/AdmJs/cadastrarDesafio.js' %}"></script>
 <script src="{% static 'js/AdmJs/listaDeDesafios.js' %}"></script>
+
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const formBusca = document.querySelector('.form-busca');
-        const inputBusca = document.getElementById('barraBuscaDesafios');
-    
-        if (formBusca && inputBusca) {
-            // Evita que o form seja submetido ao apertar Enter
-            formBusca.addEventListener('submit', (e) => e.preventDefault());
-    
-            inputBusca.addEventListener('input', function () {
-                let termo = this.value.toLowerCase().trim();
-                const linhas = document.querySelectorAll('.linha-desafio');
-    
-                linhas.forEach(linha => {
-                    const nome = linha.dataset.nome.toLowerCase();
-                    linha.style.display = (termo === "" || nome.includes(termo)) ? '' : 'none';
-                });
-    
-                // garante que o input continue focado sempre
-                this.focus();
-            });
+    function aplicarFiltro(termo) {
+        termo = termo.toLowerCase().trim();
+        const linhas = document.querySelectorAll(".linha-listaDeDesafios"); // classe que envolve cada desafio
+        let count = 0;
+
+        linhas.forEach(linha => {
+            const nome = linha.dataset.nome.toLowerCase();
+            if (termo === "" || nome.includes(termo)) {
+                linha.style.display = "";
+                count++;
+            } else {
+                linha.style.display = "none";
+            }
+        });
+
+        const paginacao = document.querySelector(".pagination");
+        if (paginacao) {
+            paginacao.style.display = (termo === "") ? "" : "none";
         }
+    }
+
+    const barraBusca = document.getElementById("barraBusca");
+    barraBusca.addEventListener("input", function() {
+        aplicarFiltro(this.value);
     });
-    
-    
 </script>
 
 
