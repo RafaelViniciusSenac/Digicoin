@@ -30,6 +30,11 @@
         <img src="{% static 'img/iconAdicionar.png' %}" alt="" />
         Adicionar usuário
       </button>
+
+      <button class="addUsuarios-listaDeUsuarios laranja-listaDeUsuarios" id="addUsuariosEmMassa">
+        <img src="{% static 'img/iconAdicionar.png' %}" alt="" />
+        Cadastrar usuários CSV
+      </button>
     </div>
   </div>
 
@@ -300,6 +305,23 @@
       <button class="remover-adicionarMoedas" id="remover">Remover</button>
     </div>
   </form>
+</dialog>
+
+<dialog id="popupUsuariosEmMassa">
+  <div>
+      <div>
+        <h3>Selecione um arquivo CSV para cadastrar usuários em massa</h3>
+        <img src="{% static 'img/iconeX.png' %}" alt="iconX">
+      </div>
+      
+      <form id="formUsuariosEmMassa">
+        {% csrf_token %}
+        <label for="arquivoCSV">Arquivo CSV:</label>
+        <input type="file" id="arquivoCSV" name="arquivoCSV" accept=".csv">
+        <button type="submit">Enviar</button>
+      </form>
+
+  </div>
 </dialog>
 
 <script src="{% static 'js/AdmJS/listaDeUsuarios.js' %}"></script>

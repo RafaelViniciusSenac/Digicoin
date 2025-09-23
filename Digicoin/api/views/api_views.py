@@ -14,7 +14,8 @@ from django.contrib.auth import get_user_model
 import random
 import string
 from django.conf import settings
-
+import csv
+from rest_framework.parsers import MultiPartParser, FormParser
 
 class User(APIView):
     
@@ -43,7 +44,7 @@ class User(APIView):
         nome = request.data.get('nome')
         senha = request.data.get('senha')
         ra = request.data.get('ra')
-        fistName = request.data.get('first_name')
+        firstName = request.data.get('first_name')
         isAdm = request.data.get('is_adm')
         
 
@@ -54,7 +55,7 @@ class User(APIView):
             username = nome,
             password = make_password(senha),
             is_active = True,
-            first_name = fistName,
+            first_name = firstName,
             is_adm = isAdm,
             ra = ra
         )
@@ -75,7 +76,7 @@ class User(APIView):
             to=usuario.username,
             subject='Bem vindo ao Sistema Digicoin',
             contents=(
-                f'Nome: {fistName}\n'
+                f'Nome: {firstName}\n'
                 f'RA: {ra}\n'
                 f'Login: {nome}\n'
                 f'Senha: {senha}\n'
@@ -377,9 +378,78 @@ class ResetUserPasswordView(APIView):
                 }, status=status.HTTP_200_OK)
         
         
+class CriacaoDeUsuariosEmMassaAPIView(APIView):
+    parser_classes = (MultiPartParser, FormParser)
+    
+    def post(self, request, *args, **kwargs):
+        serializer = CsvUploadSerializer(data=request.data)
         
-# f'Olá {usuario.first_name},\n\n'
-#                     f'Sua senha foi redefinida pelo administrador.\n'
-#                     f'Nova senha: {nova_senha}\n\n'
-#                     f'Por favor, altere sua senha após o primeiro acesso.\n\n'
-#                     f'Atenciosamente,\nEquipe Digicoin'
+        if serializer.is_valid():
+            csv_file = serializer.validated_data['csv_file']
+
+            if not csv_file.name.endswith('.csv'):
+                return Response({'error': 'O arquivo deve ser um CSV.'}, status=status.HTTP_400_BAD_REQUEST)
+
+            try:
+                file_data = csv_file.read().decode('utf-8-sig')
+                csv_reader = csv.reader(file_data.splitlines())
+                
+                next(csv_reader)
+
+                created_users_count = 0
+                for row in csv_reader:
+                    try:
+                        # Assumindo a ordem das colunas no CSV: username, first_name
+                        username = row[0]
+                        first_name = row[1]
+                        ra = row[2]
+                        
+                        password = ''.join(random.choices(string.ascii_letters + string.digits, k=12))
+
+                        if not CustomUser.objects.filter(username=username).exists():
+                            # Criação do usuário
+                            usuario = CustomUser.objects.create_user(
+                                username=username,
+                                first_name=first_name,
+                                ra=ra,
+                                password=password
+                            )
+                            created_users_count += 1
+
+                            # Envio de e-mail após a criação de cada usuário
+                            try:
+                                yag = yagmail.SMTP(
+                                    user=os.getenv("EMAIL_USER"),
+                                    password=os.getenv("EMAIL_PASSWORD"),
+                                    host=os.getenv("EMAIL_HOST"),
+                                    port=int(os.getenv("EMAIL_PORT")),
+                                    smtp_starttls=True,
+                                    smtp_ssl=False
+                                )
+                                yag.send(
+                                    to=usuario.username, # Assumindo que o username é o e-mail
+                                    subject='Bem vindo ao Sistema Digicoin',
+                                    contents=(
+                                        f'Nome: {usuario.first_name}\n'
+                                        f'RA: {ra}\n'
+                                        f'Login: {usuario.username}\n'
+                                        f'Senha: {password}\n'
+                                        f'Altere sua senha depois do primeiro acesso.'
+                                    )
+                                )
+                            except Exception as email_e:
+                                print(f"Erro ao enviar e-mail para {usuario.username}: {email_e}")
+                                
+                    except (IndexError, ValueError) as e:
+                        print(f"Erro ao processar a linha: {e}")
+                        continue
+                
+                return Response(
+                    {'message': f'{created_users_count} usuários foram criados com sucesso.'},
+                    status=status.HTTP_201_CREATED
+                )
+
+            except Exception as e:
+                return Response({'error': f'Ocorreu um erro: {e}'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

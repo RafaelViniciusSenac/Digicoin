@@ -569,7 +569,9 @@
         background-color:rgb(164, 58, 191) 
     }
 
-
+    .laranja-listaDeUsuarios{
+        background-color: var(--laranja);
+    }
 
 
 

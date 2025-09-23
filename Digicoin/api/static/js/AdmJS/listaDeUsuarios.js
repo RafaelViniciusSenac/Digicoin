@@ -568,3 +568,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }, 600);
   });
 });
+
+const addUsuariosEmMassa = document.getElementById('addUsuariosEmMassa');
+addUsuariosEmMassa.addEventListener('click', () => {
+  const popup = document.getElementById('popupUsuariosEmMassa');
+  popup.showModal();
+});
