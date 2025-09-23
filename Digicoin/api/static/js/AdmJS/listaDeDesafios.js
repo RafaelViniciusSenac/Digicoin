@@ -127,7 +127,10 @@ async function EditarDesafio(event) {
   const nomeDesafio = form.querySelector('#nomeDesafio').value;
   const valorDesafio = form.querySelector('#valorDesafio').value;
   const descricao = form.querySelector('#descricao').value;
-  const campanha = form.querySelector('#campanha').value; 
+  const campanha = form.querySelector('#campanha').value || form.querySelector('#campanhaId').value;
+ // problema esta aq quando edita
+  // puxa o nome... não esta guardando o id... certo é o id... certo é pega o id da campanha...
+  console.log(campanha)
   const dataFim = form.querySelector('#fimDesafio').value;
   const csrf = form.querySelector('[name=csrfmiddlewaretoken]').value;
 
@@ -150,7 +153,7 @@ async function EditarDesafio(event) {
   );
   console.log(response);
 
-  window.location.reload();
+  // window.location.reload();
 }
 
 
