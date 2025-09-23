@@ -31,6 +31,11 @@
     margin-bottom: 20px;
 }
 
+.iconeSubtracao{
+    width: 28px;
+    height: 28px;
+}
+
 .barraPesquisa-listaDeUsuarios {
     border: 2px solid #ccc;
     border-radius: 20px;
@@ -102,6 +107,11 @@
 .addUsuarios-listaDeUsuarios:hover{
     background-color: #b42fb6;
     transition: 0.5s ease-in-out;
+}
+
+.zerarPontuacao-listaDeUsuarios {
+    background-color: var(--laranja);
+    color: white;
 }
 
 .head-listaDeUsuarios {
@@ -886,32 +896,6 @@
     }
 }
 
-/* .pagination{
-    margin-bottom: 40px;
-    display: flex;
-}
-.pagination a {
-    font-size: 24px;
-    text-decoration: none;
-    
-}
-
-.pagination div{
-    margin-top: 20px;
-    display: flex;
-}
-
-.pagination img{
-    transform: rotate(180deg);
-    width: 32px;
-    height: 32px;
-}
-
-.pagination span{
-    margin-top: 23px;
-    margin-left: 10px;
-    margin-right: 10px;
-} */
 
 .pagination-listaDeUsuarios {
     display: flex;
