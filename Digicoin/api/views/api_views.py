@@ -382,31 +382,43 @@ class CriacaoDeUsuariosEmMassaAPIView(APIView):
     parser_classes = (MultiPartParser, FormParser)
     
     def post(self, request, *args, **kwargs):
+        print("API 'CriacaoDeUsuariosEmMassaAPIView' foi chamada.")
         serializer = CsvUploadSerializer(data=request.data)
         
         if serializer.is_valid():
+            print("Serializer é válido. Dados recebidos.")
             csv_file = serializer.validated_data['csv_file']
-
+            
             if not csv_file.name.endswith('.csv'):
+                print(f"Erro: O arquivo '{csv_file.name}' não é um CSV.")
                 return Response({'error': 'O arquivo deve ser um CSV.'}, status=status.HTTP_400_BAD_REQUEST)
 
             try:
                 file_data = csv_file.read().decode('utf-8-sig')
-                csv_reader = csv.reader(file_data.splitlines())
+                csv_reader = csv.reader(file_data.splitlines(), delimiter=';')
                 
+                print("Lendo o cabeçalho do CSV...")
                 next(csv_reader)
 
                 created_users_count = 0
-                for row in csv_reader:
+                processed_lines_count = 0
+                skipped_users = []
+
+                print("Iniciando o loop de processamento do CSV...")
+                for i, row in enumerate(csv_reader):
+                    processed_lines_count += 1
+                    print(f"--- Processando linha {processed_lines_count}: {row}")
                     try:
-                        # Assumindo a ordem das colunas no CSV: username, first_name
+                        # Assumindo a ordem das colunas no CSV: username, first_name, ra
                         username = row[0]
                         first_name = row[1]
                         ra = row[2]
                         
                         password = ''.join(random.choices(string.ascii_letters + string.digits, k=12))
+                        print(f"Dados extraídos: username={username}, first_name={first_name}, ra={ra}")
 
                         if not CustomUser.objects.filter(username=username).exists():
+                            print(f"Usuário '{username}' não encontrado. Iniciando a criação...")
                             # Criação do usuário
                             usuario = CustomUser.objects.create_user(
                                 username=username,
@@ -415,9 +427,11 @@ class CriacaoDeUsuariosEmMassaAPIView(APIView):
                                 password=password
                             )
                             created_users_count += 1
+                            print(f"Usuário '{username}' criado com sucesso.")
 
-                            # Envio de e-mail após a criação de cada usuário
+                            # Envio de e-mail
                             try:
+                                print(f"Iniciando o envio de e-mail para '{usuario.username}'...")
                                 yag = yagmail.SMTP(
                                     user=os.getenv("EMAIL_USER"),
                                     password=os.getenv("EMAIL_PASSWORD"),
@@ -427,7 +441,7 @@ class CriacaoDeUsuariosEmMassaAPIView(APIView):
                                     smtp_ssl=False
                                 )
                                 yag.send(
-                                    to=usuario.username, # Assumindo que o username é o e-mail
+                                    to=usuario.username,
                                     subject='Bem vindo ao Sistema Digicoin',
                                     contents=(
                                         f'Nome: {usuario.first_name}\n'
@@ -437,19 +451,36 @@ class CriacaoDeUsuariosEmMassaAPIView(APIView):
                                         f'Altere sua senha depois do primeiro acesso.'
                                     )
                                 )
+                                print(f"E-mail enviado para '{usuario.username}' com sucesso.")
                             except Exception as email_e:
                                 print(f"Erro ao enviar e-mail para {usuario.username}: {email_e}")
+                                skipped_users.append(f"Erro ao enviar e-mail para {username}: {email_e}")
                                 
+                        else:
+                            print(f"Usuário '{username}' já existe. Pulando a criação.")
+                            skipped_users.append(f"Usuário {username} já existe e não foi criado.")
+                            
                     except (IndexError, ValueError) as e:
-                        print(f"Erro ao processar a linha: {e}")
+                        print(f"Erro ao processar a linha {processed_lines_count}: Formato incorreto. Erro: {e}")
+                        skipped_users.append(f"Erro na linha {processed_lines_count}: Formato incorreto. Erro: {e}")
                         continue
                 
+                response_message = f"{created_users_count} usuários foram criados com sucesso."
+                if skipped_users:
+                    response_message += " Observações: " + " | ".join(skipped_users)
+                
+                print(f"Finalizando o processamento. Total de usuários criados: {created_users_count}")
+                print(f"Mensagem de resposta: {response_message}")
+
                 return Response(
-                    {'message': f'{created_users_count} usuários foram criados com sucesso.'},
+                    {'message': response_message},
                     status=status.HTTP_201_CREATED
                 )
 
             except Exception as e:
+                print(f"Erro geral no bloco 'try': {e}")
                 return Response({'error': f'Ocorreu um erro: {e}'}, status=status.HTTP_400_BAD_REQUEST)
         
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            print(f"Erro: Serializer não é válido. Erros: {serializer.errors}")
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

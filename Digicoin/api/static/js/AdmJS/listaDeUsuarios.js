@@ -569,8 +569,62 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 
+document.addEventListener('DOMContentLoaded', function () {
 const addUsuariosEmMassa = document.getElementById('addUsuariosEmMassa');
-addUsuariosEmMassa.addEventListener('click', () => {
-  const popup = document.getElementById('popupUsuariosEmMassa');
+const popup = document.getElementById('popupUsuariosEmMassa');
+const formUsuariosEmMassa = document.getElementById('formUsuariosEmMassa');
+
+addUsuariosEmMassa.addEventListener('click', () => {  
   popup.showModal();
 });
+
+const fecharUsuariosEmMassa = document.getElementById('fecharUsuariosEmMassa');
+fecharUsuariosEmMassa.addEventListener('click', () => {
+  popup.close();
+});
+
+formUsuariosEmMassa.addEventListener('submit', async (e) => {
+  e.preventDefault(); // Impede o envio padrão do formulário
+
+  const fileInput = document.getElementById('csvFileInput');
+  const file = fileInput.files[0];
+
+  if (!file) {
+      console.log('Nenhum arquivo selecionado.');
+      return;
+  }
+
+  const formData = new FormData();
+  formData.append('csv_file', file);
+
+  const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+  console.log('enviando arquivo...')
+
+  try {
+      const response = await fetch('/api/usuarios/cadastrar-em-massa/', {
+          method: 'POST',
+          body: formData,
+          headers: {
+              'X-CSRFToken': csrfToken
+          }
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+          alert('Usuários cadastrados com sucesso!');
+          popup.close();
+          
+      } else {
+          const errorMessage = data.error || data.detail || 'Ocorreu um erro desconhecido.';
+          alert('Erro ao cadastrar usuários: ' + errorMessage);
+
+      }
+  } catch (error) {
+      alert('Erro ao cadastrar usuários: ' + error.message);
+  }
+});
+
+
+})
