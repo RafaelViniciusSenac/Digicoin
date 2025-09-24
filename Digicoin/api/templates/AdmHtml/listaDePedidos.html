@@ -160,39 +160,112 @@
         
     </div>  
 </div>
-<script>
-    function aplicarFiltro(termo) {
-        termo = termo.toLowerCase().trim();
-        const linhas = document.querySelectorAll(".linha-listaDePedidos");
-        let count = 0;
-    
-        linhas.forEach(linha => {
-            const nome = linha.dataset.nome.toLowerCase();
-            if (termo === "" || nome.includes(termo)) {
-                linha.style.display = "";
-                count++;
-            } else {
-                linha.style.display = "none";
+{% comment %} <script>
+document.addEventListener('DOMContentLoaded', () => {
+    const barraBusca = document.getElementById("barraBusca");
+    const formBusca = barraBusca.closest('form');
+
+    if (barraBusca) {
+        // Mantém o foco e cursor se já houver texto
+        if (barraBusca.value.trim() !== '') {
+            barraBusca.focus();
+            barraBusca.setSelectionRange(barraBusca.value.length, barraBusca.value.length);
+        }
+
+        // Submit apenas ao pressionar Enter
+        barraBusca.addEventListener("keypress", (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault(); // previne reload padrão
+                sessionStorage.setItem('maintainFocus', 'true');
+                sessionStorage.setItem('searchCursorPosition', e.target.selectionStart);
+                formBusca.submit();
             }
         });
-    
-        // se filtrou, esconde paginação
-        const paginacao = document.querySelector(".pagination");
-        if (paginacao) {
-            paginacao.style.display = (termo === "") ? "" : "none";
+
+        // Mantém foco e cursor após reload/paginação
+        if (sessionStorage.getItem('maintainFocus') === 'true') {
+            barraBusca.focus();
+            const savedPosition = sessionStorage.getItem('searchCursorPosition');
+            if (savedPosition !== null) {
+                barraBusca.setSelectionRange(
+                    Math.min(parseInt(savedPosition), barraBusca.value.length), 
+                    Math.min(parseInt(savedPosition), barraBusca.value.length)
+                );
+            }
+            sessionStorage.removeItem('maintainFocus');
+            sessionStorage.removeItem('searchCursorPosition');
         }
     }
-    
-    // Listener para chamar aplicarFiltro a cada caractere digitado
-    const barraBusca = document.getElementById("barraBusca");
-    barraBusca.addEventListener("input", function() {
-        form.submit(); quero que submite do form seja forçado
-        aplicarFiltro(this.value); // filtra instantaneamente
-    });
-</script>
-    
+});
+</script> {% endcomment %}
 
-    
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const barraBusca = document.getElementById("barraBusca");
+    if (!barraBusca) return;
+
+    const formBusca = barraBusca.closest('form');
+    const linhas = document.querySelectorAll(".linha-listaDePedidos");
+    const paginacao = document.querySelector(".pagination");
+
+    // Função de filtro otimizada
+    function aplicarFiltro(termo) {
+        termo = termo.toLowerCase().trim();
+        requestAnimationFrame(() => {
+            linhas.forEach(linha => {
+                const nome = linha.dataset.nome.toLowerCase();
+                linha.hidden = !(termo === "" || nome.includes(termo));
+            });
+            if (paginacao) {
+                paginacao.style.display = (termo === "") ? "" : "none";
+            }
+        });
+    }
+
+    // Aplica filtro inicial se já tiver valor na barra
+    aplicarFiltro(barraBusca.value);
+
+    // Debounce para evitar submits a cada tecla
+    let debounceTimer;
+    barraBusca.addEventListener("input", (e) => {
+        const valorAtual = e.target.value.trim();
+        aplicarFiltro(valorAtual);
+
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => {
+            sessionStorage.setItem('maintainFocus', 'true');
+            const cursorPosition = e.target.selectionStart;
+            sessionStorage.setItem('searchCursorPosition', cursorPosition);
+            formBusca.submit();
+        }, 300); // espera 300ms sem digitar antes de enviar
+    });
+
+    // Enter também envia, mas sem travar o cursor
+    barraBusca.addEventListener("keypress", (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            const cursorPosition = e.target.selectionStart;
+            sessionStorage.setItem('searchCursorPosition', cursorPosition);
+            sessionStorage.setItem('maintainFocus', 'true');
+            formBusca.submit();
+        }
+    });
+
+    // Mantém foco e cursor após reload
+    if (sessionStorage.getItem('maintainFocus') === 'true') {
+        barraBusca.focus();
+        const savedPosition = sessionStorage.getItem('searchCursorPosition');
+        if (savedPosition !== null) {
+            const pos = parseInt(savedPosition);
+            barraBusca.setSelectionRange(pos, pos);
+        }
+        sessionStorage.removeItem('maintainFocus');
+        sessionStorage.removeItem('searchCursorPosition');
+    }
+});
+</script>
+
+
 <script src="{% static 'js/AdmJs/listaDePedidos.js' %}"></script>
 
 {% endblock content %}
