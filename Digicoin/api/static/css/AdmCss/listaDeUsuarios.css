@@ -31,6 +31,11 @@
     margin-bottom: 20px;
 }
 
+.iconeSubtracao{
+    width: 28px;
+    height: 28px;
+}
+
 .barraPesquisa-listaDeUsuarios {
     border: 2px solid #ccc;
     border-radius: 20px;
@@ -102,6 +107,11 @@
 .addUsuarios-listaDeUsuarios:hover{
     background-color: #b42fb6;
     transition: 0.5s ease-in-out;
+}
+
+.zerarPontuacao-listaDeUsuarios {
+    background-color: var(--laranja);
+    color: white;
 }
 
 .head-listaDeUsuarios {
@@ -569,9 +579,84 @@
         background-color:rgb(164, 58, 191) 
     }
 
+    .laranja-listaDeUsuarios{
+        background-color: var(--laranja);
+    }
 
-
-
+    .popupUsuariosEmMassa {
+        border: none;
+        border-radius: 8px;
+        padding: 30px 100px 100px 100px; /* Adapte o padding conforme a sua necessidade */
+        width: 90%;
+        max-width: 900px;
+        background-color: var(--roxo);
+        box-shadow: 0 4px 20px var(--sombra-preta);
+        color: var(--branco); /* Cor do texto dentro da popup */
+    }
+    
+    /* Fundo escurecido */
+    .popupUsuariosEmMassa::backdrop {
+        background-color: var(--sombra-preta);
+    }
+    
+    /* Layout interno do cabeçalho */
+    .popupUsuariosEmMassa .header-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+    }
+    
+    /* Estilo para o ícone de fechar */
+    .popupUsuariosEmMassa .iconeX {
+        width: 32px;
+        height: 32px;
+        cursor: pointer;
+    }
+    
+    /* Estilo do formulário de upload */
+    .popupUsuariosEmMassa #formUsuariosEmMassa {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    /* Estilo para o input de arquivo e o label */
+    .popupUsuariosEmMassa label {
+        color: var(--branco);
+        font-size: 15px;
+        margin-bottom: 10px;
+    }
+    
+    .popupUsuariosEmMassa input[type="file"] {
+        background-color: var(--branco);
+        border: none;
+        border-radius: 4px;
+        color: var(--base);
+        font-size: 16px;
+        padding: 12px 15px;
+        margin-bottom: 25px;
+        width: 100%;
+    }
+    
+    /* Estilo do botão de envio */
+    .popupUsuariosEmMassa button[type="submit"] {
+        font-size: 22px;
+        border-radius: 20px;
+        cursor: pointer;
+        border: none;
+        color: var(--branco);
+        background-color: var(--magenta);
+        width: 260px;
+        height: 60px;
+        box-shadow: 0 2px 5px var(--sombra-preta);
+        transition: background-color 0.3s ease;
+    }
+    
+    .popupUsuariosEmMassa button[type="submit"]:hover {
+        background-color: #b42fb6;
+    }
 
     /* Responsividade */
  
@@ -601,6 +686,16 @@
         width: 95% !important;
     }
 
+    .popupUsuariosEmMassa {
+        padding: 20px; /* Reduz o padding em telas menores */
+        max-width: 95%; /* Ocupa mais largura em telas menores */
+    }
+
+    .popupUsuariosEmMassa button[type="submit"] {
+        width: 100%; /* Ocupa 100% da largura em telas menores */
+        font-size: 18px;
+        height: 50px;
+    }
   
 }
 
@@ -756,6 +851,7 @@
         height: 16px;
     }
 
+    
    
 
 }
@@ -886,32 +982,6 @@
     }
 }
 
-/* .pagination{
-    margin-bottom: 40px;
-    display: flex;
-}
-.pagination a {
-    font-size: 24px;
-    text-decoration: none;
-    
-}
-
-.pagination div{
-    margin-top: 20px;
-    display: flex;
-}
-
-.pagination img{
-    transform: rotate(180deg);
-    width: 32px;
-    height: 32px;
-}
-
-.pagination span{
-    margin-top: 23px;
-    margin-left: 10px;
-    margin-right: 10px;
-} */
 
 .pagination-listaDeUsuarios {
     display: flex;

@@ -57,3 +57,6 @@ class NotificacaoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notificacao
         fields = '__all__'
+
+class CsvUploadSerializer(serializers.Serializer):
+    csv_file = serializers.FileField()

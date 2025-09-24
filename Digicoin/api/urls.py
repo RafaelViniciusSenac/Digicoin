@@ -53,4 +53,5 @@ urlpatterns = [
     path('api/notificacao/', Notificacao, name='notificacoes'),
     path('api/usuarios/ativos-nao-admin/', NonAdminActiveUsersAPIView.as_view(), name='ativos_nao_admin'),
     path('reset-password/<int:user_id>/', ResetUserPasswordView.as_view(), name='reset-password'),
+    path('api/usuarios/cadastrar-em-massa/', CriacaoDeUsuariosEmMassaAPIView.as_view(), name='api_bulk_user_create'),
 ]

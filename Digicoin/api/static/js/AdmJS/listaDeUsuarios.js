@@ -1,10 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
+  // Elementos do popup de cadastro
   const popupCadastrarUsuario = document.getElementById(
     'popupCadastrarUsuario',
   );
   const addUsuarios = document.getElementById('addUsuarios');
   const fecharCadastrar = document.getElementById('fecharCadastrar');
-  const cadastrarUsuario = document.getElementById('cadastrarUsuario');
 
   addUsuarios.addEventListener('click', () => {
     popupCadastrarUsuario.showModal();
@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     popupCadastrarUsuario.close();
   });
 
+  // Elementos do popup de adicionar moedas
   const popupAdicionarMoedas = document.getElementById('popupAdicionarMoedas');
   const addMoedas = document.getElementById('addMoedas');
   const fecharAdicionarMoedas = document.getElementById(
@@ -24,22 +25,53 @@ document.addEventListener('DOMContentLoaded', () => {
     popupAdicionarMoedas.close();
   });
 
+  // Elementos de seleção de usuários
   const selecionarTodos = document.getElementById('selecionarTodos');
   const listaUsuarios = document.getElementById('listaUsuarios');
-  let usuariosSelecionadosCache = [];
+  let todosSelecionadosGlobalmente = false;
+  let cacheSelecaoManual = new Set();
+  let cacheTodosUsuarios = [];
 
+  // Sincroniza visualmente os checkboxes da página atual com o estado do cache
+  function sincronizarCheckboxesComCache() {
+    if (!listaUsuarios) return;
+
+    listaUsuarios
+      .querySelectorAll(
+        '.linhaUsuario-listaDeUsuarios:not(.desativado-listaDeUsuarios) .checkbox',
+      )
+      .forEach((cb) => {
+        const linha = cb.closest('.linhaUsuario-listaDeUsuarios');
+        const inputId = linha.querySelector('.idUser-listaDeUsuarios');
+        const userId = inputId ? parseInt(inputId.value, 10) : null;
+
+        if (!userId) return;
+
+        if (todosSelecionadosGlobalmente) {
+          cb.checked = true;
+        } else {
+          cb.checked = cacheSelecaoManual.has(userId);
+        }
+      });
+
+    console.log('🔁 Checkboxes da página atual sincronizados com o cache.');
+  }
+
+  // Evento: Selecionar todos os usuários
   selecionarTodos?.addEventListener('change', async (e) => {
     const checked = e.target.checked;
+    console.log('✅ Checkbox "Selecionar Todos" alterado:', checked);
 
     if (checked) {
       try {
+        console.log('🔄 Buscando todos os usuários ativos via API...');
         const res = await fetch('/api/usuarios/ativos-nao-admin/');
         if (!res.ok) throw new Error('Erro ao buscar usuários ativos');
 
         const data = await res.json();
-        console.log('Todos os usuários ativos do back-end:', data);
+        console.log('📥 Dados recebidos da API:', data);
 
-        usuariosSelecionadosCache = data
+        cacheTodosUsuarios = data
           .map((usuario) => ({
             id: parseInt(
               usuario.id || usuario.user_id || usuario.id_usuario,
@@ -48,79 +80,152 @@ document.addEventListener('DOMContentLoaded', () => {
           }))
           .filter((u) => !isNaN(u.id));
 
-        if (usuariosSelecionadosCache.length === 0) {
+        if (cacheTodosUsuarios.length === 0) {
           throw new Error('Nenhum ID válido encontrado nos dados da API');
         }
 
-        // alert(`Todos os ${usuariosSelecionadosCache.length} usuários ativos foram selecionados!`);
+        todosSelecionadosGlobalmente = true;
+        cacheSelecaoManual = new Set();
 
-        listaUsuarios
-          .querySelectorAll(
-            '.linhaUsuario-listaDeUsuarios:not(.desativado-listaDeUsuarios) .checkbox',
-          )
-          .forEach((cb) => (cb.checked = true));
+        console.log(
+          `✅ ${cacheTodosUsuarios.length} usuários carregados no modo "Selecionar Todos".`,
+        );
+        sincronizarCheckboxesComCache();
       } catch (err) {
-        // console.error('❌ Erro ao buscar todos os usuários:', err);
-        // alert('Erro ao selecionar todos os usuários.');
+        console.error('❌ Erro ao carregar usuários:', err.message);
+        alert('Erro ao selecionar todos os usuários: ' + err.message);
         selecionarTodos.checked = false;
-        usuariosSelecionadosCache = [];
+        todosSelecionadosGlobalmente = false;
       }
     } else {
-      // Desmarca tudo
-      usuariosSelecionadosCache = [];
-      listaUsuarios
-        .querySelectorAll(
-          '.linhaUsuario-listaDeUsuarios:not(.desativado-listaDeUsuarios) .checkbox',
-        )
-        .forEach((cb) => (cb.checked = false));
+      todosSelecionadosGlobalmente = false;
+      console.log(
+        '✅ Modo "Selecionar Todos" desativado. Mantendo seleção manual.',
+      );
+      sincronizarCheckboxesComCache();
     }
   });
 
-  function getUsuariosSelecionados() {
-    if (selecionarTodos.checked && usuariosSelecionadosCache.length > 0) {
-      // console.log('✅ Usuários selecionados do cache (API):', usuariosSelecionadosCache);
-      return usuariosSelecionadosCache; // Já está no formato { id: number }
+  // Evento: Marcar/desmarcar manualmente
+  listaUsuarios?.addEventListener('change', (e) => {
+    if (!e.target.classList.contains('checkbox')) return;
+
+    const cb = e.target;
+    const linha = cb.closest('.linhaUsuario-listaDeUsuarios');
+    const inputId = linha.querySelector('.idUser-listaDeUsuarios');
+    const userId = inputId ? parseInt(inputId.value, 10) : null;
+
+    if (!userId) {
+      console.warn(
+        '⚠️ Checkbox alterado, mas ID do usuário não encontrado na linha.',
+      );
+      return;
     }
 
-    // Seleção manual via checkboxes
-    const selecionados = Array.from(
+    if (cb.checked) {
+      cacheSelecaoManual.add(userId);
+      console.log(
+        `➕ Usuário ID ${userId} adicionado à seleção manual.`,
+        Array.from(cacheSelecaoManual),
+      );
+    } else {
+      cacheSelecaoManual.delete(userId);
+      console.log(
+        `➖ Usuário ID ${userId} removido da seleção manual.`,
+        Array.from(cacheSelecaoManual),
+      );
+    }
+
+    // Atualiza estado visual do "Selecionar Todos"
+    const checkboxesAtivos = Array.from(
       listaUsuarios.querySelectorAll(
         '.linhaUsuario-listaDeUsuarios:not(.desativado-listaDeUsuarios) .checkbox',
       ),
-    )
-      .filter((cb) => cb.checked)
-      .map((cb) => {
-        const linha = cb.closest('.linhaUsuario-listaDeUsuarios');
-        const inputId = linha.querySelector('.idUser-listaDeUsuarios');
-        const userId = inputId ? parseInt(inputId.value, 10) : null;
-        return userId ? { id: userId } : null;
-      })
-      .filter(Boolean); // Remove nulos
+    );
+    const todosMarcados =
+      checkboxesAtivos.length > 0 && checkboxesAtivos.every((c) => c.checked);
 
-    // console.log('✅ Usuários selecionados do DOM:', selecionados);
+    if (selecionarTodos) {
+      selecionarTodos.indeterminate =
+        !todosMarcados && checkboxesAtivos.some((c) => c.checked);
+      if (!todosSelecionadosGlobalmente) {
+        selecionarTodos.checked = todosMarcados;
+      }
+    }
+
+    console.log(
+      `🔁 Estado atual da seleção manual: ${cacheSelecaoManual.size} usuários selecionados.`,
+    );
+  });
+
+  // Função UNIFICADA: retorna os usuários selecionados (cache global OU seleção manual)
+  function getUsuariosSelecionados() {
+    console.log('🧬 [VERSÃO NOVA] getUsuariosSelecionados() CHAMADA!');
+    console.log('🧪 Verificando modo de seleção...');
+    console.log(
+      '   todosSelecionadosGlobalmente =',
+      todosSelecionadosGlobalmente,
+    );
+
+    if (todosSelecionadosGlobalmente && cacheTodosUsuarios.length > 0) {
+      console.log(
+        `✅ Modo "Selecionar Todos" ativo. Retornando ${cacheTodosUsuarios.length} usuários do cache global.`,
+      );
+      return cacheTodosUsuarios;
+    }
+
+    const selecionados = Array.from(cacheSelecaoManual).map((id) => ({ id }));
+    console.log(
+      `✅ Modo manual ativo. Retornando ${selecionados.length} usuários do cache manual.`,
+    );
     return selecionados;
   }
 
-  addMoedas.addEventListener('click', () => {
+  // Evento: Abrir popup e enviar moedas
+  addMoedas?.addEventListener('click', () => {
     popupAdicionarMoedas.showModal();
-    const usuariosSelecionados = getUsuariosSelecionados();
+    console.log('✅ Popup de adicionar moedas aberto.');
+
+    const usuariosSelecionadosRaw = getUsuariosSelecionados();
+    const usuariosSelecionados = JSON.parse(
+      JSON.stringify(usuariosSelecionadosRaw),
+    ); // Clone profundo
+    console.log('📊 Usuários prontos para operação:', usuariosSelecionados);
+    console.log('📊 Quantidade:', usuariosSelecionados.length);
+
     const inputQuantidade = document.getElementById('saldo');
-    const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    const csrf = document.querySelector('[name=csrfmiddlewaretoken]')?.value;
+
+    if (!csrf) {
+      console.error('❌ Token CSRF não encontrado!');
+      alert('Erro interno: token CSRF ausente.');
+      return;
+    }
 
     if (usuariosSelecionados.length === 0) {
+      console.warn('⚠️ Nenhum usuário selecionado.');
       alert('Nenhum usuário selecionado!');
       return;
     }
 
     const enviarMoedas = async (operacao) => {
       const valor = parseInt(inputQuantidade.value);
-      if (isNaN(valor)) {
-        alert('Digite um valor válido!');
+      if (isNaN(valor) || valor <= 0) {
+        console.warn('⚠️ Valor inválido inserido:', inputQuantidade.value);
+        alert('Digite um valor válido e positivo!');
         return;
       }
 
+      console.log(
+        `🚀 Iniciando operação "${operacao}" com valor ${valor} para ${usuariosSelecionados.length} usuário(s).`,
+      );
+
       try {
-        const promessas = usuariosSelecionadosCache.map(async (usuario) => {
+        const promessas = usuariosSelecionados.map(async (usuario) => {
+          console.log(
+            `📤 Enviando requisição para usuário ID: ${usuario.id}...`,
+          );
+
           const response = await apiRequest(
             `/api/user/${usuario.id}`,
             'PUT',
@@ -130,54 +235,61 @@ document.addEventListener('DOMContentLoaded', () => {
 
           if (response.status !== 200) {
             throw new Error(
-              `Falha ao atualizar usuário ${usuario.id}: ${response.status}`,
+              `Falha ao atualizar usuário ${usuario.id}: ${response.status} ${response.statusText}`,
             );
           }
 
+          console.log(`✅ Usuário ${usuario.id} atualizado com sucesso.`);
           return response;
         });
 
         const resultados = await Promise.all(promessas);
-        // alert(
-        //   `Operação realizada com sucesso para ${resultados.length} usuários!`,
-        // );
+        console.log(
+          `🎉 Operação concluída com sucesso para ${resultados.length} usuário(s).`,
+        );
+        alert(
+          `Operação realizada com sucesso para ${resultados.length} usuários!`,
+        );
         popupAdicionarMoedas.close();
         location.reload();
       } catch (error) {
-        console.error('Erro:', error);
-        // alert(`Erro na operação: ${error.message}`);
+        console.error('❌ Erro durante a operação:', error);
+        alert(`Erro na operação: ${error.message}`);
       }
     };
 
-    document.getElementById('adicionar').addEventListener('click', (e) => {
+    // Botão "Adicionar"
+    document.getElementById('adicionar')?.addEventListener('click', (e) => {
       e.preventDefault();
+      console.log('➕ Botão "Adicionar" clicado.');
       enviarMoedas('adicionar');
     });
 
-    document.getElementById('remover').addEventListener('click', (e) => {
+    // Botão "Remover"
+    document.getElementById('remover')?.addEventListener('click', (e) => {
       e.preventDefault();
+      console.log('➖ Botão "Remover" clicado.');
       enviarMoedas('remover');
     });
   });
 
-  const editar = document.querySelectorAll('[id="editar"]');
-  for (let i = 0; i < editar.length; i++) {
-    editar[i].addEventListener('click', () => {
-      const id = editar[i].getAttribute('data-id');
-      const popupEditarUsuario = document.getElementById(`editarUsuario-${id}`);
-      popupEditarUsuario.showModal();
+  // Eventos dos popups de edição
+  document.querySelectorAll('[id="editar"]').forEach((botao) => {
+    botao.addEventListener('click', () => {
+      const id = botao.getAttribute('data-id');
+      const popup = document.getElementById(`editarUsuario-${id}`);
+      if (popup) popup.showModal();
     });
-  }
+  });
 
   document.querySelectorAll('.close-dialog').forEach((botao) => {
     botao.addEventListener('click', (e) => {
       const dialog = botao.closest('dialog');
-      if (dialog) {
-        dialog.close();
-      }
+      if (dialog) dialog.close();
     });
   });
 
+  // Controle de saldo nos formulários
   document.querySelectorAll('.saldo-button').forEach((botao) => {
     botao.addEventListener('click', (e) => {
       const saldoControl = botao.closest('.saldo-control');
@@ -194,10 +306,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // Botões de ativar/desativar
   document
     .querySelectorAll('.action-button.desativar, .action-button.ativar')
     .forEach((botao) => {
-      
       botao.addEventListener('click', () => {
         const dialog = botao.closest('dialog');
         const form = dialog.querySelector('.formEditar');
@@ -216,6 +328,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
+  // Submissão dos formulários de edição
   document.querySelectorAll('.formEditar').forEach((form) => {
     form.addEventListener('submit', async function (e) {
       e.preventDefault();
@@ -225,6 +338,7 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('Dialog não encontrado!');
         return;
       }
+
       const userId = dialog.getAttribute('data-id');
       if (!userId) {
         console.error('ID do usuário não encontrado no dialog!');
@@ -247,60 +361,33 @@ document.addEventListener('DOMContentLoaded', () => {
           first_name: nome,
           is_active: status,
         },
-        {
-          'X-CSRFToken': csrf,
-        },
+        { 'X-CSRFToken': csrf },
       );
 
-      if (response.status == 200 ) {
-        console.log(response);
+      if (response.status == 200) {
         alert('Usuário editado com sucesso!');
         location.reload();
       } else {
-        alert('Erro ao editar usuário: ' + (response?.error || 'Erro desconhecido'));
-        
+        alert(
+          'Erro ao editar usuário: ' + (response?.error || 'Erro desconhecido'),
+        );
       }
     });
   });
 
-  const concluido = document.querySelectorAll('#concluido');
-
-  concluido.forEach((botao) => {
+  // Botões de conclusão
+  document.querySelectorAll('#concluido').forEach((botao) => {
     botao.addEventListener('click', (e) => {
       const dialog = botao.closest('dialog');
-      if (dialog) {
-        dialog.close();
-      }
+      if (dialog) dialog.close();
       window.location.reload();
     });
   });
-
-  function getUsuariosSelecionados() {
-    const linhas = document.querySelectorAll('.linhaUsuario-listaDeUsuarios');
-    const usuarios = [];
-
-    linhas.forEach((linha) => {
-      const checkbox = linha.querySelector('.checkbox');
-      const inputId = linha.querySelector('.idUser-listaDeUsuarios');
-      const saldoElement = linha.querySelector('span:not(.nome):not(.status)');
-
-      if (checkbox && checkbox.checked && inputId && saldoElement) {
-        const saldo =
-          parseInt(saldoElement.textContent.replace('D$ ', '')) || 0;
-        usuarios.push({
-          id: inputId.value,
-          saldo: saldo,
-        });
-      }
-    });
-    if (usuarios.length === 0) {
-      alert('Nenhum usuário selecionado.');
-      popupAdicionarMoedas.close();
-    }
-
-    return usuarios;
-  }
 });
+
+// ================================
+// Funções globais (fora do DOMContentLoaded)
+// ================================
 
 async function alterarSenha(usuarioId) {
   const confirmar = confirm(
@@ -331,7 +418,6 @@ async function alterarSenha(usuarioId) {
   }
 }
 
-// 👇 Função para salvar edição de usuário
 async function salvarEdicaoUsuario(usuarioId, formData) {
   try {
     const csrf =
@@ -357,9 +443,7 @@ async function salvarEdicaoUsuario(usuarioId, formData) {
   }
 }
 
-
 function configurarPopupEdicao(popup, usuario) {
-  
   popup.querySelector('.close-dialog')?.addEventListener('click', () => {
     popup.close();
   });
@@ -367,7 +451,6 @@ function configurarPopupEdicao(popup, usuario) {
   popup.addEventListener('click', (e) => {
     if (e.target === popup) popup.close();
   });
-
 
   const ativarBtn = popup.querySelector('.ativar');
   const desativarBtn = popup.querySelector('.desativar');
@@ -387,12 +470,10 @@ function configurarPopupEdicao(popup, usuario) {
     });
   }
 
-
   const btnAlterarSenha = popup.querySelector('.alterarSenha');
   if (btnAlterarSenha) {
     btnAlterarSenha.addEventListener('click', () => alterarSenha(usuario.id));
   }
-
 
   const form = popup.querySelector('.formEditar');
   if (form) {
@@ -412,7 +493,7 @@ function configurarPopupEdicao(popup, usuario) {
 
       if (sucesso) {
         popup.close();
-        buscarUsuario(); 
+        buscarUsuario();
       }
     });
   }
@@ -430,7 +511,6 @@ function renderizarUsuarios(usuarios, container) {
   });
 
   usuarios.slice(0, 5).forEach((usuario) => {
-
     const div = document.createElement('div');
     div.className = 'linhaUsuario-listaDeUsuarios';
     if (!usuario.is_active) div.classList.add('desativado-listaDeUsuarios');
@@ -455,7 +535,6 @@ function renderizarUsuarios(usuarios, container) {
       }" src="/static/img/edit.png" alt="Editar">
     `;
 
-    
     const iconeEditar = div.querySelector('.iconeEditar-listaDeUsuarios');
     iconeEditar.addEventListener('click', () => {
       const popup = document.getElementById(`editarUsuario-${usuario.id}`);
@@ -464,9 +543,10 @@ function renderizarUsuarios(usuarios, container) {
 
     container.appendChild(div);
 
-
     const popupHTML = `
-      <dialog id="editarUsuario-${usuario.id}" data-id="${usuario.id}" class="editarUsuario">
+      <dialog id="editarUsuario-${usuario.id}" data-id="${
+      usuario.id
+    }" class="editarUsuario">
         <div class="dialog-header">
           <img src="/static/img/logoAdmin.png" alt="LogoAdmin" class="dialog-logo" />
           <button class="close-dialog">
@@ -548,15 +628,14 @@ async function buscarUsuario() {
 
     const container = document.getElementById('listaUsuarios');
     renderizarUsuarios(response, container);
-
     searchInput.focus();
   } catch (error) {
     console.log('Erro ao buscar usuários:', error);
-
     searchInput.focus();
   }
 }
 
+// Evento de busca com debounce
 document.addEventListener('DOMContentLoaded', function () {
   const searchInput = document.getElementById('barraBusca-listaProdutos');
   let timeout = null;
@@ -568,3 +647,63 @@ document.addEventListener('DOMContentLoaded', function () {
     }, 600);
   });
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+const addUsuariosEmMassa = document.getElementById('addUsuariosEmMassa');
+const popup = document.getElementById('popupUsuariosEmMassa');
+const formUsuariosEmMassa = document.getElementById('formUsuariosEmMassa');
+
+addUsuariosEmMassa.addEventListener('click', () => {  
+  popup.showModal();
+});
+
+const fecharUsuariosEmMassa = document.getElementById('fecharUsuariosEmMassa');
+fecharUsuariosEmMassa.addEventListener('click', () => {
+  popup.close();
+});
+
+formUsuariosEmMassa.addEventListener('submit', async (e) => {
+  e.preventDefault(); // Impede o envio padrão do formulário
+
+  const fileInput = document.getElementById('csvFileInput');
+  const file = fileInput.files[0];
+
+  if (!file) {
+      console.log('Nenhum arquivo selecionado.');
+      return;
+  }
+
+  const formData = new FormData();
+  formData.append('csv_file', file);
+
+  const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+  console.log('enviando arquivo...')
+
+  try {
+      const response = await fetch('/api/usuarios/cadastrar-em-massa/', {
+          method: 'POST',
+          body: formData,
+          headers: {
+              'X-CSRFToken': csrfToken
+          }
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+          alert('Usuários cadastrados com sucesso!');
+          popup.close();
+          
+      } else {
+          const errorMessage = data.error || data.detail || 'Ocorreu um erro desconhecido.';
+          alert('Erro ao cadastrar usuários: ' + errorMessage);
+
+      }
+  } catch (error) {
+      alert('Erro ao cadastrar usuários: ' + error.message);
+  }
+});
+
+
+})
