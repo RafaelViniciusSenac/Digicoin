@@ -1,7 +1,10 @@
 {% extends "base.html" %} {% load static %} {% block content %}
 
 <link rel="stylesheet" href="{% static 'css/AdmCss/listaDeUsuarios.css'%}" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+/>
 
 {% include "components/adm/menuAdm.html" %}
 
@@ -100,7 +103,11 @@
 
     {% endif %}
 
-    <dialog id="editarUsuario-{{usuario.id}}" data-id="{{usuario.id}}" class="editarUsuario">
+    <dialog
+      id="editarUsuario-{{usuario.id}}"
+      data-id="{{usuario.id}}"
+      class="editarUsuario"
+    >
       <div class="dialog-header">
         <img
           src="{% static 'img/logoAdmin.png' %}"
@@ -193,8 +200,8 @@
       <a
         style="font-size: 20px; margin-right: 10px"
         href="?user_page={{ usuarios.previous_page_number }}"
-        ><i class="fa fa-arrow-left" aria-hidden="true"></i></a
-      >
+        ><i class="fa fa-arrow-left" aria-hidden="true"></i
+      ></a>
     </div>
     {% endif %}
 
@@ -203,12 +210,12 @@
     >
 
     {% if usuarios.has_next %}
-    <div>  
-        <a
-            style="font-size: 20px"
-            href="?user_page={{ usuarios.next_page_number }}"
-            ><i class="fa fa-arrow-right" aria-hidden="true"></i
-        ></a>         
+    <div>
+      <a
+        style="font-size: 20px"
+        href="?user_page={{ usuarios.next_page_number }}"
+        ><i class="fa fa-arrow-right" aria-hidden="true"></i
+      ></a>
     </div>
     {% endif %}
   </div>
@@ -256,12 +263,6 @@
       <label for="">Senha temporária</label>
       <input type="text" id="senha" class="senha" placeholder="Rw9!K$2@qPb" />
     </div>
-
-    <div class="input">
-      <label for="">Admin</label>
-      <input type="checkbox" id="isAdmin" />
-    </div>
-
     <button
       onclick="cadastrar(event)"
       type="submit"

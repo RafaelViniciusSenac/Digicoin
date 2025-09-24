@@ -384,6 +384,40 @@ a {
     .butoes-listaDePedidos button {
         margin-left: 0;
     }
+
+    .pesquisar {
+        border: 2px solid #ccc;
+        border-radius: 30px;
+        padding: 5px 15px;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        gap: 20px;
+        margin-top: 20px;
+
+    }
+    #barraBusca{
+        width: 100%;
+    }
+    
+    .lupa {
+        width: 30px;
+        height: 30px;
+    }
+    
+    .pesquisar_campanha {
+        
+        background-color: transparent;
+        border-radius: 20px; 
+        padding: 5px 15px;
+        display: flex; 
+        align-items: center;
+        border: none;
+        gap: 8px;
+        
+    }
+
+
 }
 
 @media (min-width: 1001px) and (max-width: 1200px) {
@@ -397,15 +431,16 @@ a {
 .campo_pesquisar {
     display: flex;
     flex-direction: row-reverse;
+ 
 }
 
 .pesquisar {
     border: 2px solid #ccc;
-    border-radius: 20px;
+    border-radius: 30px;
     padding: 5px 15px;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 20px;
 }
 
 
@@ -430,3 +465,8 @@ input:focus,
 select:focus {
     outline: 0;
 }
+
+#barraBusca{
+    border: 0;
+}
+

@@ -119,6 +119,15 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+// guarda o valor inicial do select quando a página carrega
+let campanhaOriginal;
+document.addEventListener("DOMContentLoaded", () => {
+  const selectCampanha = document.getElementById("campanha");
+  if (selectCampanha) {
+    campanhaOriginal = selectCampanha.value;
+  }
+});
+
 async function EditarDesafio(event) {
   event.preventDefault();
   const form = event.target;
@@ -127,7 +136,7 @@ async function EditarDesafio(event) {
   const nomeDesafio = form.querySelector('#nomeDesafio').value;
   const valorDesafio = form.querySelector('#valorDesafio').value;
   const descricao = form.querySelector('#descricao').value;
-  const campanha = form.querySelector('#campanha').value; 
+  const campanha = form.querySelector('#campanha').value; // valor atual do select
   const dataFim = form.querySelector('#fimDesafio').value;
   const csrf = form.querySelector('[name=csrfmiddlewaretoken]').value;
 
@@ -136,23 +145,29 @@ async function EditarDesafio(event) {
     return;
   }
 
+  // payload básico (sem campanha)
+  let payload = {
+    nome: nomeDesafio,
+    valor: valorDesafio,
+    descricao: descricao,
+    dataFim: dataFim,
+  };
+
+  // só adiciona idCampanha se o valor do select foi alterado
+  if (campanha !== campanhaOriginal) {
+    payload.idCampanha = campanha ? parseInt(campanha, 10) : null;
+  }
+
   const response = await apiRequest(
     `/api/desafio/${id}/`,
-    'PUT',
-    {
-      nome: nomeDesafio,
-      valor: valorDesafio,
-      descricao: descricao,
-      idCampanha: campanha,
-      dataFim: dataFim,
-    },
+    'PATCH',
+    payload,
     { 'X-CSRFToken': csrf },
   );
-  console.log(response);
 
+  console.log("resposta", response);
   window.location.reload();
 }
-
 
 
 
