@@ -14,7 +14,8 @@ from django.contrib.auth import get_user_model
 import random
 import string
 from django.conf import settings
-
+import csv
+from rest_framework.parsers import MultiPartParser, FormParser
 
 class User(APIView):
     
@@ -43,7 +44,7 @@ class User(APIView):
         nome = request.data.get('nome')
         senha = request.data.get('senha')
         ra = request.data.get('ra')
-        fistName = request.data.get('first_name')
+        firstName = request.data.get('first_name')
         isAdm = request.data.get('is_adm')
         
 
@@ -54,7 +55,7 @@ class User(APIView):
             username = nome,
             password = make_password(senha),
             is_active = True,
-            first_name = fistName,
+            first_name = firstName,
             is_adm = isAdm,
             ra = ra
         )
@@ -75,7 +76,7 @@ class User(APIView):
             to=usuario.username,
             subject='Bem vindo ao Sistema Digicoin',
             contents=(
-                f'Nome: {fistName}\n'
+                f'Nome: {firstName}\n'
                 f'RA: {ra}\n'
                 f'Login: {nome}\n'
                 f'Senha: {senha}\n'
@@ -377,9 +378,109 @@ class ResetUserPasswordView(APIView):
                 }, status=status.HTTP_200_OK)
         
         
+class CriacaoDeUsuariosEmMassaAPIView(APIView):
+    parser_classes = (MultiPartParser, FormParser)
+    
+    def post(self, request, *args, **kwargs):
+        print("API 'CriacaoDeUsuariosEmMassaAPIView' foi chamada.")
+        serializer = CsvUploadSerializer(data=request.data)
         
-# f'Olá {usuario.first_name},\n\n'
-#                     f'Sua senha foi redefinida pelo administrador.\n'
-#                     f'Nova senha: {nova_senha}\n\n'
-#                     f'Por favor, altere sua senha após o primeiro acesso.\n\n'
-#                     f'Atenciosamente,\nEquipe Digicoin'
+        if serializer.is_valid():
+            print("Serializer é válido. Dados recebidos.")
+            csv_file = serializer.validated_data['csv_file']
+            
+            if not csv_file.name.endswith('.csv'):
+                print(f"Erro: O arquivo '{csv_file.name}' não é um CSV.")
+                return Response({'error': 'O arquivo deve ser um CSV.'}, status=status.HTTP_400_BAD_REQUEST)
+
+            try:
+                file_data = csv_file.read().decode('utf-8-sig')
+                csv_reader = csv.reader(file_data.splitlines(), delimiter=';')
+                
+                print("Lendo o cabeçalho do CSV...")
+                next(csv_reader)
+
+                created_users_count = 0
+                processed_lines_count = 0
+                skipped_users = []
+
+                print("Iniciando o loop de processamento do CSV...")
+                for i, row in enumerate(csv_reader):
+                    processed_lines_count += 1
+                    print(f"--- Processando linha {processed_lines_count}: {row}")
+                    try:
+                        # Assumindo a ordem das colunas no CSV: username, first_name, ra
+                        username = row[0]
+                        first_name = row[1]
+                        ra = row[2]
+                        
+                        password = ''.join(random.choices(string.ascii_letters + string.digits, k=12))
+                        print(f"Dados extraídos: username={username}, first_name={first_name}, ra={ra}")
+
+                        if not CustomUser.objects.filter(username=username).exists():
+                            print(f"Usuário '{username}' não encontrado. Iniciando a criação...")
+                            # Criação do usuário
+                            usuario = CustomUser.objects.create_user(
+                                username=username,
+                                first_name=first_name,
+                                ra=ra,
+                                password=password
+                            )
+                            created_users_count += 1
+                            print(f"Usuário '{username}' criado com sucesso.")
+
+                            # Envio de e-mail
+                            try:
+                                print(f"Iniciando o envio de e-mail para '{usuario.username}'...")
+                                yag = yagmail.SMTP(
+                                    user=os.getenv("EMAIL_USER"),
+                                    password=os.getenv("EMAIL_PASSWORD"),
+                                    host=os.getenv("EMAIL_HOST"),
+                                    port=int(os.getenv("EMAIL_PORT")),
+                                    smtp_starttls=True,
+                                    smtp_ssl=False
+                                )
+                                yag.send(
+                                    to=usuario.username,
+                                    subject='Bem vindo ao Sistema Digicoin',
+                                    contents=(
+                                        f'Nome: {usuario.first_name}\n'
+                                        f'RA: {ra}\n'
+                                        f'Login: {usuario.username}\n'
+                                        f'Senha: {password}\n'
+                                        f'Altere sua senha depois do primeiro acesso.'
+                                    )
+                                )
+                                print(f"E-mail enviado para '{usuario.username}' com sucesso.")
+                            except Exception as email_e:
+                                print(f"Erro ao enviar e-mail para {usuario.username}: {email_e}")
+                                skipped_users.append(f"Erro ao enviar e-mail para {username}: {email_e}")
+                                
+                        else:
+                            print(f"Usuário '{username}' já existe. Pulando a criação.")
+                            skipped_users.append(f"Usuário {username} já existe e não foi criado.")
+                            
+                    except (IndexError, ValueError) as e:
+                        print(f"Erro ao processar a linha {processed_lines_count}: Formato incorreto. Erro: {e}")
+                        skipped_users.append(f"Erro na linha {processed_lines_count}: Formato incorreto. Erro: {e}")
+                        continue
+                
+                response_message = f"{created_users_count} usuários foram criados com sucesso."
+                if skipped_users:
+                    response_message += " Observações: " + " | ".join(skipped_users)
+                
+                print(f"Finalizando o processamento. Total de usuários criados: {created_users_count}")
+                print(f"Mensagem de resposta: {response_message}")
+
+                return Response(
+                    {'message': response_message},
+                    status=status.HTTP_201_CREATED
+                )
+
+            except Exception as e:
+                print(f"Erro geral no bloco 'try': {e}")
+                return Response({'error': f'Ocorreu um erro: {e}'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        else:
+            print(f"Erro: Serializer não é válido. Erros: {serializer.errors}")
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
