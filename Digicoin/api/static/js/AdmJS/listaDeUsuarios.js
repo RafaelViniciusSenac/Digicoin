@@ -136,7 +136,6 @@ document.addEventListener('DOMContentLoaded', () => {
       );
     }
 
-    // Atualiza estado visual do "Selecionar Todos"
     const checkboxesAtivos = Array.from(
       listaUsuarios.querySelectorAll(
         '.linhaUsuario-listaDeUsuarios:not(.desativado-listaDeUsuarios) .checkbox',
@@ -158,15 +157,8 @@ document.addEventListener('DOMContentLoaded', () => {
     );
   });
 
-  // Função UNIFICADA: retorna os usuários selecionados (cache global OU seleção manual)
   function getUsuariosSelecionados() {
-    console.log('🧬 [VERSÃO NOVA] getUsuariosSelecionados() CHAMADA!');
-    console.log('🧪 Verificando modo de seleção...');
-    console.log(
-      '   todosSelecionadosGlobalmente =',
-      todosSelecionadosGlobalmente,
-    );
-
+   
     if (todosSelecionadosGlobalmente && cacheTodosUsuarios.length > 0) {
       console.log(
         `✅ Modo "Selecionar Todos" ativo. Retornando ${cacheTodosUsuarios.length} usuários do cache global.`,
@@ -205,6 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (usuariosSelecionados.length === 0) {
       console.warn('⚠️ Nenhum usuário selecionado.');
       alert('Nenhum usuário selecionado!');
+      popupAdicionarMoedas.close();
       return;
     }
 
@@ -375,7 +368,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Botões de conclusão
   document.querySelectorAll('#concluido').forEach((botao) => {
     botao.addEventListener('click', (e) => {
       const dialog = botao.closest('dialog');
@@ -385,9 +377,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-// ================================
-// Funções globais (fora do DOMContentLoaded)
-// ================================
 
 async function alterarSenha(usuarioId) {
   const confirmar = confirm(
@@ -707,3 +696,68 @@ formUsuariosEmMassa.addEventListener('submit', async (e) => {
 
 
 })
+
+document.addEventListener('DOMContentLoaded', function(){
+  const btnZerarPontuacao = document.querySelector('.zerarPontuacao-listaDeUsuarios')
+  const dialog = document.getElementById('ZerarDialog')
+  const btnCancelar = document.getElementById('cancelarZerar')
+  const btnConfirmar = document.getElementById('confirmarBtn')
+
+  btnZerarPontuacao.addEventListener('click', () => {
+    dialog.showModal()
+  })
+
+  btnCancelar.addEventListener('click', () => {
+    dialog.close()
+  })
+
+  btnConfirmar.addEventListener('click', async () => {
+    const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    const loadingPopup = new Popup();
+    loadingPopup.showLoadingPopup('Zerando pontuação...');
+
+    try {
+        const response = await fetch('api/zerarPontuacao/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrf
+            },
+            body: JSON.stringify({})
+        });
+
+        loadingPopup.hidePopup();
+
+        if (response.ok) {
+            const data = await response.json();
+            alert(data.message || 'Pontuação zerada com sucesso!');
+            dialog.close();
+        } else {
+            const errorData = await response.json().catch(() => ({}));
+            alert('Erro: ' + (errorData.message || 'Falha ao processar'));
+        }
+    } catch (error) {
+        loadingPopup.hidePopup();
+        console.error('Erro:', error);
+        alert('Erro de conexão ou servidor indisponível.');
+    }
+});
+  
+
+  dialog.addEventListener('click', (e) => {
+    const rect = dialog.getBoundingClientRect();
+    const isInDialog = (
+      rect.top <= e.clientY &&
+      e.clientY <= rect.top + rect.height &&
+      rect.left <= e.clientX &&
+      e.clientX <= rect.left + rect.width
+    );
+    if (!isInDialog) {
+      dialog.close();
+    }
+  });
+})
+
+document.getElementById('fecharZerarDialog')?.addEventListener('click', () => {
+  document.getElementById('ZerarDialog').close();
+});
