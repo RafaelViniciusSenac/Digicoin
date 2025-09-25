@@ -114,7 +114,7 @@ def listaProdutos(request):
     quantidade_moedas = user.saldo if user else 0
 
     search = request.GET.get("search", "")
-    listaProdutos_list = Produto.objects.filter(is_active=True)
+    listaProdutos_list = Produto.objects.filter(is_active=True, idCampanha__isnull=True)
     if search:
         listaProdutos_list = listaProdutos_list.filter(nome__icontains=search)
 
@@ -141,6 +141,40 @@ def listaProdutos(request):
         "search": search
     }
     return render(request, "UserHtml/listaProdutos.html", context)
+
+def ProdutosListaCampanha(request):
+    userId = request.session.get('_auth_user_id')
+    user = CustomUser.objects.filter(id=userId).first()
+    quantidade_moedas = user.saldo if user else 0
+
+    search = request.GET.get("search", "")
+    listaProdutos_list = Produto.objects.filter(is_active=True, idCampanha__isnull=False)
+    if search:
+        listaProdutos_list = listaProdutos_list.filter(nome__icontains=search)
+
+    paginator = Paginator(listaProdutos_list, 8)
+    page_number = request.GET.get("listaProduto_page")
+    page_obj = paginator.get_page(page_number)
+
+    # Construindo HTML dos produtos direto no Python
+    html = ""
+    for produto in page_obj:
+        img_tag = f"<img class='imagensP-listaProdutos' src='{produto.img1.url}' alt='{produto.nome}'>" if produto.img1 else ""
+        html += f"""
+        <div class='imgD-listaProdutos' data-nome='{produto.nome.lower()}'>
+            <button id='imgbotao' data-valor='{produto.id}'>{img_tag}</button>
+        </div>
+        """
+
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        return JsonResponse({"html": html})
+
+    context = {
+        "produtos": page_obj,
+        "quantidade_moedas": quantidade_moedas,
+        "search": search
+    }
+    return render(request, "UserHtml/produtosCampanha.html", context)
 
 
 def cadastrarDesafio(request):

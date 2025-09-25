@@ -94,23 +94,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
             dialog.showModal();
 
-            if (!flipCard.dataset.listenersAdded) {
-                refresh?.addEventListener("click", () => {
-                    flipCard.classList.remove("virado2");
-                    flipCard.classList.toggle("virado");
-                });
-
-                refresh2?.addEventListener("click", () => {
-                    flipCard.classList.remove("virado");
-                    flipCard.classList.toggle("virado2");
-                });
-
-                fecharBtns.forEach((btn) => {
-                    btn.addEventListener("click", () => {
-                        dialog.close();
-                        flipCard.classList.remove("virado", "virado2");
+                if (!flipCard.dataset.listenersAdded) {
+                    refresh?.addEventListener("click", () => {
+                        flipCard.classList.remove("virado2");
+                        flipCard.classList.toggle("virado");
                     });
-                });
+
+                    refresh2?.addEventListener("click", () => {
+                        flipCard.classList.remove("virado");
+                        flipCard.classList.toggle("virado2");
+                    });
+
+                    fecharBtns.forEach((btn) => {
+                        btn.addEventListener("click", () => {
+                            dialog.close();
+                            flipCard.classList.remove("virado", "virado2");
+                        });
+                    });
 
                 dialog.addEventListener("click", (event) => {
                     const container = dialog.querySelector(".containerDialog-listaProdutos");
