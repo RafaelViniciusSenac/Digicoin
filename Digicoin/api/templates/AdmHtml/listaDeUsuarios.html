@@ -1,10 +1,7 @@
 {% extends "base.html" %} {% load static %} {% block content %}
 
 <link rel="stylesheet" href="{% static 'css/AdmCss/listaDeUsuarios.css'%}" />
-<link
-  rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 
 {% include "components/adm/menuAdm.html" %}
 
@@ -12,11 +9,7 @@
   <div class="divPesquisa-listaDeUsuarios">
     <div class="barraPesquisa-listaDeUsuarios">
       <img src="{% static 'img/iconeLupa.png' %}" alt="Ícone de busca" />
-      <input
-        id="barraBusca-listaProdutos"
-        type="search"
-        placeholder="Pesquisar usuário"
-      />
+      <input id="barraBusca-listaProdutos" type="search" placeholder="Pesquisar usuário" />
     </div>
   </div>
 
@@ -42,9 +35,24 @@
   </div>
 
   <div class="head-listaDeUsuarios">
-    <p>Nome</p>
-    <img src="{% static 'img/lista.png' %}" alt="" />
+    <div class="head-div-listaDeUsuarios">
+      <p>Nome</p>
+      <img src="{% static 'img/lista.png' %}" alt="" />
+    </div>
+    <button class="zerarPontuacao-listaDeUsuarios">
+      <img src="{% static 'img/minus.png' %}" alt=""> Zerar Pontuação
+    </button>
   </div>
+  <dialog id="ZerarDialog">
+    <div>
+      <h2>Deseja zerar a pontuação de todos os usuários?</h2>
+      <img src="{% static 'img/iconeX.png' %}" alt="Fechar" id="fecharZerarDialog">
+    </div>
+    <div class="botoes-zerar">
+      <button id="confirmarBtn">Confirmar</button>
+      <button id="cancelarZerar">Cancelar</button>
+    </div>
+  </dialog>
 
   <div class="selecionar-todos-listaDeUsuarios">
     <label>
@@ -60,22 +68,12 @@
       <input type="checkbox" class="checkbox" />
       <div class="infoUser-listaDeUsuarios">
         <img src="{% static 'img/userBlack.png' %}" alt="" />
-        <input
-          type="hidden"
-          class="idUser-listaDeUsuarios"
-          value="{{usuario.id}}"
-        />
+        <input type="hidden" class="idUser-listaDeUsuarios" value="{{usuario.id}}" />
         <span class="nome-listaDeUsuarios">{{usuario.first_name}}</span>
         <span>D$ {{usuario.saldo}} </span>
         <span class="status-listaDeUsuarios"></span>
       </div>
-      <img
-        class="iconeEditar-listaDeUsuarios"
-        id="editar"
-        data-id="{{usuario.id}}"
-        src="{% static 'img/edit.png' %}"
-        alt=""
-      />
+      <img class="iconeEditar-listaDeUsuarios" id="editar" data-id="{{usuario.id}}" src="{% static 'img/edit.png' %}" alt="" />
     </div>
 
     {% else %}
@@ -83,98 +81,49 @@
     <div class="linhaUsuario-listaDeUsuarios desativado-listaDeUsuarios">
       <input type="checkbox" class="checkbox" disabled />
       <div class="infoUser-listaDeUsuarios">
-        <input
-          type="text"
-          class="idUser-listaDeUsuarios"
-          value="{{usuario.id}}"
-        />
+        <input type="text" class="idUser-listaDeUsuarios" value="{{usuario.id}}" />
         <img src="{% static 'img/userBlack.png' %}" alt="" />
         <span class="nome-listaDeUsuarios">{{usuario.first_name}}</span>
         <span class="status-listaDeUsuarios">Desativado</span>
       </div>
-      <img
-        class="iconeEditar-listaDeUsuarios"
-        id="editar"
-        data-id="{{usuario.id}}"
-        src="{% static 'img/edit.png' %}"
-        alt=""
-      />
+      <img class="iconeEditar-listaDeUsuarios" id="editar" data-id="{{usuario.id}}" src="{% static 'img/edit.png' %}" alt="" />
     </div>
 
     {% endif %}
 
-    <dialog
-      id="editarUsuario-{{usuario.id}}"
-      data-id="{{usuario.id}}"
-      class="editarUsuario"
-    >
+    <dialog id="editarUsuario-{{usuario.id}}" data-id="{{usuario.id}}" class="editarUsuario">
       <div class="dialog-header">
-        <img
-          src="{% static 'img/logoAdmin.png' %}"
-          alt="LogoAdmin"
-          class="dialog-logo"
-        />
+        <img src="{% static 'img/logoAdmin.png' %}" alt="LogoAdmin" class="dialog-logo" />
         <button class="close-dialog">
-          <img
-            src="{% static 'img/iconeX.png' %}"
-            alt="Fechar"
-            class="close-icon"
-          />
+          <img src="{% static 'img/iconeX.png' %}" alt="Fechar" class="close-icon" />
         </button>
       </div>
 
       <form class="formEditar">
         {% csrf_token %}
         <input type="hidden" class="idUser" value="{{usuario.id}}" />
-        <input
-          type="hidden"
-          name="is_active"
-          value="{{usuario.is_active|lower}}"
-        />
+        <input type="hidden" name="is_active" value="{{usuario.is_active|lower}}" />
         <div class="form-columns">
           <div class="form-left">
             <div class="form-group">
-              <label for="nome-{{usuario.id}}" class="form-label"
-                >Nome do Usuário</label
-              >
-              <input
-                type="text"
-                id="nome-{{usuario.id}}"
-                class="form-input nome"
-                value="{{usuario.first_name}}"
-              />
+              <label for="nome-{{usuario.id}}" class="form-label">Nome do Usuário</label>
+              <input type="text" id="nome-{{usuario.id}}" class="form-input nome" value="{{usuario.first_name}}" />
             </div>
 
             <div class="form-group">
               <label for="email-{{usuario.id}}" class="form-label">Email</label>
-              <input
-                type="email"
-                id="email-{{usuario.id}}"
-                class="form-input email"
-                value="{{usuario.username}}"
-              />
+              <input type="email" id="email-{{usuario.id}}" class="form-input email" value="{{usuario.username}}" />
             </div>
 
             <div class="form-group">
-              <label for="ra-{{usuario.id}}" class="form-label"
-                >RA do Usuário</label
-              >
-              <input
-                type="number"
-                id="ra-{{usuario.id}}"
-                class="form-input ra"
-                value="{{usuario.ra}}"
-              />
+              <label for="ra-{{usuario.id}}" class="form-label">RA do Usuário</label>
+              <input type="number" id="ra-{{usuario.id}}" class="form-input ra" value="{{usuario.ra}}" />
             </div>
           </div>
 
           <div class="form-right">
             <div class="action-buttons">
-              <button
-                type="button"
-                class="action-button alterarSenha"
-                data-id="{{usuario.id}}"
-              >
+              <button type="button" class="action-button alterarSenha" data-id="{{usuario.id}}">
                 Alterar senha
               </button>
               <button type="button" class="action-button desativar">
@@ -197,25 +146,15 @@
   <div class="pagination-listaDeUsuarios">
     {% if usuarios.has_previous %}
     <div>
-      <a
-        style="font-size: 20px; margin-right: 10px"
-        href="?user_page={{ usuarios.previous_page_number }}"
-        ><i class="fa fa-arrow-left" aria-hidden="true"></i
-      ></a>
+      <a style="font-size: 20px; margin-right: 10px" href="?user_page={{ usuarios.previous_page_number }}"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
     </div>
     {% endif %}
 
-    <span
-      >Página {{ usuarios.number }} de {{ usuarios.paginator.num_pages }}</span
-    >
+    <span>Página {{ usuarios.number }} de {{ usuarios.paginator.num_pages }}</span>
 
     {% if usuarios.has_next %}
     <div>
-      <a
-        style="font-size: 20px"
-        href="?user_page={{ usuarios.next_page_number }}"
-        ><i class="fa fa-arrow-right" aria-hidden="true"></i
-      ></a>
+      <a style="font-size: 20px" href="?user_page={{ usuarios.next_page_number }}"><i class="fa fa-arrow-right" aria-hidden="true"></i></a>
     </div>
     {% endif %}
   </div>
@@ -224,34 +163,19 @@
 <dialog id="popupCadastrarUsuario" class="popupCadastrarUsuario">
   <div class="header-cadastrarUsuario">
     <img src="{% static 'img/logoAdmin.png' %}" alt="LogoAdmin" />
-    <img
-      id="fecharCadastrar"
-      class="iconeX-cadastrarUsuario"
-      src="{% static 'img/iconeX.png' %}"
-      alt=""
-    />
+    <img id="fecharCadastrar" class="iconeX-cadastrarUsuario" src="{% static 'img/iconeX.png' %}" alt="" />
   </div>
 
   <form method="POST" class="formUsuario-cadastrarUsuario" id="formUsuario">
     {% csrf_token %}
     <div class="input-cadastrarUsuario">
       <label for="">Nome do Usuário</label>
-      <input
-        type="text"
-        id="nome"
-        class="nome"
-        placeholder="Digite o nome do usuário"
-      />
+      <input type="text" id="nome" class="nome" placeholder="Digite o nome do usuário" />
     </div>
 
     <div class="input-cadastrarUsuario">
       <label for="">Email</label>
-      <input
-        type="email"
-        id="email"
-        class="email"
-        placeholder="Digite seu email"
-      />
+      <input type="email" id="email" class="email" placeholder="Digite seu email" />
     </div>
 
     <div class="input-cadastrarUsuario">
@@ -263,12 +187,7 @@
       <label for="">Senha temporária</label>
       <input type="text" id="senha" class="senha" placeholder="Rw9!K$2@qPb" />
     </div>
-    <button
-      onclick="cadastrar(event)"
-      type="submit"
-      id="cadastrarUsuario"
-      class="button-cadastrarUsuario"
-    >
+    <button onclick="cadastrar(event)" type="submit" id="cadastrarUsuario" class="button-cadastrarUsuario">
       Concluído
     </button>
   </form>
@@ -277,12 +196,7 @@
 <dialog id="popupAdicionarMoedas" class="popupAdicionarMoedas">
   <div class="header-adicionarMoedas">
     <img src="{% static 'img/logoAdmin.png' %}" alt="LogoAdmin" />
-    <img
-      class="iconeX-adicionarMoedas"
-      id="fecharAdicionarMoedas"
-      src="{% static 'img/iconeX.png' %}"
-      alt=""
-    />
+    <img class="iconeX-adicionarMoedas" id="fecharAdicionarMoedas" src="{% static 'img/iconeX.png' %}" alt="" />
   </div>
 
   <form class="formAdicionarMoedas" id="formAdicionarMoedas">
@@ -291,12 +205,7 @@
       <h1>Gerenciar digicoins</h1>
       <div class="quantidade-adicionarMoedas">
         <label>Quantidade a ser adicionada ou removida</label>
-        <input
-          class="quantidadeInput-adicionarMoedas"
-          id="saldo"
-          type="number"
-          placeholder="5.000"
-        />
+        <input class="quantidadeInput-adicionarMoedas" id="saldo" type="number" placeholder="5.000" />
       </div>
     </div>
     <div class="botoes-adicionarMoedas">
@@ -310,18 +219,16 @@
 
 <dialog id="popupUsuariosEmMassa" class="popupUsuariosEmMassa">
   <div class="header-container">
-      <h3>Selecione um arquivo CSV para cadastrar usuários em massa</h3>
-      <img src="{% static 'img/iconeX.png' %}" id="fecharUsuariosEmMassa" alt="" class="iconeX">
+    <h3>Selecione um arquivo CSV para cadastrar usuários em massa</h3>
+    <img src="{% static 'img/iconeX.png' %}" id="fecharUsuariosEmMassa" alt="" class="iconeX" />
   </div>
-  
+
   <form id="formUsuariosEmMassa" method="dialog">
-      {% csrf_token %}
-      <label for="csvFileInput">Arquivo CSV:</label>
-      <input type="file" id="csvFileInput" name="csv_file" accept=".csv">
-      <button type="submit">Enviar</button>
+    {% csrf_token %}
+    <label for="csvFileInput">Arquivo CSV:</label>
+    <input type="file" id="csvFileInput" name="csv_file" accept=".csv" />
+    <button type="submit">Enviar</button>
   </form>
-  
-  
 </dialog>
 
 <script src="{% static 'js/AdmJS/listaDeUsuarios.js' %}"></script>

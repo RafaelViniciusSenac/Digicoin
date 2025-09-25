@@ -11,17 +11,20 @@
     <input type="hidden" id="quantidadeMoedas" value="{{quantidade_moedas}}">
     <div class="containerProduto-listaProdutos">
         <div class="produtos-listaProdutos">
+
+            <a href='/listaProdutos' class="voltarBotao">
+                <button class="voltar">
+                    <img src="{% static 'img/flechaEsquerda.png' %}" alt="">
+                    <h2>Voltar</h2>
+                </button>
+            </a>
+            
             <div class="produtosDigix-listaProdutos">
                 <div class="ProdBarra-listaProdutos">
-                    <h1>Produtos Digix</h1>
+                    <h1>Produtos de Campanha</h1>
                     <div class="barra-listaProdutos"></div>
                 </div>
-
-                <div class="btn-campanha-listaProdutos">
-                    <a href="{% url 'produtosCampanha' %}" class="btnCampanha">
-                        <i class="fa fa-bullhorn" aria-hidden="true"></i> Produtos de Campanha
-                    </a>
-                </div>                
+               
                     <form class="search-listaProdutos" method="GET" action="">
                         <i id="lupa-listaProdutos" class="fa fa-search" aria-hidden="true"></i>
                         <input 
