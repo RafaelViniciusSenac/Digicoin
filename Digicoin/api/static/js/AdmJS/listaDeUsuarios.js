@@ -658,6 +658,7 @@ formUsuariosEmMassa.addEventListener('submit', async (e) => {
   const file = fileInput.files[0];
 
   if (!file) {
+      showPopup('Nenhum arquivo selecionado.', 'Erro', 'erro');
       console.log('Nenhum arquivo selecionado.');
       return;
   }
@@ -668,6 +669,8 @@ formUsuariosEmMassa.addEventListener('submit', async (e) => {
   const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
   console.log('enviando arquivo...')
+  const popupLoading = new Popup();
+  popupLoading.showLoadingPopup('Processando arquivo ...');
 
   try {
       const response = await fetch('/api/usuarios/cadastrar-em-massa/', {
@@ -680,17 +683,21 @@ formUsuariosEmMassa.addEventListener('submit', async (e) => {
 
       const data = await response.json();
 
+      popupLoading.hidePopup();
+
       if (response.ok) {
-          alert('Usuários cadastrados com sucesso!');
+          const popupAlert = new Popup();
+          popupAlert.showPopup('Usuários cadastrados com sucesso!', 'Sucesso', 'sucesso');
           popup.close();
-          
+          popupAlert.imgClosed.addEventListener("click", () => {
+              window.location.reload();
+          });
       } else {
           const errorMessage = data.error || data.detail || 'Ocorreu um erro desconhecido.';
-          alert('Erro ao cadastrar usuários: ' + errorMessage);
-
+          showPopup('Erro ao cadastrar usuários: ' + errorMessage, 'Erro', 'erro');
       }
   } catch (error) {
-      alert('Erro ao cadastrar usuários: ' + error.message);
+      showPopup('Erro ao cadastrar usuários: ' + error.message, 'Erro', 'erro');
   }
 });
 
