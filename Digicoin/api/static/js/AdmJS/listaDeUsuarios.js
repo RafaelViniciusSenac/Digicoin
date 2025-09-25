@@ -65,10 +65,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (checked) {
       try {
         console.log('🔄 Buscando todos os usuários ativos via API...');
+        const popupLoading = new Popup();
+        popupLoading.showLoadingPopup('Buscando usuários ativos...');
         const res = await fetch('/api/usuarios/ativos-nao-admin/');
         if (!res.ok) throw new Error('Erro ao buscar usuários ativos');
 
         const data = await res.json();
+        popupLoading.hidePopup();
         console.log('📥 Dados recebidos da API:', data);
 
         cacheTodosUsuarios = data
@@ -93,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
         sincronizarCheckboxesComCache();
       } catch (err) {
         console.error('❌ Erro ao carregar usuários:', err.message);
-        alert('Erro ao selecionar todos os usuários: ' + err.message);
+        showPopup('Erro ao carregar usuários: ' + err.message, 'Erro', 'erro');
         selecionarTodos.checked = false;
         todosSelecionadosGlobalmente = false;
       }
@@ -190,13 +193,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!csrf) {
       console.error('❌ Token CSRF não encontrado!');
-      alert('Erro interno: token CSRF ausente.');
       return;
     }
 
     if (usuariosSelecionados.length === 0) {
       console.warn('⚠️ Nenhum usuário selecionado.');
-      alert('Nenhum usuário selecionado!');
+      showPopup('Nenhum usuário selecionado!', 'Erro', 'erro');
       popupAdicionarMoedas.close();
       return;
     }
@@ -205,7 +207,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const valor = parseInt(inputQuantidade.value);
       if (isNaN(valor) || valor <= 0) {
         console.warn('⚠️ Valor inválido inserido:', inputQuantidade.value);
-        alert('Digite um valor válido e positivo!');
+        showPopup('Digite um valor válido e positivo!', 'Erro', 'erro');
         return;
       }
 
@@ -240,14 +242,19 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log(
           `🎉 Operação concluída com sucesso para ${resultados.length} usuário(s).`,
         );
-        alert(
+        const popupAlert = new Popup();
+        popupAlert.showPopup(
           `Operação realizada com sucesso para ${resultados.length} usuários!`,
+          'Sucesso',
+          'sucesso',
         );
         popupAdicionarMoedas.close();
-        location.reload();
+        popupAlert.imgClosed.addEventListener("click", () => {
+          window.location.reload();
+        });
       } catch (error) {
         console.error('❌ Erro durante a operação:', error);
-        alert(`Erro na operação: ${error.message}`);
+        showPopup('Erro na operação: ' + error.message, 'Erro', 'erro');
       }
     };
 
@@ -335,7 +342,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const userId = dialog.getAttribute('data-id');
       if (!userId) {
         console.error('ID do usuário não encontrado no dialog!');
-        alert('Erro: ID do usuário não encontrado.');
+        showPopup('ID do usuário não encontrado no dialog!', 'Erro', 'erro');
         return;
       }
 
@@ -358,12 +365,13 @@ document.addEventListener('DOMContentLoaded', () => {
       );
 
       if (response.status == 200) {
-        alert('Usuário editado com sucesso!');
-        location.reload();
+        const popupAlert = new Popup();
+        popupAlert.showPopup('Usuário editado com sucesso!', 'Sucesso', 'sucesso');
+        popupAlert.imgClosed.addEventListener("click", () => {
+          window.location.reload();
+        });
       } else {
-        alert(
-          'Erro ao editar usuário: ' + (response?.error || 'Erro desconhecido'),
-        );
+        showPopup('Erro ao editar usuário: ' + (response?.error || 'Erro desconhecido'),'Erro','erro');
       }
     });
   });
@@ -379,9 +387,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 async function alterarSenha(usuarioId) {
-  const confirmar = confirm(
-    'Tem certeza? O usuário receberá um e-mail com a nova senha.',
-  );
+  const confirmar = await confirmarAcao('Tem certeza? O usuário receberá um e-mail com a nova senha.', 'Alterar Senha');
   if (!confirmar) return;
 
   try {
@@ -395,15 +401,13 @@ async function alterarSenha(usuarioId) {
     );
 
     if (response.status === 200) {
-      alert(
-        response.message || 'Senha redefinida e e-mail enviado com sucesso!',
-      );
+      showPopup('Senha redefinida com sucesso!', 'Sucesso', 'sucesso');
     } else {
-      alert('Erro: ' + (response.error || 'Erro desconhecido'));
+      showPopup('Erro ao redefinir senha: ' + response.error, 'Erro', 'erro');
     }
   } catch (error) {
     console.error('Erro ao alterar senha:', error);
-    alert('Erro ao conectar com o servidor.');
+    showPopup('Erro ao alterar senha: ' + error, 'Erro', 'erro');
   }
 }
 
@@ -419,15 +423,15 @@ async function salvarEdicaoUsuario(usuarioId, formData) {
     );
 
     if (response.status === 200) {
-      alert('Usuário atualizado com sucesso!');
+      showPopup('Usuário atualizado com sucesso!', 'Sucesso', 'sucesso');
       return true;
     } else {
-      alert('Erro ao atualizar usuário.');
+      showPopup('Erro ao atualizar usuário: ' + response.error, 'Erro', 'erro');
       return false;
     }
   } catch (error) {
     console.error('Erro ao salvar edição:', error);
-    alert('Erro ao conectar com o servidor.');
+    showPopup('Erro ao salvar edição: ' + error, 'Erro', 'erro');
     return false;
   }
 }
@@ -611,6 +615,7 @@ async function buscarUsuario() {
     );
 
     if (!response || !Array.isArray(response)) {
+      showPopup('Resposta inválida ou vazia', 'Erro', 'erro');
       console.log('Resposta inválida ou vazia');
       return;
     }
@@ -619,6 +624,7 @@ async function buscarUsuario() {
     renderizarUsuarios(response, container);
     searchInput.focus();
   } catch (error) {
+    showPopup('Erro ao buscar usuários: ' + error, 'Erro', 'erro');
     console.log('Erro ao buscar usuários:', error);
     searchInput.focus();
   }
@@ -737,16 +743,16 @@ document.addEventListener('DOMContentLoaded', function(){
 
         if (response.ok) {
             const data = await response.json();
-            alert(data.message || 'Pontuação zerada com sucesso!');
+            showPopup(data.message || 'Pontuação zerada com sucesso!', 'Sucesso', 'sucesso');
             dialog.close();
         } else {
             const errorData = await response.json().catch(() => ({}));
-            alert('Erro: ' + (errorData.message || 'Falha ao processar'));
+            showPopup(errorData.message || 'Erro ao zerar pontuação.', 'Erro', 'erro'); 
         }
     } catch (error) {
         loadingPopup.hidePopup();
         console.error('Erro:', error);
-        alert('Erro de conexão ou servidor indisponível.');
+        showPopup('Erro ao zerar pontuação: ' + error, 'Erro', 'erro');
     }
 });
   
