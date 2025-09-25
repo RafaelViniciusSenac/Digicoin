@@ -16,7 +16,7 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
+import datetime
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'api',
     'rest_framework',
-    'django_q',
+    
 ]
 
 MIDDLEWARE = [
@@ -54,24 +54,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-Q_CLUSTER = {
-    'name': 'digicoin',
-    'workers': 100,
-    'timeout': 90,
-    'retry': 120,
-    'queue_limit': 50,
-    'bulk': 10,
-    'orm': 'default',
-}
-
-Q_SCHEDULES = {
-    'desativar_campanhas_diariamente': {
-        'func': 'sua_aplicacao.tasks.desativar_campanhas_expiradas',
-        'schedule_type': 'D',  # Diário
-        'repeats': -1,       # Repetir indefinidamente
-        'hook': 'hora_da_execucao',
-    }
-}
 
 ROOT_URLCONF = 'Digicoin.urls'
 
