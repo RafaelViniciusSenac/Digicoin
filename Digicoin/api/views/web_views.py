@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from api.models import *
 from django.core.paginator import Paginator
+from functools import wraps
 from ..serializers import UsuarioComHistoricoSerializer
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
@@ -13,10 +14,38 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.http import JsonResponse
 from django.core.paginator import Paginator
 
+ADMIN_DASHBOARD_ROUTE = 'listaDeUsuarios'
+USER_DASHBOARD_ROUTE = 'home'
+LOGIN_ROUTE_NAME = 'login'
+
+def admin_required(view_func):
+    @wraps(view_func)
+    def _wrapped_view(request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect(LOGIN_ROUTE_NAME)
+        if not request.user.is_adm:
+            return redirect(USER_DASHBOARD_ROUTE)
+        return view_func(request, *args, **kwargs)
+    return _wrapped_view
+
+def user_required(view_func):
+    @wraps(view_func)
+    def _wrapped_view(request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect(LOGIN_ROUTE_NAME)
+        if request.user.is_adm:
+            return redirect(ADMIN_DASHBOARD_ROUTE)
+        return view_func(request, *args, **kwargs)
+    return _wrapped_view
+
 def login(request):
+    if request.user.is_authenticated:
+        destination = ADMIN_DASHBOARD_ROUTE if request.user.is_adm else USER_DASHBOARD_ROUTE
+        return redirect(destination)
     return render(request, 'index.html')
 
 
+@user_required
 def home(request):
     users = CustomUser.objects.filter(is_adm=False).order_by("-pontuacao")[:5]
 
@@ -40,6 +69,7 @@ def home(request):
 
     return render(request, 'UserHtml/home.html', context)
 
+@user_required
 def historicoCompra(request):
     eventos = Campanha.objects.filter(is_active=True)
 
@@ -93,9 +123,11 @@ def historicoCompra(request):
         'eventos': eventos
     })
 
+@login_required(login_url=LOGIN_ROUTE_NAME)
 def primeiroAcesso(request):
     return render(request, 'primeiroAcesso.html')
 
+@user_required
 def perfilUsuario(request):
     usuarioLogado = request.user
     serializer = UsuarioComHistoricoSerializer(usuarioLogado)
@@ -108,6 +140,7 @@ def perfilUsuario(request):
 
     return render(request, 'UserHtml/perfilUsuario.html', context)
 
+@user_required
 def listaProdutos(request):
     userId = request.session.get('_auth_user_id')
     user = CustomUser.objects.filter(id=userId).first()
@@ -142,6 +175,7 @@ def listaProdutos(request):
     }
     return render(request, "UserHtml/listaProdutos.html", context)
 
+@user_required
 def ProdutosListaCampanha(request):
     userId = request.session.get('_auth_user_id')
     user = CustomUser.objects.filter(id=userId).first()
@@ -177,12 +211,13 @@ def ProdutosListaCampanha(request):
     return render(request, "UserHtml/produtosCampanha.html", context)
 
 
+@admin_required
 def cadastrarDesafio(request):
     campanhas = Campanha.objects.filter(is_active=True)
      
     return render(request, 'AdmHtml/cadastrarDesafio.html', {'campanhas': campanhas})
 
-@login_required
+@user_required
 def ranking(request):
     top_usuarios = CustomUser.objects.filter(is_adm=False).order_by('-pontuacao')[:7]
     
@@ -210,6 +245,7 @@ def ranking(request):
     
     return render(request, 'UserHtml/ranking.html', context)
 
+@admin_required
 def listaEstoque(request):
     eventos = Campanha.objects.filter(is_active=True)
     
@@ -227,6 +263,7 @@ def listaEstoque(request):
     return render(request, 'AdmHtml/listaEstoque.html', {'estoque': estoque, 'eventos': eventos})
 
 
+@admin_required
 def listaDeDesafios(request):
     search = request.GET.get('search', '').strip()
 
@@ -251,6 +288,7 @@ def listaDeDesafios(request):
 
 
 
+@admin_required
 def listaDeUsuarios(request):
     nome = request.GET.get('nome', '') 
     user = CustomUser.objects.filter(first_name__icontains=nome, is_adm=False).order_by("first_name")
@@ -265,6 +303,7 @@ def listaDeUsuarios(request):
     return render(request, 'AdmHtml/listaDeUsuarios.html', {'usuarios': usuarios})
 
 
+@user_required
 def desafiosCampanha(request, campanha_id):
 
     desafio = Desafio.objects.filter(idCampanha=campanha_id, is_active=True)
@@ -274,6 +313,7 @@ def desafiosCampanha(request, campanha_id):
 
     return render(request, 'UserHtml/desafiosCampanha.html', {'desafios': desafios})
 
+@user_required
 def desafiosCampanhaAtivas(request):
     campanha = Campanha.objects.filter(is_active=True).order_by('nome')
     campanha_paginator = Paginator(campanha, 5)
@@ -284,6 +324,7 @@ def desafiosCampanhaAtivas(request):
 
 
 
+@admin_required
 def listaDePedidos(request):
     status_pedido = request.GET.get('status')
     search = request.GET.get('search', '').strip()
@@ -321,35 +362,43 @@ def listaDePedidos(request):
 
 
 
+@user_required
 def carrinho(request):
     return render(request, 'UserHtml/carrinhoCompra.html')
 
 
+@admin_required
 def relatorio(request):
     return render(request, 'AdmHtml/relatorio.html')
 
+@admin_required
 def campanhas(request):
 
     campanhas = Campanha.objects.all()
 
     return render(request, 'AdmHtml/campanhas.html', {'campanhas': campanhas})
 
+@user_required
 def teste(request):
     return render(request, 'UserHtml/teste.html')
 
+@admin_required
 def cadastrarUsuario(request):
     return render(request, 'AdmHtml/cadastrarUsuario.html')
 
+@admin_required
 def editarUsuario(request, id):
     
     userId = CustomUser.objects.filter(id=id).first()
     return render(request, 'AdmHtml/editarUsuario.html', {'userId': userId})
 
 
+@admin_required
 def adicionarMoedas(request):
     return render(request, 'AdmHtml/adicionarMoedas.html')
 
 
+@admin_required
 def exportar_vendas_excel(request):
     """
     View para exportar relatório de vendas em formato Excel
@@ -423,6 +472,7 @@ def exportar_vendas_excel(request):
 
 
 
+@admin_required
 def exportar_produtos_mais_vendidos_excel(request):
     """
     View para exportar relatório de produtos mais vendidos em formato Excel
@@ -493,6 +543,7 @@ def exportar_produtos_mais_vendidos_excel(request):
     return response
 
 
+@admin_required
 def exportar_usuarios_com_mais_moedas_excel(request):
     """
     View para exportar relatório de usuários com mais moedas em formato Excel
@@ -552,6 +603,7 @@ def exportar_usuarios_com_mais_moedas_excel(request):
     
     return response
 
+@login_required(login_url=LOGIN_ROUTE_NAME)
 def desenvolvedores(request):
     devs = Desenvolvedores.objects.filter(professor=False)
     professores = Desenvolvedores.objects.filter(professor=True)
