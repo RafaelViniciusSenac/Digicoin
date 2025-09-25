@@ -5,9 +5,14 @@ SET GLOBAL event_scheduler = ON;
 
 DELIMITER $$
 
-CREATE PROCEDURE desativar_campanhas_expiradas()
+CREATE PROCEDURE desativar_itens_expirados()
 BEGIN
-    -- Desativa produtos de campanhas expiradas
+    -- 1. Desativa DESAFIOS cuja dataFim já passou e que ainda estão ativos.
+    UPDATE api_desafio
+    SET is_active = FALSE
+    WHERE dataFim < CURDATE() AND is_active = TRUE;
+
+    -- 2. Desativa PRODUTOS e DESAFIOS relacionados a campanhas expiradas.
     UPDATE api_produto
     SET is_active = FALSE
     WHERE idCampanha_id IN (
@@ -15,7 +20,6 @@ BEGIN
         WHERE dataFim < CURDATE() AND is_active = TRUE
     );
 
-    -- Desativa desafios de campanhas expiradas
     UPDATE api_desafio
     SET is_active = FALSE
     WHERE idCampanha_id IN (
@@ -23,17 +27,16 @@ BEGIN
         WHERE dataFim < CURDATE() AND is_active = TRUE
     );
 
-    -- Desativa as próprias campanhas
+    -- 3. Desativa as próprias CAMPANHAS expiradas.
     UPDATE api_campanha
     SET is_active = FALSE
     WHERE dataFim < CURDATE() AND is_active = TRUE;
 END$$
 
-
 DELIMITER ;
 
 CREATE EVENT desativar_campanhas_event
 ON SCHEDULE EVERY 1 DAY
-STARTS NOW() -- Opcional: inicia o evento imediatamente
+STARTS NOW()
 DO
-    CALL desativar_campanhas_expiradas();
+    CALL desativar_itens_expirados();
