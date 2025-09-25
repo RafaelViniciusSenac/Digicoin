@@ -484,3 +484,8 @@ class CriacaoDeUsuariosEmMassaAPIView(APIView):
         else:
             print(f"Erro: Serializer não é válido. Erros: {serializer.errors}")
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+class ZerarPontuacaoAPIView(APIView):
+    def post(self, request):
+        updated_count = CustomUser.objects.filter(is_active=True, is_adm=False).update(pontuacao=0)
+        return Response({'message': f'Pontuação zerada para {updated_count} usuários.'}, status=status.HTTP_200_OK)	
