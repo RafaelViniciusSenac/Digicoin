@@ -1,0 +1,42 @@
+CREATE DATABASE Digicoin;
+USE Digicoin;
+
+SET GLOBAL event_scheduler = ON;
+
+DELIMITER $$
+
+CREATE PROCEDURE desativar_itens_expirados()
+BEGIN
+    -- 1. Desativa DESAFIOS cuja dataFim já passou e que ainda estão ativos.
+    UPDATE api_desafio
+    SET is_active = FALSE
+    WHERE dataFim < CURDATE() AND is_active = TRUE;
+
+    -- 2. Desativa PRODUTOS e DESAFIOS relacionados a campanhas expiradas.
+    UPDATE api_produto
+    SET is_active = FALSE
+    WHERE idCampanha_id IN (
+        SELECT id FROM api_campanha
+        WHERE dataFim < CURDATE() AND is_active = TRUE
+    );
+
+    UPDATE api_desafio
+    SET is_active = FALSE
+    WHERE idCampanha_id IN (
+        SELECT id FROM api_campanha
+        WHERE dataFim < CURDATE() AND is_active = TRUE
+    );
+
+    -- 3. Desativa as próprias CAMPANHAS expiradas.
+    UPDATE api_campanha
+    SET is_active = FALSE
+    WHERE dataFim < CURDATE() AND is_active = TRUE;
+END$$
+
+DELIMITER ;
+
+CREATE EVENT desativar_campanhas_event
+ON SCHEDULE EVERY 1 DAY
+STARTS NOW()
+DO
+    CALL desativar_itens_expirados();
