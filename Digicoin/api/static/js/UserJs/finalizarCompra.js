@@ -69,11 +69,25 @@ async function enviarDadosParaApi(form = null) {
         });
 
     } else {
-        let erros = '';
-        for (const error in response.error) {
-            erros += `${parseInt(error)+1}: ${response.error[error]}<br>`;
+        let errors;
+        console.log(response); //null
+        if(response === null){
+            // adiciona um erro padrao : "Ocorreu um erro ao realizar a compra"
+            errors = { "0": "Ocorreu um erro ao realizar a compra" };
+        }else{
+            if(response.error === null){
+                // adiciona um erro padrao : "Ocorreu um erro ao realizar a compra"
+                errors = { "0": "Ocorreu um erro ao realizar a compra" };
+            }else{
+                errors = response.error;
+            }
         }
-        console.log(response.error);
+        console.log(errors);
+        let erros = '';
+        for (const error in errors) {
+            erros += `${parseInt(error)+1}: ${errors[error]}<br>`;
+        }
+        console.log(erros);
         const popupErro = new Popup();
         popupErro.showPopup("Erro ao realizar compra!<br><br>" + erros,"Error","erro");
     }
