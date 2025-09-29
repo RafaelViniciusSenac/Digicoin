@@ -224,18 +224,6 @@
 
 }
 
-.popUpEditarDesafio-listaDeDesafios {
-    border: none;
-        border-radius: 8px;
-        padding: 0px 100px 0px 100px;
-        width: 90%;
-        max-width: 900px;
-        height: 565px;
-        max-height: 565px;
-        background-color: var(--roxo);
-        box-shadow: 0 4px 20px var(--sombra-preta);
-        color: var(--base);
-}
 
 
 
@@ -268,6 +256,7 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+    width: 100%;
 }
 
 .header-cadastrarDesafio{
@@ -322,7 +311,7 @@
 }
 
 
-.nomeDesafioDiv-cadastrarDesafio{
+.nomeDesafioDiv-cadastrarDesafio, .descricaoDesafioDiv-cadastrarDesafio{
     display: flex;
     flex-direction: column;
 }
@@ -476,4 +465,64 @@ label{
     }
 
 
+}
+
+@media (max-width: 768px) {
+
+    /* Ajusta o contêiner principal do pop-up */
+    .popUpAdicionarDesafio-listaDeDesafios {
+        width: 70%; /* Mantém uma largura fluida */
+        height: auto; /* Altura se ajusta ao conteúdo */
+        max-height: 80vh; /* Altura máxima de 90% da tela */
+        padding: 25px; /* Reduz drasticamente o padding interno */
+        overflow-y: auto; /* Adiciona barra de rolagem se o conteúdo for maior que a tela */
+    }
+
+    /* Ajusta o layout interno do formulário para empilhar verticalmente */
+    .cima-cadastrarDesafio {
+        flex-direction: column; /* Empilha os elementos */
+        gap: 20px; /* Reduz o espaçamento */
+        width: 100%;
+    }
+
+    .baixo-cadastrarDesafio {
+        width: 100%;
+    }
+    
+    /* Faz os inputs ocuparem 100% da largura disponível */
+    .nomeDesafioDiv-cadastrarDesafio input,
+    .statusDesafioDiv-cadastrarDesafio select, .descricao-cadastrarDesafio {
+        width: 90%;
+    }
+
+
+    /* Ajusta o header do pop-up */
+    .header-cadastrarDesafio {
+        margin: 0;
+        margin-bottom: 20px;
+    }
+
+    .header-cadastrarDesafio1 {
+        margin-left: 0;
+        width: 50px; /* Reduz o tamanho da logo se necessário */
+        height: 8vh;
+    }
+
+    .botao-cadastrarDesafio {
+        margin-right: 0;
+        position: absolute; /* Posiciona o botão de fechar */
+        top: 15px;
+        right: 15px;
+    }
+
+    /* Ajusta as datas para empilhar se necessário */
+    .dataDesafioDiv-cadastrarDesafio {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .button-cadastrarDesafio {
+        width: 100%; /* Botão principal ocupa toda a largura */
+        margin-right: 0;
+    }
 }
