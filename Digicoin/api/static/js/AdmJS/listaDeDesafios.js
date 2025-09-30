@@ -141,7 +141,7 @@ async function EditarDesafio(event) {
   const csrf = form.querySelector('[name=csrfmiddlewaretoken]').value;
 
   if (!nomeDesafio || !valorDesafio) {
-    alert('Nome do desafio e valor do desafio devem ser preenchidos.');
+    showPopup('Nome do desafio e valor do desafio devem ser preenchidos.', 'Erro', 'erro');
     return;
   }
 
@@ -199,14 +199,17 @@ document.querySelectorAll('.btn-desativar-desafio').forEach((botao) => {
       );
 
       if (response) {
-        alert('Desafio desativado com sucesso!');
-        location.reload();
+        const popupAlert = new Popup(); 
+        popupAlert.showPopup('Desafio desativado com sucesso!', 'Sucesso', 'sucesso');
+        popupAlert.imgClosed.addEventListener("click", () => {
+          window.location.reload();
+        })
       } else {
-        alert('Erro ao desativar o desafio.');
+        showPopup('Erro ao desativar o desafio.', 'Erro', 'erro');
       }
     } catch (err) {
       console.error('Erro ao desativar desafio:', err);
-      alert('Erro na requisição.');
+      showPopup('Erro ao desativar o desafio.', 'Erro', 'erro');
     }
   });
 });
@@ -217,7 +220,8 @@ document.querySelectorAll('.btn-desativar-desafio-listaDeDesafios').forEach((bot
     const nomeDesafio = document.querySelector('.nomeDesafio-listaDeDesafios').textContent.trim();
     const valorDesafio = document.querySelector('.valor-listaDeDesafios').textContent.trim();
 
-    const confirmacao = confirm('Tem certeza que deseja desativar este desafio?');
+    const confirmacaoPopup = new Popup();
+    const confirmacao = await confirmacaoPopup.showPopup('Tem certeza que deseja desativar este desafio?', 'Confirmação', 'confirmacao');
 
     if (!confirmacao) return;
 
@@ -231,10 +235,13 @@ document.querySelectorAll('.btn-desativar-desafio-listaDeDesafios').forEach((bot
     );
 
     if (response) {
-      alert('Desafio desativado com sucesso!');
-      window.location.reload();
+      const popupAlert = new Popup(); 
+      popupAlert.showPopup('Desafio desativado com sucesso!', 'Sucesso', 'sucesso');
+      popupAlert.imgClosed.addEventListener('click', () => {
+        window.location.reload();
+      });
     } else {
-      alert('Erro ao desativar: ');
+      showPopup('Erro ao desativar o desafio.', 'Erro', 'erro');
     }
   });
 });
