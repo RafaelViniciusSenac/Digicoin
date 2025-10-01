@@ -15,9 +15,10 @@ async function cadastrar(evento) {
         }else{
             if(response.status == 201)
             {
-                const popupAlert = showPopup('Usuário cadastrado com sucesso!', 'Sucesso', 'sucesso');
+                const popupAlert = new Popup();
+                popupAlert.showPopup('Usuário cadastrado com sucesso!', 'Sucesso', 'sucesso');
                 form.reset();
-                popupAlert.closeImage.addEventListener('click', () => {
+                popupAlert.imgClosed.addEventListener("click", () => {
                     window.location.reload();
                 });
                 console.log(response);
