@@ -306,28 +306,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Botões de ativar/desativar
-  document
-    .querySelectorAll('.action-button.desativar, .action-button.ativar')
-    .forEach((botao) => {
-      botao.addEventListener('click', () => {
-        const dialog = botao.closest('dialog');
-        const form = dialog.querySelector('.formEditar');
-        const statusInput = form.querySelector('input[name="is_active"]');
-
-        if (botao.classList.contains('desativar')) {
-          statusInput.value = 'false';
-        } else if (botao.classList.contains('ativar')) {
-          statusInput.value = 'true';
-        }
-
-        dialog
-          .querySelectorAll('.action-button')
-          .forEach((btn) => btn.classList.remove('active'));
-        botao.classList.add('active');
-      });
-    });
-
   // Submissão dos formulários de edição
   document.querySelectorAll('.formEditar').forEach((form) => {
     form.addEventListener('submit', async function (e) {
@@ -349,7 +327,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const nome = this.querySelector('.nome').value;
       const email = this.querySelector('.email').value;
       const ra = this.querySelector('.ra').value;
-      const status = this.querySelector('input[name="is_active"]').value;
+      const status = this.querySelector('input[name="is_active"]:checked').value;
       const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
       const response = await apiRequest(
@@ -399,8 +377,7 @@ async function alterarSenha(usuarioId) {
       {},
       { 'X-CSRFToken': csrf },
     );
-
-    if (response.status === 200) {
+    if (response.status === 200 || response.status === 201 || response.message) {
       showPopup('Senha redefinida com sucesso!', 'Sucesso', 'sucesso');
     } else {
       showPopup('Erro ao redefinir senha: ' + response.error, 'Erro', 'erro');
@@ -462,7 +439,7 @@ function configurarPopupEdicao(popup, usuario) {
       ativarBtn.classList.remove('active');
     });
   }
-
+  console.log('Configuração do popup para usuário ID:', usuario.id);
   const btnAlterarSenha = popup.querySelector('.alterarSenha');
   if (btnAlterarSenha) {
     btnAlterarSenha.addEventListener('click', () => alterarSenha(usuario.id));

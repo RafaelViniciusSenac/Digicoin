@@ -72,6 +72,7 @@
         <span class="nome-listaDeUsuarios">{{usuario.first_name}}</span>
         <span>D$ {{usuario.saldo}} </span>
         <span class="status-listaDeUsuarios"></span>
+        <span class="pontos-listaDeUsuarios"> {{usuario.pontuacao}} Pts </span>
       </div>
       <img class="iconeEditar-listaDeUsuarios" id="editar" data-id="{{usuario.id}}" src="{% static 'img/edit.png' %}" alt="" />
     </div>
@@ -98,46 +99,51 @@
           <img src="{% static 'img/iconeX.png' %}" alt="Fechar" class="close-icon" />
         </button>
       </div>
-
       <form class="formEditar">
-        {% csrf_token %}
-        <input type="hidden" class="idUser" value="{{usuario.id}}" />
-        <input type="hidden" name="is_active" value="{{usuario.is_active|lower}}" />
-        <div class="form-columns">
-          <div class="form-left">
-            <div class="form-group">
+          {% csrf_token %}
+          <input type="hidden" class="idUser" value="{{usuario.id}}" />
+
+          <div class="form-group">
               <label for="nome-{{usuario.id}}" class="form-label">Nome do Usuário</label>
               <input type="text" id="nome-{{usuario.id}}" class="form-input nome" value="{{usuario.first_name}}" />
-            </div>
+          </div>
 
-            <div class="form-group">
+          <div class="form-group">
               <label for="email-{{usuario.id}}" class="form-label">Email</label>
               <input type="email" id="email-{{usuario.id}}" class="form-input email" value="{{usuario.username}}" />
-            </div>
+          </div>
 
-            <div class="form-group">
+          <div class="form-group">
               <label for="ra-{{usuario.id}}" class="form-label">RA do Usuário</label>
               <input type="number" id="ra-{{usuario.id}}" class="form-input ra" value="{{usuario.ra}}" />
-            </div>
           </div>
 
-          <div class="form-right">
-            <div class="action-buttons">
-              <button type="button" class="action-button alterarSenha" data-id="{{usuario.id}}">
-                Alterar senha
-              </button>
-              <button type="button" class="action-button desativar">
-                Desativar usuário
-              </button>
-              <button type="button" class="action-button ativar">
-                Ativar usuário
-              </button>
-              <button type="submit" class="action-button submit">
-                Concluído
-              </button>
-            </div>
+          <div class="form-group">
+              <label class="form-label">Status do Usuário</label>
+              <div class="radio-options-horizontal">
+                  <div class="radio-item">
+                      <input type="radio" id="status_ativo-{{usuario.id}}" name="is_active" value="true" {% if usuario.is_active %}checked{% endif %}>
+                      <label for="status_ativo-{{usuario.id}}">Ativado</label>
+                  </div>
+                  <div class="radio-item">
+                      <input type="radio" id="status_inativo-{{usuario.id}}" name="is_active" value="false" {% if not usuario.is_active %}checked{% endif %}>
+                      <label for="status_inativo-{{usuario.id}}">Desativado</label>
+                  </div>
+              </div>
           </div>
-        </div>
+
+          <div class="action-buttons">
+              <button type="button" 
+                      class="action-button alterarSenha" 
+                      data-id="{{usuario.id}}" 
+                      onclick="alterarSenha({{usuario.id}})">
+                  Alterar senha
+              </button>
+
+              <button type="submit" class="action-button submit">
+                  Salvar Alterações
+              </button>
+          </div>
       </form>
     </dialog>
 

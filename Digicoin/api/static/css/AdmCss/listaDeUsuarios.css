@@ -238,6 +238,10 @@
     color: #888;
     font-size: 14px;
 }
+.infoUser-listaDeUsuarios .pontos-listaDeUsuarios {
+    margin: auto;
+    font-size: 14px;
+}
 
 .iconeEditar-listaDeUsuarios {
     cursor: pointer;
@@ -457,6 +461,23 @@
         background-color: var(--sombra-preta);
     }
 
+    .radio-options-horizontal {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    margin-top: 5px;
+    }
+
+    .radio-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    }
+    /* Cor do texto dos labels dos radios */
+    .radio-item label {
+        color: white;
+    }
+
     .dialog-header {
         display: flex;
         justify-content: space-between;
@@ -496,7 +517,7 @@
         display: block;
         margin-bottom: 8px;
         font-size: 16px;
-        color: var(--base);
+        color: white;
         font-weight: 500;
     }
 
