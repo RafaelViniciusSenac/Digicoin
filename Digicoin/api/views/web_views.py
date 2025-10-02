@@ -142,13 +142,13 @@ def listaProdutos(request):
     }
     return render(request, "UserHtml/listaProdutos.html", context)
 
-def ProdutosListaCampanha(request):
+def ProdutosListaCampanha(request, produto_id):
     userId = request.session.get('_auth_user_id')
     user = CustomUser.objects.filter(id=userId).first()
     quantidade_moedas = user.saldo if user else 0
 
     search = request.GET.get("search", "")
-    listaProdutos_list = Produto.objects.filter(is_active=True, idCampanha__isnull=False)
+    listaProdutos_list = Produto.objects.filter(is_active=True, idCampanha__isnull=False, idCampanha=produto_id)
     if search:
         listaProdutos_list = listaProdutos_list.filter(nome__icontains=search)
 
@@ -175,6 +175,19 @@ def ProdutosListaCampanha(request):
         "search": search
     }
     return render(request, "UserHtml/produtosCampanha.html", context)
+
+def ProdutosListaCampanhaAtivas(request):
+    
+    campanha = Campanha.objects.filter(is_active=True).order_by('nome')
+    paginator = Paginator(campanha, 5)
+    page_number = request.GET.get('campanha_page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        "produtos": page_obj,
+    }
+    return render(request, "UserHtml/produtosCampanhasAtivas.html", context)
+
 
 
 def cadastrarDesafio(request):
@@ -274,6 +287,7 @@ def desafiosCampanha(request, campanha_id):
 
     return render(request, 'UserHtml/desafiosCampanha.html', {'desafios': desafios})
 
+# meu codigo primeiro
 def desafiosCampanhaAtivas(request):
     campanha = Campanha.objects.filter(is_active=True).order_by('nome')
     campanha_paginator = Paginator(campanha, 5)
