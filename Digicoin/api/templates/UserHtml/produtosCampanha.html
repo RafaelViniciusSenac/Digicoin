@@ -12,16 +12,22 @@
     <div class="containerProduto-listaProdutos">
         <div class="produtos-listaProdutos">
 
-            <a href='/listaProdutos' class="voltarBotao">
+            <a href='/produtosCampanhaAtivas' class="voltarBotao">
                 <button class="voltar">
                     <img src="{% static 'img/flechaEsquerda.png' %}" alt="">
                     <h2>Voltar</h2>
                 </button>
             </a>
             
-            <div class="produtosDigix-listaProdutos">
+            <div class="produtosDigix-listaProdutos">                
                 <div class="ProdBarra-listaProdutos">
-                    <h1>Produtos de Campanha</h1>
+                    
+                {% if produtos %}
+                <h1>Produtos de Campanha - {{ produtos.0.idCampanha }}</h1>
+                {% else %}
+                <h1>Produtos de Campanha</h1>
+                {% endif %}                    
+                    
                     <div class="barra-listaProdutos"></div>
                 </div>
                

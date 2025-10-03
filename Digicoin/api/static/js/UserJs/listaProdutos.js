@@ -89,7 +89,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
 
                 dialog.close();
-                window.location.href = "carrinho";
+
+                
+                window.location.href = "/produtosCampanha/carrinho/";
+
             };
 
             dialog.showModal();
