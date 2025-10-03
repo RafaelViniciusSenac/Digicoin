@@ -149,61 +149,88 @@ document.addEventListener("DOMContentLoaded", function(){
     const flechaEsquerda = document.getElementById('flechaEsquerda')
 
     imgGroup.addEventListener('click', () => {
-    menuMobile.style.display = 'flex'
-    imgGroup.style.display = 'none'
-    flechaEsquerda.style.display = 'block'
+        menuMobile.style.display = 'flex'
+        imgGroup.style.display = 'none'
+        flechaEsquerda.style.display = 'block'
 
 
-    setTimeout(() => {
-        document.addEventListener('click', clickFora)
-    }, 0)
-})
+        setTimeout(() => {
+            document.addEventListener('click', clickFora)
+        }, 0)
+    })
 
-// fechar menu pelo botão flecha
-flechaEsquerda.addEventListener('click', () => {
-    fecharMenu()
-})
-
-function fecharMenu() {
-    menuMobile.style.display = 'none'
-    imgGroup.style.display = 'block'
-    flechaEsquerda.style.display = 'none'
-
-    // remove o listener de clique fora
-    document.removeEventListener('click', clickFora)
-}
-
-
-function clickFora(e) {
-    if (!menuMobile.contains(e.target) && !imgGroup.contains(e.target) && !flechaEsquerda.contains(e.target)) {
+    // fechar menu pelo botão flecha
+    flechaEsquerda.addEventListener('click', () => {
         fecharMenu()
+    })
+
+    function fecharMenu() {
+        menuMobile.style.display = 'none'
+        imgGroup.style.display = 'block'
+        flechaEsquerda.style.display = 'none'
+
+        // remove o listener de clique fora
+        document.removeEventListener('click', clickFora)
     }
-}
 
-const dropdownMenuMobile = document.getElementById('dropdownMenuMobile')
-const imgPerfil = document.getElementById('imgPerfil')
 
-if (window.innerWidth < 1000) {
-    imgPerfil.addEventListener('click', () => {
-        if (dropdownMenuMobile.style.display === 'none') {
-            dropdownMenuMobile.style.display = 'flex'
-        } else {
-            dropdownMenuMobile.style.display = 'none'
+    function clickFora(e) {
+        if (!menuMobile.contains(e.target) && !imgGroup.contains(e.target) && !flechaEsquerda.contains(e.target)) {
+            fecharMenu()
         }
-    })
+    }
 
-    document.addEventListener('click', (e) => {
+    // 1. Seleciona os elementos que vamos usar uma vez só
+    const dropdownMenuMobile = document.getElementById('dropdownMenuMobile');
+    const imgPerfil = document.getElementById('imgPerfil');
+    // Certifique-se que o ID da sua flecha mobile é 'imgFlechaPerfil'
+    const imgFlechaPerfil = document.getElementById('imgFlechaPerfil'); 
+
+    // 2. Funções que serão usadas pelos eventos
+    function toggleMenu() {
+        dropdownMenuMobile.classList.toggle('aberto');
+        imgFlechaPerfil.classList.toggle('aberto');
+    }
+
+    function fecharMenuSeClicarFora(event) {
         if (
-            dropdownMenuMobile.style.display === 'flex' &&
-            !dropdownMenuMobile.contains(e.target) && // clique não foi dentro do menu
-            !imgPerfil.contains(e.target) // clique não foi no botão
+            dropdownMenuMobile.classList.contains('aberto') &&
+            !dropdownMenuMobile.contains(event.target) &&
+            !imgPerfil.contains(event.target) &&
+            !imgFlechaPerfil.contains(event.target)
         ) {
-            dropdownMenuMobile.style.display = 'none'
+            toggleMenu(); // Fecha o menu e gira a flecha de volta
         }
-    })
-}
-    
-      
+    }
 
+    // 3. Função principal que gerencia os eventos
+    function gerenciarEventListenersMobile() {
+        // Se a tela for pequena (mobile)
+        if (window.innerWidth < 1000) {
+            imgPerfil.addEventListener('click', toggleMenu);
+            imgFlechaPerfil.addEventListener('click', toggleMenu);
+            document.addEventListener('click', fecharMenuSeClicarFora);
+        } 
+        // Se a tela for grande (desktop)
+        else {
+            // REMOVE a funcionalidade de clique dos elementos
+            imgPerfil.removeEventListener('click', toggleMenu);
+            imgFlechaPerfil.removeEventListener('click', toggleMenu);
+            document.removeEventListener('click', fecharMenuSeClicarFora);
+
+            // Garante que o menu feche caso a tela seja redimensionada enquanto ele está aberto
+            dropdownMenuMobile.classList.remove('aberto');
+            imgFlechaPerfil.classList.remove('aberto');
+        }
+    }
+
+    // 4. Ativação do código
+    // Adiciona um "escutador" para o evento de redimensionar a janela
+    window.addEventListener('resize', gerenciarEventListenersMobile);
+
+    // Executa a função uma vez quando a página carrega para definir o estado inicial
+    gerenciarEventListenersMobile();
+
+    // --- Fim do Bloco de Código do Menu ---
 })
 

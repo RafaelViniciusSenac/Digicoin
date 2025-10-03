@@ -18,10 +18,6 @@
     width: 50px;
 }
 
-.imgPerfil:hover{
-    cursor: pointer;
-}
-
 .navbar a{
     text-decoration: none;
     color: black;
@@ -30,6 +26,10 @@
 
 .navbar a:hover{
     color: rgba(252, 103, 29, 1);
+}
+
+.usuario{
+    width: 100px;
 }
 
 .usuario p{
@@ -72,6 +72,11 @@
 
 .imgFlecha:hover{
     cursor: pointer;
+}
+
+.imgFlechaPerfil{
+    cursor: pointer;
+    display: none;
 }
 
 .imgFlechaCima{
@@ -208,6 +213,21 @@
     display: none;
 }
 
+/* Faz o menu dropdown aparecer quando tiver a classe .aberto */
+.dropdownMenuMobile-menuUser.aberto {
+    display: flex;
+}
+
+/* Adiciona uma animação suave de transição para a flecha */
+.imgFlechaPerfil {
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Gira a flecha 180 graus quando ela tiver a classe .aberto */
+.imgFlechaPerfil.aberto {
+    transform: rotate(180deg);
+}
+
 @media (max-width: 1000px) {
     .navbar{
         display: none;
@@ -218,18 +238,26 @@
     .imgSino{
         display: none;
     } 
-    .imgFlecha{
-        display: none;
-    }
     .imgFlechaCima{
         display: none;
     }
 
+    .imgPerfil{
+        cursor: pointer;
+    }
+    .perfil{
+        gap: 0px;
+    }
+    .imgFlechaPerfil{
+        display: block;
+    }
     .group{  
       display: block;
       
     }
-
+    .flechaDropdownContainer {
+        display: none;
+    }
     .menuMobile-menuUser{
         
         flex-direction: column;
@@ -263,7 +291,7 @@
         border-radius: 0 0 0 5px;
         z-index: 9999;
         background-color: white;
-        align-items: center;
+        align-items: flex-start;
         padding-bottom: 15px;
     }
     .dropdownMenuMobile-menuUser button{
