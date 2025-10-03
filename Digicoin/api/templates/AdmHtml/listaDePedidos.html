@@ -59,7 +59,15 @@
                     <img class="iconedigix-listaDePedidos" src="{% static 'img/digixlogo.png'%}" alt="icone">
                     <p>{{ compra.idUsuario.first_name }} - {{ compra.pedido }}</p>
                 </div>
-                <img class="caminhao-listaDePedidos" src="{% static 'img/truck.png'%}" alt="icone">
+                <button 
+                    class="btn-inativar-pedido" 
+                    data-id="{{ compra.id }}" 
+                    title="Inativar/Excluir Pedido" 
+                    onclick="event.stopPropagation();" 
+                    style="background: none; border: none; padding: 0; cursor: pointer;"
+                >
+                    <img class="caminhao-listaDePedidos" src="{% static 'img/iconeDeletar.png' %}" alt="icone de inativação" >
+                </button>
             </div>
             
             
