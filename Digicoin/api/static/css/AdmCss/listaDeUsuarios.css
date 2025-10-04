@@ -16,6 +16,17 @@
     --roxo-claro: #6A4BAF;
   }
 
+dialog {
+    border: none;
+    border-radius: 15px;
+    padding: 20px;
+    background-color: #4D2C87;
+    min-width: 300px;
+    height: 650px;
+    color: #FFFFFF;
+    
+}
+
 .mainListaUsuarios {
     padding: 40px;
     font-family: Arial, sans-serif;
@@ -261,23 +272,30 @@
 }
 
 
-.popupCadastrarUsuario{
-   
-    border: none;
-        border-radius: 8px;
-        padding: 30px 100px 100px 100px;
-        width: 90%;
-        max-width: 900px;
-        background-color: var(--roxo);
-        box-shadow: 0 4px 20px var(--sombra-preta);
-        color: var(--base);
+.headerCentral-CadastrarUsuario {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 5px;
+    margin-top: -20px;
 }
 
-.header-cadastrarUsuario{
+.headerLogo-CadastrarUsuario > img {
+    width: 100px;
+}
+
+.headerCentral-CadastrarUsuario .buttonClose-CadastrarUsuario {
+    background-color: transparent;
+    border: none;
+    margin-top: 16px;
+    font-size: 16px;
+    color: #FFFFFF;
+    cursor: pointer;
+}
+
+.ModalContainer-CadastrarUsuario{
     display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 30px;
+    flex-direction: column;
 }
 
 .iconeX-cadastrarUsuario{
@@ -315,7 +333,7 @@
 
     border-radius: 4px;
     border: none;
-    width: 800px;
+    min-width: 300px;
     height: 55px;   
     background-color: var(--branco);
     font-size: 20px;
@@ -447,301 +465,396 @@
 
 
 .editarUsuario {
-        border: none;
-        border-radius: 8px;
-        padding: 30px 100px 100px 100px;
-        width: 90%;
-        max-width: 900px;
-        background-color: var(--roxo);
-        box-shadow: 0 4px 20px var(--sombra-preta);
-        color: var(--base);
-    }
+    border: none;
+    border-radius: 8px;
+    padding: 30px 100px 100px 100px;
+    width: 90%;
+    max-width: 900px;
+    background-color: var(--roxo);
+    box-shadow: 0 4px 20px var(--sombra-preta);
+    color: var(--base);
+}
 
-    .editarUsuario::backdrop {
-        background-color: var(--sombra-preta);
-    }
+.editarUsuario::backdrop {
+    background-color: var(--sombra-preta);
+}
 
-    .radio-options-horizontal {
+.radio-options-horizontal {
+display: flex;
+align-items: center;
+gap: 25px;
+margin-top: 5px;
+}
+
+.radio-item {
+display: flex;
+align-items: center;
+gap: 8px;
+}
+/* Cor do texto dos labels dos radios */
+.radio-item label {
+    color: white;
+}
+
+.dialog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.close-dialog {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.close-icon {
+    width: 32px;
+    height: 32px;
+}
+
+.form-columns {
+    display: flex;
+    gap: 150px;
+}
+.form-columns label{
+    color: white;
+}
+
+.form-left, .form-right {
+    flex: 1;
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 16px;
+    color: white;
+    font-weight: 500;
+}
+
+.form-input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--cinzaDatas);
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: var(--branco);
+    color: var(--base);
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--ciano);
+}
+
+.saldo-group {
+    text-align: center;
+}
+
+.saldo-control {
     display: flex;
     align-items: center;
-    gap: 25px;
-    margin-top: 5px;
-    }
+    justify-content: center;
+    gap: 10px;
+}
 
-    .radio-item {
+.saldo-button {
+    background-color: var(--roxo);
+    border: none;
+    border-radius: 4px;
+    width: 32px;
+    height: 32px;
     display: flex;
     align-items: center;
-    gap: 8px;
-    }
-    /* Cor do texto dos labels dos radios */
-    .radio-item label {
-        color: white;
-    }
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+}
 
-    .dialog-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 30px;
-    }
+.saldo-button:hover {
+    background-color: var(--base);
+}
 
-    .close-dialog {
-        background: none;
-        border: none;
-        cursor: pointer;
-        padding: 5px;
-    }
+.saldo-control input {
+    width: 100px;
+    text-align: center;
+}
 
-    .close-icon {
-        width: 32px;
-        height: 32px;
-    }
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 30px;
+}
 
-    .form-columns {
-        display: flex;
-        gap: 150px;
-    }
-    .form-columns label{
-        color: white;
-    }
+.action-button {
+    padding: 14px;
+    border: none;
+    border-radius: 20px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    color: var(--branco);
+    transition: background-color 0.3s;
+}
 
-    .form-left, .form-right {
-        flex: 1;
-    }
+.alterarSenha{
+    background-color: var(--laranja);
+}
 
-    .form-group {
-        margin-bottom: 25px;
-    }
+.alterarSenha:hover {
+    background-color: rgb(204, 103, 29);
+}
 
-    .form-label {
-        display: block;
-        margin-bottom: 8px;
-        font-size: 16px;
-        color: white;
-        font-weight: 500;
-    }
+.desativar {
+    background-color: rgba(244, 74, 176, 1);
+}
 
-    .form-input {
-        width: 100%;
-        padding: 12px 15px;
-        border: 1px solid var(--cinzaDatas);
-        border-radius: 4px;
-        font-size: 16px;
-        background-color: var(--branco);
-        color: var(--base);
-    }
+.desativar:hover {
+    background-color: rgb(205, 36, 137);
+}
 
-    .form-input:focus {
-        outline: none;
-        border-color: var(--ciano);
-    }
+.ativar {
+    background-color: var(--ciano);
+}
 
-    .saldo-group {
-        text-align: center;
-    }
+.ativar:hover {
+    background-color: rgb(7, 122, 134);
+}
 
-    .saldo-control {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-    }
+.submit {
+    background-color: rgba(211, 74, 244, 1);
+    margin-top: 20px;
+}
 
-    .saldo-button {
-        background-color: var(--roxo);
-        border: none;
-        border-radius: 4px;
-        width: 32px;
-        height: 32px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        padding: 0;
-    }
+.submit:hover {
+    background-color:rgb(164, 58, 191) 
+}
 
-    .saldo-button:hover {
-        background-color: var(--base);
-    }
+.laranja-listaDeUsuarios{
+    background-color: var(--laranja);
+}
 
-    .saldo-control input {
-        width: 100px;
-        text-align: center;
-    }
+.popupUsuariosEmMassa {
+    border: none;
+    border-radius: 8px;
+    padding: 30px 100px 100px 100px; /* Adapte o padding conforme a sua necessidade */
+    width: 90%;
+    max-width: 900px;
+    background-color: var(--roxo);
+    box-shadow: 0 4px 20px var(--sombra-preta);
+    color: var(--branco); /* Cor do texto dentro da popup */
+}
 
-    .action-buttons {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-        margin-top: 30px;
-    }
+/* Fundo escurecido */
+.popupUsuariosEmMassa::backdrop {
+    background-color: var(--sombra-preta);
+}
 
-    .action-button {
-        padding: 14px;
-        border: none;
-        border-radius: 20px;
-        font-size: 16px;
-        font-weight: 600;
-        cursor: pointer;
-        color: var(--branco);
-        transition: background-color 0.3s;
-    }
+/* Layout interno do cabeçalho */
+.popupUsuariosEmMassa .header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
 
-    .alterarSenha{
-        background-color: var(--laranja);
-    }
+/* Estilo para o ícone de fechar */
+.popupUsuariosEmMassa .iconeX {
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+}
 
-    .alterarSenha:hover {
-        background-color: rgb(204, 103, 29);
-    }
+/* Estilo do formulário de upload */
+.popupUsuariosEmMassa #formUsuariosEmMassa {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
 
-    .desativar {
-        background-color: rgba(244, 74, 176, 1);
-    }
+/* Estilo para o input de arquivo e o label */
+.popupUsuariosEmMassa label {
+    color: var(--branco);
+    font-size: 15px;
+    margin-bottom: 10px;
+}
 
-    .desativar:hover {
-        background-color: rgb(205, 36, 137);
-    }
+.popupUsuariosEmMassa input[type="file"] {
+    background-color: var(--branco);
+    border: none;
+    border-radius: 4px;
+    color: var(--base);
+    font-size: 16px;
+    padding: 12px 15px;
+    margin-bottom: 25px;
+    width: 100%;
+}
 
-    .ativar {
-        background-color: var(--ciano);
-    }
+/* Estilo do botão de envio */
+.popupUsuariosEmMassa button[type="submit"] {
+    font-size: 22px;
+    border-radius: 20px;
+    cursor: pointer;
+    border: none;
+    color: var(--branco);
+    background-color: var(--magenta);
+    width: 260px;
+    height: 60px;
+    box-shadow: 0 2px 5px var(--sombra-preta);
+    transition: background-color 0.3s ease;
+}
 
-    .ativar:hover {
-        background-color: rgb(7, 122, 134);
-    }
+.popupUsuariosEmMassa button[type="submit"]:hover {
+    background-color: #b42fb6;
+}
+.pagination-listaDeUsuarios {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 20px;
+}
 
-    .submit {
-        background-color: rgba(211, 74, 244, 1);
-        margin-top: 20px;
-    }
+.pagination-listaDeUsuarios a {
+    padding: 8px 15px;
+    text-decoration: none;
+    color: white;
+    cursor: pointer;
+    background-color: var(--magenta);
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    font-size: 18px;
+}
 
-    .submit:hover {
-        background-color:rgb(164, 58, 191) 
-    }
+.pagination-listaDeUsuarios .anterior-listaProdutos:hover,
+.proxim-listaProdutos a:hover {
+    background-color: var(--laranja);
+}
 
-    .laranja-listaDeUsuarios{
-        background-color: var(--laranja);
-    }
 
-    .popupUsuariosEmMassa {
-        border: none;
-        border-radius: 8px;
-        padding: 30px 100px 100px 100px; /* Adapte o padding conforme a sua necessidade */
-        width: 90%;
-        max-width: 900px;
-        background-color: var(--roxo);
-        box-shadow: 0 4px 20px var(--sombra-preta);
-        color: var(--branco); /* Cor do texto dentro da popup */
-    }
-    
-    /* Fundo escurecido */
-    .popupUsuariosEmMassa::backdrop {
-        background-color: var(--sombra-preta);
-    }
-    
-    /* Layout interno do cabeçalho */
-    .popupUsuariosEmMassa .header-container {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 30px;
-    }
-    
-    /* Estilo para o ícone de fechar */
-    .popupUsuariosEmMassa .iconeX {
-        width: 32px;
-        height: 32px;
-        cursor: pointer;
-    }
-    
-    /* Estilo do formulário de upload */
-    .popupUsuariosEmMassa #formUsuariosEmMassa {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
-    
-    /* Estilo para o input de arquivo e o label */
-    .popupUsuariosEmMassa label {
-        color: var(--branco);
-        font-size: 15px;
-        margin-bottom: 10px;
-    }
-    
-    .popupUsuariosEmMassa input[type="file"] {
-        background-color: var(--branco);
-        border: none;
-        border-radius: 4px;
-        color: var(--base);
-        font-size: 16px;
-        padding: 12px 15px;
-        margin-bottom: 25px;
-        width: 100%;
-    }
-    
-    /* Estilo do botão de envio */
-    .popupUsuariosEmMassa button[type="submit"] {
-        font-size: 22px;
-        border-radius: 20px;
-        cursor: pointer;
-        border: none;
-        color: var(--branco);
-        background-color: var(--magenta);
-        width: 260px;
-        height: 60px;
-        box-shadow: 0 2px 5px var(--sombra-preta);
-        transition: background-color 0.3s ease;
-    }
-    
-    .popupUsuariosEmMassa button[type="submit"]:hover {
-        background-color: #b42fb6;
-    }
+.pagination-listaDeUsuarios span {
+    font-size: 18px;
+    font-weight: bold;
+}
 
+.pagination-listaDeUsuarios {
+    display: flex;
+    gap: 10px;
+}
+
+#ZerarDialog {
+border: none;
+border-radius: 16px;
+padding: 0;
+width: 90%;
+max-width: 500px;
+background: var(--roxo);
+color: var(--branco);
+box-shadow: 0 8px 24px var(--sombra-base);
+font-family: inherit;
+}
+
+#ZerarDialog::backdrop {
+background: rgba(0, 0, 0, 0.6);
+}
+
+#ZerarDialog > div {
+display: flex;
+justify-content: space-between;
+align-items: flex-start;
+padding: 24px 24px 0 24px;
+position: relative;
+margin-bottom: 20px;
+}
+
+#ZerarDialog h2 {
+margin: 0;
+font-size: 22px;
+font-weight: 600;
+line-height: 1.4;
+text-align: center;
+flex: 1;
+padding-right: 32px; 
+}
+
+#ZerarDialog img {
+width: 28px;
+height: 28px;
+cursor: pointer;
+position: absolute;
+top: 24px;
+right: 24px;
+filter: brightness(0) invert(1); 
+}
+
+#ZerarDialog img:hover {
+opacity: 0.8;
+}
+
+#ZerarDialog .botoes-zerar {
+display: flex;
+gap: 20px;
+padding: 0 24px 24px 24px;
+justify-content: center;
+}
+
+#ZerarDialog button {
+border: none;
+border-radius: 20px;
+height: 59px;
+width: 180px;
+color: white;
+font-weight: 800;
+font-size: 20px;
+cursor: pointer;
+transition: background-color 0.3s ease;
+}
+
+#ZerarDialog #confirmarBtn {
+background-color: var(--ciano);
+}
+
+#ZerarDialog #confirmarBtn:hover {
+background-color: #09a8b8;
+}
+
+#ZerarDialog #cancelarZerar {
+background-color: var(--magenta);
+}
+
+#ZerarDialog #cancelarZerar:hover {
+background-color: #b83fd1;
+}
     /* Responsividade */
  
     /* ========== RESPONSIVIDADE ========== */
-@media (max-width: 1200px) {
-    .mainListaUsuarios {
-        margin-left: 350px;
-        padding-left: 100px;
-        max-width: 100%;
-    }
-}
 
-@media (max-width: 1000px) {
-    .mainListaUsuarios {
-        margin-left: 0;
-        padding: 20px;
-        padding-left: 20px;
+@media (min-width: 431px) and (max-width: 700px) {
+    dialog { 
+        width: 80%;
+        height: 680px;
+        padding: 22px;
     }
 
-    .form-columns {
-        gap: 50px !important;
-        flex-direction: column;
+    .headerLogo-CadastrarUsuario > img {
+        width: 120px;
     }
 
-    .editarUsuario {
-        padding: 20px 30px !important;
-        width: 95% !important;
-    }
-
-    .popupUsuariosEmMassa {
-        padding: 20px; /* Reduz o padding em telas menores */
-        max-width: 95%; /* Ocupa mais largura em telas menores */
-    }
-
-    .popupUsuariosEmMassa button[type="submit"] {
-        width: 100%; /* Ocupa 100% da largura em telas menores */
+    .headerCentral-CadastrarUsuario .buttonClose{
+        margin-top: 16px;
         font-size: 18px;
-        height: 50px;
+    
     }
-  
-}
-
-@media (max-width: 768px) {
-
     .mainListaUsuarios {
         width: 80%;
         margin-left: 0;
@@ -890,14 +1003,103 @@
     .saldo-button img {
         width: 16px;
         height: 16px;
+    }    
+    #ZerarDialog {
+      width: 95%;
+      margin: 0 auto;
     }
-
-    
-   
-
+  
+    #ZerarDialog h2 {
+      font-size: 20px;
+      padding-right: 28px;
+    }
+  
+    #ZerarDialog img {
+      width: 24px;
+      height: 24px;
+      top: 20px;
+      right: 20px;
+    }
+  
+    #ZerarDialog button {
+      height: 50px;
+      width: 150px;
+      font-size: 18px;
+    }
+  
+    #ZerarDialog .botoes-zerar {
+      gap: 15px;
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    #ZerarDialog button {
+      width: 100%;
+      max-width: 250px;
+    }
 }
 
-@media (max-width: 480px) {
+@media (min-width: 700px) and (max-width: 800px) {
+
+    dialog { 
+        width: 90%;
+        max-width: 900px;
+        height: 500px;
+        padding: 32px;
+    }
+
+    .headerCentral-CadastrarUsuario {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        padding: 5px;
+        margin-top: -20px;
+    }
+
+    .headerLogo-CadastrarUsuario > img {
+        width: 100px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .mainListaUsuarios {
+        margin-left: 350px;
+        padding-left: 100px;
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 1000px) {
+    .mainListaUsuarios {
+        margin-left: 0;
+        padding: 20px;
+        padding-left: 20px;
+    }
+
+    .form-columns {
+        gap: 50px !important;
+        flex-direction: column;
+    }
+
+    .editarUsuario {
+        padding: 20px 30px !important;
+        width: 95% !important;
+    }
+
+    .popupUsuariosEmMassa {
+        padding: 20px; /* Reduz o padding em telas menores */
+        max-width: 95%; /* Ocupa mais largura em telas menores */
+    }
+
+    .popupUsuariosEmMassa button[type="submit"] {
+        width: 100%; /* Ocupa 100% da largura em telas menores */
+        font-size: 18px;
+        height: 50px;
+    }
+  
+}
+
+@media (max-width: 430px) {
     
     .barraPesquisa-listaDeUsuarios {
         width: 100%;
@@ -1021,167 +1223,7 @@
     .pagination span{
         text-align: center;
     }
-}
-
-
-.pagination-listaDeUsuarios {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 15px;
-    margin-top: 20px;
-}
-
-.pagination-listaDeUsuarios a {
-    padding: 8px 15px;
-    text-decoration: none;
-    color: white;
-    cursor: pointer;
-    background-color: var(--magenta);
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-    font-size: 18px;
-}
-
-.pagination-listaDeUsuarios .anterior-listaProdutos:hover,
-.proxim-listaProdutos a:hover {
-    background-color: var(--laranja);
-}
-
-
-.pagination-listaDeUsuarios span {
-    font-size: 18px;
-    font-weight: bold;
-}
-
-.pagination-listaDeUsuarios {
-    display: flex;
-    gap: 10px;
-}
-
-#ZerarDialog {
-    border: none;
-    border-radius: 16px;
-    padding: 0;
-    width: 90%;
-    max-width: 500px;
-    background: var(--roxo);
-    color: var(--branco);
-    box-shadow: 0 8px 24px var(--sombra-base);
-    font-family: inherit;
-  }
-  
-  #ZerarDialog::backdrop {
-    background: rgba(0, 0, 0, 0.6);
-  }
-  
-  #ZerarDialog > div {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    padding: 24px 24px 0 24px;
-    position: relative;
-    margin-bottom: 20px;
-  }
-  
-  #ZerarDialog h2 {
-    margin: 0;
-    font-size: 22px;
-    font-weight: 600;
-    line-height: 1.4;
-    text-align: center;
-    flex: 1;
-    padding-right: 32px; 
-  }
-  
-  #ZerarDialog img {
-    width: 28px;
-    height: 28px;
-    cursor: pointer;
-    position: absolute;
-    top: 24px;
-    right: 24px;
-    filter: brightness(0) invert(1); 
-  }
-  
-  #ZerarDialog img:hover {
-    opacity: 0.8;
-  }
-  
-  #ZerarDialog .botoes-zerar {
-    display: flex;
-    gap: 20px;
-    padding: 0 24px 24px 24px;
-    justify-content: center;
-  }
-  
-  #ZerarDialog button {
-    border: none;
-    border-radius: 20px;
-    height: 59px;
-    width: 180px;
-    color: white;
-    font-weight: 800;
-    font-size: 20px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  #ZerarDialog #confirmarBtn {
-    background-color: var(--ciano);
-  }
-  
-  #ZerarDialog #confirmarBtn:hover {
-    background-color: #09a8b8;
-  }
-  
-  #ZerarDialog #cancelarZerar {
-    background-color: var(--magenta);
-  }
-  
-  #ZerarDialog #cancelarZerar:hover {
-    background-color: #b83fd1;
-  }
-
-  @media (max-width: 768px) {
-    #ZerarDialog {
-      width: 95%;
-      margin: 0 auto;
-    }
-  
-    #ZerarDialog h2 {
-      font-size: 20px;
-      padding-right: 28px;
-    }
-  
-    #ZerarDialog img {
-      width: 24px;
-      height: 24px;
-      top: 20px;
-      right: 20px;
-    }
-  
-    #ZerarDialog button {
-      height: 50px;
-      width: 150px;
-      font-size: 18px;
-    }
-  
-    #ZerarDialog .botoes-zerar {
-      gap: 15px;
-      flex-direction: column;
-      align-items: center;
-    }
-  
-    #ZerarDialog button {
-      width: 100%;
-      max-width: 250px;
-    }
-  }
-  
-  @media (max-width: 480px) {
-    #ZerarDialog h2 {
+        #ZerarDialog h2 {
       font-size: 18px;
       text-align: center;
     }
@@ -1190,4 +1232,4 @@
       height: 45px;
       font-size: 16px;
     }
-  }
+}

@@ -173,14 +173,10 @@
       </div>
       <div class="headerBotao-CadastrarUsuario">
           <button type="button" class="buttonClose-CadastrarUsuario">    
-              <img  alt="botãoClose" src="{% static "img/iconeX.png" %}">
+              <img id="fecharCadastrar"  alt="botãoClose" src="{% static "img/iconeX.png" %}">
           </button>
       </div>
   </header>
-  {% comment %} <div class="header-cadastrarUsuario">
-    <img src="{% static 'img/logoAdmin.png' %}" alt="LogoAdmin" />
-    <img id="fecharCadastrar" class="iconeX-cadastrarUsuario" src="{% static 'img/iconeX.png' %}" alt="" />
-  </div> {% endcomment %}
   <div class="ModalContainer-CadastrarUsuario">
     <form method="POST" class="formUsuario-cadastrarUsuario" id="formUsuario">
       {% csrf_token %}
