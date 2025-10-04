@@ -108,6 +108,7 @@ class Compra(models.Model):
     complemento = models.CharField(max_length=100, default=False, blank=True)
     idUsuario = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False, blank=False)
     dataCompra = models.DateTimeField(auto_now_add=True)
+    is_active = models.BooleanField(default=True)
 
 class ItensCompra(models.Model):
     qtdProduto = models.IntegerField(null=False, blank=False)
