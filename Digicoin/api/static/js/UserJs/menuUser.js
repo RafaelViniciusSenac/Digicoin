@@ -173,26 +173,57 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    // LÓGICA MOBILE SIMPLIFICADA
-    if (window.innerWidth < 1000) {
-        const dropdownMenuMobile = document.getElementById('dropdownMenuMobile');
-        const imgPerfil = document.getElementById('imgPerfil');
-        
-        imgPerfil.addEventListener('click', () => {
-            if (dropdownMenuMobile.style.display === 'none' || dropdownMenuMobile.style.display === '') {
-                dropdownMenuMobile.style.display = 'flex';
-            } else {
-                dropdownMenuMobile.style.display = 'none';
+    // LÓGICA MOBILE ROBUSTA (funciona em qualquer tamanho de tela)
+
+    const dropdownMenuMobile = document.getElementById('dropdownMenuMobile');
+    const imgPerfil = document.getElementById('imgPerfil');
+    // Adicionei a flecha aqui também, caso queira usá-la
+    const imgFlechaPerfil = document.getElementById('imgFlechaPerfil'); 
+
+    // Apenas execute a lógica mobile se os elementos principais existirem no HTML
+    if (dropdownMenuMobile && imgPerfil) {
+
+        // Função para abrir/fechar o menu
+        const toggleMenuMobile = () => {
+            // Adiciona/remove a classe 'aberto' do próprio menu.
+            dropdownMenuMobile.classList.toggle('aberto');
+            
+            // Adiciona/remove a classe 'aberto' da flecha, se ela existir.
+            if (imgFlechaPerfil) {
+                imgFlechaPerfil.classList.toggle('aberto');
             }
-        });
-    
+        };
+
+        // Adiciona o evento de clique na imagem de perfil
+        imgPerfil.addEventListener('click', toggleMenuMobile);
+
+        // Se a flecha também existir, adiciona o mesmo evento a ela
+        if (imgFlechaPerfil) {
+            imgFlechaPerfil.addEventListener('click', toggleMenuMobile);
+        }
+
+        // Função dedicada que SÓ fecha (já está correta)
+        function fecharMenuMobile() {
+            // Apenas remove a classe, sem verificar, pois a verificação será feita antes de chamá-la.
+            dropdownMenuMobile.classList.remove('aberto');
+            if (imgFlechaPerfil) {
+                imgFlechaPerfil.classList.remove('aberto');
+            }
+        }
+        // Lógica para fechar ao clicar fora, com a verificação correta
         document.addEventListener('click', (e) => {
+            // CONDIÇÕES PARA FECHAR:
+            // 1. O menu DEVE ter a classe 'aberto'
+            // 2. O clique NÃO PODE ser no próprio menu
+            // 3. O clique NÃO PODE ser nos botões que o ativam
             if (
-                dropdownMenuMobile.style.display === 'flex' &&
-                !dropdownMenuMobile.contains(e.target) && 
-                !imgPerfil.contains(e.target) 
+                dropdownMenuMobile.classList.contains('aberto') && // <-- A verificação correta!
+                !dropdownMenuMobile.contains(e.target) &&
+                !imgPerfil.contains(e.target) &&
+                (!imgFlechaPerfil || !imgFlechaPerfil.contains(e.target))
             ) {
-                dropdownMenuMobile.style.display = 'none';
+                // Se todas as condições forem verdadeiras, chama a função para fechar.
+                fecharMenuMobile();
             }
         });
     }
