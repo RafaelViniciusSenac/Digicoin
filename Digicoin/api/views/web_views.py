@@ -261,21 +261,35 @@ def listaDeDesafios(request):
         'search': search,   # passa pro template
     })
 
-
-
-
 def listaDeUsuarios(request):
-    nome = request.GET.get('nome', '') 
-    user = CustomUser.objects.filter(first_name__icontains=nome, is_adm=False).order_by("first_name")
-    user_paginator = Paginator(user, 5)
+    # 1. Pega o parâmetro de busca 'q' da URL, o mesmo usado no formulário do HTML.
+    search_query = request.GET.get('q', '') 
+    
+    # 2. Começa a query com todos os usuários não-administradores
+    user_list = CustomUser.objects.filter(is_adm=False).order_by("first_name")
+
+    # 3. Se houver um termo de busca, filtra o queryset ANTES da paginação
+    if search_query:
+        user_list = user_list.filter(
+            Q(first_name__icontains=search_query) | # Busca por nome
+            Q(username__icontains=search_query) |   # Busca por email
+            Q(ra__icontains=search_query)           # Busca por RA
+        )
+
+    # 4. Aplica a paginação no resultado (já filtrado ou completo)
+    user_paginator = Paginator(user_list, 5) # Aumentei para 15 por página, ajuste se desejar
     user_page = request.GET.get('user_page')
     usuarios = user_paginator.get_page(user_page)
     
-
-    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-        return render(request, 'AdmHtml/fragments/usuarios.html', {'usuarios': usuarios})
+    # Não há mais a parte de 'XMLHttpRequest', pois o JS vai recarregar a página inteira
     
-    return render(request, 'AdmHtml/listaDeUsuarios.html', {'usuarios': usuarios})
+    # 5. Envia os dados para o template
+    context = {
+        'usuarios': usuarios,
+        'search_query': search_query  # Passa o termo da busca de volta para o template
+    }
+    
+    return render(request, 'AdmHtml/listaDeUsuarios.html', context)
 
 
 def desafiosCampanha(request, campanha_id):

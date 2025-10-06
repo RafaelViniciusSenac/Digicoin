@@ -28,13 +28,10 @@ dialog {
 }
 
 .mainListaUsuarios {
-    padding: 40px;
-    font-family: Arial, sans-serif;
-    width: 50%;
-    margin-left: 450px;
-    padding-left: 200px;
-
-    
+    padding: 20px;
+    width: 100%;
+    margin-left: 0;
+    box-sizing: border-box;
 }
 
 .divPesquisa-listaDeUsuarios {
@@ -272,7 +269,7 @@ dialog {
 }
 
 
-.headerCentral-CadastrarUsuario {
+.headerCentral-ListaDeUsuario {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -280,11 +277,11 @@ dialog {
     margin-top: -20px;
 }
 
-.headerLogo-CadastrarUsuario > img {
+.headerLogo-ListaDeUsuario > img {
     width: 100px;
 }
 
-.headerCentral-CadastrarUsuario .buttonClose-CadastrarUsuario {
+.headerCentral-ListaDeUsuario .buttonClose-ListaDeUsuario {
     background-color: transparent;
     border: none;
     margin-top: 16px;
@@ -293,7 +290,7 @@ dialog {
     cursor: pointer;
 }
 
-.ModalContainer-CadastrarUsuario{
+.ModalContainer-ListaDeUsuario{
     display: flex;
     flex-direction: column;
 }
@@ -325,21 +322,21 @@ dialog {
 .input-cadastrarUsuario{
     display: flex;
     flex-direction: column;
+    width: 100%;
     gap: 10px;
-    
+    box-sizing: border-box;
 }
 
 .input-cadastrarUsuario input{
-
     border-radius: 4px;
     border: none;
-    min-width: 300px;
+    width: 100%;
     height: 55px;   
     background-color: var(--branco);
     font-size: 20px;
     color: var(--base);
     margin-bottom: 40px;
-
+    box-sizing: border-box;
 }
 
 
@@ -363,19 +360,6 @@ dialog {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-
-}
-
-
-.popupAdicionarMoedas{
-    border: none;
-        border-radius: 8px;
-        padding: 30px 100px 100px 100px;
-        width: 90%;
-        max-width: 900px;
-        background-color: var(--roxo);
-        box-shadow: 0 4px 20px var(--sombra-preta);
-        color: var(--base);
 
 }
 
@@ -435,55 +419,31 @@ dialog {
 .botoes-adicionarMoedas button{
     border: none;
     border-radius: 20px;
-    height: 59px;
-    width: 259px;
     color: white;
-    font-weight: 800;
     font-size: 20px;
-    margin-bottom: 30px;
+    font-weight: 400;
+    padding: 10px 20px 10px 20px;
+    cursor: pointer;
+}
+
+.botoes-adicionarMoedas button:hover{
+    /* escurecer o botao */
+    opacity: 0.8;
+    transition: 0.5s;
 }
 
 .adicionar-adicionarMoedas{
     background-color: rgba(11, 192, 211, 1);
 }
-
-.adicionar-adicionarMoedas:hover{
-    cursor: pointer;
-    background-color: rgb(10, 162, 179);
-    transition: 0.5s;
-}
-
 .remover-adicionarMoedas{
     background-color: rgba(211, 74, 244, 1);
 }
 
-.remover-adicionarMoedas:hover{
-    cursor: pointer;
-    background-color: rgb(170, 59, 197);
-    transition: 0.5s;
-}
-
-
-.editarUsuario {
-    border: none;
-    border-radius: 8px;
-    padding: 30px 100px 100px 100px;
-    width: 90%;
-    max-width: 900px;
-    background-color: var(--roxo);
-    box-shadow: 0 4px 20px var(--sombra-preta);
-    color: var(--base);
-}
-
-.editarUsuario::backdrop {
-    background-color: var(--sombra-preta);
-}
-
 .radio-options-horizontal {
-display: flex;
-align-items: center;
-gap: 25px;
-margin-top: 5px;
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    margin-top: 5px;
 }
 
 .radio-item {
@@ -503,12 +463,6 @@ gap: 8px;
     margin-bottom: 30px;
 }
 
-.close-dialog {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 5px;
-}
 
 .close-icon {
     width: 32px;
@@ -547,6 +501,7 @@ gap: 8px;
     font-size: 16px;
     background-color: var(--branco);
     color: var(--base);
+    box-sizing: border-box;
 }
 
 .form-input:focus {
@@ -642,39 +597,8 @@ gap: 8px;
     background-color: var(--laranja);
 }
 
-.popupUsuariosEmMassa {
-    border: none;
-    border-radius: 8px;
-    padding: 30px 100px 100px 100px; /* Adapte o padding conforme a sua necessidade */
-    width: 90%;
-    max-width: 900px;
-    background-color: var(--roxo);
-    box-shadow: 0 4px 20px var(--sombra-preta);
-    color: var(--branco); /* Cor do texto dentro da popup */
-}
-
-/* Fundo escurecido */
-.popupUsuariosEmMassa::backdrop {
-    background-color: var(--sombra-preta);
-}
-
-/* Layout interno do cabeçalho */
-.popupUsuariosEmMassa .header-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
-}
-
-/* Estilo para o ícone de fechar */
-.popupUsuariosEmMassa .iconeX {
-    width: 32px;
-    height: 32px;
-    cursor: pointer;
-}
-
 /* Estilo do formulário de upload */
-.popupUsuariosEmMassa #formUsuariosEmMassa {
+#formUsuariosEmMassa {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -682,13 +606,13 @@ gap: 8px;
 }
 
 /* Estilo para o input de arquivo e o label */
-.popupUsuariosEmMassa label {
+#formUsuariosEmMassa label {
     color: var(--branco);
     font-size: 15px;
     margin-bottom: 10px;
 }
 
-.popupUsuariosEmMassa input[type="file"] {
+#formUsuariosEmMassa input[type="file"] {
     background-color: var(--branco);
     border: none;
     border-radius: 4px;
@@ -700,7 +624,7 @@ gap: 8px;
 }
 
 /* Estilo do botão de envio */
-.popupUsuariosEmMassa button[type="submit"] {
+#formUsuariosEmMassa button[type="submit"] {
     font-size: 22px;
     border-radius: 20px;
     cursor: pointer;
@@ -713,7 +637,7 @@ gap: 8px;
     transition: background-color 0.3s ease;
 }
 
-.popupUsuariosEmMassa button[type="submit"]:hover {
+#formUsuariosEmMassa button[type="submit"]:hover {
     background-color: #b42fb6;
 }
 .pagination-listaDeUsuarios {
@@ -839,27 +763,20 @@ background-color: #b83fd1;
  
     /* ========== RESPONSIVIDADE ========== */
 
-@media (min-width: 431px) and (max-width: 700px) {
+@media (max-width: 700px) {
     dialog { 
-        width: 80%;
-        height: 680px;
-        padding: 22px;
+        width: 90%;
+        padding: 10px;
     }
 
-    .headerLogo-CadastrarUsuario > img {
+    .headerLogo-ListaDeUsuario > img {
         width: 120px;
     }
 
-    .headerCentral-CadastrarUsuario .buttonClose{
+    .headerCentral-ListaDeUsuario .buttonClose{
         margin-top: 16px;
         font-size: 18px;
     
-    }
-    .mainListaUsuarios {
-        width: 80%;
-        margin-left: 0;
-        padding-left: 40px;
-        
     }
     
     .primeiraLinha-listaDeUsuarios {
@@ -968,11 +885,6 @@ background-color: #b83fd1;
         display: none !important;
     }
 
-    .editarUsuario {
-        padding: 30px 40px 80px 40px !important;
-        width: 85% !important;
-    }
-
     .form-columns {
         gap: 30px !important;
     }
@@ -1042,13 +954,11 @@ background-color: #b83fd1;
 @media (min-width: 700px) and (max-width: 800px) {
 
     dialog { 
-        width: 90%;
-        max-width: 900px;
-        height: 500px;
+        width: 80%;
         padding: 32px;
     }
 
-    .headerCentral-CadastrarUsuario {
+    .headerCentral-ListaDeUsuario {
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
@@ -1056,24 +966,30 @@ background-color: #b83fd1;
         margin-top: -20px;
     }
 
-    .headerLogo-CadastrarUsuario > img {
+    .headerLogo-ListaDeUsuario > img {
         width: 100px;
     }
 }
 
-@media (max-width: 1200px) {
+@media (min-width: 1000px) {
+    dialog { 
+        width: 60%;
+        padding: 32px;
+    }
+
     .mainListaUsuarios {
-        margin-left: 350px;
-        padding-left: 100px;
-        max-width: 100%;
+        padding-left: 400px;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 90%;
+        box-sizing: border-box;
     }
 }
 
 @media (max-width: 1000px) {
-    .mainListaUsuarios {
-        margin-left: 0;
-        padding: 20px;
-        padding-left: 20px;
+    dialog { 
+        width: 70%;
+        padding: 32px;
     }
 
     .form-columns {
@@ -1081,155 +997,5 @@ background-color: #b83fd1;
         flex-direction: column;
     }
 
-    .editarUsuario {
-        padding: 20px 30px !important;
-        width: 95% !important;
-    }
-
-    .popupUsuariosEmMassa {
-        padding: 20px; /* Reduz o padding em telas menores */
-        max-width: 95%; /* Ocupa mais largura em telas menores */
-    }
-
-    .popupUsuariosEmMassa button[type="submit"] {
-        width: 100%; /* Ocupa 100% da largura em telas menores */
-        font-size: 18px;
-        height: 50px;
-    }
   
-}
-
-@media (max-width: 430px) {
-    
-    .barraPesquisa-listaDeUsuarios {
-        width: 100%;
-    }
-
-    .selecionar-todos-listaDeUsuarios {
-        padding: 10px;
-        font-size: 14px;
-    }
-
-    .head-listaDeUsuarios h3 {
-        font-size: 16px;
-    }
-
-    .infoUser-listaDeUsuarios .nome-listaDeUsuarios {
-        font-size: 14px;
-    }
-
-    .infoUser-listaDeUsuarios span {
-        font-size: 13px;
-    }
-
-    .editarUsuario {
-        padding: 15px 20px !important;
-    }
-
-    .form-input {
-        padding: 10px 12px;
-        font-size: 14px;
-    }
-
-    .action-button {
-        padding: 10px;
-        font-size: 14px;
-    }
-
-    .saldo-button img {
-        width: 18px;
-        height: 18px;
-    }
-
-    .linhaUsuario-listaDeUsuarios {
-        padding: 10px;
-    }
-
-    .infoUser-listaDeUsuarios .nome-listaDeUsuarios {
-        max-width: 200px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        height: 30px;
-    }
-
-    .iconeEditar-listaDeUsuarios {
-        right: 8px;
-        width: 22px;
-        height: 22px;
-    }
-
-    .linhaUsuario-listaDeUsuarios input[type="checkbox"] {
-        margin-right: 6px;
-        transform: scale(0.9);
-        width: 30px;
-        height: 30px;
-    }
-
-    .editarUsuario {
-        padding: 20px 15px 60px 15px !important;
-        width: 90% !important;
-    }
-
-    .form-columns {
-        gap: 20px !important;
-    }
-
-    .form-group {
-        margin-bottom: 15px;
-    }
-
-    .form-input {
-        width: 300px;
-        font-size: 13px;
-        padding: 8px 10px;
-    }
-
-    .saldo-control input {
-        width: 70px;
-        font-size: 14px;
-    }
-
-    .action-button {
-        padding: 10px;
-        font-size: 13px;
-    }
-
-    .dialog-logo {
-        width: 120px !important;
-    }
-
-    .close-icon {
-        width: 20px;
-        height: 20px;
-    }
-
-    .saldo-button {
-        width: 24px;
-        height: 24px;
-    }
-
-    .saldo-button img {
-        width: 14px;
-        height: 14px;
-    }
-
-    
-    .pagination{
-        margin-top: 10px;
-        margin-bottom: 20px;
-    }
-    
-    .pagination span{
-        text-align: center;
-    }
-        #ZerarDialog h2 {
-      font-size: 18px;
-      text-align: center;
-    }
-  
-    #ZerarDialog button {
-      height: 45px;
-      font-size: 16px;
-    }
 }
