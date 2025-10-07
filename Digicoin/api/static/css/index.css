@@ -22,7 +22,8 @@ form {
     justify-content: center;
     align-items: center;
     /* Adicionado padding para os inputs não colarem na borda */
-    padding:30px; 
+    padding:30px;
+    width: 100%;
     box-sizing: border-box;
 }
 
@@ -103,5 +104,15 @@ form {
 
 .inputs .inputTelaBranca:read-write {
     padding-left: 20px;
+}
+@media  (min-width: 700px) {
+    .botaoTelaBranca {
+        width: 550px;
+        box-sizing: border-box;
+        padding: 0 10px; /* Adiciona um pouco de padding para evitar que o texto encoste nas bordas */
+    }
+    .inputs {
+        width: 100%;
+    }
 }
 
