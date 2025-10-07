@@ -25,10 +25,10 @@
 
         <div class="perfil">
             <img src="{% static 'img/icone.png'%}" alt="" class="imgPerfil" id="imgPerfil">
-            
+            <img src="{% static 'img/flecha.png'%}" alt="" class="imgFlechaPerfil" id='imgFlechaPerfil'>
             <div class="usuario">
                 <p id='nomeUsuario'></p>
-                <p class="digicoin">DG$ <spam class="valor" id='saldo'>9999</spam> </p>
+                <p class="digicoin">DG$ <spam class="valor" id='saldo'></spam> </p>
             </div>
 
             <div class="flechaDropdownContainer">
@@ -73,17 +73,17 @@
 </div>
 
 <div class="dropdownMenuMobile-menuUser" id="dropdownMenuMobile">
-    <button id="visualizarPerfilMobile" class="visualizarPerfilMobile">
+    <button id="visualizarPerfilMobile" class="visualizarPerfil">
         <img src="{% static 'img/visualizarPerfil.png' %}" alt="">
         <p>Visualizar perfil</p>
     </button>
     
-    <button id="historicoCompraMobile" class="historicoCompraMobile">
+    <button id="historicoCompraMobile" class="historicoCompra">
         <img src="{% static 'img/historicoCompra.png' %}" alt="">
         <p>Histórico de compras</p>
     </button>
 
-    <button id="sairMobile" class="sairMobile">
+    <button id="sairMobile" class="sair">
         <img src="{% static 'img/sair.png' %}" alt="">
         <p>Sair</p>
     </button>

@@ -15,28 +15,27 @@
 
 <body>
     <div class="telaBranca">
-        <div class="parteinferior">
         <div class="logoDigix">
             <img class="logo" src="{%static 'img/digixlogo.png'%}" alt="">
         </div>
-            <form action="" method="POST" id='loginForm'>
-                <div class="inputs">
-                    {% csrf_token %}
-                    <h3 class="textoTelaBranca">Email</h3>
-                    <input id="email"  class="inputTelaBranca" type="name">
-    
-                    <h3  class="textoTelaBranca">Senha</h3>
-                    <input id="senha"  class="inputTelaBranca" type="password">
-    
-                </div>
-                <button type="submit"  class="botaoTelaBranca">ENTRAR</button>
-            </form>
-            
+        <form action="" method="POST" id='loginForm'>
+            <div class="inputs">
+                {% csrf_token %}
+                <h3 class="textoTelaBranca">Email</h3>
+                <input id="email"  class="inputTelaBranca" type="name">
 
-            <div class="linhaInferior">
-               
-                <a class="linkInferior2" href="#2"> Esqueci Minha Senha</a>
+                <h3  class="textoTelaBranca">Senha</h3>
+                <input id="senha"  class="inputTelaBranca" type="password">
+
             </div>
+            <button type="submit"  class="botaoTelaBranca">ENTRAR</button>
+        </form>
+        <div class="linhaInferior">
+            <a href="#2"> Esqueci Minha Senha</a>
+        </div>
+        </div>
+        <div class="parteinferior">
+
         </div>
     </div>
 

@@ -8,7 +8,7 @@ async function CadastrarDesafio(event) {
   const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
   if (!nome || !valor || !dataFim) {
-    alert('Preencha todos os campos corretamente.');
+    showpopup('Preencha todos os campos corretamente.', 'Erro', 'erro');
     return;
   } else {
     const response = await apiRequest(
@@ -24,13 +24,21 @@ async function CadastrarDesafio(event) {
       { 'X-CSRFToken': csrf },
     );
     console.log(response);
-    document.getElementById('nomeDesafio-form').value = '';
-    document.getElementById('valorDesafio-form').value = '';
-    document.getElementById('descricao-form').value = '';
-    document.getElementById('fimDesafio-form').value = '';
-    document.getElementById('campanha-form').value = '';
-    alert('Desafio cadastrado com sucesso!');
-    window.location.reload();
+    if (!response || response.error) {
+      showpopup('Erro ao cadastrar desafio.', 'Erro', 'erro');
+      return;
+    }else {
+      document.getElementById('nomeDesafio-form').value = '';
+      document.getElementById('valorDesafio-form').value = '';
+      document.getElementById('descricao-form').value = '';
+      document.getElementById('fimDesafio-form').value = '';
+      document.getElementById('campanha-form').value = '';
+      const popupAlert = new Popup();
+      popupAlert.showPopup('Desafio cadastrado com sucesso!', 'Sucesso', 'sucesso');
+      popupAlert.imgClosed.addEventListener("click", () => {
+        window.location.reload();
+      });
+    }
   }
 }
 const criarCampanhaForm = document.getElementById('formDesafio');

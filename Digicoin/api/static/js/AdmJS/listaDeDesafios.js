@@ -164,9 +164,17 @@ async function EditarDesafio(event) {
     payload,
     { 'X-CSRFToken': csrf },
   );
-
-  console.log("resposta", response);
-  window.location.reload();
+  if (!response || response.error) {
+    showPopup('Erro ao editar o desafio.', 'Erro', 'erro');
+    return;
+  }else {
+    const popupAlert = new Popup();
+    popupAlert.showPopup('Desafio editado com sucesso.', 'Sucesso', 'sucesso');
+    console.log("resposta", response);
+    popupAlert.imgClosed.addEventListener("click", () => {
+      window.location.reload();
+    });
+  }
 }
 
 
@@ -220,10 +228,10 @@ document.querySelectorAll('.btn-desativar-desafio-listaDeDesafios').forEach((bot
     const nomeDesafio = document.querySelector('.nomeDesafio-listaDeDesafios').textContent.trim();
     const valorDesafio = document.querySelector('.valor-listaDeDesafios').textContent.trim();
 
-    const confirmacaoPopup = new Popup();
-    const confirmacao = await confirmacaoPopup.showPopup('Tem certeza que deseja desativar este desafio?', 'Confirmação', 'confirmacao');
-
-    if (!confirmacao) return;
+    const confirmacao = await confirmarAcao( 'Deseja realmente excluir o desafio? Esta ação pode ser irreversível!','Confirmação');
+    if (!confirmacao){
+      return; 
+    }
 
     const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
