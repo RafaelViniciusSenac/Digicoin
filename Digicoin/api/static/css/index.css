@@ -55,6 +55,7 @@ form {
     width: 100%; 
     box-sizing: border-box; /* Impede que o padding aumente a largura total */
     height: 47px;
+    padding: 25px;
     border-radius: 15px;
     border-color: #2C006A;
     font-size: x-large;
@@ -109,6 +110,7 @@ form {
     .botaoTelaBranca {
         width: 550px;
         box-sizing: border-box;
+        padding: 25px;
         padding: 0 10px; /* Adiciona um pouco de padding para evitar que o texto encoste nas bordas */
     }
     .inputs {
