@@ -25,12 +25,12 @@ async function atulizarPedido(idPedido, obsEntrega=null) {
         });
 
         if (response.ok) {
-            console.log('Pedido concluído com sucesso!');
+            return true;
         } else {
-            console.error('Erro ao concluir o pedido:', response.statusText);
+            return false;
         }
     } catch (error) {
-        console.error('Erro na requisição:', error);
+        return false;
     }
 }
 
@@ -114,18 +114,26 @@ document.addEventListener('DOMContentLoaded', function () {
         botao.addEventListener('click', function (event) {
             const idCompra = divPai.id.replace('itens-', '');
             console.log('ID da compra:', idCompra);
-
+            let retornar;
             if (obsInput) {
                 const obsEntrega = obsInput.value;
                 console.log('existe obs:' + obsEntrega);
-                atulizarPedido(idCompra, obsEntrega);
+                retornar = atulizarPedido(idCompra, obsEntrega);
             } else {
                 console.log('não existe');
-                atulizarPedido(idCompra);
+                retornar = atulizarPedido(idCompra);
             }
 
             // Mantenha o reload aqui se for o comportamento esperado após concluir
-            window.location.reload(); 
+            if (retornar) {
+                const popupAlert = new Popup();
+                popupAlert.showPopup('Pedido concluído com sucesso!', 'Sucesso', 'sucesso');
+                popupAlert.imgClosed.addEventListener("click", () => {
+                    window.location.reload(); 
+                });
+            }else{
+                showPopup('Erro ao concluir o pedido. Tente novamente.', 'Erro', 'erro');
+            }
         });
     });
 
