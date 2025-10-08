@@ -59,7 +59,16 @@
                     <img class="iconedigix-listaDePedidos" src="{% static 'img/digixlogo.png'%}" alt="icone">
                     <p>{{ compra.idUsuario.first_name }} - {{ compra.pedido }}</p>
                 </div>
-                <img class="caminhao-listaDePedidos" src="{% static 'img/truck.png'%}" alt="icone">
+                <button 
+                    class="btn-inativar-pedido" 
+                    data-id="{{ compra.id }}" 
+                    data-nome="{{ compra.idUsuario.first_name }}" title="Inativar/Excluir Pedido" 
+                    title="Inativar/Excluir Pedido" 
+                    onclick="event.stopPropagation();" 
+                    style="background: none; border: none; padding: 0; cursor: pointer;"
+                >
+                    <img class="caminhao-listaDePedidos" src="{% static 'img/iconeDeletar.png' %}" alt="icone de inativação" >
+                </button>
             </div>
             
             
@@ -86,7 +95,7 @@
                         {% endif %}
                     {% elif compra.entrega == 'Entrega' and compra.obsEntrega == 'False' %}
    
-                        <input type="text" class="obsEntrega" placeholder="Observação*">
+                        <input type="text" class="obsEntrega" placeholder="Código de envio ou descrição">
                         <button id="botaoConcluir">Enviar Produto</button>
                         {% if compra.entrega == 'Entrega'   %}
                         <p class="endereco">{{ compra.rua }}, {{compra.numero}} - {{ compra.bairro }}, {{compra.cidade}} - {{compra.estado}}, {{compra.cep}} </p>
@@ -266,6 +275,6 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 
 
-<script src="{% static 'js/AdmJs/listaDePedidos.js' %}"></script>
+<script src="{% static 'js/AdmJS/listaDePedidos.js' %}"></script>
 
 {% endblock content %}

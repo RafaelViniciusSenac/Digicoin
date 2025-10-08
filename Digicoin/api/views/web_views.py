@@ -175,14 +175,16 @@ def listaProdutos(request):
     }
     return render(request, "UserHtml/listaProdutos.html", context)
 
+
 @user_required
-def ProdutosListaCampanha(request):
+def ProdutosListaCampanha(request, produto_id):
+
     userId = request.session.get('_auth_user_id')
     user = CustomUser.objects.filter(id=userId).first()
     quantidade_moedas = user.saldo if user else 0
 
     search = request.GET.get("search", "")
-    listaProdutos_list = Produto.objects.filter(is_active=True, idCampanha__isnull=False)
+    listaProdutos_list = Produto.objects.filter(is_active=True, idCampanha__isnull=False, idCampanha=produto_id)
     if search:
         listaProdutos_list = listaProdutos_list.filter(nome__icontains=search)
 
@@ -209,6 +211,19 @@ def ProdutosListaCampanha(request):
         "search": search
     }
     return render(request, "UserHtml/produtosCampanha.html", context)
+
+def ProdutosListaCampanhaAtivas(request):
+    
+    campanha = Campanha.objects.filter(is_active=True).order_by('nome')
+    paginator = Paginator(campanha, 5)
+    page_number = request.GET.get('campanha_page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        "produtos": page_obj,
+    }
+    return render(request, "UserHtml/produtosCampanhasAtivas.html", context)
+
 
 
 @admin_required
@@ -286,21 +301,36 @@ def listaDeDesafios(request):
     })
 
 
-
-
 @admin_required
 def listaDeUsuarios(request):
-    nome = request.GET.get('nome', '') 
-    user = CustomUser.objects.filter(first_name__icontains=nome, is_adm=False).order_by("first_name")
-    user_paginator = Paginator(user, 5)
+    # 1. Pega o parâmetro de busca 'q' da URL, o mesmo usado no formulário do HTML.
+    search_query = request.GET.get('q', '') 
+    
+    # 2. Começa a query com todos os usuários não-administradores
+    user_list = CustomUser.objects.filter(is_adm=False).order_by("first_name")
+
+    # 3. Se houver um termo de busca, filtra o queryset ANTES da paginação
+    if search_query:
+        user_list = user_list.filter(
+            Q(first_name__icontains=search_query) | # Busca por nome
+            Q(username__icontains=search_query) |   # Busca por email
+            Q(ra__icontains=search_query)           # Busca por RA
+        )
+
+    # 4. Aplica a paginação no resultado (já filtrado ou completo)
+    user_paginator = Paginator(user_list, 5) # Aumentei para 15 por página, ajuste se desejar
     user_page = request.GET.get('user_page')
     usuarios = user_paginator.get_page(user_page)
     
-
-    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-        return render(request, 'AdmHtml/fragments/usuarios.html', {'usuarios': usuarios})
+    # Não há mais a parte de 'XMLHttpRequest', pois o JS vai recarregar a página inteira
     
-    return render(request, 'AdmHtml/listaDeUsuarios.html', {'usuarios': usuarios})
+    # 5. Envia os dados para o template
+    context = {
+        'usuarios': usuarios,
+        'search_query': search_query  # Passa o termo da busca de volta para o template
+    }
+    
+    return render(request, 'AdmHtml/listaDeUsuarios.html', context)
 
 
 @user_required

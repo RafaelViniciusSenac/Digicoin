@@ -209,7 +209,7 @@
 }
 
 
-
+/* popUP ADICIONAR DESAFIO */
 .popUpAdicionarDesafio-listaDeDesafios{
     border: none;
         border-radius: 8px;
@@ -223,7 +223,19 @@
         color: var(--base);
 
 }
-
+/* popUP EDITAR DESAFIO */
+.popUpEditarDesafio-listaDeDesafios {
+    border: none;
+        border-radius: 8px;
+        padding: 0px 100px 0px 100px;
+        width: 90%;
+        max-width: 900px;
+        height: 565px;
+        max-height: 565px;
+        background-color: var(--roxo);
+        box-shadow: 0 4px 20px var(--sombra-preta);
+        color: var(--base);
+}
 
 
 
@@ -256,7 +268,6 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-    width: 100%;
 }
 
 .header-cadastrarDesafio{
@@ -311,7 +322,7 @@
 }
 
 
-.nomeDesafioDiv-cadastrarDesafio, .descricaoDesafioDiv-cadastrarDesafio{
+.nomeDesafioDiv-cadastrarDesafio{
     display: flex;
     flex-direction: column;
 }
@@ -406,6 +417,123 @@ label{
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+
+@media (min-width: 0px) and (max-width: 1000px) {
+    .desafioLeft-listaDeDesafios{
+        overflow: hidden;
+    }
+
+    .mainListaDesafios-listaDeDesafios {
+        width: 100%;
+        margin-left: 0;
+        padding: 0px ;
+        padding-top: 20px;
+       
+    }
+
+    .botoesDesafio-listaDeDesafios button{
+        margin: 10px 0px 0px 0px ;
+        padding: 10px 84px;
+        
+       
+    }
+
+    .primeiraLinha-listaDeDesafios{
+        margin-left: 40px;
+    }
+
+    .divPesquisa-listaDeDesafios {
+        justify-content: center;
+        
+    }
+
+    .barraPesquisa-listaDeDesafios{
+        width: 310px;
+    }
+
+    .primeiraLinha-listaDeDesafios{
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .recompensa-listaDeDesafios{
+        display: none;
+    }
+
+    .headNome-listaDeDesafios{
+        margin-left: 40px ;
+    }
+
+    .listaDesafios-listaDeDesafios{
+        margin-left: 40px ;
+        margin-right: 40px ;
+    }
+
+    .form-busca{
+        width: 100%;
+        justify-content: center;
+    }
+
+
+}
+
+@media (max-width: 768px) {
+
+    /* Ajusta o contêiner principal do pop-up de edição */
+    .popUpEditarDesafio-listaDeDesafios {
+        width: 70%; /* Largura fluida para se adaptar à tela */
+        height: auto; /* Altura se ajusta ao conteúdo */
+        max-height: 80vh; /* Altura máxima de 80% da tela */
+        padding: 25px; /* Reduz o espaçamento interno */
+        overflow-y: auto; /* Adiciona rolagem se o conteúdo for maior que a tela */
+    }
+
+    /* As regras abaixo funcionarão se o formulário de edição usar as mesmas classes do formulário de cadastro */
+
+    /* Empilha os elementos do formulário verticalmente */
+    .popUpEditarDesafio-listaDeDesafios .cima-cadastrarDesafio {
+        flex-direction: column;
+        gap: 20px;
+        width: 100%;
+    }
+
+    .popUpEditarDesafio-listaDeDesafios .baixo-cadastrarDesafio {
+        width: 100%;
+    }
+    
+    /* Faz os inputs e textareas ocuparem quase toda a largura */
+    .popUpEditarDesafio-listaDeDesafios .nomeDesafioDiv-cadastrarDesafio input,
+    .popUpEditarDesafio-listaDeDesafios .statusDesafioDiv-cadastrarDesafio select, 
+    .popUpEditarDesafio-listaDeDesafios .descricao-cadastrarDesafio {
+        width: 90%;
+    }
+
+    /* Ajusta o cabeçalho do pop-up */
+    .popUpEditarDesafio-listaDeDesafios .header-cadastrarDesafio {
+        margin: 0;
+        margin-bottom: 20px;
+    }
+
+    /* Reposiciona o botão de fechar (X) */
+    .popUpEditarDesafio-listaDeDesafios .botao-cadastrarDesafio {
+        margin-right: 0;
+        position: absolute;
+        top: 15px;
+        right: 15px;
+    }
+
+    /* Empilha os campos de data */
+    .popUpEditarDesafio-listaDeDesafios .dataDesafioDiv-cadastrarDesafio {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    /* Faz o botão principal ocupar toda a largura */
+    .popUpEditarDesafio-listaDeDesafios .button-cadastrarDesafio {
+        width: 100%;
+        margin-right: 0;
+    }
 }
 
 

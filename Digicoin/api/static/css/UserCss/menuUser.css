@@ -18,10 +18,6 @@
     width: 50px;
 }
 
-.imgPerfil:hover{
-    cursor: pointer;
-}
-
 .navbar a{
     text-decoration: none;
     color: black;
@@ -30,6 +26,10 @@
 
 .navbar a:hover{
     color: rgba(252, 103, 29, 1);
+}
+
+.usuario{
+    width: 100px;
 }
 
 .usuario p{
@@ -74,6 +74,11 @@
     cursor: pointer;
 }
 
+.imgFlechaPerfil{
+    cursor: pointer;
+    display: none;
+}
+
 .imgFlechaCima{
     display: none;
 }
@@ -91,7 +96,7 @@
 .notificacoes-menuUser{
     position: absolute;
     top: 100%; /* colado logo abaixo da flecha */
-    left: 0; /* alinha com a flecha */
+    left: -150px; /* alinha com a flecha */
     background-color: white;
     border: 2px solid rgba(44, 0, 106, 1);
     border-radius: 5px;
@@ -129,7 +134,7 @@
 .dropdownMenu {
     position: absolute;
     top: 100%; /* colado logo abaixo da flecha */
-    left: 0; /* alinha com a flecha */
+    left: -100px; /* alinha com a flecha */
     background-color: white;
     border: 2px solid rgba(44, 0, 106, 1);
     border-radius: 5px;
@@ -137,7 +142,6 @@
     flex-direction: column;
     z-index: 1000;
     width: 200px;
-
 }
 
 .dropdownMenu button{
@@ -208,6 +212,11 @@
     display: none;
 }
 
+/* Adiciona uma animação suave de transição para a flecha */
+.imgFlechaPerfil {
+    transition: transform 0.3s ease-in-out;
+}
+
 @media (max-width: 1000px) {
     .navbar{
         display: none;
@@ -218,16 +227,40 @@
     .imgSino{
         display: none;
     } 
-    .imgFlecha{
-        display: none;
-    }
     .imgFlechaCima{
         display: none;
     }
 
+    .imgPerfil{
+        cursor: pointer;
+    }
+    .perfil{
+        gap: 0px;
+    }
+    .imgFlechaPerfil{
+        display: block;
+    }
     .group{  
       display: block;
       
+    }
+    .flechaDropdownContainer {
+        display: none;
+    }
+
+    .dropdownMenuMobile-menuUser button{
+        display: flex;
+        background-color: white;
+        height: 50px;
+        align-items: center;
+        gap: 5px;
+        padding: 10px;
+    }
+
+    .dropdownMenuMobile-menuUser button:hover{
+        background-color: rgb(236, 234, 234);
+        transition: 0.5s ease-in-out;
+        cursor: pointer;
     }
 
     .menuMobile-menuUser{
@@ -251,6 +284,10 @@
         font-size: 18px;
         
     }
+    .menuMobile-menuUser a:hover {
+        color: var(--laranja);
+        cursor: pointer;
+    }
 
     .dropdownMenuMobile-menuUser{
         
@@ -263,7 +300,9 @@
         border-radius: 0 0 0 5px;
         z-index: 9999;
         background-color: white;
-        align-items: center;
+        border: 2px solid rgba(44, 0, 106, 1);
+        border-radius: 5px;
+        align-items: flex-start;
         padding-bottom: 15px;
     }
     .dropdownMenuMobile-menuUser button{
@@ -272,6 +311,7 @@
         display: flex;
         font-size: 18px;
         align-items: center;
+        width: 100%;
         gap: 5px;
          
     };
@@ -279,6 +319,14 @@
         width: 28px;
         height: 28px;
     }
-    
+    /* Faz o menu dropdown aparecer quando tiver a classe .aberto */
+    .dropdownMenuMobile-menuUser.aberto {
+        display: flex;
+    }
+
+    /* Gira a flecha 180 graus quando ela tiver a classe .aberto */
+    .imgFlechaPerfil.aberto {
+        transform: rotate(180deg);
+    }
     
   }

@@ -231,7 +231,7 @@ if (window.Popup === undefined) {
             this.setAttributes('loading');
 
             const loadingIcon = document.createElement('img');
-            loadingIcon.src = '/static/img/popup-carregando.gif';
+            loadingIcon.src = staticUrlImgs + 'popup-carregando.gif';
             loadingIcon.alt = 'Carregando';
 
             const loadingText = document.createElement('div');
@@ -305,7 +305,7 @@ if (window.Popup === undefined) {
         this.popupHeader.className = "popup-alerta-header";
         this.popupTitulo.className = `popup-alerta-titulo popup-${tipo}`;
         this.imgClosed.className = "popup-alerta-fechar";
-        this.imgClosed.src = "../../static/img/popup-x.png";
+        this.imgClosed.src = staticUrlImgs + "popup-x.png";
         this.imgClosed.alt = "Fechar";
         this.imgClosed.addEventListener("click", () => this.hidePopup());
         this.popupBody.className = "popup-alerta-body";
@@ -327,9 +327,9 @@ if (window.Popup === undefined) {
 
     getIconSrc(tipo) {
         switch (tipo) {
-        case 'erro': return '../../static/img/popup-erro.png';
-        case 'sucesso': return '../../static/img/popup-sucesso.png';
-        case 'confirmacao': return '../../static/img/popup-confirmacao.png';
+        case 'erro': return staticUrlImgs + 'popup-erro.png';
+        case 'sucesso': return staticUrlImgs + 'popup-sucesso.png';
+        case 'confirmacao': return staticUrlImgs + 'popup-confirmacao.png';
         default: return '';
         }
     }

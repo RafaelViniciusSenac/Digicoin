@@ -54,7 +54,6 @@
   }
 
 .ProdBarra-listaProdutos h1 {
-    margin: 0px;
     font-size: 30px;
 }
 
@@ -63,7 +62,7 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-
+    padding-bottom: 40px;
 }
 
 .btn-campanha-listaProdutos {
@@ -93,6 +92,7 @@
     border-radius: 15px;
     margin: 0;
     height: 35px;
+    gap: 1rem;
 }
 
 .searchBar-listaProdutos {
@@ -101,6 +101,7 @@
     border: none;
     padding: 5px;
     font-size: 15px;
+    
 }
 
 #lupa-listaProdutos {
@@ -115,8 +116,9 @@
 }
 
 .produtos-listaProdutos {
-    margin: 0 auto;
-    padding-top: 32px;
+    margin: 0;
+    padding: 32px;
+    width: 900px;
 }
 
 .produtosDigix-listaProdutos {
@@ -125,7 +127,7 @@
     justify-content: space-between;
     text-align: left;
     width: 100%;
-    margin: 15px 0 15px 15px ; 
+    margin: 15px 0 15px 0;
 }
 
 .produtosDigix-listaProdutos h1 {
@@ -398,8 +400,9 @@
     }
 
     .produtos-listaProdutos {
-        margin: 0 auto;
+        margin: 0;
         padding-bottom: 0px;
+        width: 350px;
     }
 
     .imgD-listaProdutos {
@@ -473,8 +476,7 @@
     .btn-campanha-listaProdutos {
         margin: 0;
         padding: 0;
-        display: flex;
-        
+        display: flex;        
     }
 }
 
@@ -512,7 +514,7 @@
     align-items: center;
     flex-wrap: wrap;
     gap: 15px;
-    margin-top: 20px;
+    margin-top: 40px;
     padding-bottom: 40px;
 }
 
@@ -609,4 +611,10 @@
 .link-campanha {
     text-decoration: none;
     color: inherit;
+}
+
+.listaDesafios {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
   }

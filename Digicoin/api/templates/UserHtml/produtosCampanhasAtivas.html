@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/UserCss/produtosCampanhasAtivas.css' %}">
+
+
+<div class="body-listadeProdutos">
+    {% include "components/user/menuUser.html" %}
+
+    <input type="hidden" id="quantidadeMoedas" value="{{quantidade_moedas}}">
+    <div class="containerProduto-listaProdutos">
+        <div class="produtos-listaProdutos">
+
+            <a href='/listaProdutos' class="voltarBotao">
+                <button class="voltar">
+                    <img src="{% static 'img/flechaEsquerda.png' %}" alt="">    
+                    <h2>Voltar</h2>
+                </button>
+            </a>
+            
+            <div class="produtosDigix-listaProdutos">
+
+                <div class="ProdBarra-listaProdutos">
+                    <h1>Produtos de Campanhas</h1>
+                    
+                    <div class="barra-listaProdutos"></div>
+                    
+                </div>
+            </div>
+
+            <div class="desafios desafios1">
+                    {% for i in produtos %}
+                        <a href="{% url 'produtosCampanha' i.id %}" class="link-campanha">
+                            <div class="desafiosFlex">
+                                <div class="alvoCampanha">
+                                    <img src="{% static 'img/campanhas.png' %}" class="alvo" style="filter: brightness(0) saturate(100%);">
+                                    <div class="texto-card">{{ i.nome }}</div>
+                                </div>
+                            </div>
+                        </a>
+                    {% endfor %}
+                </div>            
+
+    <div class="pagination">
+        {% if produtos.has_previous %}
+        <div class="paginas">
+            <a class="anterior" href="?campanha_page={{ produtos.previous_page_number }}&search={{ request.GET.search }}">
+                <i class="fa fa-arrow-left" aria-hidden="true"></i> 
+            </a>
+        </div>
+        {% endif %}
+        
+        <span>Página {{ produtos.number }} de {{ produtos.paginator.num_pages }}</span>
+        
+        {% if produtos.has_next %}
+        <div class="paginas">
+            <a class="proxima" href="?campanha_page={{ produtos.next_page_number }}&search={{ request.GET.search }}">
+                 <i class="fa fa-arrow-right" aria-hidden="true"></i>
+            </a>
+        </div>
+        {% endif %} 
+    </div>
+
+    <script src="{% static 'js/UserJs/listaProdutos.js' %}"></script>
+</div>
+{% endblock %}

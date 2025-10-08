@@ -52,11 +52,11 @@ async function enviarDadosParaApi(form = null) {
         itens: itensCompra
     };
     const response = await apiRequest('/api/cadastrarCompra/', 'POST', dadosParaApi, {'X-CSRFToken': csrf});
+    console.log("response", response);
     if (response && response.status === 201) {
         localStorage.removeItem('listaProdutos');
         const grid = document.getElementById('itensGrid');
         grid.innerHTML = '';
-        popupFinalizarCompra.hidePopup();
         const total = document.getElementById('valorTotal');
         total.innerHTML = '0';
         // Mostrar mensagem de sucesso
