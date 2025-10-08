@@ -349,7 +349,7 @@ footer, .rodaPeModal {
     position: absolute;
     top: 56%;
     left: 10px;
-    transform: translateY(-50%);
+    transform: translateY(-53%);
     color: #979797;
     font-weight: bold;
     pointer-events: none;
@@ -441,6 +441,11 @@ input[type="date"]:focus {
         overflow-x: hidden;
     
     }
+
+    .FormPreco::before {
+        transform: translateY(-50%);
+    }
+
     
     
 }
@@ -451,6 +456,11 @@ input[type="date"]:focus {
         overflow-x: hidden;
     
     }
+
+    .FormPreco::before {
+        transform: translateY(-50%);
+    }
+
 }
 
 /* CELULARES MÉDIOS (431px - 480px) */
@@ -679,6 +689,10 @@ input[type="date"]:focus {
         margin-bottom: 10px;
         margin-right: 10px;
         font-size: 18px;
+    }
+
+    .FormPreco::before {
+        transform: translateY(-50%);
     }
 
     
@@ -1014,6 +1028,10 @@ input[type="date"]:focus {
         align-items: center;
         padding-left: 20px;
     }
+    .FormPreco::before {
+        transform: translateY(-56%);
+    }
+
 }
 
 
