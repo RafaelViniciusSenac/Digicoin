@@ -95,7 +95,7 @@
                         {% endif %}
                     {% elif compra.entrega == 'Entrega' and compra.obsEntrega == 'False' %}
    
-                        <input type="text" class="obsEntrega" placeholder="Observação*">
+                        <input type="text" class="obsEntrega" placeholder="Código de envio ou descrição">
                         <button id="botaoConcluir">Enviar Produto</button>
                         {% if compra.entrega == 'Entrega'   %}
                         <p class="endereco">{{ compra.rua }}, {{compra.numero}} - {{ compra.bairro }}, {{compra.cidade}} - {{compra.estado}}, {{compra.cep}} </p>

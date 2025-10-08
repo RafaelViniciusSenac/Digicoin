@@ -22,9 +22,13 @@ dialog {
     padding: 20px;
     background-color: #4D2C87;
     min-width: 300px;
-    height: 650px;
+    
     color: #FFFFFF;
     
+}
+
+.popupAdicionarMoedas{
+    width: 30%;
 }
 
 .mainListaUsuarios {
@@ -545,6 +549,8 @@ gap: 8px;
 .action-buttons {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
     gap: 15px;
     margin-top: 30px;
 }
@@ -558,10 +564,12 @@ gap: 8px;
     cursor: pointer;
     color: var(--branco);
     transition: background-color 0.3s;
+    width: 30%;
 }
 
 .alterarSenha{
     background-color: var(--laranja);
+    
 }
 
 .alterarSenha:hover {
@@ -899,6 +907,7 @@ background-color: #b83fd1;
     }
 
     .action-button {
+        width: 90%;
         padding: 12px;
         font-size: 14px;
     }
