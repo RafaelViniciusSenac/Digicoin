@@ -12,11 +12,52 @@ from django.db.models import Q
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.http import JsonResponse
 from django.core.paginator import Paginator
+from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
+from django.urls import reverse
+from ..decorators import login_required, admin_required, user_required 
+
+ADMIN_DASHBOARD_ROUTE = 'listaDeUsuarios'
+USER_DASHBOARD_ROUTE = 'home'
+LOGIN_ROUTE_NAME = 'login'
 
 def login(request):
+    if request.user.is_authenticated:
+        # Redireciona usuários já logados para o dashboard apropriado
+        destination = ADMIN_DASHBOARD_ROUTE if request.user.is_adm else USER_DASHBOARD_ROUTE
+        return redirect(destination)
+
+    if request.method == 'POST':
+        # Aqui, você precisaria de um formulário ou de um dicionário com os dados
+        # Vamos assumir que você está usando um formulário padrão de login no template
+        
+        # Exemplo de como processar os dados de um formulário HTML básico (name="username" e name="password")
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        
+        user = authenticate(request, username=username, password=password)
+        
+        if user is not None:
+            # Login bem-sucedido
+            auth_login(request, user)
+            
+            # Redirecionamento após login
+            destination = ADMIN_DASHBOARD_ROUTE if user.is_adm else USER_DASHBOARD_ROUTE
+            return redirect(destination)
+        else:
+            # Login falhou (pode adicionar uma mensagem de erro aqui)
+            pass
+            
+    # Renderiza a tela de login (que contém o formulário)
     return render(request, 'index.html')
 
+def logout_user(request):
+    if request.user.is_authenticated:
+        auth_logout(request)
+    
+    # Redireciona para a página de login após o logout
+    return redirect(LOGIN_ROUTE_NAME)
 
+@user_required
 def home(request):
     users = CustomUser.objects.filter(is_adm=False).order_by("-pontuacao")[:5]
 
@@ -40,6 +81,7 @@ def home(request):
 
     return render(request, 'UserHtml/home.html', context)
 
+@user_required
 def historicoCompra(request):
     eventos = Campanha.objects.filter(is_active=True)
 
@@ -93,9 +135,11 @@ def historicoCompra(request):
         'eventos': eventos
     })
 
+@user_required
 def primeiroAcesso(request):
     return render(request, 'primeiroAcesso.html')
 
+@user_required
 def perfilUsuario(request):
     usuarioLogado = request.user
     serializer = UsuarioComHistoricoSerializer(usuarioLogado)
@@ -108,6 +152,7 @@ def perfilUsuario(request):
 
     return render(request, 'UserHtml/perfilUsuario.html', context)
 
+@user_required
 def listaProdutos(request):
     userId = request.session.get('_auth_user_id')
     user = CustomUser.objects.filter(id=userId).first()
@@ -142,6 +187,7 @@ def listaProdutos(request):
     }
     return render(request, "UserHtml/listaProdutos.html", context)
 
+@user_required
 def ProdutosListaCampanha(request, produto_id):
     userId = request.session.get('_auth_user_id')
     user = CustomUser.objects.filter(id=userId).first()
@@ -176,6 +222,7 @@ def ProdutosListaCampanha(request, produto_id):
     }
     return render(request, "UserHtml/produtosCampanha.html", context)
 
+@user_required
 def ProdutosListaCampanhaAtivas(request):
     
     campanha = Campanha.objects.filter(is_active=True).order_by('nome')
@@ -189,7 +236,7 @@ def ProdutosListaCampanhaAtivas(request):
     return render(request, "UserHtml/produtosCampanhasAtivas.html", context)
 
 
-
+@admin_required
 def cadastrarDesafio(request):
     campanhas = Campanha.objects.filter(is_active=True)
      
@@ -223,6 +270,7 @@ def ranking(request):
     
     return render(request, 'UserHtml/ranking.html', context)
 
+@admin_required
 def listaEstoque(request):
     eventos = Campanha.objects.filter(is_active=True)
     
@@ -239,7 +287,7 @@ def listaEstoque(request):
 
     return render(request, 'AdmHtml/listaEstoque.html', {'estoque': estoque, 'eventos': eventos})
 
-
+@admin_required
 def listaDeDesafios(request):
     search = request.GET.get('search', '').strip()
 
@@ -261,6 +309,7 @@ def listaDeDesafios(request):
         'search': search,   # passa pro template
     })
 
+@admin_required
 def listaDeUsuarios(request):
     # 1. Pega o parâmetro de busca 'q' da URL, o mesmo usado no formulário do HTML.
     search_query = request.GET.get('q', '') 
@@ -291,7 +340,7 @@ def listaDeUsuarios(request):
     
     return render(request, 'AdmHtml/listaDeUsuarios.html', context)
 
-
+@user_required
 def desafiosCampanha(request, campanha_id):
 
     desafio = Desafio.objects.filter(idCampanha=campanha_id, is_active=True)
@@ -301,7 +350,7 @@ def desafiosCampanha(request, campanha_id):
 
     return render(request, 'UserHtml/desafiosCampanha.html', {'desafios': desafios})
 
-# meu codigo primeiro
+@user_required
 def desafiosCampanhaAtivas(request):
     campanha = Campanha.objects.filter(is_active=True).order_by('nome')
     campanha_paginator = Paginator(campanha, 5)
@@ -311,7 +360,7 @@ def desafiosCampanhaAtivas(request):
     return render(request, 'UserHtml/desafiosCampanhaAtivas.html', {'campanha': campanhas, 'campanhas': campanhas})
 
 
-
+@admin_required
 def listaDePedidos(request):
     status_pedido = request.GET.get('status')
     search = request.GET.get('search', '').strip()
@@ -348,36 +397,36 @@ def listaDePedidos(request):
     })
 
 
-
+@user_required
 def carrinho(request):
     return render(request, 'UserHtml/carrinhoCompra.html')
 
-
+@admin_required
 def relatorio(request):
     return render(request, 'AdmHtml/relatorio.html')
 
+@admin_required
 def campanhas(request):
 
     campanhas = Campanha.objects.all()
 
     return render(request, 'AdmHtml/campanhas.html', {'campanhas': campanhas})
 
-def teste(request):
-    return render(request, 'UserHtml/teste.html')
-
+@admin_required
 def cadastrarUsuario(request):
     return render(request, 'AdmHtml/cadastrarUsuario.html')
 
+@admin_required
 def editarUsuario(request, id):
     
     userId = CustomUser.objects.filter(id=id).first()
     return render(request, 'AdmHtml/editarUsuario.html', {'userId': userId})
 
-
+@admin_required
 def adicionarMoedas(request):
     return render(request, 'AdmHtml/adicionarMoedas.html')
 
-
+@admin_required
 def exportar_vendas_excel(request):
     """
     View para exportar relatório de vendas em formato Excel
@@ -450,7 +499,7 @@ def exportar_vendas_excel(request):
     return response
 
 
-
+@admin_required
 def exportar_produtos_mais_vendidos_excel(request):
     """
     View para exportar relatório de produtos mais vendidos em formato Excel
@@ -520,7 +569,7 @@ def exportar_produtos_mais_vendidos_excel(request):
     
     return response
 
-
+@admin_required
 def exportar_usuarios_com_mais_moedas_excel(request):
     """
     View para exportar relatório de usuários com mais moedas em formato Excel

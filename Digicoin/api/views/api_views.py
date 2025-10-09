@@ -16,6 +16,8 @@ import string
 from django.conf import settings
 import csv
 from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.permissions import AllowAny
+from rest_framework.permissions import IsAuthenticated
 
 class User(APIView):
     
@@ -39,6 +41,7 @@ class User(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
         nome = request.data.get('nome')
@@ -147,6 +150,7 @@ class PrimeiroAcessoSenhaView(APIView):
 
 
 class Login(APIView):
+    permission_classes = [AllowAny] 
     def post(self, request):
         nome = request.data.get('nome')
         senha = request.data.get('senha')
@@ -161,11 +165,13 @@ class Login(APIView):
         return Response({'error': 'Credenciais inválidas'}, status=status.HTTP_401_UNAUTHORIZED)
         
 class Logout(APIView):
+    permission_classes = [AllowAny]
     def post(self, request):
         logout(request)
         return Response({"status": status.HTTP_200_OK, "mensagem": "Logout realizado com sucesso"})
 
 class GetDadosUsuarioLogado(APIView):
+    permission_classes = [IsAuthenticated]
     def get(self, request):
         usuarioId = request.session.get('_auth_user_id')
         if usuarioId:
@@ -180,6 +186,7 @@ class GetDadosUsuarioLogado(APIView):
 class CampanhaViewSet(viewsets.ModelViewSet):
     queryset = Campanha.objects.all()
     serializer_class = CampanhaSerializer
+    permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
         campanha = serializer.save()
@@ -203,10 +210,12 @@ class CampanhaViewSet(viewsets.ModelViewSet):
 class ProdutoViewSet(viewsets.ModelViewSet):
     queryset = Produto.objects.all()
     serializer_class = ProdutoSerializer
+    permission_classes = [IsAuthenticated]
 
 class DesafioViewSet(viewsets.ModelViewSet):
     queryset = Desafio.objects.all()
     serializer_class = DesafioSerializer
+    permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
         desafio = serializer.save()
@@ -225,15 +234,17 @@ class DesafioViewSet(viewsets.ModelViewSet):
         Notificacao.objects.bulk_create(notifs)
 
 class CompraViewSet(viewsets.ModelViewSet):
-
     queryset = Compra.objects.all()
     serializer_class = CompraSerializer
+    permission_classes = [IsAuthenticated]
 
 class ItensCompraViewSet(viewsets.ModelViewSet):
     queryset = ItensCompra.objects.all()
     serializer_class = ItensCompraSerializer
+    permission_classes = [IsAuthenticated]
 
 class CadastrarCompraView(APIView):
+    permission_classes = [IsAuthenticated]
     def post(self, request):
         dadosCompra = request.data.get('compra')
         itensCompra = request.data.get('itens')
@@ -286,6 +297,7 @@ class CadastrarCompraView(APIView):
     
  
 class HistoricoSaldoUsuarioView(APIView):
+    permission_classes = [IsAuthenticated]
     """Retorna as últimas 5 alterações de saldo do usuário logado"""
     def get(self, request):
         usuario = request.user
@@ -293,6 +305,7 @@ class HistoricoSaldoUsuarioView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 class HistoricoSaldoPorIdView(APIView):
+    permission_classes = [IsAuthenticated]
     """Retorna as últimas 5 alterações de saldo de um usuário pelo ID"""
     def get(self, request, id):
         usuario = get_object_or_404(CustomUser, pk=id)
@@ -303,10 +316,12 @@ class HistoricoSaldoPorIdView(APIView):
 class DesenvolvedoresViewSet(viewsets.ModelViewSet):
     queryset = Desenvolvedores.objects.all()
     serializer_class = DesenvolvedoresSerializer
+    permission_classes = [IsAuthenticated]
 
 class NotificacaoViewSet(viewsets.ModelViewSet):
     queryset = Notificacao.objects.all()
     serializer_class = NotificacaoSerializer
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         qs = super().get_queryset()
@@ -317,7 +332,7 @@ class NotificacaoViewSet(viewsets.ModelViewSet):
         return qs
     
 class NonAdminActiveUsersAPIView(APIView):
-
+    permission_classes = [IsAuthenticated]
     def get(self, request):
         users = CustomUser.objects.filter(
             is_active=True,
@@ -331,7 +346,7 @@ load_dotenv()
 CustomUser = get_user_model() 
     
 class ResetUserPasswordView(APIView):
-
+    permission_classes = [IsAuthenticated]
     def post(self, request, user_id):
         if not request.user.is_authenticated or not request.user.is_adm:
             return Response({'error': 'Acesso negado'}, status=status.HTTP_403_FORBIDDEN)
@@ -379,6 +394,7 @@ class ResetUserPasswordView(APIView):
         
         
 class CriacaoDeUsuariosEmMassaAPIView(APIView):
+    permission_classes = [IsAuthenticated]
     parser_classes = (MultiPartParser, FormParser)
     
     def post(self, request, *args, **kwargs):
@@ -486,6 +502,7 @@ class CriacaoDeUsuariosEmMassaAPIView(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
 class ZerarPontuacaoAPIView(APIView):
+    permission_classes = [IsAuthenticated]
     def post(self, request):
         updated_count = CustomUser.objects.filter(is_active=True, is_adm=False).update(pontuacao=0)
         return Response({'message': f'Pontuação zerada para {updated_count} usuários.'}, status=status.HTTP_200_OK)	
