@@ -1,14 +1,29 @@
 document.addEventListener("DOMContentLoaded", function() {
 
     async function GetUserLogado() {
-        const response = await apiRequest('/api/GetDadosUsuarioLogado')
-        const nomeUsuario = document.getElementById('nomeUsuario')
-        const saldo = document.getElementById('saldo')
-        nomeUsuario.innerHTML = response.first_name
-        saldo.innerHTML = response.saldo
+    const response = await apiRequest('/api/GetDadosUsuarioLogado')
+    const nomeUsuarioElement = document.getElementById('nomeUsuario')
+    const saldoElement = document.getElementById('saldo')
 
-        localStorage.setItem('userId', response.id)
+    
+    const indexOfSpace = response.first_name.indexOf(' ')
+    let nomeParaExibir
+
+    
+    if (indexOfSpace !== -1) {
+        
+        nomeParaExibir = response.first_name.substring(0, indexOfSpace)
+    } else {
+        
+        nomeParaExibir = response.first_name
     }
+
+    // Atualiza o elemento com apenas o primeiro nome
+    nomeUsuarioElement.innerHTML = nomeParaExibir
+    saldoElement.innerHTML = response.saldo
+
+    localStorage.setItem('userId', response.id)
+}
 
     GetUserLogado()
 
