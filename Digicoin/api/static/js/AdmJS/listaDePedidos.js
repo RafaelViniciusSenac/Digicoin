@@ -1,5 +1,4 @@
 function toggleItens(id) {
-// ... (código inalterado)
     const el = document.getElementById('itens-' + id);
     if (el.style.display === 'none') {
         el.style.display = 'block';
@@ -8,14 +7,24 @@ function toggleItens(id) {
     }
 }
 
-async function atulizarPedido(idPedido, obsEntrega=null) {
-// ... (código inalterado)
-    let dados = { pedido: "Concluído" };
-    if(obsEntrega){
-        dados = { obsEntrega: obsEntrega };
+async function atulizarPedido(idPedido, obsEntrega = null) {
+    const confirmado = await confirmarAcao('Deseja realmente concluir este pedido?', 'Confirmação de Conclusão');
+    
+    if (!confirmado) {
+        return null; // Retorna null se cancelado
     }
+
+    let dados = { 
+        pedido: "Concluído" 
+    };
+    if (obsEntrega) {
+        dados.obsEntrega = obsEntrega;
+    }
+    const popupLoading = new Popup(); 
+    popupLoading.showLoadingPopup(`Concluindo pedido...`);
+    
     try {
-        let response = await fetch(`/api/compra/${idPedido}/`, {
+        const response = await fetch(`/api/compra/${idPedido}/`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -23,30 +32,29 @@ async function atulizarPedido(idPedido, obsEntrega=null) {
             },
             body: JSON.stringify(dados)
         });
-
-        if (response.ok) {
-            return true;
+        popupLoading.hidePopup();
+        if (response) {
+            return true; // Retorna true ou false
         } else {
             return false;
         }
     } catch (error) {
-        return false;
+        console.error("Erro na requisição de atualização:", error);
+        return false; // Retorna false em caso de erro
     }
 }
 
-// FUNÇÃO ATUALIZADA: Agora recebe 'nomeCliente'
+// A função inativarPedido permanece inalterada
 async function inativarPedido(idPedido, elementoLinha, nomeCliente) {
-    // 1. CONFIRMAÇÃO DA AÇÃO usando o nome do cliente
     const confirmado = await confirmarAcao(
         `Deseja realmente excluir o pedido do usuário ${nomeCliente}? Esta ação pode ser irreversível!`,
         'Confirmação de Inativação'
     );
 
     if (!confirmado) {
-        return; // Sai da função se o usuário cancelar
+        return; 
     }
 
-    // Opcional: Mostrar popup de carregamento enquanto a API é chamada
     showLoadingPopup(`Inativando pedido de ${nomeCliente}...`); 
 
     try {
@@ -57,23 +65,16 @@ async function inativarPedido(idPedido, elementoLinha, nomeCliente) {
             }
         });
 
-        // Oculta o popup de carregamento antes de mostrar o resultado
-        const loadingDialog = document.querySelector(".popup-loading");
-        if (loadingDialog) loadingDialog.remove(); 
-        document.body.classList.remove('no-scroll-popup-alerta');
+        const popup = new Popup();
+        popup.hidePopup();
         
         if (response.ok || response.status === 204) { 
-            // 2. FEEDBACK DE SUCESSO
             showPopup(`O Pedido do usuário ${nomeCliente} foi excluído com sucesso!`, 'Sucesso', 'sucesso');
-            
-            // Remove a linha da lista para atualizar a UI imediatamente
             elementoLinha.remove(); 
             
         } else {
             const erroData = response.status === 404 ? { detail: 'Recurso não encontrado.' } : await response.json();
             console.error('Erro ao inativar o pedido:', erroData);
-            
-            // 3. FEEDBACK DE ERRO
             showPopup(
                 `Não foi possível inativar o pedido de **${nomeCliente}**. Erro: ${response.status} - ${erroData.detail || response.statusText}`, 
                 'Erro na Inativação', 
@@ -81,13 +82,9 @@ async function inativarPedido(idPedido, elementoLinha, nomeCliente) {
             );
         }
     } catch (error) {
-        // Certifica-se de fechar o loading em caso de erro de rede
-        const loadingDialog = document.querySelector(".popup-loading");
-        if (loadingDialog) loadingDialog.remove(); 
-        document.body.classList.remove('no-scroll-popup-alerta');
-        
+        const popup = new Popup();
+        popup.hidePopup();
         console.error('Erro na requisição de inativação:', error);
-        // 4. FEEDBACK DE ERRO GERAL
         showPopup('Ocorreu um erro de rede ao tentar inativar o pedido. Tente novamente.', 'Erro de Conexão', 'erro');
     }
 }
@@ -96,59 +93,54 @@ document.addEventListener('DOMContentLoaded', function () {
     const botoesConcluir = document.querySelectorAll('#botaoConcluir');
     const botoesInativar = document.querySelectorAll('.btn-inativar-pedido'); 
 
-    // Lógica para Concluir Pedido (inalterada)
     botoesConcluir.forEach(botao => {
         const divPai = botao.closest('.itensCompra-listaDePedidos');
         const obsInput = divPai.querySelector('.obsEntrega');
 
         if (obsInput) {
-            // Desativa o botão inicialmente
             botao.disabled = true;
-
-            // Adiciona evento para ativar o botão quando o campo for preenchido
             obsInput.addEventListener('input', function () {
                 botao.disabled = obsInput.value.trim() === '';
             });
         }
 
-        botao.addEventListener('click', function (event) {
+        botao.addEventListener('click', async function (event) { 
             const idCompra = divPai.id.replace('itens-', '');
-            console.log('ID da compra:', idCompra);
-            let retornar;
+            
+            let resultado; 
             if (obsInput) {
                 const obsEntrega = obsInput.value;
-                console.log('existe obs:' + obsEntrega);
-                retornar = atulizarPedido(idCompra, obsEntrega);
+                resultado = await atulizarPedido(idCompra, obsEntrega);
             } else {
-                console.log('não existe');
-                retornar = atulizarPedido(idCompra);
+                resultado = await atulizarPedido(idCompra);
             }
 
-            // Mantenha o reload aqui se for o comportamento esperado após concluir
-            if (retornar) {
-                const popupAlert = new Popup();
-                popupAlert.showPopup('Pedido concluído com sucesso!', 'Sucesso', 'sucesso');
-                popupAlert.imgClosed.addEventListener("click", () => {
-                    window.location.reload(); 
-                });
-            }else{
+            if (resultado === true) {
+                // Sucesso
+                showPopup('Pedido concluído com sucesso!', 'Sucesso', 'sucesso', 
+                    () => window.location.reload(),
+                    () => window.location.reload()
+                );
+                document.querySelector('.popup-alerta-fechar').addEventListener('click', () => window.location.reload());
+            } else if (resultado === false) {
+                // Erro
                 showPopup('Erro ao concluir o pedido. Tente novamente.', 'Erro', 'erro');
             }
+            // Se resultado for null (cancelado), o código termina e nada mais acontece.
         });
     });
 
-    // Lógica para Inativar Pedido (ATUALIZADA para capturar o nome)
+    // A lógica para Inativar Pedido já estava correta
     botoesInativar.forEach(botao => {
         botao.addEventListener('click', function (event) {
             event.preventDefault();
             event.stopPropagation(); 
 
             const idCompra = botao.getAttribute('data-id');
-            const nomeCliente = botao.getAttribute('data-nome'); // NOVO: Captura o nome do cliente
+            const nomeCliente = botao.getAttribute('data-nome');
             const linhaPedido = botao.closest('.linha-listaDePedidos'); 
 
             if (idCompra && nomeCliente && linhaPedido) {
-                // NOVO: Passa o nome do cliente para a função
                 inativarPedido(idCompra, linhaPedido, nomeCliente);
             }
         });
