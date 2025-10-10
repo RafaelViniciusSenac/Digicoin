@@ -59,7 +59,20 @@ def logout_user(request):
 
 @user_required
 def home(request):
+    # 1. Busca os 5 primeiros usuários
     users = CustomUser.objects.filter(is_adm=False).order_by("-pontuacao")[:5]
+
+    # 2. Processamento dos Nomes
+    if users:
+        # Processa o nome do primeiro usuário (que será 'primeiro_usuario' no template)
+        # Pega a primeira palavra do nome completo (users[0].first_name)
+        users[0].first_name = users[0].first_name.split()[0]
+        
+        # Processa o nome dos usuários restantes (que serão 'usuarios' no template)
+        # O loop começa a partir do segundo elemento (índice 1)
+        for user in users[1:]:
+            user.first_name = user.first_name.split()[0]
+
 
     userId = request.session.get('_auth_user_id')
     user = CustomUser.objects.filter(id=userId).first()
@@ -72,11 +85,13 @@ def home(request):
     desafios = desafio_paginator.get_page(desafio_page)
 
     context = {
+        # users[1:] já contém os nomes processados
         'usuarios': users[1:],  
+        # users[0] já contém o nome processado
         'primeiro_usuario': users[0] if users else None,  
         'desafios': desafios,
         'primeiroAcesso': primeiroAcesso,
-        'userId': userId    
+        'userId': userId      
     }
 
     return render(request, 'UserHtml/home.html', context)
@@ -244,7 +259,14 @@ def cadastrarDesafio(request):
 
 @login_required
 def ranking(request):
+    
     top_usuarios = CustomUser.objects.filter(is_adm=False).order_by('-pontuacao')[:7]
+
+    # Processar o nome para exibir apenas o primeiro
+    for user in top_usuarios:
+        # Pega a primeira palavra do nome completo (user.first_name)
+        # O .split()[0] divide o nome em uma lista de palavras e pega o primeiro item.
+        user.first_name = user.first_name.split()[0]
     
     usuario_logado = request.user
     
@@ -257,12 +279,17 @@ def ranking(request):
             posicao_usuario = idx
             break
     
+    # 2. Processar o nome do usuario_logado
+    primeiro_nome_logado = usuario_logado.first_name.split()[0]
+    
     context = {
         'top_usuarios': top_usuarios,
         'usuario_logado': {
             'id': usuario_logado.id,
-            'first_name': usuario_logado.first_name,
+            # Usar o nome processado aqui
+            'first_name': primeiro_nome_logado, 
             'saldo': usuario_logado.saldo,
+            'pontuacao': usuario_logado.pontuacao, # Adicionei 'pontuacao' que está sendo usada no seu template.
             'posicao': posicao_usuario
         },
         'mostrar_usuario_logado': not usuario_em_top7 and posicao_usuario > 0
