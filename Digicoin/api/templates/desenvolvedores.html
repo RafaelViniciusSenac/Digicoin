@@ -1,24 +1,52 @@
 {% extends 'base.html'%}
 {% load static%}
-{%block content%}
+{% block content %}
 
+<link rel="stylesheet" href="{% static 'css/desenvolvedores.css' %}">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&display=swap');
+</style>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Quantico:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+</style>
 
-<h1>Professores</h1>
-{%for professor in professores%}
+<section class="inicio">
+    <div class="gradient"></div>
+    <div class="texto">
+        <h1>Fábrica de Software</h1>
+        <h2>Turma 31, o marco de um novo capítulo, o alicerce de uma vida transformada.</h2>
+        <button class="super-button">
+            <span>Ver Mais</span>
+            <svg fill="none" viewBox="0 0 24 24" class="arrow">
+                <path
+                stroke-linejoin="round"
+                stroke-linecap="round"
+                stroke-width="2"
+                stroke="currentColor"
+                d="M5 12h14M13 6l6 6-6 6"
+                ></path>
+            </svg>
+        </button>
+    </div>
 
-<div>
-    <h1>{{professor.nome}}</h1>
-</div>
+</section>
 
-{%endfor%}
+<section>
+    <h3>Professores</h3>
+    {% for professor in professores %}
+        <div>
+            <h1>{{ professor.nome }}</h1>
+        </div>
+    {% endfor %}
+</section>
 
-<h1>Desenvolvedores</h1>
-{%for dev in devs%}
-
-<div>
-    <h1>{{dev.nome}}</h1>
-</div>
-
-{%endfor%}
+<section>
+    <h3>Desenvolvedores</h3>
+    {% for dev in devs %}
+        <div>
+            <h1>{{ dev.nome }}</h1>
+        </div>
+    {% endfor %}
+</section>
 
 {% endblock %}
