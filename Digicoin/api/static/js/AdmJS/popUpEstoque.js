@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const descricao = document.getElementById("Descricao") // PROBLEMA É AQUI, VALIDAÇÃO DO ERRO DO PRODUTO É IGUAL COM A DA DESCRIÇÃO, ME AJUDE A ARRUMAR ISSO
 
     const quantidade = document.getElementById("Quantidade");
-    quantidade.addEventListener("input", function () {
+    quantidade.addEventListener("change", function () {
         mascaraMilhar(quantidade);
     });
 
@@ -557,6 +557,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
+    
+    [modalPrimeiro, modalSegundo, modalTerceiro].forEach(modal => {
+        modal.addEventListener("click", (event) => {
+            const dialogDimensions = modal.getBoundingClientRect();
+            if (
+                event.clientX < dialogDimensions.left ||
+                event.clientX > dialogDimensions.right ||
+                event.clientY < dialogDimensions.top ||
+                event.clientY > dialogDimensions.bottom
+            ) {
+                modal.close();
+
+                // Se quiser resetar os formulários ao fechar:
+                if (modal === modalPrimeiro) resetarFormularioProduto();
+                if (modal === modalTerceiro) resetarFormularioCampanha();
+            }
+        });
+    });
+
 });
 
 
@@ -564,8 +583,14 @@ function mascaraMilhar(input) {
     // Remove tudo que não for número
     let valor = input.value.replace(/\D/g, "");
 
+    // Impede zero no começo (só se tiver mais de 1 dígito)
+    if (valor.length > 1 && valor.startsWith("0")) {
+        valor = valor.replace(/^0+/, "");
+    }
+
     // Aplica separador de milhar
     valor = valor.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
 
     input.value = valor;
 }
@@ -577,5 +602,6 @@ function bloqueiaCaracteresIndesejados(event) {
         event.preventDefault();
         return false;
     }
+
 }
 
