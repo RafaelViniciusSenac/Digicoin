@@ -60,7 +60,7 @@ def logout_user(request):
 @user_required
 def home(request):
     # 1. Busca os 5 primeiros usuários
-    users = CustomUser.objects.filter(is_adm=False).order_by("-pontuacao")[:5]
+    users = CustomUser.objects.filter(is_adm=False,is_active=True).order_by("-pontuacao")[:5]
 
     # 2. Processamento dos Nomes
     if users:

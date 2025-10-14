@@ -684,6 +684,21 @@ gap: 8px;
     gap: 10px;
 }
 
+.downloadCsv{
+    text-decoration: none;
+    margin-top: 20px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.downloadCsv:hover{
+    color: grey;
+    transition: 0.5s;
+}
+
 #ZerarDialog {
 border: none;
 border-radius: 16px;
@@ -767,6 +782,8 @@ background-color: var(--magenta);
 #ZerarDialog #cancelarZerar:hover {
 background-color: #b83fd1;
 }
+
+
     /* Responsividade */
  
     /* ========== RESPONSIVIDADE ========== */

@@ -18,6 +18,7 @@ import csv
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import AllowAny
 from rest_framework.permissions import IsAuthenticated
+from django.http import HttpResponse
 
 class User(APIView):
     
@@ -506,3 +507,11 @@ class ZerarPontuacaoAPIView(APIView):
     def post(self, request):
         updated_count = CustomUser.objects.filter(is_active=True, is_adm=False).update(pontuacao=0)
         return Response({'message': f'Pontuação zerada para {updated_count} usuários.'}, status=status.HTTP_200_OK)	
+
+def modelo_csv(request):
+    response = HttpResponse(
+        "username;first_name;ra;\n",
+        content_type='text/csv'
+    )
+    response['Content-Disposition'] = 'attachment; filename="modelo_usuarios.csv"'
+    return response
