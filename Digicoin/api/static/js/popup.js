@@ -1,4 +1,3 @@
-
 if (window.Popup === undefined) {
     class Popup {
         constructor() {
@@ -13,6 +12,7 @@ if (window.Popup === undefined) {
             this.dialog = null;
             this.tipo = '';
             this.loadingTimeoutId = null;
+            this.autoCloseTimeoutId = null; // Para controlar o fechamento automático
         }
 
         injectCSS() {
@@ -180,6 +180,18 @@ if (window.Popup === undefined) {
             this.setAttributes(tipo);
             this.appendElements();
 
+            // *** Início da Alteração ***
+            if (tipo === 'sucesso') {
+                const autoCloseDelay = 3000; // Tempo padrão de 3 segundos
+                // No timeout, simula o clique no botão de fechar.
+                this.autoCloseTimeoutId = setTimeout(() => {
+                    if (this.imgClosed) {
+                        this.imgClosed.click();
+                    }
+                }, autoCloseDelay);
+            }
+            // *** Fim da Alteração ***
+
             this.popupTitulo.innerHTML = '';
             if (tipo !== 'padrao') {
                 const icon = document.createElement('img');
@@ -250,7 +262,6 @@ if (window.Popup === undefined) {
             document.body.appendChild(this.dialog);
             this.dialog.showModal();
 
-            // Salva o timeoutId para poder cancelar depois
             this.loadingTimeoutId = setTimeout(() => {
                 if (this.tipo === 'loading') {
                     this.hidePopup();
@@ -268,7 +279,19 @@ if (window.Popup === undefined) {
                 clearTimeout(this.loadingTimeoutId);
                 this.loadingTimeoutId = null;
             }
-            this.dialog.remove();
+            // *** Início da Alteração ***
+            // Limpa o timeout de fechamento automático para evitar que ele dispare o clique
+            // em um elemento que não existe mais, caso o usuário feche manualmente.
+            if (this.autoCloseTimeoutId) {
+                clearTimeout(this.autoCloseTimeoutId);
+                this.autoCloseTimeoutId = null;
+            }
+            // *** Fim da Alteração ***
+
+            if (this.dialog) {
+                this.dialog.remove();
+                this.dialog = null; // Limpa a referência
+            }
             document.body.classList.remove('no-scroll-popup-alerta');
         }
 
@@ -282,57 +305,58 @@ if (window.Popup === undefined) {
             }
         }
 
-    createElements() {
-        if (this.tipo !== 'padrao'){
-            this.dialog = document.createElement("dialog");
-        } else {
-            this.dialog = document.createElement("div");
+        createElements() {
+            if (this.tipo !== 'padrao'){
+                this.dialog = document.createElement("dialog");
+            } else {
+                this.dialog = document.createElement("div");
+            }
+            this.dialog.style.padding = "0";
+            this.dialog.style.border = "none";
+            this.dialog.style.background = "transparent";
+            this.popup = document.createElement("div");
+            this.popupHeader = document.createElement("div");
+            this.popupTitulo = document.createElement("div");
+            this.imgClosed = document.createElement("img");
+            this.popupBody = document.createElement("div");
+            this.popupFooter = document.createElement("div");
         }
-        this.dialog.style.padding = "0";
-        this.dialog.style.border = "none";
-        this.dialog.style.background = "transparent";
-        this.popup = document.createElement("div");
-        this.popupHeader = document.createElement("div");
-        this.popupTitulo = document.createElement("div");
-        this.imgClosed = document.createElement("img");
-        this.popupBody = document.createElement("div");
-        this.popupFooter = document.createElement("div");
-    }
 
-    setAttributes(tipo) {
-        this.dialog.className = tipo === 'loading' ? 'popup-alerta-dialog popup-loading' : 'popup-alerta-dialog';
-        this.popup.className = "popup-alerta-container";
-        this.popupHeader.className = "popup-alerta-header";
-        this.popupTitulo.className = `popup-alerta-titulo popup-${tipo}`;
-        this.imgClosed.className = "popup-alerta-fechar";
-        this.imgClosed.src = staticUrlImgs + "popup-x.png";
-        this.imgClosed.alt = "Fechar";
-        this.imgClosed.addEventListener("click", () => this.hidePopup());
-        this.popupBody.className = "popup-alerta-body";
-        this.popupFooter.className = "popup-alerta-footer";
-    }
-
-    appendElements() {
-        this.popupHeader.appendChild(this.popupTitulo);
-        this.popupHeader.appendChild(this.imgClosed);
-        this.popup.appendChild(this.popupHeader);
-        this.popup.appendChild(this.popupBody);
-        this.popup.appendChild(this.popupFooter);
-        this.dialog.appendChild(this.popup);
-        document.body.appendChild(this.dialog);
-        if (this.tipo !== 'padrao'){
-            this.dialog.showModal();
+        setAttributes(tipo) {
+            this.dialog.className = tipo === 'loading' ? 'popup-alerta-dialog popup-loading' : 'popup-alerta-dialog';
+            this.popup.className = "popup-alerta-container";
+            this.popupHeader.className = "popup-alerta-header";
+            this.popupTitulo.className = `popup-alerta-titulo popup-${tipo}`;
+            this.imgClosed.className = "popup-alerta-fechar";
+            this.imgClosed.src = staticUrlImgs + "popup-x.png";
+            this.imgClosed.alt = "Fechar";
+            // Este é o listener interno que fecha o popup. O clique simulado vai acioná-lo.
+            this.imgClosed.addEventListener("click", () => this.hidePopup());
+            this.popupBody.className = "popup-alerta-body";
+            this.popupFooter.className = "popup-alerta-footer";
         }
-    }
 
-    getIconSrc(tipo) {
-        switch (tipo) {
-        case 'erro': return staticUrlImgs + 'popup-erro.png';
-        case 'sucesso': return staticUrlImgs + 'popup-sucesso.png';
-        case 'confirmacao': return staticUrlImgs + 'popup-confirmacao.png';
-        default: return '';
+        appendElements() {
+            this.popupHeader.appendChild(this.popupTitulo);
+            this.popupHeader.appendChild(this.imgClosed);
+            this.popup.appendChild(this.popupHeader);
+            this.popup.appendChild(this.popupBody);
+            this.popup.appendChild(this.popupFooter);
+            this.dialog.appendChild(this.popup);
+            document.body.appendChild(this.dialog);
+            if (this.tipo !== 'padrao'){
+                this.dialog.showModal();
+            }
         }
-    }
+
+        getIconSrc(tipo) {
+            switch (tipo) {
+            case 'erro': return staticUrlImgs + 'popup-erro.png';
+            case 'sucesso': return staticUrlImgs + 'popup-sucesso.png';
+            case 'confirmacao': return staticUrlImgs + 'popup-confirmacao.png';
+            default: return '';
+            }
+        }
     }
 
     window.confirmarAcao = function(mensagem, titulo = 'Confirmação') {
