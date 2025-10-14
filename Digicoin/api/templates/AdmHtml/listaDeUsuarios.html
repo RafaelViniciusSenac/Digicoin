@@ -262,6 +262,14 @@
     <label for="csvFileInput">Arquivo CSV:</label>
     <input type="file" id="csvFileInput" name="csv_file" accept=".csv" />
     <button type="submit">Enviar</button>
+
+     <a class='downloadCsv'
+      href="{% static 'modelos/modelo_usuarios.csv' %}" 
+      download="modelo_usuarios.csv"
+      >
+      <img src="{% static 'img/export.png' %}" alt="Exportar" style="width: 28px; height: 28px;">
+      Baixar modelo CSV
+  </a>
   </form>
 </dialog>
 
