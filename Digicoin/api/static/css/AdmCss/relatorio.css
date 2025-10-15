@@ -62,9 +62,12 @@
     gap: 20px;
 }
 
+/* MODIFICAÇÃO PARA CURSOR POINTER NA LINHA */
 .tabela_relatorio_body tr {
     width: 100%;
+    cursor: pointer;
 }
+/* FIM MODIFICAÇÃO */
 
 .tabela_relatorio_conteudo-relatorio {
     display: flex;
@@ -84,7 +87,7 @@ input[type="checkbox"] {
     border-color: var(--magenta);
     border-radius: 4px;
     position: relative;
-    cursor: pointer;
+    cursor: pointer; /* Já tinha, mas mantido para clareza */
     background-color: #fff;
     transition: background-color 0.3s ease, border-color 0.3s ease;
 }
@@ -102,10 +105,15 @@ input[type="checkbox"]:checked + label::before {
     color: white;
 }
 
+
 label {
     display: block;
     width: 100%;
     height: 100%;
+}
+
+label:hover{
+    cursor: pointer;
 }
 
 .tabela_relatorio_conteudo_dado-relatorio {
@@ -120,7 +128,7 @@ label {
     border-radius: 12px;
     padding: 15px;
     box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.05);
-    width: 100%;  /* A célula ocupa toda a largura */
+    width: 100%;
 }
 
 .tabela_relatorio_conteudo_dado-relatorio img {
@@ -132,9 +140,6 @@ label {
     font-size: 16px;
     font-weight: bold;
 }
-
-
-
 
 @media (max-width: 1385px) {
     .container-relatorio {
@@ -151,7 +156,7 @@ label {
         padding: 20px;
         padding-left: 20px;
         width: 80%;
-    } 
+    }
 }
 
 @media (max-width: 768px) {
@@ -159,7 +164,7 @@ label {
     .container-relatorio {
         margin-left: auto;
         margin-right: auto;
-    } 
+    }
 
     .cabecalho-relatorio{
         display: flex;
@@ -170,7 +175,7 @@ label {
     .cabecalho_btnexportar-relatorio{
         width: 100%;
     }
-    
+
     .cabecalho_btnexportar-relatorio button{
         margin: 0;
         width: 100%;

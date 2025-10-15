@@ -10,14 +10,14 @@
         <div class="cabecalho_titulo-relatorio">
             <h1><span>Rela</span>tórios</h1>
         </div>
-        <div class="cabecalho_btnexportar-relatorio">           
+        <div class="cabecalho_btnexportar-relatorio">
             <button id="exportButton"><img src="{% static 'img/export.png' %}" alt="Exportar" style="width: 28px; height: 28px;">Exportar</button>
         </div>
     </div>
     <div class="relatorio">
         <table class="tabela_relatorio">
             <tbody  class="tabela_relatorio_body">
-                <tr>
+                <tr class="linha-relatorio" data-checkbox-id="vendasCheckbox">
                     <td class="tabela_relatorio_conteudo-relatorio">
                         <div class="tabela_relatorio_conteudo_checkbox-relatorio">
                             <input type="checkbox" id="vendasCheckbox" name="checkbox" />
@@ -29,7 +29,7 @@
                         </div>
                     </td>
                 </tr>
-                <tr>
+                <tr class="linha-relatorio" data-checkbox-id="produtosMaisVendidosCheckbox">
                     <td class="tabela_relatorio_conteudo-relatorio">
                         <div class="tabela_relatorio_conteudo_checkbox-relatorio">
                             <input type="checkbox" id="produtosMaisVendidosCheckbox" name="checkbox" />
@@ -41,7 +41,7 @@
                         </div>
                     </td>
                 </tr>
-                <tr>
+                <tr class="linha-relatorio" data-checkbox-id="usuariosMaisMoedasCheckbox">
                     <td class="tabela_relatorio_conteudo-relatorio">
                         <div class="tabela_relatorio_conteudo_checkbox-relatorio">
                             <input type="checkbox" id="usuariosMaisMoedasCheckbox" name="checkbox" />
@@ -61,7 +61,9 @@
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const checkboxes = document.querySelectorAll("input[name=\"checkbox\"]");
+        const linhasRelatorio = document.querySelectorAll(".linha-relatorio"); // Seleciona todas as linhas
 
+        // Lógica original para garantir que apenas uma checkbox esteja selecionada
         checkboxes.forEach(function(checkbox) {
             checkbox.addEventListener("change", function() {
                 if (this.checked) {
@@ -74,6 +76,26 @@
             });
         });
 
+        // NOVA LÓGICA: Selecionar a checkbox ao clicar na linha
+        linhasRelatorio.forEach(function(linha) {
+            linha.addEventListener("click", function(event) {
+                const checkboxId = linha.getAttribute("data-checkbox-id");
+                const checkbox = document.getElementById(checkboxId);
+
+                // Se o clique não foi diretamente no input ou label, alternar o estado da checkbox
+                // Isso evita que o clique duplo ocorra (um pelo evento na linha e outro no input/label)
+                if (event.target !== checkbox && event.target.tagName !== 'LABEL') {
+                    checkbox.checked = !checkbox.checked;
+
+                    // Acionar o evento 'change' da checkbox para executar a lógica de desmarcação das outras
+                    const changeEvent = new Event('change');
+                    checkbox.dispatchEvent(changeEvent);
+                }
+            });
+        });
+
+
+        // Lógica de exportação original
         document.getElementById("exportButton").addEventListener("click", function() {
             var vendasChecked = document.getElementById("vendasCheckbox").checked;
             var produtosMaisVendidosChecked = document.getElementById("produtosMaisVendidosCheckbox").checked;
