@@ -25,13 +25,13 @@
             <div class="ladoEsquerdo">
                 <div class="FormProduto">
                     <label for="Produto">Nome do Produto:</label>
-                    <input type="text" id="Produto" placeholder="Produto" class="alertaInput" maxlength="55">
+                    <input type="text" id="Produto" placeholder="Produto" class="alertaInput" maxlength="20">
                     <small class="alerta">Mensagem de erro</small>
                 </div>
                 <div class="FormDescricao">
                     <label for="Descricao">Descrição:</label>
                     <input type="text" id="Descricao" placeholder="Descrição do produto"
-                        maxlength="250" class="alertaInput">
+                        maxlength="50" class="alertaInput">
                     <small class="alerta">Mensagem de erro</small>
                 </div>
                 <div class="FormQuantidade">
@@ -39,7 +39,8 @@
                     <input type="text" id="Quantidade" placeholder="Quantidade" 
                         oninput="mascaraMilhar(this)" 
                         onkeydown="return bloqueiaCaracteresIndesejados(event)" 
-                        maxlength="9" class="alertaInput">
+                        maxlength="9" class="alertaInput"
+                        >
                     <small class="alerta">Mensagem de erro</small>
                 </div>
                 <div class="FormPreco">
@@ -183,13 +184,13 @@
                     <div class="miniContainer">
                         <div class="cadastroEventoTema">
                             <label for="nomeCampanha">Nome da Campanha</label>
-                            <input type="text" id="nomeCampanha" placeholder="Nome da Campanha" class="alertaInput" maxlength="55">
+                            <input type="text" id="nomeCampanha" placeholder="Nome da Campanha" class="alertaInput" maxlength="20">
                             <small class="alerta">Mensagem de erro</small>
                         </div>
 
                     {% comment %} <div class="cadastroEventoDescricao">
                         <label for="descricaoCampanha">Descrição (Opcional)</label>
-                        <textarea id="descricaoCampanha" cols="30" rows="10" placeholder="Digite aqui..."></textarea>
+                        <textarea id="descricaoCampanha" cols="30" rows="10" placeholder="Digite aqui..." maxlength="50"></textarea>
                     </div> {% endcomment %}
                 
                         <div class="fim">

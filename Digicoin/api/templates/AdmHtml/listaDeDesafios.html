@@ -270,6 +270,32 @@
     barraBusca.addEventListener("input", function() {
         aplicarFiltro(this.value);
     });
+
+
+    const modalDesafio = document.getElementById("popUpAdicionarDesafio");
+
+    [modalDesafio].forEach(modal => {
+        modal.addEventListener("click", (event) => {
+            const dialogDimensions = modal.getBoundingClientRect();
+            if (
+                event.clientX < dialogDimensions.left ||
+                event.clientX > dialogDimensions.right ||
+                event.clientY < dialogDimensions.top ||
+                event.clientY > dialogDimensions.bottom
+            ) {
+                modal.close();
+
+                // Se quiser resetar o formulário ao fechar:
+                resetarFormularioDesafio();
+            }
+        });
+    });
+
+    function resetarFormularioDesafio() {
+        const form = document.getElementById("formDesafio");
+        if (form) form.reset();
+    }
+
 </script>
 
 

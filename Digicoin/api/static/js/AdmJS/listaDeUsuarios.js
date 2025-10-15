@@ -208,6 +208,37 @@ document.addEventListener('DOMContentLoaded', () => {
       configurarPopupEdicao(popup, { id: idUsuario });
     }
   });
+
+  
+      const modais = [
+          document.getElementById("popupCadastrarUsuario"),
+          document.getElementById("popupAdicionarMoedas"),
+          document.getElementById("popupUsuariosEmMassa"),
+          ...document.querySelectorAll(".editarUsuario"),
+          document.getElementById("ZerarDialog")
+      ];
+
+      modais.forEach(modal => {
+          if (!modal) return;
+
+          modal.addEventListener("click", (event) => {
+              const rect = modal.getBoundingClientRect();
+              const clicouFora =
+                  event.clientX < rect.left ||
+                  event.clientX > rect.right ||
+                  event.clientY < rect.top ||
+                  event.clientY > rect.bottom;
+
+              if (clicouFora) {
+                  modal.close();
+
+                  // Limpar todos os formulários dentro do modal
+                  const forms = modal.querySelectorAll("form");
+                  forms.forEach(form => form.reset());
+              }
+          });
+      });
+
 });
 
 // === FUNÇÕES GLOBAIS ===
