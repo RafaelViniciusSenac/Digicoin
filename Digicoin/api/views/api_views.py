@@ -18,6 +18,7 @@ import csv
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import AllowAny
 from rest_framework.permissions import IsAuthenticated
+from django.db import transaction
 from django.http import HttpResponse
 
 class User(APIView):
@@ -252,49 +253,70 @@ class CadastrarCompraView(APIView):
         # adiciona o id do usuário ao dadosCompra
         dadosCompra['idUsuario'] = usuario_id
 
-        # Verifica se o usuário tem moeda suficiente
-        usuario = CustomUser.objects.get(id=usuario_id)
-        total_custo = dadosCompra['total']
-        if usuario.saldo < total_custo:
-            return Response({"error": "Usuário não tem saldo suficiente.", "status":status.HTTP_400_BAD_REQUEST})
+        try:
+            with transaction.atomic():
+                # --- 1. Verificação de Saldo do Usuário ---
+                usuario = CustomUser.objects.select_for_update().get(id=usuario_id)
+                total_custo = dadosCompra['total']
+                if usuario.saldo < total_custo:
+                    # Retorno idêntico ao original
+                    return Response({"error": "Usuário não tem saldo suficiente.", "status":status.HTTP_400_BAD_REQUEST})
 
-        # Verifica se os produtos têm quantidade suficiente
-        erros = []
-        for item in itensCompra:
-            produto = Produto.objects.get(id=item['idProduto'])
-            if produto.quantidade < item['qtdProduto']:
-                erros.append(f"Produto {produto.nome} não tem quantidade suficiente.")
+                # --- 2. Verificação de Estoque dos Produtos ---
+                erros = []
+                produtos_a_serem_atualizados = []
+                for item in itensCompra:
+                    # Trava a linha do produto no banco de dados para evitar condição de corrida
+                    produto = Produto.objects.select_for_update().get(id=item['idProduto'])
+                    if produto.quantidade < item['qtdProduto']:
+                        erros.append(f"Produto {produto.nome} não tem quantidade suficiente.")
+                    else:
+                        # Prepara o produto para a atualização
+                        produto.quantidade -= item['qtdProduto']
+                        produtos_a_serem_atualizados.append(produto)
+                
+                if erros:
+                    # Retorno idêntico ao original
+                    return Response({"error": erros, "status":status.HTTP_400_BAD_REQUEST})
+
+                # --- 3. Criação da Compra ---
+                compraSerializer = CompraSerializer(data=dadosCompra)
+                if compraSerializer.is_valid():
+                    compra = compraSerializer.save()
+                else:
+                    # Retorno idêntico ao original
+                    return Response(compraSerializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+                # --- 4. Criação dos Itens da Compra e Atualização do Estoque ---
+                erros_itens = []
+                for item in itensCompra:
+                    item['idCompra'] = compra.id
+                    itemSerializer = ItensCompraSerializer(data=item)
+                    if itemSerializer.is_valid():
+                        itemSerializer.save()
+                    else:
+                        erros_itens.append(itemSerializer.errors)
+                
+                if erros_itens:
+                     # A transação será revertida, mas mantemos o retorno original
+                    return Response(erros_itens, status=status.HTTP_400_BAD_REQUEST)
+
+                # Se tudo correu bem, salva as alterações nos produtos
+                for produto in produtos_a_serem_atualizados:
+                    produto.save()
+
+                # --- 5. Atualização do Saldo do Usuário ---
+                usuario.saldo -= total_custo
+                usuario.save()
+
+        except Produto.DoesNotExist:
+            return Response({"error": "Um dos produtos não foi encontrado.", "status": status.HTTP_404_NOT_FOUND})
+        except Exception as e:
+            # Captura outras exceções para evitar que a aplicação quebre
+            return Response({"error": f"Ocorreu um erro inesperado: {str(e)}", "status": status.HTTP_500_INTERNAL_SERVER_ERROR})
         
-        if erros:
-            return Response({"error": erros, "status":status.HTTP_400_BAD_REQUEST})
-
-        # Cria a compra
-        compraSerializer = CompraSerializer(data=dadosCompra)
-        if compraSerializer.is_valid():
-            compra = compraSerializer.save()
-        else:
-            return Response(compraSerializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-        # Cria os itens de compra
-        for item in itensCompra:
-            item['idCompra'] = compra.id
-            itemSerializer = ItensCompraSerializer(data=item)
-            if itemSerializer.is_valid():
-                itemSerializer.save()
-                produto.quantidade -= item['qtdProduto']
-                produto.save()
-            else:
-                erros.append(itemSerializer.errors)
-
-        if erros:
-            return Response(erros, status=status.HTTP_400_BAD_REQUEST)
-
-        # Deduzir moeda do usuário
-        usuario.saldo -= total_custo
-        usuario.save()
-
+        # Retorno de sucesso idêntico ao original
         return Response({"message": "Compra e itens criados com sucesso!", "status": status.HTTP_201_CREATED})
-    
  
 class HistoricoSaldoUsuarioView(APIView):
     permission_classes = [IsAuthenticated]
