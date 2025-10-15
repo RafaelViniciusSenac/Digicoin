@@ -212,6 +212,11 @@ function mascaraMilhar(input) {
 // Para aplicar ao valor vindo do banco
 function aplicarMascaraMilhar(valor) {
     valor = valor.replace(/\D/g, "");
+    // Impede zero no começo (só se tiver mais de 1 dígito)
+    if (valor.length > 1 && valor.startsWith("0")) {
+        valor = valor.replace(/^0+/, "");
+    }
+    
     return valor.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
