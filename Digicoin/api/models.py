@@ -8,8 +8,8 @@ class CustomUser(AbstractUser):
     is_adm = models.BooleanField(default=False)
     ra = models.CharField(max_length=30, null=False, blank=False, default=False)
     imgPerfil = models.ImageField(upload_to='usuarios/', null=True, blank=True)
-    saldo = models.IntegerField(default=0)
-    pontuacao = models.IntegerField(default=0)
+    saldo = models.PositiveIntegerField(default=0)
+    pontuacao = models.PositiveIntegerField(default=0)
     primeiroAcesso = models.BooleanField(default=True)
 
 
