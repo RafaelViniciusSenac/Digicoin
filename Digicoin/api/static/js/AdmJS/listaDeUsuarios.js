@@ -250,7 +250,7 @@ async function alterarSenha(usuarioId) {
   try {
     const csrf = document.querySelector('[name=csrfmiddlewaretoken]')?.value || '';
     const response = await apiRequest(`/api/reset-password/${usuarioId}/`, 'POST', {}, { 'X-CSRFToken': csrf });
-    if (response.status === 200) {
+    if (response) {
       showPopup('Senha redefinida com sucesso!', 'Sucesso', 'sucesso');
     } else {
       showPopup('Erro ao redefinir senha: ' + (response.error || 'Erro desconhecido'), 'Erro', 'erro');
