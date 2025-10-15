@@ -108,8 +108,7 @@ class User(APIView):
                 usuario.saldo += saldo
 
             elif operacao == 'remover':
-                if usuario.saldo < saldo:
-                    return Response({"erro": "Saldo insuficiente."}, status=status.HTTP_400_BAD_REQUEST)
+                
                 usuario.pontuacao -= saldo
                 usuario.saldo -= saldo
 
