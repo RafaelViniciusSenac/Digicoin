@@ -36,7 +36,7 @@
 
     <div class="input-cadastrarUsuario">
       <label for="">RA do Usuário</label>
-      <input type="number" id="ra" class="ra" placeholder="23317444" />
+      <input type="text" id="ra" class="ra" placeholder="23317444" onkeydown="return bloqueiaCaracteresIndesejados(event)"  />
     </div>
 
     <div class="input-cadastrarUsuario">
@@ -60,5 +60,16 @@
   </form>
 </div>
 
+<script> 
+  function bloqueiaCaracteresIndesejados(event) {
+
+      const caracteresBloqueados = [",", ".", "-", "+", "e"]; 
+      if (caracteresBloqueados.includes(event.key)) {
+          event.preventDefault();
+          return false;
+      }
+  }
+
+</script>
 <script src="{% static 'js/AdmJS/cadastrarUsuario.js' %}"></script>
 {% endblock content %}

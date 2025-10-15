@@ -119,7 +119,7 @@
 
             <div class="form-group">
                 <label for="ra-{{usuario.id}}" class="form-label">RA do Usuário</label>
-                <input type="number" id="ra-{{usuario.id}}" class="form-input ra" value="{{usuario.ra}}" />
+                <input type="number" id="ra-{{usuario.id}}" class="form-input ra" value="{{usuario.ra}}" onkeydown="return bloqueiaCaracteresIndesejados(event)"/>
             </div>
 
             <div class="form-group">
@@ -197,7 +197,7 @@
 
       <div class="input-cadastrarUsuario">
         <label for="">RA do Usuário</label>
-        <input type="number" id="ra" class="ra" placeholder="Digite o ra" />
+        <input type="number" id="ra" class="ra" placeholder="Digite o ra" onkeydown="return bloqueiaCaracteresIndesejados(event)" />
       </div>
 
       <div class="input-cadastrarUsuario">
@@ -229,7 +229,7 @@
         <h1>Gerenciar digicoins</h1>
         <div class="quantidade-adicionarMoedas">
           <label>Quantidade a ser adicionada ou removida</label>
-          <input class="quantidadeInput-adicionarMoedas" id="saldo" type="number" placeholder="5.000" />
+          <input class="quantidadeInput-adicionarMoedas" id="saldo" type="number" placeholder="5.000" onkeydown="return bloqueiaCaracteresIndesejados(event)"/>
         </div>
       </div>
       <div class="botoes-adicionarMoedas">
@@ -272,6 +272,7 @@
   </a>
   </form>
 </dialog>
+
 
 <script src="{% static 'js/AdmJS/listaDeUsuarios.js' %}"></script>
 <script src="{% static 'js/AdmJS/cadastrarUsuario.js' %}"></script>

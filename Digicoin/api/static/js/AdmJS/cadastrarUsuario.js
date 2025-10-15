@@ -5,6 +5,7 @@ async function cadastrar(evento) {
     var email = document.getElementById("email").value 
     const ra = document.getElementById("ra").value 
 
+
     const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value
     const senha = document.getElementById("senha").value
    
@@ -33,5 +34,15 @@ async function cadastrar(evento) {
         showPopup('Erro ao cadastrar usuário: ' + error, 'Erro', 'erro');
         console.log("Deu erro" + error);
     }
-    
+
+
 }
+
+function bloqueiaCaracteresIndesejados(event) {
+
+      const caracteresBloqueados = [",", ".", "-", "+", "e"]; 
+      if (caracteresBloqueados.includes(event.key)) {
+          event.preventDefault();
+          return false;
+      }
+  }
