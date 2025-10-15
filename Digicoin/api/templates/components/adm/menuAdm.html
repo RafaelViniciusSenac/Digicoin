@@ -81,7 +81,7 @@
 <div class="top-menuAdm">
     <div class="perfil-menuAdm">
         <img src="{% static 'img/iconeUsuario.png' %}" alt="">
-        <p>Administrador</p>
+        <p>{{ request.user.username }}</p>
     </div>
 </div>
 
