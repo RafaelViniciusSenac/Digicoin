@@ -5,6 +5,11 @@ from ...models import CustomUser
 ADMINS_TO_CREATE = [
     {'username': 'admin1', 'email': 'admin1@example.com', 'password': 'password123'},
     {'username': 'admin2', 'email': 'admin2@example.com', 'password': 'password123'},
+    {'username': 'admin3', 'email': 'admin3@example.com', 'password': 'password123'},
+    {'username': 'admin4', 'email': 'admin4@example.com', 'password': 'password123'},
+    {'username': 'admin5', 'email': 'admin5@example.com', 'password': 'password123'},
+    {'username': 'admin6', 'email': 'admin6@example.com', 'password': 'password123'},
+    {'username': 'admin7', 'email': 'admin7@example.com', 'password': 'password123'},
     # Adicione mais administradores aqui se precisar
 ]
 
