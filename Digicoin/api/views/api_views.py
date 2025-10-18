@@ -397,7 +397,7 @@ class ResetUserPasswordView(APIView):
                 to=usuario.username,  # ou usuario.email, se for o caso
                 subject='[Digicoin] Sua senha foi redefinida',
                 contents=(
-                    f'Olá {usuario.first_name},\n\n',
+                    f'Olá {usuario.first_name},\n\n'
                     f'Sua nova senha é {usuario.password}'
 
                 )
