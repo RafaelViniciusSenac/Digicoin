@@ -70,12 +70,16 @@ document.addEventListener('DOMContentLoaded', () => {
         if (response.ok) {
             showPopup(data.message || 'Pontuação zerada com sucesso!', 'Sucesso', 'sucesso');
             zerarDialog.close();
+            setTimeout(() => {
+              location.reload();
+            }, 1500);
         } else {
             showPopup(data.message || 'Erro ao zerar pontuação.', 'Erro', 'erro'); 
         }
     } catch (error) {
         loadingPopup.hidePopup();
         showPopup('Erro ao zerar pontuação: ' + error, 'Erro', 'erro');
+        window.location.reload();
     }
   });
 
