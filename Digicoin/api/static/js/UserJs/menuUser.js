@@ -45,6 +45,13 @@ document.addEventListener("DOMContentLoaded", function() {
                 `;
             });
         }
+        else{
+            notificacoes.innerHTML += `
+                    <div class="notificacao" id="notificacao-menuUser">
+                        <h2>Ainda não há notificações no sistema</h2>
+                    </div>
+                `;
+        }
     }
     const userId = localStorage.getItem('userId')
     GetNotificacao(userId)
