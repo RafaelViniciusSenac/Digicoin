@@ -4,12 +4,18 @@ document.addEventListener('DOMContentLoaded', () => {
   const searchInput = document.getElementById('barraBusca-listaDeUsuarios');
   let debounceTimer;
 
+  if (searchInput.value) {
+      searchInput.focus(); 
+      const valLength = searchInput.value.length;
+      searchInput.setSelectionRange(valLength, valLength);
+  }
+  
   searchInput?.addEventListener('input', () => {
     clearTimeout(debounceTimer);
     // Espera 500ms após o usuário parar de digitar para recarregar a página com o filtro
     debounceTimer = setTimeout(() => {
       searchForm.submit();
-    }, 500);
+    }, 100);
   });
 
   // --- Elementos e Eventos dos Popups ---
