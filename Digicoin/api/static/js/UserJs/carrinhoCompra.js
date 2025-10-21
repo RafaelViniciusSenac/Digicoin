@@ -110,10 +110,12 @@ document.addEventListener("DOMContentLoaded", () => {
       let valor = parseFloat(item.valorProduto);
       let qtd = parseInt(1);
       let totalProduto = qtd * valor;
+      let totalProdutoFormatado = aplicarMascaraPontuacao(totalProduto);
+      // aplicarMascaraPontuacaoElemento(totalProduto);
       let gridRow = `
         <div class="itemGridRow-carrinhoCompras">
           <div class="itemGridCell-carrinhoCompras col-produto" data-label="Produto">${item.nomeProduto}</div>
-          <div class="itemGridCell-carrinhoCompras col-valor" data-label="Valor"><span class="cor-moeda-carrinhoCompras">D$</span> <span class="cor-valor-carrinhoCompras">${totalProduto}</span></div>
+          <div class="itemGridCell-carrinhoCompras col-valor" data-label="Valor"><span class="cor-moeda-carrinhoCompras">D$</span> <span class="cor-valor-carrinhoCompras">${totalProdutoFormatado}</span></div>
           <div class="itemGridCell-carrinhoCompras col-acoes" data-label="Ações"><button class="botao-remover-carrinhoCompras" data-id="${item.idProduto}"><img src="${imgRemoverSrc}"></button></div>
         </div>
       `;
@@ -145,8 +147,16 @@ document.addEventListener("DOMContentLoaded", () => {
       } else {
         botaoFinalizar.disabled = true;
       }
-      valorTotal.textContent = valorTotalCarrinho;
+      valorTotal.textContent = aplicarMascaraPontuacao(valorTotalCarrinho);
     }
   };
   const carrinho = new Grid(grid, config);
 });
+
+function aplicarMascaraPontuacao(valor) {
+    valor = String(valor).replace(/\D/g, ""); // remove tudo que não é número
+    if (valor.length > 1 && valor.startsWith("0")) {
+        valor = valor.replace(/^0+/, ""); // remove zeros à esquerda
+    }
+    return valor.replace(/\B(?=(\d{3})+(?!\d))/g, "."); // adiciona ponto a cada 3 dígitos
+}

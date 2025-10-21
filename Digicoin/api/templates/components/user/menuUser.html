@@ -28,7 +28,7 @@
             <img src="{% static 'img/flecha.png'%}" alt="" class="imgFlechaPerfil" id='imgFlechaPerfil'>
             <div class="usuario">
                 <p id='nomeUsuario'></p>
-                <p class="digicoin">DG$ <spam class="valor" id='saldo'></spam> </p>
+                <p class="digicoin">DG$ <span class="valor pontuacao" id='saldo'></span> </p>
             </div>
 
             <div class="flechaDropdownContainer">
@@ -95,3 +95,10 @@
 
 
 <script src="{% static 'js/UserJs/menuUser.js' %}"></script>
+<script src="{% static 'js/AdmJS/mascara.js' %}"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const saldo = document.getElementById("saldo");
+    if (saldo) aplicarMascaraPontuacaoElemento(saldo);
+});
+</script>
