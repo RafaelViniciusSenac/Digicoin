@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from api.models import *
+from django.utils import timezone
 from django.core.paginator import Paginator
 from ..serializers import UsuarioComHistoricoSerializer
 from django.contrib.auth.decorators import login_required
@@ -535,12 +536,14 @@ def exportar_vendas_excel(request):
     print(compras)
     for compra in compras:
         print(compra)
+        # 
+        data_local_compra = timezone.localtime(compra.dataCompra)
         # Buscar itens da compra
         itens_compra = ItensCompra.objects.filter(idCompra=compra)
         
         for item in itens_compra:
             ws.cell(row=row, column=1, value=compra.id)
-            ws.cell(row=row, column=2, value=compra.dataCompra.strftime('%d/%m/%Y %H:%M'))
+            ws.cell(row=row, column=2, value=data_local_compra.strftime('%d/%m/%Y %H:%M'))
             ws.cell(row=row, column=3, value=f"{compra.idUsuario.first_name}")
             ws.cell(row=row, column=4, value=compra.idUsuario.ra)
             ws.cell(row=row, column=5, value=item.idProduto.nome)
@@ -563,7 +566,8 @@ def exportar_vendas_excel(request):
     )
     
     # Nome do arquivo com data atual
-    filename = f"relatorio_vendas_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx"
+    agora_local = timezone.localtime(timezone.now())
+    filename = f"relatorio_vendas_{agora_local.strftime('%Y%m%d_%H%M%S')}.xlsx"
     response['Content-Disposition'] = f'attachment; filename="{filename}"'
     
     # Salvar workbook na resposta
