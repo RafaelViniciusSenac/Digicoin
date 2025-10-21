@@ -10,28 +10,33 @@
 @import url('https://fonts.googleapis.com/css2?family=Quantico:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 </style>
 
-<section class="inicio">
+<section id="inicio">
     <div class="gradient"></div>
     <div class="texto">
         <h1>Fábrica de Software</h1>
         <h2>Turma 31, o marco de um novo capítulo, o alicerce de uma vida transformada.</h2>
-        <button class="super-button">
+        <a class="super-button" href="#sobre">
             <span>Ver Mais</span>
             <svg fill="none" viewBox="0 0 24 24" class="arrow">
                 <path
-                stroke-linejoin="round"
-                stroke-linecap="round"
-                stroke-width="2"
-                stroke="currentColor"
-                d="M5 12h14M13 6l6 6-6 6"
+                    stroke-linejoin="round"
+                    stroke-linecap="round"
+                    stroke-width="2"
+                    stroke="currentColor"
+                    d="M5 12h14M13 6l6 6-6 6"
                 ></path>
             </svg>
-        </button>
+        </a>
     </div>
-
 </section>
 
-<section>
+<section id="sobre">
+    <div class="sobre-component">
+        <div class="icon"></div>
+    </div>
+</section>
+
+<section id="professores">
     <h3>Professores</h3>
     {% for professor in professores %}
         <div>
@@ -40,7 +45,7 @@
     {% endfor %}
 </section>
 
-<section>
+<section id="desenvolvedores">
     <h3>Desenvolvedores</h3>
     {% for dev in devs %}
         <div>

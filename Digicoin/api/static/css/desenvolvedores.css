@@ -7,9 +7,16 @@
   }
 }
 
-.inicio {
-  width: 100%;
+html {
+    scroll-behavior: smooth;
+}
+
+#inicio, #sobre, #professores, #desenvolvedores{
   height: 100vh;
+}
+
+#inicio {
+  width: 100%;
   position: relative;
   display: flex;
   justify-content: center;
@@ -43,7 +50,7 @@
   z-index: 10;
   text-align: center;
   width: 100%;
-  top: 25%;
+  top: 27%;
 }
 
 body {
@@ -68,7 +75,6 @@ body {
 
 section {
   width: 100%;
-  padding: 50px 0;
   text-align: center;
 }
 
@@ -109,7 +115,7 @@ h1 {
   backdrop-filter: blur(8px);
   z-index: 1;
   width: 13%;
-  margin-top: 10%;
+  margin-top: 15%;
 }
 
 .super-button::before {
@@ -155,3 +161,4 @@ h1 {
     transform: rotate(360deg);
   }
 }
+
