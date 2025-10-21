@@ -20,6 +20,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.permissions import IsAuthenticated
 from django.db import transaction
 from django.http import HttpResponse
+from email_validator import validate_email, EmailNotValidError
 
 class User(APIView):
     
@@ -46,50 +47,73 @@ class User(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        nome = request.data.get('nome')
+        nome = request.data.get('nome')  # presumivelmente o e-mail
         senha = request.data.get('senha')
         ra = request.data.get('ra')
         firstName = request.data.get('first_name')
         isAdm = request.data.get('is_adm')
-        
 
-        if not nome or not senha:
-            return Response({"error": "Todos os campos são obrigatórios!", "status": status.HTTP_400_BAD_REQUEST}, status= status.HTTP_400_BAD_REQUEST)
+        # Verificação de campos obrigatórios
+        if not nome or not senha or not ra or not firstName:
+            return Response(
+                {"error": "Todos os campos são obrigatórios!"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
+        # Validação do e-mail
+        try:
+            valid = validate_email(nome)
+            email = valid.email  # normaliza o e-mail (ex: remove espaços, corrige maiúsculas)
+        except EmailNotValidError:
+            return Response(
+                {"error": "O campo 'nome' deve ser um e-mail válido."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Verificar se o e-mail já existe (opcional, mas recomendado)
+        if CustomUser.objects.filter(username=email).exists():
+            return Response(
+                {"error": "Este e-mail já está cadastrado."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Criar usuário
         usuario = CustomUser.objects.create(
-            username = nome,
-            password = make_password(senha),
-            is_active = True,
-            first_name = firstName,
-            is_adm = isAdm,
-            ra = ra
+            username=email,
+            password=make_password(senha),
+            is_active=True,
+            first_name=firstName,
+            is_adm=isAdm,
+            ra=ra
         )
 
-        # Enviar email após cadastro #
+        # Enviar e-mail
         load_dotenv()
-
         yag = yagmail.SMTP(
             user=os.getenv("EMAIL_USER"),
             password=os.getenv("EMAIL_PASSWORD"),
             host=os.getenv("EMAIL_HOST"),
             port=int(os.getenv("EMAIL_PORT")),
-            smtp_starttls=True,       
-            smtp_ssl=False    
+            smtp_starttls=True,
+            smtp_ssl=False
         )
 
         yag.send(
-            to=usuario.username,
-            subject='Bem vindo ao Sistema Digicoin',
+            to=email,
+            subject='Bem-vindo ao Sistema Digicoin',
             contents=(
                 f'Nome: {firstName}\n'
                 f'RA: {ra}\n'
-                f'Login: {nome}\n'
+                f'Login: {email}\n'
                 f'Senha: {senha}\n'
-                f"Altere sua senha depois do primeiro acesso."
+                "Altere sua senha após o primeiro acesso."
             )
         )
 
-        return Response({"message":"Usuário criado com sucesso!", "id":usuario.id, "status": status.HTTP_201_CREATED})
+        return Response(
+            {"message": "Usuário criado com sucesso!", "id": usuario.id},
+            status=status.HTTP_201_CREATED
+        )
 
     def put(self, request, id):
         usuario = get_object_or_404(CustomUser, pk=id)
@@ -398,7 +422,7 @@ class ResetUserPasswordView(APIView):
                 subject='[Digicoin] Sua senha foi redefinida',
                 contents=(
                     f'Olá {usuario.first_name},\n\n'
-                    f'Sua nova senha é {nova_senha}.\n\n'
+                    f'Sua nova senha é {usuario.password}'
 
                 )
             )
