@@ -148,6 +148,11 @@ document.addEventListener('DOMContentLoaded', () => {
         showPopup('Digite um valor válido e positivo!', 'Erro', 'erro');
         return;
       }
+      else if (valor > 100000000) {
+        showPopup('Digite um valor menor ou igual a 100 Mil!', 'Erro', 'erro');
+        return;
+      }
+      
       try {
         await Promise.all(usuariosSelecionados.map(usuario => 
           apiRequest(`/api/user/${usuario.id}`, 'PUT', { operacao, saldo: valor }, { 'X-CSRFToken': csrf })
