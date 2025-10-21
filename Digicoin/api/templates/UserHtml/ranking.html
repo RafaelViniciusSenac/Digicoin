@@ -3,12 +3,32 @@
 {% block content %}
 <link rel="stylesheet" href="{% static 'css/UserCss/ranking.css' %}">
 <style>
+    /* ... Seus estilos existentes ... */
     @import url('https://fonts.googleapis.com/css2?family=K2D:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
 
     .ranking__list--highlight {
         background-color: #f0f8ff; /* Cor de fundo clara para destaque */
         border: 2px solid #4682b4; /* Borda azul para destaque */
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    }
+    
+    .usuario__status-zero-pontos {
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ffcc00; /* Borda amarela suave para destaque */
+        background-color: #fffacd; /* Cor de fundo clara */
+        border-radius: 5px;
+        font-size: 0.9em;
+        text-align: center;
+        color: #333;
+    }
+    .ranking__message-bottom {
+        text-align: center;
+        margin-top: 20px;
+        padding: 10px;
+        background-color: #f8f8f8;
+        border-radius: 5px;
+        color: #6c757d;
     }
 </style>
 
@@ -19,26 +39,49 @@
         <div class="title-ranking__ranking">Ranking</div>
         <div class="title-ranking__line"></div>
     </div>
+    
+
     <div class="ranking">
-        {% for user in top_usuarios %}
-            <article class="ranking__list {% if user.id == usuario_logado.id %}ranking__list--highlight{% endif %}">
-                <div class="usuario__classificacao">{{ forloop.counter }}</div>
-                <div class="usuario__dados">
-                    <div class="usuario__dados-nome">{{ user.first_name }}</div>
-                    <div class="usuario__dados-saldo"><div class="dg">Pontuação</div> {{ user.pontuacao }}</div>
-                </div>
-            </article>
-        {% endfor %}
-        {% if mostrar_usuario_logado %}
-            <article class="ranking__list ranking__list--highlight">
-                <div class="usuario__classificacao">{{ usuario_logado.posicao }}</div>
-                <div class="usuario__dados">
-                    <div class="usuario__dados-nome">{{ usuario_logado.first_name }}</div>
-                    <div class="usuario__dados-saldo"><div class="dg">Pontuação</div> {{ usuario_logado.pontuacao }}</div>
-                </div>
-            </article>
+        
+       
+        {% if not ranking_vazio %}
+    
+            {% for user in top_usuarios %}
+                <article class="ranking__list {% if user.id == usuario_logado.id %}ranking__list--highlight{% endif %}">
+                    <div class="usuario__classificacao">{{ user.posicao }}</div> 
+                    <div class="usuario__dados">
+                        <div class="usuario__dados-nome">{{ user.first_name }}</div>
+                        <div class="usuario__dados-saldo"><div class="dg">Pontuação</div> {{ user.pontuacao }}</div>
+                    </div>
+                </article>
+            {% endfor %}
+            
+            {% if mostrar_usuario_logado %}
+                <article class="ranking__list ranking__list--highlight">
+                    <div class="usuario__classificacao">{{ usuario_logado.posicao }}</div>
+                    <div class="usuario__dados">
+                        <div class="usuario__dados-nome">{{ usuario_logado.first_name }} </div>
+                        <div class="usuario__dados-saldo"><div class="dg">Pontuação</div> {{ usuario_logado.pontuacao }}</div>
+                    </div>
+                </article>
+            {% endif %}
+
         {% endif %}
     </div>
+    
+    {# Mensagem de ranking vazio no final do container, conforme solicitado anteriormente #}
+    {% if ranking_vazio %}
+        <p class="ranking__message ranking__message-bottom">
+            Não existe ranking ainda pois ninguém pontuou.
+        </p>
+    {% endif %}
+
+    {% if usuario_sem_pontuacao %}
+        <div class="usuario__status-zero-pontos">
+            {{ usuario_logado.first_name }} sua pontuação atual é 0. Você precisa pontuar para aparecer na lista de classificação.
+        </div>
+    {% endif %}
+
 </div>
 
 {% endblock %}
