@@ -137,6 +137,15 @@ body{
   font-size: 20px;
 }
 
+.ranking__status-message {
+    font-size: 0.8em;
+    color: #cc0000; /* Cor vermelha para destaque */
+    margin-top: 5px;
+    padding-left: 10px; /* Alinha com o conteúdo */
+    font-weight: 500;
+    grid-column: 1 / span 2; /* Faz a mensagem ocupar toda a largura do item */
+}
+
 @media (max-width: 650px) {
   .container-ranking{
     width: 90%;
