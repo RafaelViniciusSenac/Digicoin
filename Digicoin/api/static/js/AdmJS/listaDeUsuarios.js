@@ -131,39 +131,41 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // --- Lógica de Gerenciamento de Moedas ---
-  addMoedas?.addEventListener('click', () => {
-    const usuariosSelecionados = getUsuariosSelecionados();
-    if (usuariosSelecionados.length === 0) {
-      showPopup('Nenhum usuário selecionado!', 'Erro', 'erro');
-      return;
-    }
-    popupAdicionarMoedas.showModal();
-    
-    const inputQuantidade = document.getElementById('saldo');
-    const csrf = document.querySelector('[name=csrfmiddlewaretoken]')?.value;
-
-    const enviarMoedas = async (operacao) => {
-      const valor = parseInt(inputQuantidade.value);
-      if (isNaN(valor) || valor <= 0) {
-        showPopup('Digite um valor válido e positivo!', 'Erro', 'erro');
+    addMoedas?.addEventListener('click', () => {
+      const usuariosSelecionados = getUsuariosSelecionados();
+      if (usuariosSelecionados.length === 0) {
+        showPopup('Nenhum usuário selecionado!', 'Erro', 'erro');
         return;
       }
-      try {
-        await Promise.all(usuariosSelecionados.map(usuario => 
-          apiRequest(`/api/user/${usuario.id}`, 'PUT', { operacao, saldo: valor }, { 'X-CSRFToken': csrf })
-        ));
-        const popupAlert = new Popup();
-        popupAlert.showPopup(`Operação realizada com sucesso para ${usuariosSelecionados.length} usuários!`, 'Sucesso', 'sucesso');
-        popupAdicionarMoedas.close();
-        popupAlert.imgClosed.addEventListener("click", () => window.location.reload());
-      } catch (error) {
-        showPopup('Erro na operação: ' + error.message, 'Erro', 'erro');
-      }
-    };
-    
-    document.getElementById('adicionar').onclick = (e) => { e.preventDefault(); enviarMoedas('adicionar'); };
-    document.getElementById('remover').onclick = (e) => { e.preventDefault(); enviarMoedas('remover'); };
+      popupAdicionarMoedas.showModal();
+      const csrf = document.querySelector('[name=csrfmiddlewaretoken]')?.value;
+
+      const enviarMoedas = async (operacao) => {
+        // pegar o valor dentro da função, no momento do clique
+        const inputQuantidadetela = document.getElementById('saldo').value;
+        const valor = parseInt(inputQuantidadetela.replace(/\./g, ""), 10);
+
+        if (isNaN(valor) || valor <= 0) {
+          showPopup('Digite um valor válido e positivo!', 'Erro', 'erro');
+          return;
+        }
+        try {
+          await Promise.all(usuariosSelecionados.map(usuario => 
+            apiRequest(`/api/user/${usuario.id}`, 'PUT', { operacao, saldo: valor }, { 'X-CSRFToken': csrf })
+          ));
+          const popupAlert = new Popup();
+          popupAlert.showPopup(`Operação realizada com sucesso para ${usuariosSelecionados.length} usuários!`, 'Sucesso', 'sucesso');
+          popupAdicionarMoedas.close();
+          popupAlert.imgClosed.addEventListener("click", () => window.location.reload());
+        } catch (error) {
+          showPopup('Erro na operação: ' + error.message, 'Erro', 'erro');
+        }
+      };
+      
+      document.getElementById('adicionar').onclick = (e) => { e.preventDefault(); enviarMoedas('adicionar'); };
+      document.getElementById('remover').onclick = (e) => { e.preventDefault(); enviarMoedas('remover'); };
   });
+
 
   // --- Lógica de Cadastro em Massa ---
   const formUsuariosEmMassa = document.getElementById('formUsuariosEmMassa');
