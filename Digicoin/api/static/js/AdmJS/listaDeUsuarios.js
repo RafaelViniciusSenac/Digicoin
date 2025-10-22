@@ -155,21 +155,27 @@ document.addEventListener('DOMContentLoaded', () => {
           showPopup('Digite um valor válido e positivo!', 'Erro', 'erro');
           return;
         }
-        try {
-          await Promise.all(usuariosSelecionados.map(usuario => 
-            apiRequest(`/api/user/${usuario.id}`, 'PUT', { operacao, saldo: valor }, { 'X-CSRFToken': csrf })
-          ));
-          const popupAlert = new Popup();
-          popupAlert.showPopup(`Operação realizada com sucesso para ${usuariosSelecionados.length} usuários!`, 'Sucesso', 'sucesso');
-          popupAdicionarMoedas.close();
-          popupAlert.imgClosed.addEventListener("click", () => window.location.reload());
-        } catch (error) {
-          showPopup('Erro na operação: ' + error.message, 'Erro', 'erro');
-        }
-      };
+        
+      else if (valor > 100000000) {
+        showPopup('Digite um valor menor ou igual a 100 Mil!', 'Erro', 'erro');
+        return;
+      }
       
-      document.getElementById('adicionar').onclick = (e) => { e.preventDefault(); enviarMoedas('adicionar'); };
-      document.getElementById('remover').onclick = (e) => { e.preventDefault(); enviarMoedas('remover'); };
+      try {
+        await Promise.all(usuariosSelecionados.map(usuario => 
+          apiRequest(`/api/user/${usuario.id}`, 'PUT', { operacao, saldo: valor }, { 'X-CSRFToken': csrf })
+        ));
+        const popupAlert = new Popup();
+        popupAlert.showPopup(`Operação realizada com sucesso para ${usuariosSelecionados.length} usuários!`, 'Sucesso', 'sucesso');
+        popupAdicionarMoedas.close();
+        popupAlert.imgClosed.addEventListener("click", () => window.location.reload());
+      } catch (error) {
+        showPopup('Erro na operação: ' + error.message, 'Erro', 'erro');
+      }
+    };
+    
+    document.getElementById('adicionar').onclick = (e) => { e.preventDefault(); enviarMoedas('adicionar'); };
+    document.getElementById('remover').onclick = (e) => { e.preventDefault(); enviarMoedas('remover'); };
   });
 
 
