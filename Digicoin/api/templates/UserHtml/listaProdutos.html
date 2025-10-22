@@ -36,7 +36,7 @@
             <div class="imagensDigix-listaProdutos">
                 {% for produto in produtos %}
                 <input type="hidden" name="nomeProduto[{{produto.id}}]" value="{{produto.nome}}">
-                <input type="hidden" name="valorProduto[{{produto.id}}]" value="{{produto.valor}}">
+                <input type="hidden" name="valorProduto[{{produto.id}}]" value="{{produto.valor}}" >
                 <input type="hidden" name="tipoProduto[{{produto.id}}]" value="{{produto.tipo}}">
                 <input type="hidden" name="quantidadeProduto[{{produto.id}}]" value="{{produto.quantidade}}"> 
                 <div class='imgD-listaProdutos' data-nome="{{ produto.nome|lower }}">
@@ -60,7 +60,7 @@
                     </div>
                     <div class="preco-listaProdutos">
                         <p>DG$</p>
-                        <span>{{produto.valor}}</span>
+                        <span class="pontuacao"></script>>{{produto.valor}}</span>
                     </div>
                     
                     <div class="btn-refresh-listaProdutos"> 
@@ -126,5 +126,6 @@
     </div>
 
     <script src="{% static 'js/UserJs/listaProdutos.js' %}"></script>
+    <script src="{% static 'js/AdmJS/mascara.js' %}"></script>
 </div>
 {% endblock %}

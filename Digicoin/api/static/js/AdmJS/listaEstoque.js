@@ -217,7 +217,7 @@ function aplicarMascaraMilhar(valor) {
         valor = valor.replace(/^0+/, "");
     }
     
-    return valor.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    return valor.replace(/\B(?=(\d{3})+(?!\d))/g, "."); 
 }
 
 // Se quiser usar antes de enviar pro banco:
@@ -231,4 +231,15 @@ function bloqueiaCaracteresIndesejados(event) {
         event.preventDefault();
         return false;
     }
+}
+
+function aplicarMascaraPontuacao(idElemento) {
+    const elemento = document.getElementById(idElemento);
+    if (!elemento) return;
+
+    let valor = elemento.textContent.trim(); // pega o texto dentro do span
+    valor = valor.replace(/\D/g, ""); // remove tudo que não for número
+    valor = valor.replace(/\B(?=(\d{3})+(?!\d))/g, "."); // adiciona pontos
+
+    elemento.textContent = valor; // coloca de volta no HTML
 }

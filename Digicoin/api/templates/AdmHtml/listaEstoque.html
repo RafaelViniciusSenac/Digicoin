@@ -42,7 +42,7 @@
                             <img class="icone" src="{% static 'img/produto.png' %}" alt="produto">
                             {{ item.nome }}
                         </div>
-                        <div class="tabela-cell-listaEstoque quantidade">{{ item.quantidade }}</div>
+                        <div class="tabela-cell-listaEstoque quantidade pontuacao">{{ item.quantidade }}</div>
                         <div class="tabela-cell-listaEstoque acoes">
                             <button type="button" class="editar-listaEstoque" onclick="Editar({{ item.id }})">
                                 <img src="{% static 'img/iconeEditar.png' %}" alt="editar">
@@ -105,5 +105,6 @@
 </script>
 
 <script src="{% static 'js/AdmJS/listaEstoque.js' %}"></script>
+<script src="{% static 'js/AdmJS/mascara.js' %}"></script>
 
 {% endblock %}

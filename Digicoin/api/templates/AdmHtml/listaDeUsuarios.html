@@ -69,9 +69,9 @@
         <img src="{% static 'img/userBlack.png' %}" alt="" />
         <input type="hidden" class="idUser-listaDeUsuarios" value="{{usuario.id}}" />
         <span class="nome-listaDeUsuarios">{{usuario.first_name}}</span>
-        <span>D$ {{usuario.saldo}} </span>
+        <span class="pontuacao">D$ {{usuario.saldo}} </span>
         <span class="status-listaDeUsuarios"></span>
-        <span class="pontos-listaDeUsuarios"> {{usuario.pontuacao}} Pts </span>
+        <span class="pontos-listaDeUsuarios pontuacao" > {{usuario.pontuacao}} Pts </span>
       </div>
       <img class="iconeEditar-listaDeUsuarios" id="editar" data-id="{{usuario.id}}" src="{% static 'img/edit.png' %}" alt="" />
     </div>
@@ -229,9 +229,9 @@
         <h1>Gerenciar digicoins</h1>
         <div class="quantidade-adicionarMoedas">
           <label>Quantidade a ser adicionada ou removida</label>
-          <input class="quantidadeInput-adicionarMoedas" id="saldo" type="number" placeholder="5.000" onkeydown="return bloqueiaCaracteresIndesejados(event)"/>
+          <input class="quantidadeInput-adicionarMoedas pontuacao-input-pontual" id="saldo" type="text" placeholder="5.000" onkeydown="return bloqueiaCaracteresIndesejados(event)"/>
         </div>
-      </div>
+      </div> 
       <div class="botoes-adicionarMoedas">
         <button class="adicionar-adicionarMoedas" id="adicionar">
           Adicionar
@@ -276,4 +276,5 @@
 
 <script src="{% static 'js/AdmJS/listaDeUsuarios.js' %}"></script>
 <script src="{% static 'js/AdmJS/cadastrarUsuario.js' %}"></script>
+<script src="{% static 'js/AdmJS/mascara.js' %}"></script>
 {% endblock %}

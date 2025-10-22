@@ -15,7 +15,7 @@
         <div class="cartoes">
             <div class="cartao">
                 <h3><i class="fa-solid fa-wallet" style="color: #00e5ff;"></i> Carteira</h3>
-                <p class="saldo">DG$ <span id="saldoPopUp">{{saldoAtual.saldo_novo}}</span></p>
+                <p class="saldo">DG$ <span id="saldoPopUp" class="pontuacaoPerfil">{{saldoAtual.saldo_novo}}</span></p>
             </div>
             <div class="cartao">
                 <h3><i class="fa-solid fa-money-bill" style="color: #00e5ff;"></i> Pagamento</h3>
@@ -23,14 +23,17 @@
                     {% csrf_token %}    
                     {% for item in historico %}
                     {% if item.diferenca < 0%}
-                    <p><i class="fa-solid fa-dollar-sign" ></i> Saldo Removido: <span id="dgs" >DG$</span><span id="valor" > {{item.diferenca}}</span></p>
+                    <p><i class="fa-solid fa-dollar-sign" ></i> Saldo Removido: <span id="dgs" >DG$</span><span id="valor" class="pontuacaoPerfil"> {{item.diferenca}}</span></p>
                     {% else %}
-                    <p><i class="fa-solid fa-dollar-sign" ></i> Saldo Adicinado: <span id="dgs" >DG$</span><span id="valor" > {{item.diferenca}}</span></p>
+                    <p><i class="fa-solid fa-dollar-sign" ></i> Saldo Adicinado: <span id="dgs" >DG$</span><span id="valor" class="pontuacaoPerfil"> {{item.diferenca}}</span></p>
                     {% endif %}
                     {% endfor %}
                 </div>
                 <script src="{% static 'js/UserJs/perfilUsuario.js' %}"></script>
+                
+                
             </div>
         </div>
     </div>
 </div>
+

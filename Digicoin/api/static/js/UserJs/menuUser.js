@@ -21,7 +21,8 @@ document.addEventListener("DOMContentLoaded", function() {
     // Atualiza o elemento com apenas o primeiro nome
     nomeUsuarioElement.innerHTML = nomeParaExibir
     saldoElement.innerHTML = response.saldo
-
+    
+    aplicarMascaraPontuacaoElemento(saldoElement);
     localStorage.setItem('userId', response.id)
 }
 

@@ -134,11 +134,13 @@ async function EditarDesafio(event) {
 
   const id = form.querySelector('#id').value;
   const nomeDesafio = form.querySelector('#nomeDesafio').value;
-  const valorDesafio = form.querySelector('#valorDesafio').value;
+  const valorDesafioCampo  = form.querySelector('#valorDesafio').value;
   const descricao = form.querySelector('#descricao').value;
   const campanha = form.querySelector('#campanha').value; // valor atual do select
   const dataFim = form.querySelector('#fimDesafio').value;
   const csrf = form.querySelector('[name=csrfmiddlewaretoken]').value;
+
+  const valorDesafio = parseInt(valorDesafioCampo.replace(/\./g, ""), 10);
 
   if (!nomeDesafio || !valorDesafio) {
     showPopup('Nome do desafio e valor do desafio devem ser preenchidos.', 'Erro', 'erro');

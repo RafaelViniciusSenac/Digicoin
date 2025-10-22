@@ -42,8 +42,6 @@
     
 
     <div class="ranking">
-        
-       
         {% if not ranking_vazio %}
     
             {% for user in top_usuarios %}
@@ -51,7 +49,7 @@
                     <div class="usuario__classificacao">{{ user.posicao }}</div> 
                     <div class="usuario__dados">
                         <div class="usuario__dados-nome">{{ user.first_name }}</div>
-                        <div class="usuario__dados-saldo"><div class="dg">Pontuação</div> {{ user.pontuacao }}</div>
+                        <div class="usuario__dados-saldo"><div class="dg">Pontuação</div> <span class="pontuacao">{{ user.pontuacao }} </span></div>
                     </div>
                 </article>
             {% endfor %}
@@ -61,10 +59,11 @@
                     <div class="usuario__classificacao">{{ usuario_logado.posicao }}</div>
                     <div class="usuario__dados">
                         <div class="usuario__dados-nome">{{ usuario_logado.first_name }} </div>
-                        <div class="usuario__dados-saldo"><div class="dg">Pontuação</div> {{ usuario_logado.pontuacao }}</div>
+                        <div class="usuario__dados-saldo"><div class="dg">Pontuação</div> <span class="pontuacao">{{ usuario_logado.pontuacao }}</span></div>
                     </div>
                 </article>
             {% endif %}
+
 
         {% endif %}
     </div>
@@ -83,5 +82,8 @@
     {% endif %}
 
 </div>
+
+<script src="{% static 'js/AdmJS/mascara.js' %}"></script>
+
 
 {% endblock %}

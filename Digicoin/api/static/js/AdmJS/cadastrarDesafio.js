@@ -1,11 +1,13 @@
 async function CadastrarDesafio(event) {
   event.preventDefault();
   const nome = document.getElementById('nomeDesafio-form').value;
-  const valor = document.getElementById('valorDesafio-form').value;
+  const valorCampo  = document.getElementById('valorDesafio-form').value;
   const descricao = document.getElementById('descricao-form').value;
   const dataFim = document.getElementById('fimDesafio-form').value;
   const idCampanha = document.getElementById('campanha-form').value;
   const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+  const valor = parseInt(valorCampo.replace(/\./g, ""), 10);
 
   if (!nome || !valor || !dataFim) {
     showpopup('Preencha todos os campos corretamente.', 'Erro', 'erro');

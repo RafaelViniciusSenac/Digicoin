@@ -55,7 +55,7 @@
             </div>
 
             <div class="desafioRight-listaDeDesafios">
-                <p class="dg-listaDeDesafios">DG$ <span id="valor" class="valor-listaDeDesafios">{{desafio.valor}}</span></p>
+                <p class="dg-listaDeDesafios">DG$ <span id="valor" class="valor-listaDeDesafios pontuacao">{{desafio.valor}}</span></p>
                 <div class="botoesEditar-listaDeDesafios">
                     <img class="botaoEditar-listaDeDesafios" data-id="{{desafio.id}}" src="{% static 'img/edit.png' %}" alt="">
                     <img src="{% static 'img/lixeira.png' %}" alt="Desativar" class="btn-desativar-desafio-listaDeDesafios" data-id="{{ desafio.id }}">
@@ -87,8 +87,8 @@
                                         <input type="text" id="nomeDesafio" class="nomeDesafio-cadastrarDesafio" placeholder="nome do desafio" value="{{desafio.nome}}">
                                     </div>
                                     <div class="nomeDesafioDiv-cadastrarDesafio">
-                                        <label for="">Valor do desafio</label>
-                                        <input type="number" id="valorDesafio" class="valorDesafio-cadastrarDesafio" placeholder="valor do desafio" value="{{desafio.valor}}">
+                                        <label for="">Valor do desafio aaaaaa</label>
+                                        <input type="text" id="valorDesafio" class="valorDesafio-cadastrarDesafio pontuacao-input-pontualInicial" placeholder="valor do desafio" value="{{desafio.valor}}"> 
                                     </div>
                                 </div>
 
@@ -190,7 +190,7 @@
                         </div>
                         <div class="nomeDesafioDiv-cadastrarDesafio">
                             <label for="">Valor do desafio</label>
-                            <input type="number" id="valorDesafio-form" class="valorDesafio-cadastrarDesafio" placeholder="Valor do desafio" >
+                            <input type="text" id="valorDesafio-form" class="valorDesafio-cadastrarDesafio pontuacao-input-pontual" placeholder="Valor do desafio" >
                         </div>
                     </div>
                     
@@ -243,6 +243,7 @@
 
 <script src="{% static 'js/AdmJS/cadastrarDesafio.js' %}"></script>
 <script src="{% static 'js/AdmJS/listaDeDesafios.js' %}"></script>
+<script src="{% static 'js/AdmJS/mascara.js' %}"></script>
 
 <script>
     function aplicarFiltro(termo) {
