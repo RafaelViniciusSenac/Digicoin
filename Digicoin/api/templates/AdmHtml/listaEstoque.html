@@ -15,7 +15,7 @@
             <div class="barra-pesquisa-listaEstoque">
                 <form method="GET" action="." class="search-container-listaEstoque">
                     <img src="{% static 'img/iconeLupa.png' %}" alt="Lupa">
-                    <input type="search" name="search" id="barra-pesquisa-listaEstoque" placeholder="Pesquisar produto" value="{{ request.GET.search }}">
+                    <input type="search" name="search" id="barra-pesquisa-listaEstoque" placeholder="Pesquisar produto" value="{{ request.GET.search }}" autofocus>
                 </form>
             </div>
             <div class="cabecalho-listaEstoque">
@@ -84,6 +84,12 @@
         const form = searchInput.closest('form');
         let timeout = null;
 
+        if (searchInput.value) {
+            searchInput.focus(); 
+            const valLength = searchInput.value.length;
+            searchInput.setSelectionRange(valLength, valLength);
+        }
+
         searchInput.addEventListener('change', function() {
             clearTimeout(timeout);
             form.submit();
@@ -93,7 +99,7 @@
             clearTimeout(timeout);
             timeout = setTimeout(() => {
                 form.submit();
-            }, 500);
+            }, 1000);
         });
     });
 </script>

@@ -259,40 +259,86 @@ def cadastrarDesafio(request):
 
 @login_required
 def ranking(request):
-    
-    top_usuarios = CustomUser.objects.filter(is_adm=False).order_by('-pontuacao')[:7]
+    # 1. Filtra usuários com pontuação maior que zero e não são administradores.
+    # Puxa mais que 7 para ter dados suficientes para calcular a posição corretamente
+    # (a limitação para 7 visíveis é feita mais abaixo, no loop de atribuição de posição)
+    usuarios_pontuados = CustomUser.objects.filter(is_adm=False, pontuacao__gt=0).order_by('-pontuacao')
 
-    # Processar o nome para exibir apenas o primeiro
-    for user in top_usuarios:
-        # Pega a primeira palavra do nome completo (user.first_name)
-        # O .split()[0] divide o nome em uma lista de palavras e pega o primeiro item.
-        user.first_name = user.first_name.split()[0]
+    # Lista final para o template
+    top_usuarios = []
     
+    # Lógica de Classificação com Empate (Dense Ranking) e limite de 7
+    ranking_posicao = 0
+    ultima_pontuacao = -1
+    
+    for idx, user in enumerate(usuarios_pontuados):
+        # 1.1. Atribui a posição baseada no empate
+        if user.pontuacao != ultima_pontuacao:
+            ranking_posicao = idx + 1 # Posição é baseada no índice (+1)
+            ultima_pontuacao = user.pontuacao
+            
+        # 1.2. Verifica o limite de 7
+        if len(top_usuarios) < 7:
+            # Pega apenas a primeira palavra do nome
+            primeiro_nome = user.first_name.split()[0]
+            
+            # Adiciona o usuário à lista final com a posição calculada
+            user_data = {
+                'id': user.id,
+                'first_name': primeiro_nome,
+                'pontuacao': user.pontuacao,
+                'posicao': ranking_posicao # A nova posição calculada
+            }
+            top_usuarios.append(user_data)
+        
+        # 1.3. Se já temos 7 usuários na lista, paramos.
+        else:
+            break
+            
     usuario_logado = request.user
     
-    usuario_em_top7 = any(usuario.id == usuario_logado.id for usuario in top_usuarios)
+    # Variável de contexto para o caso do usuário logado não ter pontuação (0 ou menos)
+    usuario_sem_pontuacao = usuario_logado.pontuacao <= 0
     
-    todos_usuarios = CustomUser.objects.order_by('-saldo')
+    # 2. Verifica se existe algum usuário com pontuação > 0 no banco de dados
+    existe_ranking = usuarios_pontuados.exists()
+
+    # 3. Cálculo da posição do usuário logado (apenas se ele tiver pontuação > 0)
     posicao_usuario = 0
-    for idx, usuario in enumerate(todos_usuarios, start=1):
-        if usuario.id == usuario_logado.id:
-            posicao_usuario = idx
-            break
     
-    # 2. Processar o nome do usuario_logado
+    # Verifica se o usuário logado está entre os top 7 (usando a lista final processada)
+    usuario_em_top7 = any(usuario['id'] == usuario_logado.id for usuario in top_usuarios)
+    
+    if usuario_logado.pontuacao > 0:
+        # Percorre a lista completa de usuários pontuados para achar a posição
+        for idx, user in enumerate(usuarios_pontuados):
+            if user.pontuacao != ultima_pontuacao:
+                 ranking_posicao = idx + 1
+                 ultima_pontuacao = user.pontuacao
+            
+            if user.id == usuario_logado.id:
+                posicao_usuario = ranking_posicao
+                break
+    
+    # 4. Processar o nome do usuario_logado
     primeiro_nome_logado = usuario_logado.first_name.split()[0]
     
+    # 5. Define se o usuário logado deve ser exibido separadamente
+    mostrar_usuario_logado = not usuario_em_top7 and posicao_usuario > 0
+
     context = {
-        'top_usuarios': top_usuarios,
+        # Passa a nova lista 'top_usuarios' que já é um dicionário com a 'posicao'
+        'top_usuarios': top_usuarios, 
         'usuario_logado': {
             'id': usuario_logado.id,
-            # Usar o nome processado aqui
             'first_name': primeiro_nome_logado, 
             'saldo': usuario_logado.saldo,
-            'pontuacao': usuario_logado.pontuacao, # Adicionei 'pontuacao' que está sendo usada no seu template.
+            'pontuacao': usuario_logado.pontuacao,
             'posicao': posicao_usuario
         },
-        'mostrar_usuario_logado': not usuario_em_top7 and posicao_usuario > 0
+        'mostrar_usuario_logado': mostrar_usuario_logado,
+        'usuario_sem_pontuacao': usuario_sem_pontuacao,
+        'ranking_vazio': not existe_ranking 
     }
     
     return render(request, 'UserHtml/ranking.html', context)
@@ -470,7 +516,7 @@ def exportar_vendas_excel(request):
     
     # Cabeçalhos
     headers = [
-        'ID Compra', 'Data da Compra', 'Cliente', 'RA Cliente', 
+        'ID Compra', 'Data da Compra', 'Colaborador', 'RA Colaborador', 
         'Produto', 'Quantidade', 'Valor Unitário', 'Valor Total Item',
         'Total da Compra', 'Status', 'Tipo de Entrega'
     ]
@@ -495,7 +541,7 @@ def exportar_vendas_excel(request):
         for item in itens_compra:
             ws.cell(row=row, column=1, value=compra.id)
             ws.cell(row=row, column=2, value=compra.dataCompra.strftime('%d/%m/%Y %H:%M'))
-            ws.cell(row=row, column=3, value=f"{compra.idUsuario.first_name} {compra.idUsuario.last_name}")
+            ws.cell(row=row, column=3, value=f"{compra.idUsuario.first_name}")
             ws.cell(row=row, column=4, value=compra.idUsuario.ra)
             ws.cell(row=row, column=5, value=item.idProduto.nome)
             ws.cell(row=row, column=6, value=item.qtdProduto)
@@ -630,9 +676,9 @@ def exportar_usuarios_com_mais_moedas_excel(request):
     posicao = 1
     for usuario in usuarios:
         ws.cell(row=row, column=1, value=posicao)
-        ws.cell(row=row, column=2, value=f"{usuario.first_name} {usuario.last_name}")
+        ws.cell(row=row, column=2, value=f"{usuario.first_name}")
         ws.cell(row=row, column=3, value=usuario.ra)
-        ws.cell(row=row, column=4, value=usuario.email)
+        ws.cell(row=row, column=4, value=usuario.username)
         ws.cell(row=row, column=5, value=usuario.saldo)
         row += 1
         posicao += 1
