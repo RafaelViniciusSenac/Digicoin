@@ -1,42 +1,59 @@
-@keyframes rotate {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
+/* ============================================= */
+/*              ESTILOS GERAIS                   */
+/* ============================================= */
 
-@keyframes borderGlow {
-  0% {
-    background: linear-gradient(45deg, #4377ef, #ff6900, #7e61ff);
-  }
-  50% {
-    background: linear-gradient(45deg, #ff6900, #7e61ff, #4377ef);
-  }
-  100% {
-    background: linear-gradient(45deg, #4377ef, #ff6900, #7e61ff);
-  }
-}
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quantico:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
 html {
   scroll-behavior: smooth;
+  height: 100%;
 }
 
-#inicio, #sobre, #professores, #desenvolvedores {
-  height: 100vh;
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #101010;
+  color: white;
+  font-family: 'Quantico', sans-serif;
+  overflow-x: hidden;
+  min-height: 100vh;
 }
 
-#inicio {
+* {
+  box-sizing: border-box;
+}
+
+section {
   width: 100%;
+  text-align: center;
+  padding: 2rem;
   position: relative;
+}
+
+#inicio,
+#sobre,
+#professores,
+#desenvolvedores {
+  min-height: 100vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
+/* ============================================= */
+/*                 SEÇÃO INÍCIO                  */
+/* ============================================= */
+
+#inicio {
+  position: relative;
+  overflow: hidden;
+  background-color: #101010;
+}
+
 .gradient {
-  --size: 750px;
+  --size: 500px;
   --speed: 30s;
   --easing: cubic-bezier(0.8, 0.2, 0.2, 0.8);
   width: var(--size);
@@ -45,65 +62,45 @@ html {
   background-image: linear-gradient(#4377ef, #ff6900);
   animation: rotate var(--speed) var(--easing) alternate infinite;
   border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-  margin: 0 auto;
-  position: relative;
   z-index: 1;
+  margin: 0 auto;
 }
 
 .texto {
   position: absolute;
   left: 50%;
+  top: 35%;
   transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: white;
+  text-align: center;
   z-index: 10;
-  text-align: center;
   width: 100%;
-  top: 27%;
-}
-
-body {
-  background-color: #101010;
+  max-width: 90%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 100vh;
 }
 
-* {
-  width: 100%;
-  transition: all 0.5s ease-out;
-}
-
-@media (min-width: 720px) {
-  .gradient {
-    --size: 500px;
-  }
-}
-
-section {
-  width: 100%;
-  text-align: center;
+h1 {
+  font-size: 4rem;
+  margin: 0 0 20px;
+  font-family: "Audiowide", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  color: white;
 }
 
 h2 {
   color: azure;
   font-size: 2rem;
+  margin-bottom: 2rem;
   font-family: "Quantico", sans-serif;
   font-weight: 400;
   font-style: normal;
 }
 
-h1 {
-  font-size: 4rem;
-  margin-bottom: 20px;
-  font-family: "Audiowide", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-}
+/* ============================================= */
+/*                  BOTÃO SUPER                   */
+/* ============================================= */
 
 .super-button {
   position: relative;
@@ -124,8 +121,9 @@ h1 {
   box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
   backdrop-filter: blur(8px);
   z-index: 1;
-  width: 13%;
+  width: auto;
   margin-top: 15%;
+  text-decoration: none;
 }
 
 .super-button::before {
@@ -154,43 +152,110 @@ h1 {
   box-shadow: 0 0 40px rgba(0, 255, 255, 0.2);
 }
 
-.arrow {
+.super-button .arrow {
   width: 22px;
   height: 22px;
-  transition: transform 0.3s ease-in-out;
-  color: #fff;
+  margin-left: 8px;
   transform: rotate(90deg);
   transition: transform 0.3s ease;
+  color: white;
 }
 
+.super-button:hover .arrow {
+  transform: rotate(90deg) translateX(4px);
+}
+
+/* ============================================= */
+/*           SEÇÃO SOBRE (COM ESTRELAS)          */
+/* ============================================= */
+
 #sobre {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly ;
-  align-items: center;
-  gap: 2rem;
-  margin-top: 5rem;
+  position: relative;
+  background: radial-gradient(ellipse at bottom, #101010 0%, #101010 100%);
+  overflow: hidden;
+  z-index: 0;
+}
+
+.stars-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+#stars,
+#stars2,
+#stars3 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: transparent;
+  animation: animStar linear infinite;
+}
+
+#stars {
+  width: 1px;
+  height: 1px;
+  animation-duration: 50s;
+}
+
+#stars2 {
+  width: 2px;
+  height: 2px;
+  animation-duration: 100s;
+}
+
+#stars3 {
+  width: 3px;
+  height: 3px;
+  animation-duration: 150s;
+}
+
+@keyframes animStar {
+  from {
+    transform: translateY(0px);
+  }
+  to {
+    transform: translateY(-2000px);
+  }
+}
+
+.sobre-content {
   position: relative;
   z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+  max-width: 1200px;
+  padding: 2rem;
+  align-items: center;
 }
+
+/* ============================================= */
+/*                 NOTIFICAÇÕES                  */
+/* ============================================= */
 
 .notification {
   display: flex;
   flex-direction: column;
-  isolation: isolate;
-  position: relative;
   gap: 1rem;
   width: 70rem;
-  height: 10rem;
+  max-width: 90%;
+  min-height: 10rem;
   background: linear-gradient(45deg, #4377ef, #ff6900, #7e61ff);
   border-radius: 1rem;
   padding: 2rem;
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  font-size: 16px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
   overflow: hidden;
   transition: all 0.3s ease;
-  z-index: 1;
+  position: relative;
+  isolation: isolate;
 }
 
 .notification::before {
@@ -200,13 +265,13 @@ h1 {
   left: -6px;
   right: -6px;
   bottom: -6px;
-  z-index: -1;
   background: linear-gradient(45deg, #4377ef, #ff6900, #7e61ff);
   border-radius: 1.2rem;
   animation: borderGlow 6s ease-in-out infinite;
   filter: blur(2px);
   opacity: 0;
   transition: opacity 0.5s ease-in-out;
+  z-index: -1;
 }
 
 .notification:hover::before {
@@ -227,47 +292,140 @@ h1 {
 
 .notititle {
   color: #fff;
-  padding: 0.65rem 0.25rem 0.4rem 1.25rem;
   font-weight: 700;
   font-size: 2rem;
+  padding: 0.65rem 0.25rem 0.4rem 1.25rem;
   transition: transform 300ms ease;
   z-index: 5;
-  position: relative;
 }
 
 .notibody {
   color: #99999d;
-  padding: 0 1rem;
   font-size: 1.3rem;
-  width: 100%;
+  padding: 0 1rem;
   z-index: 5;
-  transition: transform 300ms ease;
-}
-
-.notiglow,
-.notiborderglow {
-  position: absolute;
-  width: 20rem;
-  height: 20rem;
-  transform: translate(-50%, -50%);
-  background: radial-gradient(circle closest-side at center, white, transparent);
-  opacity: 0;
-  transition: opacity 300ms ease;
-}
-
-.notiglow {
-  z-index: 3;
-}
-
-.notiborderglow {
-  z-index: 1;
+  line-height: 1.5;
 }
 
 .notification:hover {
-  box-shadow: 0 0 25px rgba(255, 255, 255, 0.2);
   transform: scale(1.03);
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.2);
 }
 
 .notification:hover .notititle {
   transform: translateX(5px);
+}
+
+/* ============================================= */
+/*             SEÇÕES PROFESSORES E DEVS         */
+/* ============================================= */
+
+#professores,
+#desenvolvedores {
+  background-color: #101010;
+  padding: 4rem 2rem;
+}
+
+#professores h3,
+#desenvolvedores h3 {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  font-family: "Audiowide", sans-serif;
+  color: #4377ef;
+}
+
+#professores div,
+#desenvolvedores div {
+  margin: 1rem 0;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  backdrop-filter: blur(4px);
+  transition: transform 0.3s ease;
+}
+
+#professores div:hover,
+#desenvolvedores div:hover {
+  transform: translateY(-5px);
+  background: rgba(67, 119, 239, 0.1);
+}
+
+/* ============================================= */
+/*                  ANIMAÇÕES                    */
+/* ============================================= */
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes borderGlow {
+  0%, 100% {
+    background: linear-gradient(45deg, #4377ef, #ff6900, #7e61ff);
+  }
+  50% {
+    background: linear-gradient(45deg, #ff6900, #7e61ff, #4377ef);
+  }
+}
+
+/* ============================================= */
+/*                RESPONSIVIDADE                 */
+/* ============================================= */
+
+@media (max-width: 1024px) {
+  .gradient {
+    --size: 600px;
+  }
+  .notification {
+    width: 90%;
+  }
+}
+
+@media (max-width: 768px) {
+  .gradient {
+    --size: 500px;
+  }
+  h1 {
+    font-size: 2.8rem;
+  }
+  h2 {
+    font-size: 1.6rem;
+  }
+  .super-button {
+    padding: 12px 24px;
+    font-size: 15px;
+    margin-top: 10%;
+  }
+  .notification {
+    padding: 1.5rem;
+    height: auto;
+    min-height: 8rem;
+  }
+  .notititle {
+    font-size: 1.6rem;
+  }
+  .notibody {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .gradient {
+    --size: 400px;
+  }
+  h1 {
+    font-size: 2.2rem;
+  }
+  .super-button {
+    width: 60%;
+    font-size: 14px;
+  }
+  .notification {
+    width: 95%;
+    padding: 1rem;
+  }
 }

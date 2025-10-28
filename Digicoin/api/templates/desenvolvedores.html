@@ -1,11 +1,13 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block content %}
 
 <link rel="stylesheet" href="{% static 'css/desenvolvedores.css' %}">
+
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Audiowide&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Quantico:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Audiowide&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Quantico:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 </style>
 
 <section id="inicio">
@@ -16,30 +18,36 @@
         <a class="super-button" href="#sobre">
             <span>Ver Mais</span>
             <svg fill="none" viewBox="0 0 24 24" class="arrow">
-                <path
-                    stroke-linejoin="round"
-                    stroke-linecap="round"
-                    stroke-width="2"
-                    stroke="currentColor"
-                    d="M5 12h14M13 6l6 6-6 6"
-                ></path>
+                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2" stroke="currentColor"
+                      d="M5 12h14M13 6l6 6-6 6"></path>
             </svg>
         </a>
     </div>
 </section>
 
+<!-- SEÇÃO SOBRE COM ESTRELAS COMO FUNDO -->
 <section id="sobre">
-    <div class="notification">
-        <div class="notititle">Vivência Prática no Desenvolvimento de Software</div>
-        <div class="notibody">Na Fábrica de Software, os alunos são responsáveis por desenvolver projetos reais para clientes reais, integrando teoria e prática de forma eficiente. Esse ambiente propicia uma vivência prática que prepara os estudantes para os desafios do mercado de trabalho, permitindo que a aprendizagem aconteça de maneira aplicada e alinhada com as exigências do setor.</div>
+    <!-- Container do parallax -->
+    <div class="stars-container">
+        <div id="stars"></div>
+        <div id="stars2"></div>
+        <div id="stars3"></div>
     </div>
-    <div class="notification">
-        <div class="notititle">Metodologias Ágeis e Ferramentas do Mercado</div>
-        <div class="notibody">A Fábrica de Software adota metodologias ágeis como Scrum e Kanban, amplamente utilizadas no mercado de tecnologia. Essas metodologias, combinadas com ferramentas de ponta, permitem que os alunos adquiram habilidades práticas e desenvolvam uma compreensão sólida dos processos de trabalho colaborativo e eficiente, fundamentais no desenvolvimento de software.</div>
-    </div>
-    <div class="notification">
-        <div class="notititle">Inovação e Adoção de Tecnologias de Ponta</div>
-        <div class="notibody">Sempre alinhada às tendências tecnológicas mais recentes, a Fábrica de Software proporciona aos alunos o acesso a ferramentas e práticas inovadoras. Isso garante que a formação seja atualizada e que os estudantes se preparem para enfrentar as demandas do mercado, com uma sólida base em tecnologias de vanguarda.</div>
+
+    <!-- Conteúdo da seção -->
+    <div class="sobre-content">
+        <div class="notification">
+            <div class="notititle">Vivência Prática no Desenvolvimento de Software</div>
+            <div class="notibody">Na Fábrica de Software, os alunos são responsáveis por desenvolver projetos reais para clientes reais, integrando teoria e prática de forma eficiente. Esse ambiente propicia uma vivência prática que prepara os estudantes para os desafios do mercado de trabalho, permitindo que a aprendizagem aconteça de maneira aplicada e alinhada com as exigências do setor.</div>
+        </div>
+        <div class="notification">
+            <div class="notititle">Metodologias Ágeis e Ferramentas do Mercado</div>
+            <div class="notibody">A Fábrica de Software adota metodologias ágeis como Scrum e Kanban, amplamente utilizadas no mercado de tecnologia. Essas metodologias, combinadas com ferramentas de ponta, permitem que os alunos adquiram habilidades práticas e desenvolvam uma compreensão sólida dos processos de trabalho colaborativo e eficiente, fundamentais no desenvolvimento de software.</div>
+        </div>
+        <div class="notification">
+            <div class="notititle">Inovação e Adoção de Tecnologias de Ponta</div>
+            <div class="notibody">Sempre alinhada às tendências tecnológicas mais recentes, a Fábrica de Software proporciona aos alunos o acesso a ferramentas e práticas inovadoras. Isso garante que a formação seja atualizada e que os estudantes se preparem para enfrentar as demandas do mercado, com uma sólida base em tecnologias de vanguarda.</div>
+        </div>
     </div>
 </section>
 
@@ -60,5 +68,8 @@
         </div>
     {% endfor %}
 </section>
+
+<!-- Script do parallax -->
+<script src="{% static 'js/desenvolvedores.js' %}"></script>
 
 {% endblock %}
