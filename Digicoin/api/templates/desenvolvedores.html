@@ -11,30 +11,43 @@
 </style>
 
 <section id="inicio">
-    <div class="gradient"></div>
+    <canvas id="canvasDestino" resize="true"></canvas>
+
+    <script type="text/javascript">
+      const coresPersonalizadas = ['#4377ef', '#ff6900', '#7e61ff'];
+      const script = document.createElement('script');
+      script.src = `https://geradordeelementos.digix.com.br/elementoDeApoio?canvasId=canvasDestino&corDoFundo=&velocidade=0.44&cores=${encodeURIComponent(coresPersonalizadas.join(','))}`;
+      document.head.appendChild(script);
+    </script>
+
     <div class="texto">
         <h1>Fábrica de Software</h1>
-        <h2>Turma 31, o marco de um novo capítulo, o alicerce de uma vida transformada.</h2>
-        <a class="super-button" href="#sobre">
-            <span>Ver Mais</span>
-            <svg fill="none" viewBox="0 0 24 24" class="arrow">
-                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2" stroke="currentColor"
-                      d="M5 12h14M13 6l6 6-6 6"></path>
-            </svg>
-        </a>
+        <h2>O marco de um novo capítulo, o alicerce de uma vida transformada.</h2>
+    </div>
+    <a class="super-button bottom-center" href="#sobre">
+        <span>Ver Mais</span>
+        <svg fill="none" viewBox="0 0 24 24" class="arrow">
+            <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2" stroke="currentColor"
+                  d="M5 12h14M13 6l6 6-6 6"></path>
+        </svg>
+    </a>
+</section>
+
+<section id="senac">
+    <div id="app">
+        <div id="wrapper">
+            <h1 class="glitch" data-text="TURMA 31">TURMA 31</h1>
+        </div>
     </div>
 </section>
 
-<!-- SEÇÃO SOBRE COM ESTRELAS COMO FUNDO -->
 <section id="sobre">
-    <!-- Container do parallax -->
     <div class="stars-container">
         <div id="stars"></div>
         <div id="stars2"></div>
         <div id="stars3"></div>
     </div>
 
-    <!-- Conteúdo da seção -->
     <div class="sobre-content">
         <div class="notification">
             <div class="notititle">Vivência Prática no Desenvolvimento de Software</div>
@@ -69,7 +82,6 @@
     {% endfor %}
 </section>
 
-<!-- Script do parallax -->
 <script src="{% static 'js/desenvolvedores.js' %}"></script>
 
 {% endblock %}
