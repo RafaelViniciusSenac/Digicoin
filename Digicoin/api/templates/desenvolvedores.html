@@ -3,6 +3,8 @@
 
 {% block content %}
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
 <link rel="stylesheet" href="{% static 'css/desenvolvedores.css' %}">
 
 <style>
@@ -10,6 +12,9 @@
   @import url('https://fonts.googleapis.com/css2?family=Quantico:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 </style>
 
+<!-- ==========================================================================
+     SEÇÃO INÍCIO
+     ========================================================================== -->
 <section id="inicio">
     <canvas id="canvasDestino" resize="true"></canvas>
 
@@ -33,6 +38,9 @@
     </a>
 </section>
 
+<!-- ==========================================================================
+     SEÇÃO SENAC (GLITCH)
+     ========================================================================== -->
 <section id="senac">
     <div id="app">
         <div id="wrapper">
@@ -41,6 +49,9 @@
     </div>
 </section>
 
+<!-- ==========================================================================
+     SEÇÃO SOBRE
+     ========================================================================== -->
 <section id="sobre">
     <div class="stars-container">
         <div id="stars"></div>
@@ -64,22 +75,181 @@
     </div>
 </section>
 
-<section id="professores">
-    <h3>Professores</h3>
-    {% for professor in professores %}
-        <div>
-            <h1>{{ professor.nome }}</h1>
+<!-- ==========================================================================
+     SEÇÃO PROFESSORES (2 Cards SSR - Mockados)
+     ========================================================================== -->
+<section id="section-professores">
+    <h1 class="section-title">PROFESSORES</h1>
+    <div class="card-grid professores-grid">
+
+        <div class="card professor-card" data-type="professor">
+            <img class="card-image" src="{% static 'img/imgDevPage/professor1.png' %}" alt="Foto do Professor Rafael">
+            <div class="card-overlay">
+                <h2>Professor Rafael</h2>
+                <p>Bacharel em Ciência da Computação</p>
+                <div class="card-icons">
+                    <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://github.com" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
         </div>
-    {% endfor %}
+
+        <div class="card professor-card" data-type="professor">
+            <img class="card-image" src="{% static 'img/Adriano1.png' %}" alt="Foto da Professora Calebe">
+            <div class="card-overlay">
+                <h2>Professora Calebe</h2>
+                <p>Mestre em Ciência da Computação</p>
+                <div class="card-icons">
+                    <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://github.com" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+
+    </div>
 </section>
 
-<section id="desenvolvedores">
-    <h3>Desenvolvedores</h3>
-    {% for dev in devs %}
-        <div>
-            <h1>{{ dev.nome }}</h1>
+<!-- ==========================================================================
+     SEÇÃO ALUNOS (12 Cards Padrão - Mockados)
+     ========================================================================== -->
+<section id="section-alunos">
+    <h1 class="section-title">DESENVOLVEDORES</h1>
+    <div class="card-grid alunos-grid">
+
+        <div class="card aluno-card" data-type="aluno">
+            <img class="card-image" src="{% static 'img/imgDevPage/Adriano.png' %}" alt="Foto do Aluno Adriano">
+            <div class="card-content">
+                <div class="card-name">Adriano</div>
+                <div class="card-role">Desenvolvedor Júnior</div>
+                <div class="card-icons">
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
         </div>
-    {% endfor %}
+        <div class="card aluno-card" data-type="aluno">
+            <img class="card-image" src="{% static 'img/imgDevPage/Andrezao.png' %}" alt="Foto do Aluno Andrezao">
+            <div class="card-content">
+                <div class="card-name">Andre</div>
+                <div class="card-role">Desenvolvedor Júnior</div>
+                <div class="card-icons">
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="card aluno-card" data-type="aluno">
+            <img class="card-image" src="{% static 'img/imgDevPage/Arthur.png' %}" alt="Foto do Aluno Arthur">
+            <div class="card-content">
+                <div class="card-name">Arthur</div>
+                <div class="card-role">Desenvolvedor Júnior</div>
+                <div class="card-icons">
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="card aluno-card" data-type="aluno">
+            <img class="card-image" src="{% static 'img/imgDevPage/Caue.png' %}" alt="Foto do Aluno Caue">
+            <div class="card-content">
+                <div class="card-name">Cauê</div>
+                <div class="card-role">Desenvolvedor Júnior</div>
+                <div class="card-icons">
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="card aluno-card" data-type="aluno">
+            <img class="card-image" src="{% static 'img/imgDevPage/Derek.png' %}" alt="Foto do Aluno Derek">
+            <div class="card-content">
+                <div class="card-name">Derek</div>
+                <div class="card-role">Desenvolvedor Júnior</div>
+                <div class="card-icons">
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="card aluno-card" data-type="aluno">
+            <img class="card-image" src="{% static 'img/imgDevPage/Eduardin.png' %}" alt="Foto do Aluno Eduardin">
+            <div class="card-content">
+                <div class="card-name">Eduardo</div>
+                <div class="card-role">Desenvolvedor Júnior</div>
+                <div class="card-icons">
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="card aluno-card" data-type="aluno">
+            <img class="card-image" src="{% static 'img/imgDevPage/Enrique.png' %}" alt="Foto do Aluno Enrique">
+            <div class="card-content">
+                <div class="card-name">Enrique</div>
+                <div class="card-role">Desenvolvedor Júnior</div>
+                <div class="card-icons">
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="card aluno-card" data-type="aluno">
+            <img class="card-image" src="{% static 'img/imgDevPage/Eydi.png' %}" alt="Foto do Aluno Eydi">
+            <div class="card-content">
+                <div class="card-name">Eydi</div>
+                <div class="card-role">Desenvolvedor Júnior</div>
+                <div class="card-icons">
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="card aluno-card" data-type="aluno">
+            <img class="card-image" src="{% static 'img/imgDevPage/Kenzo.png' %}" alt="Foto do Aluno Kenzo">
+            <div class="card-content">
+                <div class="card-name">Kenzo</div>
+                <div class="card-role">Desenvolvedor Júnior</div>
+                <div class="card-icons">
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="card aluno-card" data-type="aluno">
+            <img class="card-image" src="{% static 'img/imgDevPage/Kin.png' %}" alt="Foto do Aluno Kin">
+            <div class="card-content">
+                <div class="card-name">Kin</div>
+                <div class="card-role">Desenvolvedor Júnior</div>
+                <div class="card-icons">
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="card aluno-card" data-type="aluno">
+            <img class="card-image" src="{% static 'img/imgDevPage/Lucao.png' %}" alt="Foto do Aluno Lucao">
+            <div class="card-content">
+                <div class="card-name">Lucas</div>
+                <div class="card-role">Desenvolvedor Júnior</div>
+                <div class="card-icons">
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="card aluno-card" data-type="aluno">
+            <img class="card-image" src="{% static 'img/imgDevPage/Pedrao.png' %}" alt="Foto do Aluno Pedrao">
+            <div class="card-content">
+                <div class="card-name">Pedro</div>
+                <div class="card-role">Desenvolvedor Júnior</div>
+                <div class="card-icons">
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+
+    </div>
 </section>
 
 <script src="{% static 'js/desenvolvedores.js' %}"></script>
