@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Espera 500ms após o usuário parar de digitar para recarregar a página com o filtro
     debounceTimer = setTimeout(() => {
       searchForm.submit();
-    }, 100);
+    }, 400);
   });
 
   // --- Elementos e Eventos dos Popups ---
