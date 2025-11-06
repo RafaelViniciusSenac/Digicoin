@@ -24,7 +24,7 @@ async function cadastrar(evento) {
         if(response === null){
             showPopup('Erro desconhecido ao cadastrar usuário:', 'Erro', 'erro');
         }else{
-            if(response.status == 201)
+            if(response)
             {
                 const popupAlert = new Popup();
                 popupAlert.showPopup('Usuário cadastrado com sucesso!', 'Sucesso', 'sucesso');
