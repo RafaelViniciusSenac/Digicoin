@@ -1,24 +1,257 @@
-{% extends 'base.html'%}
-{% load static%}
-{%block content%}
+{% extends 'base.html' %}
+{% load static %}
 
+{% block content %}
 
-<h1>Professores</h1>
-{%for professor in professores%}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-<div>
-    <h1>{{professor.nome}}</h1>
-</div>
+<link rel="stylesheet" href="{% static 'css/desenvolvedores.css' %}">
 
-{%endfor%}
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Audiowide&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Quantico:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+</style>
 
-<h1>Desenvolvedores</h1>
-{%for dev in devs%}
+<!-- ==========================================================================
+     SEÇÃO INÍCIO
+     ========================================================================== -->
+<section id="inicio">
+    <canvas id="canvasDestino" resize="true"></canvas>
 
-<div>
-    <h1>{{dev.nome}}</h1>
-</div>
+    <script type="text/javascript">
+      const coresPersonalizadas = ['#4377ef', '#ff6900', '#7e61ff'];
+      const script = document.createElement('script');
+      script.src = `https://geradordeelementos.digix.com.br/elementoDeApoio?canvasId=canvasDestino&corDoFundo=&velocidade=0.44&cores=${encodeURIComponent(coresPersonalizadas.join(','))}`;
+      document.head.appendChild(script);
+    </script>
 
-{%endfor%}
+    <div class="texto">
+        <h1>Fábrica de Software</h1>
+        <h2>O marco de um novo capítulo, o alicerce de uma vida transformada.</h2>
+    </div>
+    <a class="super-button bottom-center" href="#sobre">
+        <span>Ver Mais</span>
+        <svg fill="none" viewBox="0 0 24 24" class="arrow">
+            <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2" stroke="currentColor"
+                  d="M5 12h14M13 6l6 6-6 6"></path>
+        </svg>
+    </a>
+</section>
+
+<!-- ==========================================================================
+     SEÇÃO SENAC (GLITCH)
+     ========================================================================== -->
+<section id="senac">
+    <div id="app">
+        <div id="wrapper">
+            <h1 class="glitch" data-text="TURMA 31">TURMA 31</h1>
+        </div>
+    </div>
+</section>
+
+<!-- ==========================================================================
+     SEÇÃO SOBRE
+     ========================================================================== -->
+<section id="sobre">
+    <div class="stars-container">
+        <div id="stars"></div>
+        <div id="stars2"></div>
+        <div id="stars3"></div>
+    </div>
+
+    <div class="sobre-content">
+        <div class="notification">
+            <div class="notititle">Vivência Prática no Desenvolvimento de Software</div>
+            <div class="notibody">Na Fábrica de Software, os alunos são responsáveis por desenvolver projetos reais para clientes reais, integrando teoria e prática de forma eficiente. Esse ambiente propicia uma vivência prática que prepara os estudantes para os desafios do mercado de trabalho, permitindo que a aprendizagem aconteça de maneira aplicada e alinhada com as exigências do setor.</div>
+        </div>
+        <div class="notification">
+            <div class="notititle">Metodologias Ágeis e Ferramentas do Mercado</div>
+            <div class="notibody">A Fábrica de Software adota metodologias ágeis como Scrum e Kanban, amplamente utilizadas no mercado de tecnologia. Essas metodologias, combinadas com ferramentas de ponta, permitem que os alunos adquiram habilidades práticas e desenvolvam uma compreensão sólida dos processos de trabalho colaborativo e eficiente, fundamentais no desenvolvimento de software.</div>
+        </div>
+        <div class="notification">
+            <div class="notititle">Inovação e Adoção de Tecnologias de Ponta</div>
+            <div class="notibody">Sempre alinhada às tendências tecnológicas mais recentes, a Fábrica de Software proporciona aos alunos o acesso a ferramentas e práticas inovadoras. Isso garante que a formação seja atualizada e que os estudantes se preparem para enfrentar as demandas do mercado, com uma sólida base em tecnologias de vanguarda.</div>
+        </div>
+    </div>
+</section>
+
+<!-- ==========================================================================
+     SEÇÃO PROFESSORES (2 Cards SSR - Mockados)
+     ========================================================================== -->
+<section id="section-professores">
+    <h1 class="section-title">PROFESSORES</h1>
+    <div class="card-grid professores-grid">
+
+        <div class="card professor-card" data-type="professor">
+            <img class="card-image" src="{% static 'img/imgDevPage/professor1.png' %}" alt="Foto do Professor Rafael">
+            <div class="card-overlay">
+                <h2>Professor Rafael</h2>
+                <p>Bacharel em Ciência da Computação</p>
+                <div class="card-icons">
+                    <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://github.com" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="card professor-card" data-type="professor">
+            <img class="card-image" src="{% static 'img/Adriano1.png' %}" alt="Foto da Professora Calebe">
+            <div class="card-overlay">
+                <h2>Professora Calebe</h2>
+                <p>Mestre em Ciência da Computação</p>
+                <div class="card-icons">
+                    <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://github.com" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- ==========================================================================
+     SEÇÃO ALUNOS (12 Cards Padrão - Mockados)
+     ========================================================================== -->
+<section id="section-alunos">
+    <h1 class="section-title">DESENVOLVEDORES</h1>
+    <div class="card-grid alunos-grid">
+
+        <div class="card aluno-card" data-type="aluno">
+            <img class="card-image" src="{% static 'img/imgDevPage/Adriano.png' %}" alt="Foto do Aluno Adriano">
+            <div class="card-content">
+                <div class="card-name">Adriano</div>
+                <div class="card-role">Desenvolvedor Júnior</div>
+                <div class="card-icons">
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="card aluno-card" data-type="aluno">
+            <img class="card-image" src="{% static 'img/imgDevPage/Andrezao.png' %}" alt="Foto do Aluno Andrezao">
+            <div class="card-content">
+                <div class="card-name">Andre</div>
+                <div class="card-role">Desenvolvedor Júnior</div>
+                <div class="card-icons">
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="card aluno-card" data-type="aluno">
+            <img class="card-image" src="{% static 'img/imgDevPage/Arthur.png' %}" alt="Foto do Aluno Arthur">
+            <div class="card-content">
+                <div class="card-name">Arthur</div>
+                <div class="card-role">Desenvolvedor Júnior</div>
+                <div class="card-icons">
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="card aluno-card" data-type="aluno">
+            <img class="card-image" src="{% static 'img/imgDevPage/Caue.png' %}" alt="Foto do Aluno Caue">
+            <div class="card-content">
+                <div class="card-name">Cauê</div>
+                <div class="card-role">Desenvolvedor Júnior</div>
+                <div class="card-icons">
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="card aluno-card" data-type="aluno">
+            <img class="card-image" src="{% static 'img/imgDevPage/Derek.png' %}" alt="Foto do Aluno Derek">
+            <div class="card-content">
+                <div class="card-name">Derek</div>
+                <div class="card-role">Desenvolvedor Júnior</div>
+                <div class="card-icons">
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="card aluno-card" data-type="aluno">
+            <img class="card-image" src="{% static 'img/imgDevPage/Eduardin.png' %}" alt="Foto do Aluno Eduardin">
+            <div class="card-content">
+                <div class="card-name">Eduardo</div>
+                <div class="card-role">Desenvolvedor Júnior</div>
+                <div class="card-icons">
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="card aluno-card" data-type="aluno">
+            <img class="card-image" src="{% static 'img/imgDevPage/Enrique.png' %}" alt="Foto do Aluno Enrique">
+            <div class="card-content">
+                <div class="card-name">Enrique</div>
+                <div class="card-role">Desenvolvedor Júnior</div>
+                <div class="card-icons">
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="card aluno-card" data-type="aluno">
+            <img class="card-image" src="{% static 'img/imgDevPage/Eydi.png' %}" alt="Foto do Aluno Eydi">
+            <div class="card-content">
+                <div class="card-name">Eydi</div>
+                <div class="card-role">Desenvolvedor Júnior</div>
+                <div class="card-icons">
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="card aluno-card" data-type="aluno">
+            <img class="card-image" src="{% static 'img/imgDevPage/Kenzo.png' %}" alt="Foto do Aluno Kenzo">
+            <div class="card-content">
+                <div class="card-name">Kenzo</div>
+                <div class="card-role">Desenvolvedor Júnior</div>
+                <div class="card-icons">
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="card aluno-card" data-type="aluno">
+            <img class="card-image" src="{% static 'img/imgDevPage/Kin.png' %}" alt="Foto do Aluno Kin">
+            <div class="card-content">
+                <div class="card-name">Kin</div>
+                <div class="card-role">Desenvolvedor Júnior</div>
+                <div class="card-icons">
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="card aluno-card" data-type="aluno">
+            <img class="card-image" src="{% static 'img/imgDevPage/Lucao.png' %}" alt="Foto do Aluno Lucao">
+            <div class="card-content">
+                <div class="card-name">Lucas</div>
+                <div class="card-role">Desenvolvedor Júnior</div>
+                <div class="card-icons">
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="card aluno-card" data-type="aluno">
+            <img class="card-image" src="{% static 'img/imgDevPage/Pedrao.png' %}" alt="Foto do Aluno Pedrao">
+            <div class="card-content">
+                <div class="card-name">Pedro</div>
+                <div class="card-role">Desenvolvedor Júnior</div>
+                <div class="card-icons">
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<script src="{% static 'js/desenvolvedores.js' %}"></script>
 
 {% endblock %}
