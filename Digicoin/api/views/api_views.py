@@ -403,7 +403,7 @@ class ResetUserPasswordView(APIView):
             return Response({'error': 'Usuário não encontrado'}, status=status.HTTP_404_NOT_FOUND)
 
         nova_senha = ''.join(random.choices(string.ascii_letters + string.digits, k=10))
-
+        
         usuario.set_password(nova_senha)
         usuario.save()
 
@@ -422,7 +422,7 @@ class ResetUserPasswordView(APIView):
                 subject='[Digicoin] Sua senha foi redefinida',
                 contents=(
                     f'Olá {usuario.first_name},\n\n'
-                    f'Sua nova senha é {usuario.password}'
+                    f'Sua nova senha é {nova_senha}\n\n'
 
                 )
             )
