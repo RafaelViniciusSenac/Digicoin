@@ -3,14 +3,16 @@ from ...models import CustomUser
 
 # Lista de administradores a serem criados
 ADMINS_TO_CREATE = [
-    {'username': 'admin1', 'email': 'admin1@example.com', 'password': 'password123'},
-    {'username': 'admin2', 'email': 'admin2@example.com', 'password': 'password123'},
-    {'username': 'admin3', 'email': 'admin3@example.com', 'password': 'password123'},
-    {'username': 'admin4', 'email': 'admin4@example.com', 'password': 'password123'},
-    {'username': 'admin5', 'email': 'admin5@example.com', 'password': 'password123'},
-    {'username': 'admin6', 'email': 'admin6@example.com', 'password': 'password123'},
-    {'username': 'admin7', 'email': 'admin7@example.com', 'password': 'password123'},
-    # Adicione mais administradores aqui se precisar
+    {'username': 'Adm-01',  'password': 'Digix4793'}, 
+    {'username': 'Adm-02',  'password': 'Digix8516'}, 
+    {'username': 'Adm-03',  'password': 'Digix1029'}, 
+    {'username': 'Adm-04',  'password': 'Digix3854'}, 
+    {'username': 'Adm-05',  'password': 'Digix9617'}, 
+    {'username': 'Adm-06',  'password': 'Digix8705'}, 
+    {'username': 'Adm-07',  'password': 'Digix4093'}, 
+    {'username': 'Adm-08',  'password': 'Digix2576'}, 
+    {'username': 'Adm-09',  'password': 'Digix0628'}, 
+    {'username': 'Adm-10',  'password': 'Digix7041'}, 
 ]
 
 class Command(BaseCommand):
@@ -25,7 +27,6 @@ class Command(BaseCommand):
                 try:
                     CustomUser.objects.create_user(
                         username=username,
-                        email=admin_data['email'],
                         password=admin_data['password'],
                         is_adm=True,          # Sua flag customizada
                         is_staff=True,        # Permite acesso ao admin do Django
